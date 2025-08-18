@@ -1,19 +1,18 @@
-# Scene
+### 🔒 玩机百宝箱暂时停更公告  
 
-> 使用本工具前，请确保你已经ROOT手机，并已安装busybox。你最好是个玩机专家，至少也该会刷机和修复系统。因为应用中部分高级功能可能会影响系统正常启动！！！
-> 在使用【骁龙845/835/821/820】【Exynos8890】处理器的设备上具有最佳体验，其它设备功能将受到限制。
+**停更原因**  
+近期，小米与一加两大品牌相继调整 **Bootloader（BL）解锁政策**，极大限制了用户获取BL权限的空间：  
+1. **小米澎湃OS**：  
+   - 自2025年1月起，每用户仅限为一台设备解锁BL，且权限存在时效性；若设备已解锁，需重新上锁才能接收澎湃OS更新。  
+   - 原有解锁权限的用户需在2024年12月31日前完成操作，后续解除绑定需间隔一年。  
+2. **一加ColorOS 16**：  
+   - 2025年8月起，用户需申请加入“深度测试”计划，通过审核（1-2工作日）方可解锁，且设备需满足系统版本、账号状态等严格条件。  
+   - 解锁后若因刷机导致故障，将失去退换机服务，仅保留基础质保。  
 
----
+**停更影响**  
+新政策导致**刷机资源适配受阻**，第三方ROM开发与玩机工具测试失去硬件基础。为保障内容可靠性，“玩机百宝箱”栏目即日起暂停更新。  
 
-暂无详细说明
+**未来计划**  
+我们持续关注厂商政策动态。若未来BL解锁限制放宽（如恢复用户自主权限、简化审核流程等），栏目将第一时间重启更新，继续为极客用户提供优质资源！  
 
----
-
-**应用界面展示**
-
-
-<img src="https://github.com/helloklf/vtools/raw/master/docs/Screenshot/1.png" width="350" /> <img src="https://github.com/helloklf/vtools/raw/master/docs/Screenshot/2.png" width="350" />
-<img src="https://github.com/helloklf/vtools/raw/master/docs/Screenshot/3.png" width="350" /> <img src="https://github.com/helloklf/vtools/raw/master/docs/Screenshot/4.png" width="350" />
-<img src="https://github.com/helloklf/vtools/raw/master/docs/Screenshot/5.png" width="350" /> <img src="https://github.com/helloklf/vtools/raw/master/docs/Screenshot/6.png" width="350" />
-<img src="https://github.com/helloklf/vtools/raw/master/docs/Screenshot/7.png" width="350" /> <img src="https://github.com/helloklf/vtools/raw/master/docs/Screenshot/8.png" width="350" />
-
+> 注：可能后面会恢复更新
