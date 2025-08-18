@@ -39,8 +39,8 @@ class HiddenTaskThread(private var process: Process) : Thread() {
 
         override fun onWrite(msg: Any?) {
         }
- 
-         override fun onExit(msg: Any?) {
+
+        override fun onExit(msg: Any?) {
             isFinished = true
             if (errorRows.size > 0) {
                 Toast.makeText(
@@ -50,7 +50,6 @@ class HiddenTaskThread(private var process: Process) : Thread() {
                         Toast.LENGTH_LONG).show()
             }
         }
-
 
         override fun onStart(forceStop: Runnable?) {
             this.forceStop = forceStop
