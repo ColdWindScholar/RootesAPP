@@ -187,7 +187,7 @@ class DialogLogFragment : androidx.fragment.app.DialogFragment() {
                 EVENT_START -> {
                     onStart(msg.obj)
                 }
-                EVENT_REDE -> onReaderMsg(msg.obj)
+                EVENT_READ -> onWrite(msg.obj)
                 EVENT_READ_ERROR -> onError(msg.obj)
                 EVENT_WRITE -> {
                     onWrite(msg.obj)
@@ -206,26 +206,6 @@ class DialogLogFragment : androidx.fragment.app.DialogFragment() {
         override fun onError(msg: Any) {
             hasError = true
             updateLog(msg, errorColor)
-        }
-
-        override fun onStart(forceStop: Runnable?) {
-            actionEventHandler.onStart(forceStop)
-        }
-
-        override fun onProgress(current: Int, total: Int) {
-            when (current) {
-                -1 -> {
-                    this.shellProgress.visibility = View.VISIBLE
-                    this.shellProgress.isIndeterminate = true
-                }
-                total -> this.shellProgress.visibility = View.GONE
-                else -> {
-                    this.shellProgress.visibility = View.VISIBLE
-                    this.shellProgress.isIndeterminate = false
-                    this.shellProgress.max = total
-                    this.shellProgress.progress = current
-                }
-            }
         }
 
         override fun onStart(msg: Any?) {

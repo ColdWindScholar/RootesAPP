@@ -148,22 +148,13 @@ class BgTaskThread(private var process: Process) : Thread() {
             }
         }
 
-        override fun onStart(forceStop: Runnable?) {
-            this.forceStop = forceStop
-            context.registerReceiver(receiver, IntentFilter(STOP_CLICK_ACTION_NAME))
 
-            updateNotification()
-        }
 
         override fun onStart(msg: Any?) {
             notificationMShortMsg = context.getString(R.string.kr_script_task_running)
         }
 
-        override fun onProgress(current: Int, total: Int) {
-            progressCurrent = current
-            progressTotal = total
-            updateNotification()
-        }
+
     }
 
     companion object {

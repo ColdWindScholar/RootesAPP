@@ -51,17 +51,12 @@ class HiddenTaskThread(private var process: Process) : Thread() {
             }
         }
 
-        override fun onStart(forceStop: Runnable?) {
-            this.forceStop = forceStop
-        }
+
 
         override fun onStart(msg: Any?) {
         }
 
-        override fun onProgress(current: Int, total: Int) {
-            progressCurrent = current
-            progressTotal = total
-        }
+
     }
 
     companion object {
