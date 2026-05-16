@@ -1,6 +1,5 @@
 package com.root.system.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -13,14 +12,14 @@ import com.root.Scene
 import com.root.common.shared.FilePathResolver
 import com.root.common.ui.DialogHelper
 import com.root.shell_utils.BackupRestoreUtils
-import com.root.utils.CommonCmds
 import com.root.system.R
-import kotlinx.android.synthetic.main.activity_img.*
+import com.root.system.databinding.ActivityImgBinding
+import com.root.utils.CommonCmds
 import java.io.File
-import java.util.*
 
 
 class ActivityImg : ActivityBase() {
+    private lateinit var binding: ActivityImgBinding
     private fun createItem(title: String, desc: String, key: String): HashMap<String, Any> {
         val item = HashMap<String, Any>()
         item.put("Title", title)
@@ -37,7 +36,8 @@ class ActivityImg : ActivityBase() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_img)
+        binding = ActivityImgBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setBackArrow()
 
@@ -71,11 +71,11 @@ class ActivityImg : ActivityBase() {
                 arrayOf("Title", "Desc"),
                 intArrayOf(R.id.Title, R.id.Desc)
         )
-        img_action_listview.adapter = mSimpleAdapter
+        binding.imgActionListview.adapter = mSimpleAdapter
 
 
-        img_action_listview.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            val key = listItem.get(position).get("Key")
+        binding.imgActionListview.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            val key = listItem[position]["Key"]
             when (key) {
                 "dump-boot" -> backupImg(BOOT_IMG)
                 "flash-boot" -> chooseImgToFlash(BOOT_IMG)
