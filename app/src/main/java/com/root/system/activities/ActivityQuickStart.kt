@@ -2,7 +2,6 @@ package com.root.system.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.graphics.Color
@@ -14,32 +13,32 @@ import com.root.library.shell.GAppsUtilis
 import com.root.permissions.CheckRootStatus
 import com.root.scene_mode.SceneMode
 import com.root.store.SpfConfig
-import com.root.system.R
-import kotlinx.android.synthetic.main.activity_quick_start.*
+import com.root.system.databinding.ActivityQuickStartBinding
 import java.lang.ref.WeakReference
 
 class ActivityQuickStart : Activity() {
+    private lateinit var binding: ActivityQuickStartBinding
     lateinit var appPackageName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_quick_start)
+        binding = ActivityQuickStartBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
         //  得到当前界面的装饰视图
         if (Build.VERSION.SDK_INT >= 21) {
-            val decorView = getWindow().getDecorView()
+            val decorView = window.decorView
             //让应用主题内容占用系统状态栏的空间,注意:下面两个参数必须一起使用 stable 牢固的
             val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            decorView.setSystemUiVisibility(option)
+            decorView.systemUiVisibility = option
             //设置状态栏颜色为透明
-            getWindow().setStatusBarColor(Color.TRANSPARENT)
+            window.statusBarColor = Color.TRANSPARENT
         }
 
         val extras = intent.extras
         if (extras == null || !extras.containsKey("packageName")) {
-            start_state_text.text = "无效的快捷方式！"
+            binding.startStateText.text = "无效的快捷方式！"
         } else {
             appPackageName = intent.getStringExtra("packageName")!!
             val pm = packageManager
@@ -62,7 +61,7 @@ class ActivityQuickStart : Activity() {
     private class CheckRootSuccess(context: ActivityQuickStart, private var appPackageName: String) : Runnable {
         private var context: WeakReference<ActivityQuickStart>
         override fun run() {
-            context.get()!!.start_state_text.text = "正在启动应用..."
+            context.get()!!.binding.startStateText.text = "正在启动应用..."
             context.get()!!.hasRoot = true
 
             if (appPackageName.equals("com.android.vending")) {
@@ -93,7 +92,7 @@ class ActivityQuickStart : Activity() {
                 return
             }
         } catch (ex: Exception) {
-            start_state_text.text = "启动应用失败！"
+            binding.startStateText.text = "启动应用失败！"
         }
 
         var appInfo: ApplicationInfo? = null
@@ -102,9 +101,9 @@ class ActivityQuickStart : Activity() {
         } catch (ex: Exception) {
         }
         if (appInfo == null) {
-            start_state_text.text = "应用似乎已被卸载！"
+            binding.startStateText.text = "应用似乎已被卸载！"
         } else {
-            start_state_text.text = "启动应用失败！"
+            binding.startStateText.text = "启动应用失败！"
         }
     }
 
