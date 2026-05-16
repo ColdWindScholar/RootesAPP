@@ -9,6 +9,8 @@ import android.os.Build
 import com.root.model.AppInfo
 import java.io.File
 import java.util.*
+import java.util.Locale
+import java.util.Locale.getDefault
 
 
 /**
@@ -240,7 +242,7 @@ class AppListHelper(private val context: Context, private val getTags: Boolean =
         }
 
         val files = dir.listFiles { name ->
-            name.extension.toLowerCase() == "apk"
+            name.extension.lowercase(getDefault()) == "apk"
         }
 
         if (files == null) {
@@ -253,14 +255,14 @@ class AppListHelper(private val context: Context, private val getTags: Boolean =
                 val packageInfo = packageManager.getPackageArchiveInfo(absPath, PackageManager.GET_ACTIVITIES)
                 if (packageInfo != null) {
                     val applicationInfo = packageInfo.applicationInfo
-                    applicationInfo.sourceDir = absPath
-                    applicationInfo.publicSourceDir = absPath
+                    applicationInfo!!.sourceDir = absPath
+                    applicationInfo!!.publicSourceDir = absPath
 
                     val item = AppInfo.getItem()
                     item.selected = false
-                    item.appName = applicationInfo.loadLabel(packageManager).toString() + "  (" + packageInfo.versionCode + ")"
-                    item.packageName = applicationInfo.packageName
-                    item.path = applicationInfo.sourceDir
+                    item.appName = applicationInfo?.loadLabel(packageManager).toString() + "  (" + packageInfo.versionCode + ")"
+                    item.packageName = applicationInfo!!.packageName
+                    item.path = applicationInfo?.sourceDir
                     item.stateTags = checkInstall(packageInfo)
                     item.versionName = packageInfo.versionName
                     item.versionCode = packageInfo.versionCode
