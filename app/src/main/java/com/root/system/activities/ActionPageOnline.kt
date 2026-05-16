@@ -29,6 +29,7 @@ import com.root.krscript.ui.ParamsFileChooserRender
 import com.root.system.R
 import com.root.system.databinding.ActivityActionPageOnlineBinding
 import java.util.*
+import androidx.core.net.toUri
 
 class ActionPageOnline : ActivityBase() {
     private val progressBarDialog = ProgressBarDialog(this)
@@ -54,16 +55,7 @@ class ActionPageOnline : ActivityBase() {
         loadIntentData()
     }
 
-    private fun hideWindowTitle() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            val decorView = window.decorView
-            val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            decorView.systemUiVisibility = option
-            window.statusBarColor = Color.TRANSPARENT
-        }
-        val actionBar = supportActionBar
-        actionBar!!.hide()
-    }
+
 
     private fun setWindowTitleBar() {
         val window = window
@@ -200,7 +192,7 @@ class ActionPageOnline : ActivityBase() {
                 try {
                     val requestUrl = request?.url
                     if (requestUrl != null && requestUrl.scheme?.startsWith("http") != true) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(requestUrl.toString()))
+                        val intent = Intent(Intent.ACTION_VIEW, requestUrl.toString().toUri())
                         startActivity(intent)
                         return true
                     } else {
@@ -330,7 +322,7 @@ class ActionPageOnline : ActivityBase() {
                         try {
                             val nameColumn = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI)
                             fileName = cursor.getString(nameColumn)
-                            absPath = FilePathResolver().getPath(this@ActionPageOnline, Uri.parse(fileName))
+                            absPath = FilePathResolver().getPath(this@ActionPageOnline, fileName.toUri())
                             if (!absPath.isEmpty()) {
                                 fileName = absPath
                             }
