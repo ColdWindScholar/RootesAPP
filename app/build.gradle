@@ -59,6 +59,9 @@ task encryptNativeLibs {
                 cppFlags ""
             }
         }
+        lint {
+            baseline = file("lint-baseline.xml")
+        }
         ndk {
             // abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "x86_64", "mips", "mips64"
             abiFilters "arm64-v8a", "armeabi-v7a", "x86", "x86_64"

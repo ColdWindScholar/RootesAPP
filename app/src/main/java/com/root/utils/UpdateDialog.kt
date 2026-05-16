@@ -24,20 +24,20 @@ fun showUpdateDialog(context: Context) {
 
     client.newCall(request).enqueue(object : Callback {
         override fun onFailure(call: okhttp3.Call, e: IOException) {
-            (context as? Activity)?.runOnUiThread {
-               // progressBarDialog.dismissDialog()
-                
-                    progressBarDialog.hideDialog()
+            context.runOnUiThread {
+                // progressBarDialog.dismissDialog()
+
+                progressBarDialog.hideDialog()
                 DialogHelper.alert(context, "提示", "无法加载内容，请检查网络连接。")
             }
         }
 
         override fun onResponse(call: okhttp3.Call, response: Response) {
-            response.body?.let { responseBody ->
+            response.body.let { responseBody ->
                 val content = responseBody.string()
-                (context as? Activity)?.runOnUiThread {
-                  //  progressBarDialog.dismissDialog()
-                    
+                context.runOnUiThread {
+                    //  progressBarDialog.dismissDialog()
+
                     progressBarDialog.hideDialog()
                     DialogHelper.alert(context, "提示", content)
                 }
