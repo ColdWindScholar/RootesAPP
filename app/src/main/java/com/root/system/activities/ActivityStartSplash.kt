@@ -39,6 +39,7 @@ import java.io.*
 import java.lang.Runnable
 import java.util.*
 import kotlin.system.exitProcess
+import androidx.core.content.edit
 
 class ActivityStartSplash : Activity() {
     companion object {
@@ -145,7 +146,7 @@ class ActivityStartSplash : Activity() {
 
         timer.cancel()
         dialog.dismiss()
-        globalSPF.edit().putBoolean(SpfConfig.GLOBAL_SPF_CONTRACT, true).apply()
+        globalSPF.edit { putBoolean(SpfConfig.GLOBAL_SPF_CONTRACT, true) }
         checkPermissions()
         val serviceIntent = Intent(this, BatteryWidgetService::class.java)
         startService(serviceIntent)
@@ -159,19 +160,19 @@ class ActivityStartSplash : Activity() {
      * 界面主题样式调整
      */
     private fun updateThemeStyle(themeMode: ThemeMode) {
-       getWindow().setNavigationBarColor(getColorAccent())
+        window.navigationBarColor = getColorAccent()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.setNavigationBarColor(getColor(R.color.splash_bg_color))
+            window.navigationBarColor = getColor(R.color.splash_bg_color)
         } else {
-            window.setNavigationBarColor(resources.getColor(R.color.splash_bg_color))
+            window.navigationBarColor = resources.getColor(R.color.splash_bg_color)
         }
         if (Build.VERSION.SDK_INT >= 21) {
             val decorView = window.decorView
             //让应用主题内容占用系统状态栏的空间,注意:下面两个参数必须一起使用 stable 牢固的
             val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            decorView.setSystemUiVisibility(option)
+            decorView.systemUiVisibility = option
             //设置状态栏颜色为透明
-            window.setStatusBarColor(Color.TRANSPARENT)
+            window.statusBarColor = Color.TRANSPARENT
         }
         //  得到当前界面的装饰视图
         val decorView = window.decorView
@@ -179,7 +180,7 @@ class ActivityStartSplash : Activity() {
         val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         decorView.systemUiVisibility = option
         //设置状态栏颜色为透明
-        window.setStatusBarColor(Color.TRANSPARENT)
+        window.statusBarColor = Color.TRANSPARENT
 
         if (Build.VERSION.SDK_INT >= 21) {
             val decorView = window.decorView
@@ -357,7 +358,7 @@ if (config.beforeStartSh.isNotEmpty()) {
                         someIgnored = true
                     }
                     notificationMessageRows.add(log)
-                    logView.setText(notificationMessageRows.joinToString("\n", if (someIgnored) "……\n" else "").trim())
+                    logView.text = notificationMessageRows.joinToString("\n", if (someIgnored) "……\n" else "").trim()
                 }
             }
         }
@@ -394,7 +395,7 @@ if (config.beforeStartSh.isNotEmpty()) {
 
     private class StreamReadThread(private var reader: BufferedReader, private var updateLogViewHandler: UpdateLogViewHandler) : Thread() {
         override fun run() {
-            var line: String? = ""
+            var line: String?
             while (true) {
                 line = reader.readLine()
                 if (line == null) {

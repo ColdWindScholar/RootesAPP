@@ -228,7 +228,7 @@ class ActivityMain : ActivityBase() {
                         {
                             MagiskExtend.magiskModuleInstall(this)
                         })
-                    globalSPF.edit().putBoolean("magisk_dot_show", true).apply()
+                    globalSPF.edit { putBoolean("magisk_dot_show", true) }
                 }
             } catch (ex: Exception) {
                 DialogHelper.alert(this, getString(R.string.sorry), "启动应用失败\n${ex.message}") {

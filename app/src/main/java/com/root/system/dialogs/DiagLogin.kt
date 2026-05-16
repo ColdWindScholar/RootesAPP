@@ -95,7 +95,7 @@ class DiagLogin(private val context: Context) {
                     if (::dialog.isInitialized) {
                         dialog.dismiss()
                     }
-                    showErrorToast("无法验证服务器")
+                    showErrorToast("无法验证服务器，${e.message}")
                     showLoginDialog()
                 }
             }
@@ -103,7 +103,7 @@ class DiagLogin(private val context: Context) {
             override fun onResponse(call: Call, response: Response) {
                 // 打印状态码和响应体
                 val statusCode = response.code
-                val responseBody = response.body?.string() ?: ""
+                val responseBody = response.body.string()
                 println("Response Code: $statusCode")
                 println("Response Body: $responseBody")
 
