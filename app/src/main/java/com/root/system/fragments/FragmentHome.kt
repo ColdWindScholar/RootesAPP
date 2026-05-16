@@ -1,6 +1,5 @@
 package com.root.system.fragments
 
-import com.root.utils.Update
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
@@ -8,7 +7,6 @@ import android.content.Context
 import android.content.Context.ACTIVITY_SERVICE
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.*
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -28,14 +26,12 @@ import com.root.library.shell.*
 import com.root.model.CpuCoreInfo
 import com.root.model.ProcessInfo
 import com.root.store.SpfConfig
-import com.root.system.BuildConfig
-import com.root.ui.AdapterCpuCores
-import com.root.ui.AdapterProcessMini
 import com.root.system.R
 import com.root.system.activities.*
+import com.root.system.databinding.FragmentHomeBinding
 import com.root.system.dialogs.DialogElectricityUnit
-import com.root.utils.showUpdateDialog
-import kotlinx.android.synthetic.main.fragment_home.*
+import com.root.ui.AdapterCpuCores
+import com.root.ui.AdapterProcessMini
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -48,13 +44,13 @@ import java.io.IOException
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class FragmentHome : androidx.fragment.app.Fragment() {
+    private lateinit var binding: FragmentHomeBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     private var CpuFrequencyUtil = CpuFrequencyUtils()
@@ -69,7 +65,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
 
     private suspend fun forceKSWAPD(mode: Int): String {
         return withContext(Dispatchers.Default) {
-            ShellTranslation(context!!).resolveRow(SwapUtils(context!!).forceKswapd(mode))
+            ShellTranslation(requireContext()).resolveRow(SwapUtils(requireContext()).forceKswapd(mode))
         }
     }
 
@@ -85,32 +81,32 @@ class FragmentHome : androidx.fragment.app.Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activityManager = context!!.getSystemService(ACTIVITY_SERVICE) as ActivityManager
-        batteryManager = context!!.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+        activityManager = requireContext().getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        batteryManager = requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
-        globalSPF = context!!.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
+        globalSPF = requireContext().getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
 
-        spf = context!!.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
+        spf = requireContext().getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
 
-        home_memory_clear.setOnClickListener {
-            home_raminfo_text.text = getString(R.string.please_wait)
+        binding.homeMemoryClear.setOnClickListener {
+            binding.homeRaminfoText.text = getString(R.string.please_wait)
             GlobalScope.launch(Dispatchers.Main) {
                 dropCaches()
                 Scene.toast(getString(R.string.home_cache_cleared), Toast.LENGTH_SHORT)
             }
         }
 
-        home_memory_compact.setOnClickListener {
-            home_zramsize_text.text = getText(R.string.please_wait)
-            Toast.makeText(context!!, R.string.home_shell_begin, Toast.LENGTH_SHORT).show()
+        binding.homeMemoryCompact.setOnClickListener {
+            binding.homeZramsizeText.text = getText(R.string.please_wait)
+            Toast.makeText(requireContext(), R.string.home_shell_begin, Toast.LENGTH_SHORT).show()
             GlobalScope.launch(Dispatchers.Main) {
                 val result = forceKSWAPD(1)
                 Scene.toast(result, Toast.LENGTH_SHORT)
             }
         }
 
-        home_memory_compact.setOnLongClickListener {
-            home_zramsize_text.text = getText(R.string.please_wait)
+        binding.homeMemoryCompact.setOnLongClickListener {
+            binding.homeZramsizeText.text = getText(R.string.please_wait)
             GlobalScope.launch(Dispatchers.Main) {
                 val result = forceKSWAPD(2)
                 Scene.toast(result, Toast.LENGTH_SHORT)
@@ -118,7 +114,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
             true
         }
 
-        home_help.setOnClickListener {
+        binding.homeHelp.setOnClickListener {
             showUpdateDialog()
         }
 
@@ -126,12 +122,12 @@ class FragmentHome : androidx.fragment.app.Fragment() {
 
 
 
-        home_battery_edit.setOnClickListener {
-            DialogElectricityUnit().showDialog(context!!)
+        binding.homeBatteryEdit.setOnClickListener {
+            DialogElectricityUnit().showDialog(requireContext())
         }
 
         // 点击CPU核心 查看详细参数
-        cpu_core_list.setOnItemClickListener { _, _, position, _ ->
+        binding.cpuCoreList.setOnItemClickListener { _, _, position, _ ->
             CpuFrequencyUtil.getCoregGovernorParams(position)?.run {
                 val msg = StringBuilder()
                 for (param in this) {
@@ -141,28 +137,28 @@ class FragmentHome : androidx.fragment.app.Fragment() {
                     msg.append(param.value)
                     msg.append("\n")
                 }
-                DialogHelper.helpInfo(activity!!, "CPU详细", msg.toString())
+                DialogHelper.helpInfo(requireActivity(), "CPU详细", msg.toString())
             }
         }
 
         GlobalScope.launch(Dispatchers.Main) {
             // 获取GPU信息
-            GpuInfo.getGpuInfo(home_gpu_info) { gpuInfo ->
-                home_gpu.removeView(home_gpu_info)
+            GpuInfo.getGpuInfo(binding.homeGpuInfo) { gpuInfo ->
+                binding.homeGpu.removeView(binding.homeGpuInfo)
                 mGpuInfo = gpuInfo
             }
         }
 
         // 进程列表
-        home_process_list.run {
-            adapter = AdapterProcessMini(context!!).apply {
+        binding.homeProcessList.run {
+            adapter = AdapterProcessMini(requireContext()).apply {
                 updateFilterMode(AdapterProcessMini.FILTER_ANDROID)
             }
             setOnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_UP) {
-                    home_root.requestDisallowInterceptTouchEvent(false)
+                    binding.homeRoot.requestDisallowInterceptTouchEvent(false)
                 } else {
-                    home_root.requestDisallowInterceptTouchEvent(true) //屏蔽父控件的拦截事件
+                    binding.homeRoot.requestDisallowInterceptTouchEvent(true) //屏蔽父控件的拦截事件
                 }
                 false
             }
@@ -176,7 +172,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
             }
         }
 
-        home_device_name.text = when (Build.VERSION.SDK_INT) {
+        binding.homeDeviceName.text = when (Build.VERSION.SDK_INT) {
             41 -> "Android 21"
             40 -> "Android 20"
             39 -> "Android 19"
@@ -202,11 +198,11 @@ class FragmentHome : androidx.fragment.app.Fragment() {
         } // (Build.MANUFACTURER + " " + Build.MODEL + " (SDK" + Build.VERSION.SDK_INT + ")").trim()
 
         // 点击内存信息
-        home_memory.setOnClickListener {
+        binding.homeMemory.setOnClickListener {
             startActivity(Intent(context, ActivitySwap::class.java))
         }
         // 点击电池信息
-        home_battery.setOnClickListener {
+        binding.homeBattery.setOnClickListener {
             if (GlobalStatus.batteryStatus == BatteryManager.BATTERY_STATUS_DISCHARGING) {
                 startActivity(Intent(context, ActivityPowerUtilization::class.java))
             } else {
@@ -214,7 +210,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
             }
         }
         // 点击CPU
-        home_cpu.setOnClickListener {
+        binding.homeCpu.setOnClickListener {
             setCpuOnline()
         }
     }
@@ -260,7 +256,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
         if (isDetached) {
             return
         }
-        activity!!.title = getString(R.string.app_name)
+        requireActivity().title = getString(R.string.app_name)
 
         maxFreqList.clear()
         minFreqList.clear()
@@ -318,13 +314,13 @@ class FragmentHome : androidx.fragment.app.Fragment() {
             }
 
             myHandler.post {
-                home_raminfo_text?.text = "${((totalMem - availMem) * 100 / totalMem)}% (${totalMem / 1024 + 1}GB)"
-                home_ramstat?.setData(totalMem.toFloat(), availMem.toFloat())
-                home_swapstat?.setData(swapTotal.toFloat(), (swapTotal - swapUsed).toFloat())
-                home_memory_total?.setData(
+                binding.homeRaminfoText?.text = "${((totalMem - availMem) * 100 / totalMem)}% (${totalMem / 1024 + 1}GB)"
+                binding.homeRamstat?.setData(totalMem.toFloat(), availMem.toFloat())
+                binding.homeSwapstat?.setData(swapTotal.toFloat(), (swapTotal - swapUsed).toFloat())
+                binding.homeMemoryTotal?.setData(
                         (totalMem + swapTotal).toFloat(), availMem + (swapTotal - swapUsed).toFloat(), totalMem.toFloat()
                 )
-                home_zramsize_text?.text = (
+                binding.homeZramsizeText?.text = (
                         if (swapTotal > 99) {
                             "${(swapUsed * 100.0 / swapTotal).toInt()}% (${formatNumber(swapTotal / 1024.0)}GB)"
                         } else {
@@ -340,7 +336,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
      * dp转换成px
      */
     private fun dp2px(dpValue: Float): Int {
-        val scale = context!!.resources.displayMetrics.density
+        val scale = requireContext().resources.displayMetrics.density
         return (dpValue * scale + 0.5f).toInt()
     }
 
@@ -397,40 +393,40 @@ class FragmentHome : androidx.fragment.app.Fragment() {
             GlobalScope.launch(Dispatchers.IO) {
                 val processList = processUtils.allProcess
                 myHandler.post {
-                    (home_process_list?.adapter as AdapterProcessMini?)?.setList(processList)
+                    (binding.homeProcessList?.adapter as AdapterProcessMini?)?.setList(processList)
                 }
             }
         }
 
         myHandler.post {
             try {
-                home_swap_cached.text = "" + (memInfo.swapCached / 1024) + "MB"
-                home_dirty.text = "" + (memInfo.dirty / 1024) + "MB"
+                binding.homeSwapCached.text = "" + (memInfo.swapCached / 1024) + "MB"
+                binding.homeDirty.text = "" + (memInfo.dirty / 1024) + "MB"
 
-                home_running_time.text = elapsedRealtimeStr()
+                binding.homeRunningTime.text = elapsedRealtimeStr()
 
                 if (batteryCurrentNow != Long.MIN_VALUE && batteryCurrentNow != Long.MAX_VALUE) {
-                    home_battery_now.text = (batteryCurrentNow / globalSPF.getInt(SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT, SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT_DEFAULT)).toString() + "mA"
+                    binding. homeBatteryNow.text = (batteryCurrentNow / globalSPF.getInt(SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT, SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT_DEFAULT)).toString() + "mA"
                 } else {
-                    home_battery_now.text = "--"
+                    binding.homeBatteryNow.text = "--"
                 }
-                home_battery_capacity.text = "$batteryCapacity%  ${batteryVoltage}v"
-                home_battery_temperature.text = "${temperature}°C"
+                binding.homeBatteryCapacity.text = "$batteryCapacity%  ${batteryVoltage}v"
+                binding.homeBatteryTemperature.text = "${temperature}°C"
 
-                home_gpu_freq.text = gpuFreq
-                home_gpu_load.text = getString(R.string.home_utilization) + "$gpuLoad%"
+                binding.homeGpuFreq.text = gpuFreq
+                binding.homeGpuLoad.text = getString(R.string.home_utilization) + "$gpuLoad%"
                 if (gpuLoad > -1) {
-                    home_gpu_chat.setData(100.toFloat(), (100 - gpuLoad).toFloat())
+                    binding.homeGpuChat.setData(100.toFloat(), (100 - gpuLoad).toFloat())
                 }
                 if (loads.containsKey(-1)) {
-                    cpu_core_total_load.text = getString(R.string.home_utilization) + loads[-1]!!.toInt().toString() + "%"
-                    home_cpu_chat.setData(100.toFloat(), (100 - loads[-1]!!.toInt()).toFloat())
+                    binding.cpuCoreTotalLoad.text = getString(R.string.home_utilization) + loads[-1]!!.toInt().toString() + "%"
+                    binding.homeCpuChat.setData(100.toFloat(), (100 - loads[-1]!!.toInt()).toFloat())
                 }
-                if (cpu_core_list.adapter == null) {
-                    val layoutParams = cpu_core_list.layoutParams
+                if (binding.cpuCoreList.adapter == null) {
+                    val layoutParams = binding.cpuCoreList.layoutParams
                     if (cores.size < 6) {
                         layoutParams.height = dp2px(85 * 2F)
-                        cpu_core_list.numColumns = 2
+                        binding.cpuCoreList.numColumns = 2
                     } else if (cores.size > 12) {
                         layoutParams.height = dp2px(85 * 4F)
                     } else if (cores.size > 8) {
@@ -438,15 +434,15 @@ class FragmentHome : androidx.fragment.app.Fragment() {
                     } else {
                         layoutParams.height = dp2px(85 * 2F)
                     }
-                    cpu_core_list.layoutParams = layoutParams
-                    cpu_core_list.adapter = AdapterCpuCores(context!!, cores)
+                    binding.cpuCoreList.layoutParams = layoutParams
+                    binding.cpuCoreList.adapter = AdapterCpuCores(requireContext(), cores)
                 } else {
-                    (cpu_core_list.adapter as AdapterCpuCores).setData(cores)
+                    (binding.cpuCoreList.adapter as AdapterCpuCores).setData(cores)
                 }
                 mGpuInfo?.run {
-                    home_gpu_info_text.text = "$glVendor $glRender\n$glVersion"
+                    binding.homeGpuInfoText.text = "$glVendor $glRender\n$glVersion"
                 }
-                cpu_soc_platform?.text = platform.toUpperCase(Locale.getDefault()) + " (" + coreCount + " Cores)"
+                binding.cpuSocPlatform?.text = platform.uppercase(Locale.getDefault()) + " (" + coreCount + " Cores)"
             } catch (ex: Exception) {
 
             }
