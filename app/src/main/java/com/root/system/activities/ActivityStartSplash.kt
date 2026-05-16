@@ -373,7 +373,7 @@ if (config.beforeStartSh.isNotEmpty()) {
     }
 
     private class BeforeStartThread(private var context: Context, private val config: KrScriptConfig, private var updateLogViewHandler: UpdateLogViewHandler) : Thread() {
-        val params = config.getVariables()
+        val params = config.variables
 
         override fun run() {
             try {
