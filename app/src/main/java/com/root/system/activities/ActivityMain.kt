@@ -34,6 +34,7 @@ import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import com.root.system.dialogs.DiagLogin
+import androidx.core.content.edit
 
 class ActivityMain : ActivityBase() {
     private lateinit var binding: ActivityMainBinding
@@ -117,7 +118,12 @@ class ActivityMain : ActivityBase() {
 
         globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
         if (!globalSPF.contains(SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT)) {
-            globalSPF.edit().putInt(SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT, ElectricityUnit().getDefaultElectricityUnit(this)).apply()
+            globalSPF.edit {
+                putInt(
+                    SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT,
+                    ElectricityUnit().getDefaultElectricityUnit(this)
+                )
+            }
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
