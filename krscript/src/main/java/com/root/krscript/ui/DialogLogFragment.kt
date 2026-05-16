@@ -165,21 +165,7 @@ class DialogLogFragment : androidx.fragment.app.DialogFragment() {
             private var logView: TextView,
             private var shellProgress: ProgressBar) : ShellHandlerBase() {
 
-        private fun getColor(resId: Int): Int {
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                context!!.getColor(resId)
-            } else {
-                context!!.resources.getColor(resId)
-            }
-        }
 
-        private val context = logView.context
-        private val errorColor = getColor(R.color.kr_shell_log_error)
-        private val basicColor = getColor(R.color.kr_shell_log_basic)
-        private val scriptColor = getColor(R.color.kr_shell_log_script)
-        private val endColor = getColor(R.color.kr_shell_log_end)
-
-        private var hasError = false // 执行过程是否出现错误
 
         override fun handleMessage(msg: Message) {
             when (msg.what) {
@@ -195,30 +181,10 @@ class DialogLogFragment : androidx.fragment.app.DialogFragment() {
             }
         }
 
-        override fun onReader(msg: Any) {
-            updateLog(msg, basicColor)
-        }
-
-        override fun onWrite(msg: Any) {
-            updateLog(msg, scriptColor)
-        }
-
-        override fun onError(msg: Any) {
-            hasError = true
-            updateLog(msg, errorColor)
-        }
 
         override fun onStart(msg: Any?) {
             this.logView.text = ""
             // updateLog(msg, scriptColor)
-        }
-
-        override fun onExit(msg: Any?) {
-            updateLog(context.getString(R.string.kr_shell_completed), endColor)
-            actionEventHandler.onCompleted()
-            if (!hasError) {
-                actionEventHandler.onSuccess()
-            }
         }
 
         override fun updateLog(msg: SpannableString?) {
@@ -259,7 +225,6 @@ class DialogLogFragment : androidx.fragment.app.DialogFragment() {
             fragment.params = params
             fragment.themeResId = if (darkMode) R.style.kr_full_screen_dialog_dark else R.style.kr_full_screen_dialog_light
             fragment.onDismissRunnable = onDismiss
-
             return fragment
         }
     }
