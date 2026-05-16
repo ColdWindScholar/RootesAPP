@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.root.model.TaskAction
 import com.root.model.TimingTaskInfo
-import com.root.system.R
 import com.root.system.databinding.ListSceneTaskItemBinding
 
 class SceneTaskItem : LinearLayout {

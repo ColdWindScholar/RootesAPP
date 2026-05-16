@@ -40,13 +40,13 @@ class AdapterSceneMode2(private val context: Context, apps: ArrayList<AppInfo>, 
     }
 
     private fun keywordSearch(item: AppInfo, text: String): Boolean {
-        return item.packageName.toString().toLowerCase(Locale.getDefault()).contains(text)
-                || item.appName.toString().toLowerCase(Locale.getDefault()).contains(text)
-                || item.path.toString().toLowerCase(Locale.getDefault()).contains(text)
+        return item.packageName.lowercase(Locale.getDefault()).contains(text)
+                || item.appName.lowercase(Locale.getDefault()).contains(text)
+                || item.path.toString().lowercase(Locale.getDefault()).contains(text)
     }
 
     private fun filterAppList(appList: ArrayList<AppInfo>, keywords: String): ArrayList<AppInfo> {
-        val text = keywords.toLowerCase(Locale.getDefault())
+        val text = keywords.lowercase(Locale.getDefault())
         if (text.isEmpty())
             return appList
         return ArrayList(appList.filter { item ->
@@ -59,7 +59,7 @@ class AdapterSceneMode2(private val context: Context, apps: ArrayList<AppInfo>, 
             var icon: Drawable? = null
             try {
                 val installInfo = context.packageManager.getPackageInfo(item.packageName.toString(), 0)
-                icon = installInfo.applicationInfo.loadIcon(context.packageManager)
+                icon = installInfo.applicationInfo?.loadIcon(context.packageManager)
             } catch (ex: Exception) {
                 try {
                     val file = File(item.path.toString())
@@ -84,7 +84,7 @@ class AdapterSceneMode2(private val context: Context, apps: ArrayList<AppInfo>, 
         if (keywords.isEmpty()) {
             return spannableString
         }
-        val index = str.toLowerCase(Locale.getDefault()).indexOf(keywords.toLowerCase(Locale.getDefault()))
+        val index = str.lowercase(Locale.getDefault()).indexOf(keywords.lowercase(Locale.getDefault()))
         if (index < 0)
             return spannableString
 

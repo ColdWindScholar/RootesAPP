@@ -17,6 +17,8 @@ import com.root.system.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.Locale
+import java.util.Locale.getDefault
 
 class AdapterProcess(private val context: Context,
                      private var processes: ArrayList<ProcessInfo> = ArrayList(),
@@ -69,11 +71,13 @@ class AdapterProcess(private val context: Context,
     }
 
     private fun keywordSearch(item: ProcessInfo, text: String): Boolean {
-        return item.friendlyName.toString().toLowerCase().contains(text) || item.name.toString().toLowerCase().contains(text) || item.user.toString().toLowerCase().contains(text) || item.command.toString().toLowerCase().contains(text) || item.cmdline.toString().toLowerCase().contains(text)
+        return item.friendlyName.toString().lowercase(getDefault()).contains(text) || item.name.toString()
+            .lowercase(getDefault()).contains(text) || item.user.toString().lowercase(getDefault()).contains(text) || item.command.toString()
+            .lowercase(getDefault()).contains(text) || item.cmdline.toString().lowercase(getDefault()).contains(text)
     }
 
     private fun filterAppList(): ArrayList<ProcessInfo> {
-        val text = keywords.toLowerCase()
+        val text = keywords.lowercase(getDefault())
         val keywordsEmpty = text.isEmpty()
         return ArrayList(processes.filter {
             (keywordsEmpty || keywordSearch(it, text)) && (
@@ -177,7 +181,7 @@ class AdapterProcess(private val context: Context,
         if (keywords.isEmpty()) {
             return spannableString
         }
-        index = str.toLowerCase().indexOf(keywords.toLowerCase())
+        index = str.lowercase(getDefault()).indexOf(keywords.lowercase(getDefault()))
         if (index < 0)
             return spannableString
 

@@ -18,7 +18,12 @@ import com.root.system.R
 import kotlinx.coroutines.*
 import java.util.ArrayList
 import java.util.HashMap
+import java.util.Locale
+import java.util.Locale.getDefault
 import kotlin.Comparator
+import androidx.core.graphics.toColorInt
+import java.util.Locale
+import java.util.Locale.getDefault
 
 class AdapterAppList(private val context: Context, apps: ArrayList<AppInfo>, private var keywords: String = "") : BaseAdapter() {
     private val list: ArrayList<AppInfo>?
@@ -71,13 +76,13 @@ class AdapterAppList(private val context: Context, apps: ArrayList<AppInfo>, pri
     }
 
     private fun keywordSearch(item: AppInfo, text: String): Boolean {
-        return item.packageName.toLowerCase().contains(text)
-                || item.appName.toLowerCase().contains(text)
-                || item.path.toString().toLowerCase().contains(text)
+        return item.packageName.lowercase(getDefault()).contains(text)
+                || item.appName.lowercase(getDefault()).contains(text)
+                || item.path.toString().lowercase(getDefault()).contains(text)
     }
 
     private fun filterAppList(appList: ArrayList<AppInfo>, keywords: String): ArrayList<AppInfo> {
-        val text = keywords.toLowerCase()
+        val text = keywords.lowercase(getDefault())
         if (text.isEmpty())
             return appList
         return ArrayList(appList.filter { item ->
@@ -124,11 +129,11 @@ class AdapterAppList(private val context: Context, apps: ArrayList<AppInfo>, pri
         if (keywords.isEmpty()) {
             return spannableString
         }
-        index = str.toLowerCase().indexOf(keywords.toLowerCase())
+        index = str.lowercase(getDefault()).indexOf(keywords.lowercase(getDefault()))
         if (index < 0)
             return spannableString
 
-        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#0094ff")), index, index + keywords.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(ForegroundColorSpan("#0094ff".toColorInt()), index, index + keywords.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         return spannableString
     }
 

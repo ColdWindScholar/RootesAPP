@@ -17,6 +17,8 @@ import com.root.system.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.Locale
+import java.util.Locale.getDefault
 
 class AdapterProcessMini(private val context: Context,
                          private var processes: ArrayList<ProcessInfo> = ArrayList(),
@@ -183,7 +185,7 @@ class AdapterProcessMini(private val context: Context,
         if (keywords.isEmpty()) {
             return spannableString
         }
-        index = str.toLowerCase().indexOf(keywords.toLowerCase())
+        index = str.lowercase(getDefault()).indexOf(keywords.lowercase(getDefault()))
         if (index < 0)
             return spannableString
 

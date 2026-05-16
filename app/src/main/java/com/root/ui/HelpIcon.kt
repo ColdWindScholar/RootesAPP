@@ -40,7 +40,7 @@ class HelpIcon : RelativeLayout {
                     view.findViewById<ImageButton>(android.R.id.button1).setOnClickListener {
                         DialogHelper.helpInfo(
                                 context!!,
-                                context.getString(R.string.help_title),
+                                context.getString(com.root.common.R.string.help_title),
                                 "",
                                 LayoutInflater.from(context).inflate(
                                     attrValue.replace("@", "").toInt(),

@@ -13,7 +13,6 @@ import com.root.krscript.model.PageNode
 import com.root.system.R
 import okhttp3.*
 import java.io.IOException
-import kotlinx.android.synthetic.main.fragment_nav.*
 import com.root.system.activities.ActivityCharge
 import com.root.system.activities.ActivityPowerUtilization
 import com.root.system.activities.ActivityTestColor
