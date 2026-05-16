@@ -83,11 +83,7 @@ class ActivityTimingTask : ActivityBase() {
         val dirPath = FileWrite.getPrivateFilePath(this, "custom-command")
         val dir = File(dirPath)
         if (dir.exists()) {
-            val files = dir.listFiles(object : FilenameFilter {
-                override fun accept(dir: File?, name: String?): Boolean {
-                    return name?.endsWith(".sh") == true
-                }
-            })
+            val files = dir.listFiles { dir, name -> name?.endsWith(".sh") == true }
             val fileNames = files?.map {
                 SelectItem().apply {
                     val name = URLDecoder.decode(it.name)
