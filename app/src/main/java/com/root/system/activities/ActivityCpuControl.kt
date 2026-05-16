@@ -563,7 +563,7 @@ class ActivityCpuControl : ActivityBase() {
             if (qualcommThermalSupported) {
                 status.coreControl = thermalControlUtils.getCoreControlState()
                 status.vdd = thermalControlUtils.getVDDRestrictionState()
-                status.msmThermal = thermalControlUtils.getTheramlState()
+                status.msmThermal = thermalControlUtils.theramlState
             }
 
             status.exynosHmpUP = CpuFrequencyUtil.exynosHmpUP
