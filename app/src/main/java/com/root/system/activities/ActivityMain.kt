@@ -106,6 +106,7 @@ class ActivityMain : ActivityBase() {
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val context = context
 
         if (!ActivityStartSplash.finished) {
             val intent = Intent(this.applicationContext, ActivityStartSplash::class.java)
@@ -121,7 +122,7 @@ class ActivityMain : ActivityBase() {
             globalSPF.edit {
                 putInt(
                     SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT,
-                    ElectricityUnit().getDefaultElectricityUnit(this)
+                    ElectricityUnit().getDefaultElectricityUnit(context)
                 )
             }
         }
