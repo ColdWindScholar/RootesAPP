@@ -90,7 +90,7 @@ class ActivityAddin : ActivityBase() {
 
     private var onActionClick = AdapterView.OnItemClickListener { parent, _, position, _ ->
         val item = parent.adapter.getItem(position) as HashMap<*, *>
-        if (item.get("Wran") == false) {
+        if (item["Wran"] == false) {
             (item["Action"] as Runnable).run()
         } else {
             DialogHelper.confirm(this,
