@@ -72,7 +72,7 @@ public class ShellExecutor {
         return process;
     }
 
-    public static Process getSuperUserRuntime() throws IOException {
+    public static Process getSuperUserRuntime() {
    String[] commands = {"su", "suu", "timesu", "02su", "kp"};
 
         // 依次尝试执行每个命令

@@ -45,7 +45,6 @@ public class KeepShell(private var rootMode: Boolean = true) {
     }
 
     //获取ROOT超时时间
-    private val GET_ROOT_TIMEOUT = 20000L
     private val mLock = ReentrantLock()
     private val LOCK_TIMEOUT = 10000L
     private var enterLockTime = 0L
@@ -86,7 +85,7 @@ public class KeepShell(private var rootMode: Boolean = true) {
 
     private fun getRuntimeShell() {
         if (p != null) return
-        val getSu = Thread(Runnable {
+        val getSu = Thread {
             try {
                 mLock.lockInterruptibly()
                 enterLockTime = System.currentTimeMillis()
@@ -102,7 +101,7 @@ public class KeepShell(private var rootMode: Boolean = true) {
                 Thread(Runnable {
                     try {
                         val errorReader =
-                                p!!.errorStream.bufferedReader()
+                            p!!.errorStream.bufferedReader()
                         while (true) {
                             Log.e("KeepShellPublic", errorReader.readLine())
                         }
@@ -116,7 +115,7 @@ public class KeepShell(private var rootMode: Boolean = true) {
                 enterLockTime = 0L
                 mLock.unlock()
             }
-        })
+        }
         getSu.start()
         getSu.join(10000)
         if (p == null && getSu.state != Thread.State.TERMINATED) {
@@ -125,7 +124,6 @@ public class KeepShell(private var rootMode: Boolean = true) {
         }
     }
 
-    private var br = "\n\n".toByteArray(Charset.defaultCharset())
 
     private val shellOutputCache = StringBuilder()
     private val startTag = "|SH>>|"
@@ -156,7 +154,7 @@ public class KeepShell(private var rootMode: Boolean = true) {
             }
 
             var unstart = true
-            while (true && reader != null) {
+            while (reader != null) {
                 val line = reader!!.readLine()
                 if (line == null) {
                     break
@@ -189,12 +187,12 @@ public class KeepShell(private var rootMode: Boolean = true) {
     }
 
     // 执行脚本，并对结果进行ResourceID翻译
-    public fun doCmdSync(shellCommand: String, shellTranslation: ShellTranslation): String {
+    fun doCmdSync(shellCommand: String, shellTranslation: ShellTranslation): String {
         val rows = doCmdSync(shellCommand).split("\n")
-        if (rows.isNotEmpty()) {
-            return shellTranslation.resolveRows(rows)
+        return if (rows.isNotEmpty()) {
+            shellTranslation.resolveRows(rows)
         } else {
-            return ""
+            ""
         }
     }
 }
