@@ -11,10 +11,11 @@ import com.root.common.ui.ProgressBarDialog
 import com.root.ui.AdapterFileSelector
 import com.root.utils.CommonCmds
 import com.root.system.R
-import kotlinx.android.synthetic.main.activity_file_selector.*
+import com.root.system.databinding.ActivityFileSelectorBinding
 import java.io.File
 
 class ActivityFileSelector : ActivityBase() {
+    private lateinit var binding: ActivityFileSelectorBinding
     companion object {
         val MODE_FILE = 0
         val MODE_FOLDER = 1
@@ -27,7 +28,8 @@ class ActivityFileSelector : ActivityBase() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_file_selector)
+        binding = ActivityFileSelectorBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
@@ -105,7 +107,7 @@ class ActivityFileSelector : ActivityBase() {
             } else {
                 AdapterFileSelector.FileChooser(startDir, onSelected, ProgressBarDialog(this), extension)
             }
-            file_selector_list.adapter = adapterFileSelector
+            binding.fileSelectorList.adapter = adapterFileSelector
         }
     }
 }
