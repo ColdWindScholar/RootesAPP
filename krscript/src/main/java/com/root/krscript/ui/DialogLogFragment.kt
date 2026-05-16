@@ -5,10 +5,16 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
+import android.os.Message
+import android.text.SpannableString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.ScrollView
+import android.widget.TextView
 import android.widget.Toast
 import com.root.common.ui.DialogHelper
 import com.root.krscript.R
@@ -68,6 +74,97 @@ class DialogLogFragment : androidx.fragment.app.DialogFragment() {
             }
         } else {
             dismiss()
+        }
+    }
+
+    class MyShellHandler(
+        private var actionEventHandler: IActionEventHandler,
+        private var logView: TextView,
+        private var shellProgress: ProgressBar) : ShellHandlerBase() {
+
+        private fun getColor(resId: Int): Int {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                context!!.getColor(resId)
+            } else {
+                context!!.resources.getColor(resId)
+            }
+        }
+
+        private val context = logView.context
+        private val errorColor = getColor(R.color.kr_shell_log_error)
+        private val basicColor = getColor(R.color.kr_shell_log_basic)
+        private val scriptColor = getColor(R.color.kr_shell_log_script)
+        private val endColor = getColor(R.color.kr_shell_log_end)
+
+        private var hasError = false // 执行过程是否出现错误
+
+        override fun handleMessage(msg: Message) {
+            when (msg.what) {
+                EVENT_EXIT -> onExit(msg.obj)
+                EVENT_START -> {
+                    onStart(msg.obj)
+                }
+                EVENT_READ -> onReader(msg.obj)
+                EVENT_READ_ERROR -> onError(msg.obj)
+                EVENT_WRITE -> {
+                    onWrite(msg.obj)
+                }
+            }
+        }
+
+        override fun onReader(msg: Any) {
+            updateLog(msg, basicColor)
+        }
+
+        override fun onWrite(msg: Any) {
+            updateLog(msg, scriptColor)
+        }
+
+        override fun onError(msg: Any) {
+            hasError = true
+            updateLog(msg, errorColor)
+        }
+
+        override fun onStart(forceStop: Runnable?) {
+            actionEventHandler.onStart(forceStop)
+        }
+
+        override fun onProgress(current: Int, total: Int) {
+            when (current) {
+                -1 -> {
+                    this.shellProgress.visibility = View.VISIBLE
+                    this.shellProgress.isIndeterminate = true
+                }
+                total -> this.shellProgress.visibility = View.GONE
+                else -> {
+                    this.shellProgress.visibility = View.VISIBLE
+                    this.shellProgress.isIndeterminate = false
+                    this.shellProgress.max = total
+                    this.shellProgress.progress = current
+                }
+            }
+        }
+
+        override fun onStart(msg: Any?) {
+            this.logView.text = ""
+            // updateLog(msg, scriptColor)
+        }
+
+        override fun onExit(msg: Any?) {
+            updateLog(context.getString(R.string.kr_shell_completed), endColor)
+            actionEventHandler.onCompleted()
+            if (!hasError) {
+                actionEventHandler.onSuccess()
+            }
+        }
+
+        override fun updateLog(msg: SpannableString?) {
+            if (msg != null) {
+                this.logView.post {
+                    logView.append(msg)
+                    (logView.parent as ScrollView).fullScroll(ScrollView.FOCUS_DOWN)
+                }
+            }
         }
     }
 
