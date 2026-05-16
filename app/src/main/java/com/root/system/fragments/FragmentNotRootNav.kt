@@ -16,15 +16,19 @@ import java.io.IOException
 import com.root.system.activities.ActivityCharge
 import com.root.system.activities.ActivityPowerUtilization
 import com.root.system.activities.ActivityTestColor
-
+import com.root.system.databinding.FragmentNav2Binding
 class FragmentNotRootNav : Fragment() {
 
     private val client = OkHttpClient()
+    private lateinit var binding: FragmentNav2Binding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_nav2, container, false)
+    ): View? {
+        binding = FragmentNav2Binding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onResume() {
         super.onResume()
@@ -37,29 +41,29 @@ class FragmentNotRootNav : Fragment() {
 
         fetchTextFromUrl("https://rootes.top/公告.txt", textView)
 
-        nav_text.setOnClickListener {
+        binding.navText.setOnClickListener {
             Toast.makeText(context, "🐮🍺", Toast.LENGTH_SHORT).show()
         }
 
-        nav_otg.setOnClickListener {
+        binding.navOtg.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "OTG功能（免Root）"
                 pageConfigPath = "/data/data/com.root.system/files/usr/pages/OTGNoRoot.xml.xml"
             }
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
-        
-        nav_root.setOnClickListener {
+
+        binding.navRoot.setOnClickListener {
             val intent = Intent(requireContext(), ActivityCharge::class.java)
             startActivity(intent)
         }
 
-        nav_magisk.setOnClickListener {
+        binding.navMagisk.setOnClickListener {
             val intent = Intent(requireContext(), ActivityPowerUtilization::class.java)
             startActivity(intent)
         }
 
-        nav_app.setOnClickListener {
+        binding.navApp.setOnClickListener {
             val intent = Intent(requireContext(), ActivityTestColor::class.java)
             startActivity(intent)
         }
