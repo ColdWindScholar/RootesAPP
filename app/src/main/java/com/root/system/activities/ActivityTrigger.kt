@@ -140,8 +140,10 @@ class ActivityTrigger : ActivityBase() {
             binding.systemSceneTaskEnable.isChecked = enabled
             binding.triggerTimeLimit.isChecked = triggerInfo.timeLimited
             // 触发时间
-            binding.triggerTimeStart.setText(String.format(getString(R.string.format_hh_mm), triggerInfo.timeStart / 60, triggerInfo.timeStart % 60))
-            binding.triggerTimeEnd.setText(String.format(getString(R.string.format_hh_mm), triggerInfo.timeEnd / 60, triggerInfo.timeEnd % 60))
+            binding.triggerTimeStart.text =
+                String.format(getString(R.string.format_hh_mm), triggerInfo.timeStart / 60, triggerInfo.timeStart % 60)
+            binding.triggerTimeEnd.text =
+                String.format(getString(R.string.format_hh_mm), triggerInfo.timeEnd / 60, triggerInfo.timeEnd % 60)
 
             // 触发事件
             events?.run {
