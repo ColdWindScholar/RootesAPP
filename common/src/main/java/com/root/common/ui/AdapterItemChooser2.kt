@@ -34,8 +34,8 @@ class AdapterItemChooser2(
         }
 
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            val results = Filter.FilterResults()
-            val prefix: String = if (constraint == null) "" else constraint.toString()
+            val results = FilterResults()
+            val prefix: String = constraint?.toString() ?: ""
 
             if (prefix.isEmpty()) {
                 val list: ArrayList<SelectItem>
