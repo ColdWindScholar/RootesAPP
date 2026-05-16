@@ -10,24 +10,26 @@ import androidx.fragment.app.Fragment
 import com.projectkr.shell.OpenPageHelper
 import com.root.krscript.model.PageNode
 import com.root.system.R
-import kotlinx.android.synthetic.main.fragment_cpu_modes.*
-import kotlinx.android.synthetic.main.fragment_nav.*
+import com.root.system.databinding.FragmentNavBinding
 import okhttp3.*
 import java.io.IOException
 
 class FragmentNav : Fragment(), View.OnClickListener {
-
+    private lateinit var binding: FragmentNavBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_nav, container, false)
+    ): View?
+    {
+        binding =  FragmentNavBinding.inflate(layoutInflater,container,false)
+    return binding.root
+    }
 
     override fun onResume() {
         super.onResume()
         activity?.title = getString(R.string.app_name)
     }
-
-private val client = OkHttpClient()
+    private val client = OkHttpClient()
 
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,12 +41,12 @@ private val client = OkHttpClient()
         fetchTextFromUrl("https://uapis.cn/api/say", textView2)
 
         fetchTextFromUrl("https://rootes.top/公告.txt", textView)
-    
-        nav_text.setOnClickListener {
+
+        binding.navText.setOnClickListener {
             Toast.makeText(context, "🐮🍺", Toast.LENGTH_SHORT).show()
         }
-        
-        nav_otg.setOnClickListener {
+
+        binding.navOtg.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "OTG功能"
                 pageConfigSh = "/data/data/com.root.system/files/usr/pages/OTG.xml"
@@ -52,7 +54,7 @@ private val client = OkHttpClient()
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
 
-        nav_magisk.setOnClickListener {
+        binding.navMagisk.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "Magisk功能"
                 pageConfigPath = "/data/data/com.root.system/files/usr/pages/Magisk.xml"
@@ -60,7 +62,7 @@ private val client = OkHttpClient()
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
 
-        nav_root.setOnClickListener {
+        binding.navRoot.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "Root功能"
                 pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/Root.xml"
@@ -68,7 +70,7 @@ private val client = OkHttpClient()
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
 
-        nav_app.setOnClickListener {
+        binding.navApp.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "软件功能"
                 pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/APP.xml"
@@ -76,7 +78,7 @@ private val client = OkHttpClient()
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
 
-        nav_system.setOnClickListener {
+        binding. navSystem.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "系统功能"
                 pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/System.xml"
@@ -84,7 +86,7 @@ private val client = OkHttpClient()
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
 
-        nav_battery.setOnClickListener {
+        binding.navBattery.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "电池功能"
                 pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/battery.xml"
@@ -92,7 +94,7 @@ private val client = OkHttpClient()
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
 
-        nav_fq.setOnClickListener {
+        binding.navFq.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "分区功能"
                 pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/fq.xml"
@@ -100,7 +102,7 @@ private val client = OkHttpClient()
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
 
-        nav_bm.setOnClickListener {
+        binding.navBm.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "显示功能"
                 pageConfigPath = "/data/data/com.root.system/files/usr/pages/Home/pm.xml"
@@ -108,14 +110,14 @@ private val client = OkHttpClient()
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
 
-        nav_download.setOnClickListener {
+        binding. navDownload.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "资源中心"
                 pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/download.xml"
             }
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
-        nav_text2.setOnClickListener {
+        binding.navText2.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "公告"
                 pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/rootes.xml"
@@ -123,7 +125,7 @@ private val client = OkHttpClient()
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
 
-        nav_data.setOnClickListener {
+        binding.navData.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "文件功能"
                 pageConfigPath = "/data/data/com.root.system/files/usr/pages/Home/files.xml"
@@ -131,7 +133,7 @@ private val client = OkHttpClient()
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
 
-        nav_helpabout.setOnClickListener {
+        binding.navHelpabout.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "搜索"
                 pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/about.xml"
