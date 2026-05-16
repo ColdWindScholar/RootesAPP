@@ -299,14 +299,7 @@ class DialogHelper {
             return dialogWrap
         }
 
-        private fun getStatusBarColor(context: Context): Int {
-            val defaultColor = Color.WHITE
-            val attrsArray = intArrayOf(android.R.attr.statusBarColor)
-            val typedArray = context.obtainStyledAttributes(attrsArray)
-            val color = typedArray.getColor(0, defaultColor)
-            typedArray.recycle()
-            return color
-        }
+
 
         private fun openContinueAlert(context: Context,
                                       layout: Int,
