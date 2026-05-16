@@ -38,6 +38,7 @@ import kotlinx.coroutines.*
 import java.io.*
 import java.lang.Runnable
 import java.util.*
+import kotlin.system.exitProcess
 
 class ActivityStartSplash : Activity() {
     companion object {
@@ -71,7 +72,7 @@ class ActivityStartSplash : Activity() {
         } catch (e: IllegalArgumentException) {
             Log.e("ActivityStartSplash", "Base64 decode error", e)
             Toast.makeText(this, "非官方软件，请到官方网站下载！", Toast.LENGTH_SHORT).show()
-            System.exit(0)
+            exitProcess(0)
             return
         }
 
@@ -95,8 +96,7 @@ class ActivityStartSplash : Activity() {
             //  另一种终止方式（注释掉）
             finish()
             // 强制终止应用（不推荐）
-            System.exit(0)
-            return
+            exitProcess(0)
         }
 
 

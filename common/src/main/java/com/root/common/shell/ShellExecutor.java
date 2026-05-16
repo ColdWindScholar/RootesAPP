@@ -48,7 +48,7 @@ public class ShellExecutor {
         return null;
     }
 
-    private static Process getProcess(String run) throws IOException {
+    private static Process getProcess(String[] run) throws IOException {
         String env = getEnvPath();
         Runtime runtime = Runtime.getRuntime();
         /*
@@ -83,11 +83,16 @@ public class ShellExecutor {
             }
         }
 
-        return getProcess("sh");
+        return getProcess(new String[]{"sh"});
     }
     
 
     public static Process getRuntime() throws IOException {
-        return getProcess("sh");
+        try{
+        return getProcess(new String[]{"sh"});}
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
