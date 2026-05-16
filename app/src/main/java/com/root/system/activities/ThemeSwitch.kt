@@ -100,7 +100,7 @@ object ThemeSwitch {
                 val wallpaperDrawable = wallpaper.drawable
 
                 // 深色的静态壁纸
-                if (isDarkColor(wallpaperDrawable)) {
+                if (isDarkColor(wallpaperDrawable!!)) {
                     themeMode.isDarkMode = true
                 } else {
                     // 浅色的静态壁纸
