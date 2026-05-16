@@ -132,9 +132,7 @@ class DialogLogFragment : androidx.fragment.app.DialogFragment() {
             updateLog(msgColored)
         }
 
-        override fun onStart(msg: Any) {
-            actionEventHandler.onStart(msg as Runnable)
-        }
+
 
 
 
