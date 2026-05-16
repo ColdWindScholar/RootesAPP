@@ -8,29 +8,24 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.CheckBox
-import android.widget.Toast
 import com.root.common.shell.KeepShell
-import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
 import com.root.common.ui.ProgressBarDialog
 import com.root.krscript.FileOwner
 import com.root.library.basic.UninstalledApp
 import com.root.model.AppInfo
-import com.root.ui.AdapterAppList
 import com.root.system.R
-import com.root.utils.UpdateBeta
-import kotlinx.android.synthetic.main.activity_app_retrieve.*
-import kotlinx.android.synthetic.main.activity_other_settings.*
+import com.root.system.databinding.ActivityAppRetrieveBinding
+import com.root.ui.AdapterAppList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
 class ActivityAppRetrieve : ActivityBase() {
+    private lateinit var binding: ActivityAppRetrieveBinding
     private lateinit var progressBarDialog: ProgressBarDialog
     private var adapterAppList: WeakReference<AdapterAppList>? = null
     private val handler = Handler(Looper.getMainLooper())
@@ -50,12 +45,13 @@ class ActivityAppRetrieve : ActivityBase() {
     @SuppressLint("ApplySharedPref")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_app_retrieve)
+        binding =  ActivityAppRetrieveBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setBackArrow()
         pm = packageManager
         progressBarDialog = ProgressBarDialog(this)
-        hidden_app.addHeaderView(this.layoutInflater.inflate(R.layout.list_header_app, null))
-        fab_confirm.setOnClickListener {
+        binding.hiddenApp.addHeaderView(this.layoutInflater.inflate(R.layout.list_header_app, null))
+        binding.fabConfirm.setOnClickListener {
             this.onConfirm()
         }
     }
@@ -83,11 +79,11 @@ class ActivityAppRetrieve : ActivityBase() {
                 appList.add(getAppInfo(it))
             }
             progressBarDialog.hideDialog()
-            if (hidden_app != null) {
+            if (binding.hiddenApp != null) {
                 val adapterObj = AdapterAppList(context, appList)
-                hidden_app.adapter = adapterObj
+                binding.hiddenApp.adapter = adapterObj
                 adapterAppList = WeakReference(adapterObj)
-                hidden_app.onItemClickListener = AdapterView.OnItemClickListener { _, itemView, postion, _ ->
+                binding.hiddenApp.onItemClickListener = AdapterView.OnItemClickListener { _, itemView, postion, _ ->
                     if (postion == 0) {
                         val checkBox = itemView.findViewById(R.id.select_state_all) as CheckBox
                         checkBox.isChecked = !checkBox.isChecked
@@ -98,7 +94,7 @@ class ActivityAppRetrieve : ActivityBase() {
                     } else {
                         val checkBox = itemView.findViewById(R.id.select_state) as CheckBox
                         checkBox.isChecked = !checkBox.isChecked
-                        val all = hidden_app.findViewById<CheckBox>(R.id.select_state_all)
+                        val all = binding.hiddenApp.findViewById<CheckBox>(R.id.select_state_all)
                         if (adapterAppList?.get() != null) {
                             all.isChecked = adapterAppList?.get()!!.getIsAllSelected()
                         }
