@@ -26,7 +26,6 @@ import com.root.library.calculator.Flags
 import com.root.scene_mode.CpuConfigInstaller
 import com.root.scene_mode.ModeSwitcher
 import com.root.system.R
-import kotlinx.android.synthetic.main.activity_addin_online.*
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -35,6 +34,7 @@ import java.nio.charset.Charset
 import java.util.zip.ZipInputStream
 
 class ActivityAddinOnline1 : ActivityBase() {
+
     override fun onPostResume() {
         super.onPostResume()
         delegate.onPostResume()

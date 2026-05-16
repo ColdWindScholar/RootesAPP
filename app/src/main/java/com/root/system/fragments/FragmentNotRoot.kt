@@ -5,21 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.root.permissions.CheckRootStatus
-import com.root.system.R
-import kotlinx.android.synthetic.main.fragment_not_root.*
+import com.root.system.databinding.FragmentNotRootBinding
 
 
 class FragmentNotRoot : androidx.fragment.app.Fragment() {
-
+    private lateinit var binding: FragmentNotRootBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_not_root, container, false)
+                              savedInstanceState: Bundle?): View? {
+        binding = FragmentNotRootBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        btn_retry.setOnClickListener {
-            CheckRootStatus(this.context!!, {
+        binding.btnRetry.setOnClickListener {
+            CheckRootStatus(this.requireContext(), {
                 if (this.activity != null) {
-                    this.activity!!.recreate()
+                    this.requireActivity().recreate()
                 }
             }, false, null).forceGetRoot()
         }

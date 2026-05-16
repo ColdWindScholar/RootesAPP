@@ -106,8 +106,8 @@ class ActivityAPPID : AppCompatActivity() {
                     if (qName == "setting") {
                         try {
                             val packageInfo = packageManager.getPackageInfo(currentPackageName, 0)
-                            val appName = packageInfo.applicationInfo.loadLabel(packageManager).toString()
-                            val appIcon = packageInfo.applicationInfo.loadIcon(packageManager)
+                            val appName = packageInfo.applicationInfo?.loadLabel(packageManager).toString()
+                            val appIcon = packageInfo.applicationInfo?.loadIcon(packageManager)
 
                             val itemView = layoutInflater.inflate(R.layout.app_info_item, findViewById(R.id.app_info_container), false)
                             itemView.findViewById<ImageView>(R.id.app_icon).setImageDrawable(appIcon)

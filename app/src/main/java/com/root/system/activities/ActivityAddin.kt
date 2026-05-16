@@ -14,18 +14,16 @@ import com.root.system.dialogs.DialogAddinModifyDPI
 import com.root.system.dialogs.DialogAddinModifyDevice
 import com.root.system.dialogs.DialogAddinWIFI
 import com.root.system.dialogs.DialogCustomMAC
-import kotlinx.android.synthetic.main.activity_addin.*
 import java.util.*
-
 
 class ActivityAddin : ActivityBase() {
     private fun createItem(title: String, desc: String, runnable: Runnable?, wran: Boolean = true): HashMap<String, Any> {
         val item = HashMap<String, Any>()
-        item.put("Title", title)
-        item.put("Desc", desc)
-        item.put("Wran", wran)
+        item["Title"] = title
+        item["Desc"] = desc
+        item["Wran"] = wran
         if (runnable != null)
-            item.put("Action", runnable)
+            item["Action"] = runnable
         return item
     }
 

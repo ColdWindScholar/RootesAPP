@@ -87,12 +87,12 @@ class AutoClickInstall : AutoClickBase() {
             return
 
         try {
-            val next2Nodes = event.source.findAccessibilityNodeInfosByText("继续安装")
+            val next2Nodes = event.source?.findAccessibilityNodeInfosByText("继续安装")
             if (next2Nodes != null && !next2Nodes.isEmpty()) {
                 var node: AccessibilityNodeInfo
                 for (i in next2Nodes.indices) {
                     node = next2Nodes[i]
-                    if (node.className.toString().toLowerCase(Locale.getDefault()).contains("button")) {
+                    if (node.className.toString().lowercase(Locale.getDefault()).contains("button")) {
                         if (!node.isEnabled) {
                             node.isEnabled = true
                         }

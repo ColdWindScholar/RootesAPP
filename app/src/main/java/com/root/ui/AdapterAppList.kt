@@ -2,7 +2,6 @@ package com.root.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -12,17 +11,13 @@ import android.widget.BaseAdapter
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import com.root.library.basic.AppInfoLoader
 import com.root.model.AppInfo
 import com.root.system.R
-import kotlinx.coroutines.*
-import java.util.ArrayList
-import java.util.HashMap
-import java.util.Locale
-import java.util.Locale.getDefault
-import kotlin.Comparator
-import androidx.core.graphics.toColorInt
-import java.util.Locale
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.Locale.getDefault
 
 class AdapterAppList(private val context: Context, apps: ArrayList<AppInfo>, private var keywords: String = "") : BaseAdapter() {
