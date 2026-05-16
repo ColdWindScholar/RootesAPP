@@ -2,7 +2,6 @@ package com.root.system.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -26,10 +25,10 @@ import com.root.ui.TabIconHelper2
 import com.root.utils.ElectricityUnit
 import com.root.utils.Update
 import com.root.system.R
+import com.root.system.databinding.ActivityMainBinding
 import com.root.system.dialogs.DialogMonitor
 import com.root.system.dialogs.DialogPower
 import com.root.system.fragments.*
-import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
 import org.json.JSONObject
 import java.io.File
@@ -37,6 +36,7 @@ import java.io.IOException
 import com.root.system.dialogs.DiagLogin
 
 class ActivityMain : ActivityBase() {
+    private lateinit var binding: ActivityMainBinding
     private lateinit var globalSPF: SharedPreferences
     private val client = OkHttpClient()
     private lateinit var tabIconHelper2: TabIconHelper2
@@ -119,13 +119,13 @@ class ActivityMain : ActivityBase() {
         if (!globalSPF.contains(SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT)) {
             globalSPF.edit().putInt(SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT, ElectricityUnit().getDefaultElectricityUnit(this)).apply()
         }
-
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        tabIconHelper2 = TabIconHelper2(tab_list, tab_content, this, supportFragmentManager, R.layout.list_item_tab2)
+        tabIconHelper2 = TabIconHelper2(binding.tabList, binding.tabContent, this, supportFragmentManager, R.layout.list_item_tab2)
 
         // 初始化其他标签
         initializeTabs()
@@ -133,8 +133,8 @@ class ActivityMain : ActivityBase() {
         // 检查root访问权限并处理捐赠标签
         checkRootAccess()
 
-        tab_content.adapter = tabIconHelper2.adapter
-        tab_list.getTabAt(0)?.select() // 默认选中第一个标签
+        binding.tabContent.adapter = tabIconHelper2.adapter
+        binding.tabList.getTabAt(0)?.select() // 默认选中第一个标签
 
         // 检查Magisk支持和模块
         checkMagiskSupport()
@@ -234,13 +234,13 @@ class ActivityMain : ActivityBase() {
 
     // 设置按钮事件
     private fun setupButtons() {
-        action_graph.setOnClickListener {
+        binding.actionGraph.setOnClickListener {
             actionGraph()
         }
-        action_power.setOnClickListener {
+        binding.actionPower.setOnClickListener {
             DialogPower(this).showPowerMenu()
         }
-        action_settings.setOnClickListener {
+        binding.actionSettings.setOnClickListener {
             startActivity(Intent(this, ActivityOtherSettings::class.java))
         }
     }
