@@ -14,8 +14,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.root.system.R
+import com.root.system.databinding.ActivtyModulesBinding
 import com.root.ui.AdapterModules
-import kotlinx.android.synthetic.main.activty_modules.*
 import kotlinx.coroutines.*
 import org.json.JSONArray
 import java.io.BufferedReader
@@ -25,6 +25,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class ActivityGithub : ActivityBase(), AdapterModules.OnItemClickListener {
+    private lateinit var binding: ActivtyModulesBinding
 
     data class Module(val name: String, val url: String)
 
@@ -35,7 +36,8 @@ class ActivityGithub : ActivityBase(), AdapterModules.OnItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activty_modules)
+        binding = ActivtyModulesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         localContext = this // 初始化 localContext
         setBackArrow()
@@ -84,9 +86,9 @@ class ActivityGithub : ActivityBase(), AdapterModules.OnItemClickListener {
     private fun onViewCreated() {
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        module_list.layoutManager = linearLayoutManager
+        binding.moduleList.layoutManager = linearLayoutManager
 
-        module_search.setOnEditorActionListener { v, actionId, _ ->
+        binding.moduleSearch.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val text = v.text.toString()
                 val view = (v as EditText)
@@ -96,7 +98,7 @@ class ActivityGithub : ActivityBase(), AdapterModules.OnItemClickListener {
                         val modules = queryModulesFromUrl("http://www.rootes.top/lsp.json", text)
                         if (!isDestroyed) {
                             withContext(Dispatchers.Main) {
-                                module_list.adapter = AdapterModules(this@ActivityGithub, ArrayList(modules.map { it.name })).apply {
+                                binding. moduleList.adapter = AdapterModules(this@ActivityGithub, ArrayList(modules.map { it.name })).apply {
                                     setOnItemClickListener(this@ActivityGithub)
                                 }
                             }
@@ -153,7 +155,7 @@ class ActivityGithub : ActivityBase(), AdapterModules.OnItemClickListener {
             val modules = queryModulesFromUrl(url, keyword)
             if (!isDestroyed) {
                 withContext(Dispatchers.Main) {
-                    module_list.adapter = AdapterModules(this@ActivityGithub, ArrayList(modules.map { it.name })).apply {
+                    binding.moduleList.adapter = AdapterModules(this@ActivityGithub, ArrayList(modules.map { it.name })).apply {
                         setOnItemClickListener(this@ActivityGithub)
                     }
                 }
