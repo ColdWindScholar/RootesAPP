@@ -1,38 +1,35 @@
 package com.root.system.activities
 
-import android.content.Intent
+//import com.root.system.R
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
-import android.icu.text.MessageFormat.Field
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Switch
 import androidx.core.content.PermissionChecker
+import com.projectkr.shell.OpenPageHelper
 import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
+import com.root.common.ui.ProgressBarDialog
 import com.root.data.EventBus
 import com.root.data.EventType
-import com.root.shell_utils.AppErrorLogcatUtils
-import com.root.store.SpfConfig
-import com.root.utils.CommonCmds
-import com.root.system.R
-import kotlinx.android.synthetic.main.activity_other_settings.*
-import android.widget.Toast
-import com.root.utils.UpdateBeta
-
 import com.root.krscript.model.PageNode
-//import com.root.system.R
-import com.projectkr.shell.OpenPageHelper // Ensure this is the correct import
-import java.io.File 
-import com.root.common.ui.ProgressBarDialog
+import com.root.store.SpfConfig
+import com.root.system.R
+import com.root.system.databinding.ActivityOtherSettingsBinding
 import com.root.system.dialogs.DialogCat
 import com.root.system.dialogs.DialogWX
-import kotlinx.android.synthetic.main.activity_app_retrieve.*
+import com.root.utils.CommonCmds
+import com.root.utils.UpdateBeta
+
+import java.io.File
 
 class ActivityOtherSettings : ActivityBase() {
+    private lateinit var binding: ActivityOtherSettingsBinding
     private lateinit var spf: SharedPreferences
     private var myHandler = Handler(Looper.getMainLooper())
 private val startFilePath = "/data/data/com.root.system"
@@ -41,13 +38,14 @@ private val startFilePath = "/data/data/com.root.system"
         super.onPostResume()
         delegate.onPostResume()
 
-        settings_disable_selinux.isChecked = spf.getBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, false)
+        binding.settingsDisableSelinux.isChecked = spf.getBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         spf = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_other_settings)
+        binding = ActivityOtherSettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 val progressBarDialog = ProgressBarDialog(this)
         setBackArrow()
 
@@ -88,7 +86,7 @@ val filePath = "/data/data/com.root.system/.updeta"
         }
         
         
-        nav_magisk.setOnClickListener {
+        binding.navMagisk.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "KrScript脚本设置"
                 pageConfigPath = "/data/data/com.root.system/files/usr/pages/GJZS.xml"
@@ -96,17 +94,17 @@ val filePath = "/data/data/com.root.system/.updeta"
             OpenPageHelper(this).openPage(pageNode)
         }
 
-        nav_wx.setOnClickListener {
+        binding.navWx.setOnClickListener {
             val dialogWXPNG = DialogWX(this)
             dialogWXPNG.showWXMenu()
         }
 
-        nav_cat.setOnClickListener {
+        binding.navCat.setOnClickListener {
             val dialogCat = DialogCat(this)
             dialogCat.showCatMenu()
         }
 
-        nav_about.setOnClickListener {
+        binding.navAbout.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "作者女装大佬"
                 pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/aboutshell.sh"
@@ -114,54 +112,54 @@ val filePath = "/data/data/com.root.system/.updeta"
             OpenPageHelper(this).openPage(pageNode)
         }
 
-        nav_bug.setOnClickListener {
+        binding.navBug.setOnClickListener {
             val intent = Intent(this, ActionPageOnline::class.java) 
             intent.putExtra("url", "http://www.rootes.top/bug/bug.html") 
             startActivity(intent)
         }
 
-        nav_null.setOnClickListener {
+        binding.navNull.setOnClickListener {
             val intent = Intent(this, ActivityAbout::class.java)
             startActivity(intent)
         }
-        
-        settings_disable_selinux.setOnClickListener {
-            if (settings_disable_selinux.isChecked) {
+
+        binding.settingsDisableSelinux.setOnClickListener {
+            if (binding.settingsDisableSelinux.isChecked) {
                 KeepShellPublic.doCmdSync(CommonCmds.DisableSELinux)
                 myHandler.postDelayed({
-                    spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, settings_disable_selinux.isChecked).apply()
+                    spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, binding.settingsDisableSelinux.isChecked).apply()
                 }, 10000)
             } else {
                 KeepShellPublic.doCmdSync(CommonCmds.ResumeSELinux)
-                spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, settings_disable_selinux.isChecked).apply()
+                spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, binding.settingsDisableSelinux.isChecked).apply()
             }
         }
-        settings_logcat.setOnClickListener {
+        binding.settingsLogcat.setOnClickListener {
        //     progressBarDialog.showDialog("正在检查测试版")
             UpdateBeta().checkUpdate(this)
         }
 
 
 
-        settings_debug_layer.isChecked = spf.getBoolean(SpfConfig.GLOBAL_SPF_SCENE_LOG, false)
-        settings_debug_layer.setOnClickListener {
+        binding.settingsDebugLayer.isChecked = spf.getBoolean(SpfConfig.GLOBAL_SPF_SCENE_LOG, false)
+        binding.settingsDebugLayer.setOnClickListener {
             spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_SCENE_LOG, (it as Switch).isChecked).apply()
 
             EventBus.publish(EventType.SERVICE_DEBUG)
         }
 
-        settings_help_icon.isChecked = spf.getBoolean(SpfConfig.GLOBAL_SPF_HELP_ICON, true)
-        settings_help_icon.setOnClickListener {
+        binding.settingsHelpIcon.isChecked = spf.getBoolean(SpfConfig.GLOBAL_SPF_HELP_ICON, true)
+        binding.settingsHelpIcon.setOnClickListener {
             spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_HELP_ICON, (it as Switch).isChecked).apply()
         }
 
-        settings_auto_exit.isChecked = spf.getBoolean(SpfConfig.GLOBAL_SPF_AUTO_EXIT, true)
-        settings_auto_exit.setOnClickListener {
+        binding.settingsAutoExit.isChecked = spf.getBoolean(SpfConfig.GLOBAL_SPF_AUTO_EXIT, true)
+        binding.settingsAutoExit.setOnClickListener {
             spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_AUTO_EXIT, (it as Switch).isChecked).apply()
         }
 
-        settings_black_notification.isChecked = spf.getBoolean(SpfConfig.GLOBAL_NIGHT_BLACK_NOTIFICATION, false)
-        settings_black_notification.setOnClickListener {
+        binding.settingsBlackNotification.isChecked = spf.getBoolean(SpfConfig.GLOBAL_NIGHT_BLACK_NOTIFICATION, false)
+        binding.settingsBlackNotification.setOnClickListener {
             spf.edit().putBoolean(SpfConfig.GLOBAL_NIGHT_BLACK_NOTIFICATION, (it as Switch).isChecked).apply()
         }
     }
@@ -198,7 +196,7 @@ val filePath = "/data/data/com.root.system/.updeta"
     override fun onDestroy() {
         super.onDestroy()
 
-        spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, settings_disable_selinux.isChecked).apply()
+        spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, binding.settingsDisableSelinux.isChecked).apply()
     }
 
     public override fun onPause() {
