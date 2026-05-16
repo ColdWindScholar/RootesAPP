@@ -24,7 +24,7 @@ public class SimpleShellWatcher {
                 try {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
                     while ((line = bufferedReader.readLine()) != null) {
-                        shellHandlerBase.sendMessage(shellHandlerBase.obtainMessage(ShellHandlerBase.EVENT_REDE, line + "\n"));
+                        shellHandlerBase.sendMessage(shellHandlerBase.obtainMessage(ShellHandlerBase.EVENT_READ, line + "\n"));
                     }
                 } catch (Exception ignored) {
                 }

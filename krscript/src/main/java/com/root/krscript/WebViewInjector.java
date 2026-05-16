@@ -237,7 +237,7 @@ public class WebViewInjector {
                         while ((line = bufferedReader.readLine()) != null) {
                             try {
                                 final JSONObject message = new JSONObject();
-                                message.put("type", ShellHandlerBase.EVENT_REDE);
+                                message.put("type", ShellHandlerBase.EVENT_READ);
                                 message.put("message", line + "\n");
                                 webView.post(new Runnable() {
                                     @Override

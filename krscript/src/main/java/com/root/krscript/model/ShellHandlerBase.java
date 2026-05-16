@@ -158,6 +158,6 @@ public abstract class ShellHandlerBase extends Handler {
 
     // 抽象方法
     protected abstract void updateLog(SpannableString msg);
-    protected abstract void onStart(Object msg);
+    public abstract void onStart(Object msg);
     protected abstract void onExit(Object msg);
 }
