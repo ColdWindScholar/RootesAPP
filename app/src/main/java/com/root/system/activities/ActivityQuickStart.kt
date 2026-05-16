@@ -64,7 +64,7 @@ class ActivityQuickStart : Activity() {
             context.get()!!.binding.startStateText.text = "正在启动应用..."
             context.get()!!.hasRoot = true
 
-            if (appPackageName.equals("com.android.vending")) {
+            if (appPackageName == "com.android.vending") {
                 GAppsUtilis().enable(KeepShellPublic.secondaryKeepShell)
             } else {
                 KeepShellPublic.doCmdSync("pm unsuspend ${appPackageName}\npm unhide ${appPackageName}\npm enable ${appPackageName}\n")
