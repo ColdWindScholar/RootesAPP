@@ -11,6 +11,7 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        aidl = true
         dataBinding = true
     }
 task encryptNativeLibs {

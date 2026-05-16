@@ -119,13 +119,12 @@ class ActionPage : ActivityBase() {
         }
 
         override fun addToFavorites(clickableNode: ClickableNode, addToFavoritesHandler: KrScriptActionHandler.AddToFavoritesHandler) {
-            val page = if (clickableNode is PageNode) {
-                clickableNode
-            } else if (clickableNode is RunnableNode) {
-                currentPageConfig
-            } else {
-                return
-            }
+            val page = clickableNode as? PageNode
+                ?: if (clickableNode is RunnableNode) {
+                    currentPageConfig
+                } else {
+                    return
+                }
 
             val intent = Intent()
 
