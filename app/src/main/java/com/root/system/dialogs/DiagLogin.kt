@@ -67,7 +67,7 @@ class DiagLogin(private val context: Context) {
     }
 
     fun executeLogin(email: String, password: String) {
-        val url = "https://rootes.top/rootes/login.php" // 确保使用正确的协议（http/https）
+        val url = "http://rootes.top/rootes/login.php" // 确保使用正确的协议（http/https）
 
         // 使用 OkHttp 进行网络请求
         val client = OkHttpClient()
