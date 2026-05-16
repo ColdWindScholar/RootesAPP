@@ -160,7 +160,7 @@ class AdapterFreezeApp(private val context: Context, private var apps: ArrayList
         }
     }
 
-    inner class ViewHolder {
+    class ViewHolder {
         internal var packageName: String? = null
 
         internal var itemTitle: TextView? = null

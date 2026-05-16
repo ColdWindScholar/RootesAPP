@@ -169,7 +169,7 @@ class ActivityImg : ActivityBase() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && data != null) {
+        if (resultCode == RESULT_OK && data != null) {
             if (Build.VERSION.SDK_INT >= 30) {
                 val absPath = FilePathResolver().getPath(this, data.data)
                 if (absPath != null) {

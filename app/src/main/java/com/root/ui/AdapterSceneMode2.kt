@@ -145,7 +145,7 @@ class AdapterSceneMode2(private val context: Context, apps: ArrayList<AppInfo>, 
             viewHolder.itemDesc?.text = item.desc
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         internal var itemTitle: TextView? = null
         internal var imgView: ImageView? = null
         internal var itemDesc: TextView? = null

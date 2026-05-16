@@ -1,25 +1,19 @@
 package com.root.system.dialogs
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import android.provider.Settings.Global.putString
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import com.root.common.ui.DialogHelper
 import com.root.system.R
 import com.root.system.SharedPreferencesHelper
+import com.root.system.activities.ActionPageOnline
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
-import javax.crypto.spec.DHParameterSpec
-import com.root.system.activities.*
-import com.root.system.activities.ActivityStartSplash.Companion.finished
 
 class DiagLogin(private val context: Context) {
     private lateinit var dialog: DialogHelper.DialogWrap

@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.database.Cursor
 import android.net.Uri
-import android.util.Log
 import com.root.Scene
 import com.root.scene_mode.SceneMode
 import com.root.store.SceneConfigStore
@@ -81,13 +80,13 @@ class SceneUnfreezeProvider : ContentProvider() {
             if (whiteList.contains(source) || allowXposedOpen()) {
                 SceneMode.unfreezeApp(packageName)
             }
-            return uri;
+            return uri
         }
         return null
     }
 
     override fun onCreate(): Boolean {
-        return true;
+        return true
     }
 
     override fun query(uri: Uri, projection: Array<String>?, selection: String?,

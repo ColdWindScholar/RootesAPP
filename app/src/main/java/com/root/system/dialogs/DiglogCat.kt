@@ -3,13 +3,10 @@ package com.root.system.dialogs
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.view.View
 import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
-import android.view.View
-import androidx.core.content.ContextCompat.startActivity
-import com.root.system.dialogs.DialogWXPNG
 import com.root.system.R
-import com.root.utils.AlipayDonate
 
 class DialogCat(var context: Activity) {
     fun showCatMenu() {

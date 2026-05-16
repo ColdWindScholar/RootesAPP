@@ -35,8 +35,8 @@ class UpdateBeta {
     }
 
     fun checkUpdate(context: Context) {
-        val handler = Handler(Looper.getMainLooper());
-        Thread(Runnable {
+        val handler = Handler(Looper.getMainLooper())
+        Thread {
             //http://47.106.224.127/
             try {
                 val url = URL("http://rootes.top/update_beta.json")
@@ -73,13 +73,13 @@ class UpdateBeta {
                     }
                 }
             } catch (ex: Exception) {
-                
+
                 handler.post {
                     Toast.makeText(context, "网络错误\n" + ex.message, Toast.LENGTH_SHORT).show()
                 }
-                
+
             }
-        }).start()
+        }.start()
     }
 
     private fun update(context: Context, jsonObject: JSONObject) {

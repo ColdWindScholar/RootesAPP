@@ -46,7 +46,7 @@ class FpsUtils(private val keepShell: KeepShell = KeepShellPublic.secondaryKeepS
                     else -> {
                         fpsFilePath = ""
                         val keepShell = KeepShell()
-                        Thread(Runnable {
+                        Thread {
                             try {
                                 keepShell.doCmdSync("find /sys -name measured_fps 2>/dev/null")
                                     .trim { it <= ' ' }.split("\n").filter { it.contains("crtc") }.min()?.run {
@@ -66,7 +66,7 @@ class FpsUtils(private val keepShell: KeepShell = KeepShellPublic.secondaryKeepS
                             } catch (ex: Exception) {
                                 fpsFilePath = ""
                             }
-                        }).start()
+                        }.start()
                     }
                 }
             }

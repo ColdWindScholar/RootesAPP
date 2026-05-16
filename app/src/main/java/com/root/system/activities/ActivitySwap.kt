@@ -49,9 +49,9 @@ class ActivitySwap : ActivityBase() {
         setContentView(R.layout.activity_swap)
         setBackArrow()
 
-        swapConfig = getSharedPreferences(SpfConfig.SWAP_SPF, Context.MODE_PRIVATE)
+        swapConfig = getSharedPreferences(SpfConfig.SWAP_SPF, MODE_PRIVATE)
 
-        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val activityManager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
         val info = ActivityManager.MemoryInfo()
         activityManager.getMemoryInfo(info)
 
@@ -154,7 +154,7 @@ class ActivitySwap : ActivityBase() {
             val checked = (it as CompoundButton).isChecked
             swapConfig.edit().putBoolean(SpfConfig.SWAP_SPF_AUTO_LMK, checked).apply()
             if (checked) {
-                val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+                val activityManager = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
                 val info = ActivityManager.MemoryInfo()
                 activityManager.getMemoryInfo(info)
                 val utils = LMKUtils()
@@ -749,8 +749,8 @@ class ActivitySwap : ActivityBase() {
             vmstat.run {
                 val text = StringBuilder()
                 try {
-                    var prop = "";
-                    var value = "";
+                    var prop = ""
+                    var value = ""
                     for (row in split("\n")) {
                         if (row.startsWith("pswpin")) {
                             prop = "从SWAP读出："

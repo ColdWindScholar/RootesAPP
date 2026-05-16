@@ -22,7 +22,7 @@ class DialogPower(var context: Activity) {
             DialogHelper.confirm(
                 context,
                 "是否确定选择操作？\n请保存好数据文件！",
-                onConfirm = DialogHelper.DialogButton("执行操作", Runnable {
+                onConfirm = DialogHelper.DialogButton("执行操作", {
                     executePowerOperation(context.getString(R.string.power_shutdown_cmd))
                 }),
                 onCancel = DialogHelper.DialogButton("取消执行")
@@ -33,7 +33,7 @@ class DialogPower(var context: Activity) {
             DialogHelper.confirm(
                 context,
                 "是否确定选择操作？\n请保存好数据文件！",
-                onConfirm = DialogHelper.DialogButton("执行操作", Runnable {
+                onConfirm = DialogHelper.DialogButton("执行操作", {
                     executePowerOperation(context.getString(R.string.power_reboot_cmd))
                 }),
                 onCancel = DialogHelper.DialogButton("取消执行")
@@ -44,7 +44,7 @@ class DialogPower(var context: Activity) {
             DialogHelper.confirm(
                 context,
                 "是否确定选择操作？\n请保存好数据文件！",
-                onConfirm = DialogHelper.DialogButton("执行操作", Runnable {
+                onConfirm = DialogHelper.DialogButton("执行操作", {
                     executePowerOperation(context.getString(R.string.power_hot_reboot_cmd))
                 }),
                 onCancel = DialogHelper.DialogButton("取消执行")
@@ -55,7 +55,7 @@ class DialogPower(var context: Activity) {
             DialogHelper.confirm(
                 context,
                 "是否确定选择操作？\n请保存好数据文件！",
-                onConfirm = DialogHelper.DialogButton("执行操作", Runnable {
+                onConfirm = DialogHelper.DialogButton("执行操作", {
                     executePowerOperation(context.getString(R.string.power_recovery_cmd))
                 }),
                 onCancel = DialogHelper.DialogButton("取消执行")
@@ -66,7 +66,7 @@ class DialogPower(var context: Activity) {
             DialogHelper.confirm(
                 context,
                 "是否确定选择操作？\n请保存好数据文件！",
-                onConfirm = DialogHelper.DialogButton("执行操作", Runnable {
+                onConfirm = DialogHelper.DialogButton("执行操作", {
                     executePowerOperation(context.getString(R.string.power_fastboot_cmd))
                 }),
                 onCancel = DialogHelper.DialogButton("取消执行")
@@ -77,7 +77,7 @@ class DialogPower(var context: Activity) {
             DialogHelper.confirm(
                 context,
                 "是否确定选择操作？\n请保存好数据文件！",
-                onConfirm = DialogHelper.DialogButton("执行操作", Runnable {
+                onConfirm = DialogHelper.DialogButton("执行操作", {
                     executePowerOperation(context.getString(R.string.power_emergency_cmd))
                 }),
                 onCancel = DialogHelper.DialogButton("取消执行")

@@ -50,7 +50,7 @@ class FloatMonitorChartView : View {
     private var mHeight: Int = 0
     private var mWidth: Int = 0
 
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         @SuppressLint("CustomViewStyleable") val array = context.obtainStyledAttributes(attrs, R.styleable.RamInfo)

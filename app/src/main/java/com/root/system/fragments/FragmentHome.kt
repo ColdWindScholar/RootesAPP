@@ -233,7 +233,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
-                (context as? android.app.Activity)?.runOnUiThread {
+                (context as? Activity)?.runOnUiThread {
                     // progressBarDialog.dismissDialog()
 
                     progressBarDialog.hideDialog()
@@ -244,7 +244,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
             override fun onResponse(call: okhttp3.Call, response: Response) {
                 response.body?.let { responseBody ->
                     val content = responseBody.string()
-                    (context as? android.app.Activity)?.runOnUiThread {
+                    (context as? Activity)?.runOnUiThread {
                         //  progressBarDialog.dismissDialog()
 
                         progressBarDialog.hideDialog()

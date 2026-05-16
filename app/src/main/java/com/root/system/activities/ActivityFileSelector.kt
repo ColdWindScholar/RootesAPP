@@ -68,7 +68,7 @@ class ActivityFileSelector : ActivityBase() {
         if (keyCode == KeyEvent.KEYCODE_BACK && adapterFileSelector != null && adapterFileSelector!!.goParent()) {
             return true
         } else {
-            setResult(Activity.RESULT_CANCELED, Intent())
+            setResult(RESULT_CANCELED, Intent())
         }
         return super.onKeyDown(keyCode, event)
     }
@@ -96,7 +96,7 @@ class ActivityFileSelector : ActivityBase() {
             val onSelected = Runnable {
                 val file: File? = adapterFileSelector!!.selectedFile
                 if (file != null) {
-                    this.setResult(Activity.RESULT_OK, Intent().putExtra("file", file.absolutePath))
+                    this.setResult(RESULT_OK, Intent().putExtra("file", file.absolutePath))
                     this.finish()
                 }
             }

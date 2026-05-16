@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.widget.Toast
-import androidx.core.content.PermissionChecker
 import com.root.common.shell.KeepShellPublic
 
 
@@ -24,7 +23,7 @@ class WriteSettings {
                 return true
             }
         } catch (ex: Exception) {
-            return false;
+            return false
         }
     }
 

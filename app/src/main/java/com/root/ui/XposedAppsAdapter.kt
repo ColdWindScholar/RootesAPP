@@ -121,7 +121,7 @@ class XposedAppsAdapter(private val context: Context, apps: ArrayList<AppInfo>) 
         }
     }
 
-    inner class ViewHolder {
+    class ViewHolder {
         internal var appPath: CharSequence? = null
 
         internal var itemTitle: TextView? = null

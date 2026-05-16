@@ -13,8 +13,8 @@ open class ObjectStorage<T : Serializable>(private val context: Context) {
     public open fun load(configFile: String): T? {
         val file = File(getSaveDir(configFile))
         if (file.exists()) {
-            var fileInputStream: FileInputStream? = null;
-            var objectInputStream: ObjectInputStream? = null;
+            var fileInputStream: FileInputStream? = null
+            var objectInputStream: ObjectInputStream? = null
             try {
                 fileInputStream = FileInputStream(file)
                 objectInputStream = ObjectInputStream(fileInputStream)

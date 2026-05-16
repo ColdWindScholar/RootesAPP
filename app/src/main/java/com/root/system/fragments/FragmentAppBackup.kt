@@ -119,7 +119,7 @@ class FragmentAppBackup(private val myHandler: Handler) : androidx.fragment.app.
         }
     }
 
-    public var searchText: String
+    var searchText: String
         get () {
             return keywords
         }

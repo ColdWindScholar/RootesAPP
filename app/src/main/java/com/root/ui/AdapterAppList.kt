@@ -29,7 +29,7 @@ class AdapterAppList(private val context: Context, apps: ArrayList<AppInfo>, pri
 
     //private val mImageCache: LruCache<String, Drawable> = LruCache(20)
 
-    private var viewHolder: AdapterAppList.ViewHolder? = null
+    private var viewHolder: ViewHolder? = null
 
     fun setSelecteStateAll(selected: Boolean = true) {
         for (item in states) {
@@ -122,14 +122,14 @@ class AdapterAppList(private val context: Context, apps: ArrayList<AppInfo>, pri
         val spannableString = SpannableString(str)
         var index = 0
         if (keywords.isEmpty()) {
-            return spannableString;
+            return spannableString
         }
-        index = str.toLowerCase().indexOf(keywords.toLowerCase());
+        index = str.toLowerCase().indexOf(keywords.toLowerCase())
         if (index < 0)
             return spannableString
 
         spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#0094ff")), index, index + keywords.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        return spannableString;
+        return spannableString
     }
 
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
@@ -189,7 +189,7 @@ class AdapterAppList(private val context: Context, apps: ArrayList<AppInfo>, pri
         return convertView!!
     }
 
-    inner class ViewHolder {
+    class ViewHolder {
         internal var appPath: CharSequence? = null
 
         internal var itemTitle: TextView? = null

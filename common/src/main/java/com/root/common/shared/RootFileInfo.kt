@@ -16,7 +16,7 @@ class RootFileInfo {
     var parentDir: String = ""
     var filePath: String = ""
     var isDirectory: Boolean = false
-    var fileSize: Long = 0;
+    var fileSize: Long = 0
 
     val fileName: String
         get() {

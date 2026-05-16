@@ -49,7 +49,7 @@ class ActivityTimingTask : ActivityBase() {
 
         // 时间选择
         taks_trigger_time.setOnClickListener {
-            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+            TimePickerDialog(this, { view, hourOfDay, minute ->
                 taks_trigger_time.setText(String.format(getString(R.string.format_hh_mm), hourOfDay, minute))
                 timingTaskInfo.triggerTimeMinutes = hourOfDay * 60 + minute
             }, timingTaskInfo.triggerTimeMinutes / 60, timingTaskInfo.triggerTimeMinutes % 60, true).show()

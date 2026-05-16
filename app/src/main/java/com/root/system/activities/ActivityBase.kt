@@ -13,7 +13,7 @@ import com.root.common.ui.ThemeMode
 import com.root.system.R
 
 open class ActivityBase : AppCompatActivity() {
-    public lateinit var themeMode: ThemeMode
+    lateinit var themeMode: ThemeMode
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
 
@@ -51,7 +51,7 @@ open class ActivityBase : AppCompatActivity() {
 
     protected fun excludeFromRecent() {
         try {
-            val service = this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            val service = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
             for (task in service.appTasks) {
                 if (task.taskInfo.id == this.taskId) {
                     task.setExcludeFromRecents(true)

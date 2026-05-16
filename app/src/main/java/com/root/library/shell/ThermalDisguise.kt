@@ -11,7 +11,7 @@ class ThermalDisguise {
     private final val gameServiceApp = "com.xiaomi.gamecenter.sdk.service"
     private final val gameService = "com.xiaomi.gamecenter.sdk.service/.PidService"
     private final val vtoolsStorage = "vtools.thermal.disguise"
-    public fun supported (): Boolean {
+    fun supported (): Boolean {
         if (Build.MANUFACTURER.toUpperCase(Locale.getDefault()) == "XIAOMI") {
             if (PlatformUtils().getCPUName().equals("lahaina")) {
                 if (PropsUtils.getProp("init.svc.mi_thermald") == "running") {
@@ -22,7 +22,7 @@ class ThermalDisguise {
         return false
     }
 
-    public fun disableMessage () {
+    fun disableMessage () {
         KeepShellPublic.doCmdSync("" +
                 "chmod 644 $boardSensorTemp\n" +
                 "echo 36500 > $boardSensorTemp\n" +
@@ -35,7 +35,7 @@ class ThermalDisguise {
                 "setprop $vtoolsStorage 1")
     }
 
-    public fun resumeMessage () {
+    fun resumeMessage () {
         KeepShellPublic.doCmdSync("" +
                 "chmod 644 $boardSensorTemp\n" +
                 "chmod 644 $migtMaxFreq\n" +
@@ -43,7 +43,7 @@ class ThermalDisguise {
                 "setprop $vtoolsStorage 0")
     }
 
-    public fun isDisabled (): Boolean {
+    fun isDisabled (): Boolean {
         return PropsUtils.getProp(vtoolsStorage) == "1" && KeepShellPublic.doCmdSync("ls -l $boardSensorTemp").startsWith("----------")
     }
 }

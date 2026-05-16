@@ -63,7 +63,7 @@ class AdapterSessions(private val context: Context, private val list: ArrayList<
             viewHolder.itemDesc?.text = dateFormat.format(Date(item.beginTime))
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         internal var itemIcon: ImageView? = null
         internal var itemTitle: TextView? = null
         internal var itemDesc: TextView? = null

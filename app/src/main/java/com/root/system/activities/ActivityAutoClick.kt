@@ -30,7 +30,7 @@ class ActivityAutoClick : ActivityBase() {
         setBackArrow()
         processBarDialog = ProgressBarDialog(this)
 
-        globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
+        globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
 
         bindSPF(settings_auto_install, globalSPF, SpfConfig.GLOBAL_SPF_AUTO_INSTALL, false)
         bindSPF(settings_skip_ad, globalSPF, SpfConfig.GLOBAL_SPF_SKIP_AD, false)
@@ -73,7 +73,7 @@ class ActivityAutoClick : ActivityBase() {
     private fun adBlackListConfig() {
         processBarDialog.showDialog()
         Thread {
-            val configFile = context.getSharedPreferences(SpfConfig.AUTO_SKIP_BLACKLIST, Context.MODE_PRIVATE)
+            val configFile = context.getSharedPreferences(SpfConfig.AUTO_SKIP_BLACKLIST, MODE_PRIVATE)
             val options = AppListHelper(context).getBootableApps(null, true).sortedBy {
                 it.packageName
             }.map {

@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Message
 import android.text.SpannableString
+import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -113,37 +114,29 @@ class DialogLogFragment : androidx.fragment.app.DialogFragment() {
         }
 
         override fun onReader(msg: Any) {
-            updateLog(msg, basicColor)
+            val msgColored = SpannableString(msg.toString())
+            msgColored.setSpan(basicColor, 0, msg.toString().length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            updateLog(msgColored)
         }
 
         override fun onWrite(msg: Any) {
-            updateLog(msg, scriptColor)
+            val msgColored = SpannableString(msg.toString())
+            msgColored.setSpan(scriptColor, 0, msg.toString().length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            updateLog(msgColored)
         }
 
         override fun onError(msg: Any) {
             hasError = true
-            updateLog(msg, errorColor)
+            val msgColored = SpannableString(msg.toString())
+            msgColored.setSpan(errorColor, 0, msg.toString().length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            updateLog(msgColored)
         }
 
-        override fun onStart(forceStop: Runnable?) {
-            actionEventHandler.onStart(forceStop)
+        override fun onStart(msg: Any) {
+            actionEventHandler.onStart(msg as Runnable)
         }
 
-        override fun onProgress(current: Int, total: Int) {
-            when (current) {
-                -1 -> {
-                    this.shellProgress.visibility = View.VISIBLE
-                    this.shellProgress.isIndeterminate = true
-                }
-                total -> this.shellProgress.visibility = View.GONE
-                else -> {
-                    this.shellProgress.visibility = View.VISIBLE
-                    this.shellProgress.isIndeterminate = false
-                    this.shellProgress.max = total
-                    this.shellProgress.progress = current
-                }
-            }
-        }
+
 
         override fun onStart(msg: Any?) {
             this.logView.text = ""
@@ -151,7 +144,9 @@ class DialogLogFragment : androidx.fragment.app.DialogFragment() {
         }
 
         override fun onExit(msg: Any?) {
-            updateLog(context.getString(R.string.kr_shell_completed), endColor)
+            val msgColored = SpannableString(context.getString(R.string.kr_shell_completed))
+            msgColored.setSpan(endColor, 0, context.getString(R.string.kr_shell_completed).length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            updateLog(msgColored)
             actionEventHandler.onCompleted()
             if (!hasError) {
                 actionEventHandler.onSuccess()
@@ -166,6 +161,7 @@ class DialogLogFragment : androidx.fragment.app.DialogFragment() {
                 }
             }
         }
+
     }
 
     private fun openExecutor(nodeInfo: RunnableNode): ShellHandlerBase? {

@@ -125,13 +125,13 @@ class ActivityAppXposedDetails : ActivityBase() {
     private fun bindService() {
         tryUnBindAddin()
         try {
-            val intent = Intent();
+            val intent = Intent()
             //绑定服务端的service
-            intent.setAction("com.root.vaddin.ConfigUpdateService");
+            intent.setAction("com.root.vaddin.ConfigUpdateService")
             //新版本（5.0后）必须显式intent启动 绑定服务
-            intent.setComponent(ComponentName("com.root.vaddin", "com.root.vaddin.ConfigUpdateService"));
+            intent.setComponent(ComponentName("com.root.vaddin", "com.root.vaddin.ConfigUpdateService"))
             //绑定的时候服务端自动创建
-            if (bindService(intent, conn, Context.BIND_AUTO_CREATE)) {
+            if (bindService(intent, conn, BIND_AUTO_CREATE)) {
             } else {
                 throw Exception("")
             }
@@ -203,7 +203,7 @@ class ActivityAppXposedDetails : ActivityBase() {
             saveConfigAndFinish()
         }
 
-        spfGlobal = getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
+        spfGlobal = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
 
         val intent = this.intent
         if (intent == null) {
@@ -256,7 +256,7 @@ class ActivityAppXposedDetails : ActivityBase() {
                 var dialog: DialogHelper.DialogWrap? = null
                 val view = layoutInflater.inflate(R.layout.dialog_dpi_input, null)
                 val inputDpi = view.findViewById<EditText>(R.id.input_dpi).apply {
-                    setFilters(arrayOf(IntInputFilter()));
+                    setFilters(arrayOf(IntInputFilter()))
                     if (sceneConfigInfo.dpi >= 96) {
                         setText(sceneConfigInfo.dpi.toString())
                     }

@@ -50,13 +50,13 @@ class ActivityTrigger : ActivityBase() {
 
         // 时间选择
         trigger_time_start.setOnClickListener {
-            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+            TimePickerDialog(this, { view, hourOfDay, minute ->
                 trigger_time_start.setText(String.format(getString(R.string.format_hh_mm), hourOfDay, minute))
                 triggerInfo.timeStart = hourOfDay * 60 + minute
             }, triggerInfo.timeStart / 60, triggerInfo.timeStart % 60, true).show()
         }
         trigger_time_end.setOnClickListener {
-            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+            TimePickerDialog(this, { view, hourOfDay, minute ->
                 trigger_time_end.setText(String.format(getString(R.string.format_hh_mm), hourOfDay, minute))
                 triggerInfo.timeEnd = hourOfDay * 60 + minute
             }, triggerInfo.timeEnd / 60, triggerInfo.timeEnd % 60, true).show()

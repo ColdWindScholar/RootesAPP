@@ -84,7 +84,7 @@ class FloatMonitor(private val mContext: Context) {
         params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL or LayoutParams.FLAG_NOT_FOCUSABLE or LayoutParams.FLAG_FULLSCREEN
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            params.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            params.layoutInDisplayCutoutMode = LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
         }
 
         val navHeight = 0
@@ -211,7 +211,7 @@ class FloatMonitor(private val mContext: Context) {
 
     private var totalMem = 0
     private var availMem = 0
-    private var coreCount = -1;
+    private var coreCount = -1
     private var showOtherInfo = false
     private var clusters = ArrayList<Array<String>>()
     private var clustersFreq = ArrayList<String>()
@@ -268,7 +268,7 @@ class FloatMonitor(private val mContext: Context) {
 
         var cpuLoad = cpuLoadUtils.cpuLoadSum
         if (cpuLoad < 0) {
-            cpuLoad = 0.toDouble();
+            cpuLoad = 0.toDouble()
         }
 
         // 电池电流
@@ -303,7 +303,7 @@ class FloatMonitor(private val mContext: Context) {
                     }
                     if (cluster.isNotEmpty()) {
                         try {
-                            val title = "#" + cluster[0] + "~" + cluster[cluster.size - 1] + "  " + subFreqStr(clustersFreq.get(clusterIndex)) + "Mhz";
+                            val title = "#" + cluster[0] + "~" + cluster[cluster.size - 1] + "  " + subFreqStr(clustersFreq.get(clusterIndex)) + "Mhz"
                             append(whiteBoldSpan(title))
 
                             val otherInfos = StringBuilder("")
@@ -428,7 +428,7 @@ class FloatMonitor(private val mContext: Context) {
 
     companion object {
         private var mWindowManager: WindowManager? = null
-        public var show: Boolean? = false
+        var show: Boolean? = false
 
         @SuppressLint("StaticFieldLeak")
         private var mView: View? = null

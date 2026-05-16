@@ -123,7 +123,7 @@ class FragmentAppUser(private val myHandler: Handler) : androidx.fragment.app.Fr
         }
     }
 
-    public var searchText: String
+    var searchText: String
         get () {
             return keywords
         }

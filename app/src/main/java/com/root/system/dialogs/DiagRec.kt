@@ -2,14 +2,12 @@ package com.root.system.dialogs
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.root.common.ui.DialogHelper
-import com.root.common.ui.ProgressBarDialog
+import com.root.system.R
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -17,7 +15,6 @@ import okhttp3.RequestBody
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
-import com.root.system.R
 
 class DiagRec(private val context: Context) {
     private lateinit var dialog: DialogHelper.DialogWrap

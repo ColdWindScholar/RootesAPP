@@ -142,7 +142,7 @@ class FragmentNotRootHome : Fragment() {
         // 获取电池电量 (总电量 mAh)
         val batteryChargeCounter = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER)
         if (batteryChargeCounter != -1) {
-            sb.append("电池电量: ${batteryChargeCounter} mAh\n")
+            sb.append("电池电量: $batteryChargeCounter mAh\n")
         } else {
             sb.append("电池电量: 不可用\n")
         }

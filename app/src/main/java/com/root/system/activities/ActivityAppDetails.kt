@@ -57,7 +57,7 @@ class ActivityAppDetails : ActivityBase() {
             saveConfigAndFinish()
         }
 
-        spfGlobal = getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
+        spfGlobal = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
 
         val intent = this.intent
         if (intent == null || !intent.extras!!.containsKey("app") == true) {
@@ -79,7 +79,7 @@ class ActivityAppDetails : ActivityBase() {
             app_details_assist.visibility = View.GONE
         }
 
-        sceneBlackList = getSharedPreferences(SpfConfig.SCENE_BLACK_LIST, Context.MODE_PRIVATE)
+        sceneBlackList = getSharedPreferences(SpfConfig.SCENE_BLACK_LIST, MODE_PRIVATE)
         scene_mode_allow.setOnClickListener {
             val checked = (it as Checkable).isChecked
             scene_mode_config.visibility = if (checked) View.VISIBLE else View.GONE
@@ -99,7 +99,7 @@ class ActivityAppDetails : ActivityBase() {
                 return@setOnClickListener
             }
 
-            val spfPowercfg = getSharedPreferences(SpfConfig.POWER_CONFIG_SPF, Context.MODE_PRIVATE)
+            val spfPowercfg = getSharedPreferences(SpfConfig.POWER_CONFIG_SPF, MODE_PRIVATE)
 
             DialogAppPowerConfig(this, spfPowercfg.getString(app, ""), object : DialogAppPowerConfig.IResultCallback {
                 override fun onChange(mode: String?) {
@@ -280,7 +280,7 @@ class ActivityAppDetails : ActivityBase() {
     @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
-        val powercfg = getSharedPreferences(SpfConfig.POWER_CONFIG_SPF, Context.MODE_PRIVATE)
+        val powercfg = getSharedPreferences(SpfConfig.POWER_CONFIG_SPF, MODE_PRIVATE)
 
         var packageInfo: PackageInfo? = null
         try {

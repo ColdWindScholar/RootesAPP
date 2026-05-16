@@ -43,7 +43,7 @@ class BootService : IntentService("vtools-boot") {
     private lateinit var mPowerManager: PowerManager
     private lateinit var mWakeLock: PowerManager.WakeLock
     override fun onHandleIntent(intent: Intent?) {
-        mPowerManager = getSystemService(Context.POWER_SERVICE) as PowerManager;
+        mPowerManager = getSystemService(POWER_SERVICE) as PowerManager
         /*
             标记值                   CPU  屏幕  键盘
             PARTIAL_WAKE_LOCK       开启  关闭  关闭
@@ -51,12 +51,12 @@ class BootService : IntentService("vtools-boot") {
             SCREEN_BRIGHT_WAKE_LOCK 开启  变亮  关闭
             FULL_WAKE_LOCK          开启  变亮  变亮
         */
-        mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "scene:BootService");
+        mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "scene:BootService")
         mWakeLock.acquire(10 * 60 * 1000) // 默认限制10分钟
 
         nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        swapConfig = this.getSharedPreferences(SpfConfig.SWAP_SPF, Context.MODE_PRIVATE)
-        globalConfig = getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
+        swapConfig = this.getSharedPreferences(SpfConfig.SWAP_SPF, MODE_PRIVATE)
+        globalConfig = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
 
         if (globalConfig.getBoolean(SpfConfig.GLOBAL_SPF_START_DELAY, false)) {
             Thread.sleep(25 * 1000)
@@ -112,7 +112,7 @@ class BootService : IntentService("vtools-boot") {
         }
 
         //判断是否开启了充电加速和充电保护，如果开启了，自动启动后台服务
-        val chargeConfig = getSharedPreferences(SpfConfig.CHARGE_SPF, Context.MODE_PRIVATE)
+        val chargeConfig = getSharedPreferences(SpfConfig.CHARGE_SPF, MODE_PRIVATE)
         if (chargeConfig.getBoolean(SpfConfig.CHARGE_SPF_QC_BOOSTER, false) || chargeConfig!!.getBoolean(SpfConfig.CHARGE_SPF_BP, false)) {
             updateNotification(getString(R.string.boot_charge_booster))
             BatteryUtils().setChargeInputLimit(chargeConfig.getInt(SpfConfig.CHARGE_SPF_QC_LIMIT, SpfConfig.CHARGE_SPF_QC_LIMIT_DEFAULT), this.applicationContext)
@@ -158,7 +158,7 @@ class BootService : IntentService("vtools-boot") {
             if (swapConfig.getBoolean(SpfConfig.SWAP_SPF_AUTO_LMK, false)) {
                 updateNotification(getString(R.string.boot_lmk))
 
-                val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+                val activityManager = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
                 val info = ActivityManager.MemoryInfo()
                 activityManager.getMemoryInfo(info)
                 LMKUtils().autoSetLMK(info.totalMem, keepShell)

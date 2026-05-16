@@ -158,7 +158,7 @@ class ActivityProcess : ActivityBase() {
 
     private var pm: PackageManager? = null
     private fun loadIcon(imageView: ImageView, item: ProcessInfo) {
-        Thread(Runnable {
+        Thread {
             var icon: Drawable? = null
             try {
                 val name = if (item.name.contains(":")) item.name.substring(0, item.name.indexOf(":")) else item.name
@@ -176,7 +176,7 @@ class ActivityProcess : ActivityBase() {
                     }
                 }
             }
-        }).start()
+        }.start()
     }
 
     private fun openProcessDetail(processInfo: ProcessInfo) {

@@ -47,7 +47,7 @@ class ActivityAppConfig2 : ActivityBase() {
         setContentView(R.layout.activity_app_config2)
 
         setBackArrow()
-        globalSPF = context!!.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
+        globalSPF = context!!.getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
 
         this.onViewCreated()
     }
@@ -78,8 +78,8 @@ class ActivityAppConfig2 : ActivityBase() {
         modeSwitcher = ModeSwitcher()
         processBarDialog = ProgressBarDialog(this)
         applistHelper = AppListHelper(this, false)
-        spfPowercfg = getSharedPreferences(SpfConfig.POWER_CONFIG_SPF, Context.MODE_PRIVATE)
-        globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
+        spfPowercfg = getSharedPreferences(SpfConfig.POWER_CONFIG_SPF, MODE_PRIVATE)
+        globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
         sceneConfigStore = SceneConfigStore(this.context)
 
         if (spfPowercfg.all.isEmpty()) {
@@ -166,7 +166,7 @@ class ActivityAppConfig2 : ActivityBase() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_APP_CONFIG && data != null && displayList != null) {
             try {
-                if (resultCode == AppCompatActivity.RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     val adapter = (scene_app_list.adapter as AdapterSceneMode)
                     var index = -1
                     val packageName = data.extras!!.getString("app")

@@ -90,7 +90,7 @@ class ActivityFreezeApps : ActivityBase() {
     }
 
     private fun onViewCreated() {
-        config = this.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
+        config = this.getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
 
         processBarDialog = ProgressBarDialog(this)
         processBarDialog.showDialog()
@@ -255,7 +255,7 @@ class ActivityFreezeApps : ActivityBase() {
 
     // TODO:替换公共方法
     private fun getUserId(context: Context): Int {
-        val um = context.getSystemService(Context.USER_SERVICE) as UserManager
+        val um = context.getSystemService(USER_SERVICE) as UserManager
         val userHandle = Process.myUserHandle()
 
         var value = 0

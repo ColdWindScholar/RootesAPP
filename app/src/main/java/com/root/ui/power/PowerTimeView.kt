@@ -86,14 +86,14 @@ class PowerTimeView : View {
         return value.toInt()
     }
 
-    public fun setLadder(ladder: Boolean) {
+    fun setLadder(ladder: Boolean) {
         if (this.ladder != ladder) {
             this.ladder = ladder
             invalidate()
         }
     }
 
-    public fun getLadder(): Boolean {
+    fun getLadder(): Boolean {
         return this.ladder
     }
 

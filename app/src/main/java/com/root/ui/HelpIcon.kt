@@ -12,11 +12,11 @@ import com.root.system.R
 
 class HelpIcon : RelativeLayout {
     private fun init(context: Context?, attrs: AttributeSet?) {
-        val view: View = View.inflate(context, R.layout.layout_help_icon, this) as View
+        val view: View = inflate(context, R.layout.layout_help_icon, this) as View
         val config = context?.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
         config?.run {
             if (!getBoolean(SpfConfig.GLOBAL_SPF_HELP_ICON, true)) {
-                view.visibility = View.GONE
+                view.visibility = GONE
             }
         }
         attrs?.run {

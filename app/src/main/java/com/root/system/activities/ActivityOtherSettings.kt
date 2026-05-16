@@ -45,7 +45,7 @@ private val startFilePath = "/data/data/com.root.system"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        spf = getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
+        spf = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other_settings)
 val progressBarDialog = ProgressBarDialog(this)

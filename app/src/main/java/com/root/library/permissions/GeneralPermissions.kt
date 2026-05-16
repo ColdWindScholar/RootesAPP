@@ -40,13 +40,13 @@ class GeneralPermissions(private val context: Context) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (!Settings.canDrawOverlays(context)) {
                         val option = it.substring("android.permission.".length)
-                        shellStr.append("appops set ${context.packageName} ${option} allow\n")
+                        shellStr.append("appops set ${context.packageName} $option allow\n")
                     }
                 } else {
                     if (!checkPermission(it)) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             val option = it.substring("android.permission.".length)
-                            shellStr.append("appops set ${context.packageName} ${option} allow\n")
+                            shellStr.append("appops set ${context.packageName} $option allow\n")
                         }
                         shellStr.append("pm grant ${context.packageName} $it\n")
                     }
@@ -55,7 +55,7 @@ class GeneralPermissions(private val context: Context) {
                 if (!checkPermission(it)) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         val option = it.substring("android.permission.".length)
-                        shellStr.append("appops set ${context.packageName} ${option} allow\n")
+                        shellStr.append("appops set ${context.packageName} $option allow\n")
                     }
                     shellStr.append("pm grant ${context.packageName} $it\n")
                 }

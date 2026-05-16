@@ -166,7 +166,7 @@ class AdapterSceneMode(private val context: Context, apps: ArrayList<AppInfo>, p
         }
     }
 
-    inner class ViewHolder {
+    class ViewHolder {
         internal var appPath: CharSequence? = null
 
         internal var itemTitle: TextView? = null

@@ -509,7 +509,7 @@ open class DialogAppOptions(protected final var context: Activity, protected var
 
     private fun _clearAll(userOnly: Boolean) {
         val um = context.getSystemService(Context.USER_SERVICE) as UserManager?
-        val userHandle = android.os.Process.myUserHandle()
+        val userHandle = Process.myUserHandle()
         var uid = 0L
         if (um != null) {
             uid = um.getSerialNumberForUser(userHandle)
@@ -591,7 +591,7 @@ open class DialogAppOptions(protected final var context: Activity, protected var
     private fun _uninstallAll(userOnly: Boolean, keepData: Boolean) {
         if (userOnly) {
             val um = context.getSystemService(Context.USER_SERVICE) as UserManager?
-            val userHandle = android.os.Process.myUserHandle()
+            val userHandle = Process.myUserHandle()
             if (um != null) {
                 val uid = um.getSerialNumberForUser(userHandle)
                 _uninstallAllOnlyUser(uid, keepData)

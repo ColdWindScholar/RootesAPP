@@ -35,7 +35,7 @@ import kotlin.collections.ArrayList
 /**
  * Created by helloklf on 2016/8/27.
  */
-public class AccessibilityScenceMode : AccessibilityService(), IEventReceiver {
+class AccessibilityScenceMode : AccessibilityService(), IEventReceiver {
     override val isAsync: Boolean
         get() = false
 
@@ -47,7 +47,7 @@ public class AccessibilityScenceMode : AccessibilityService(), IEventReceiver {
 
     private var isLandscape = false
     private val alwaysLandscapeOpt = true
-    public val landscapeOptimized: Boolean
+    val landscapeOptimized: Boolean
         get () {
             if (alwaysLandscapeOpt || isLandscape) {
                 return true
@@ -106,7 +106,7 @@ public class AccessibilityScenceMode : AccessibilityService(), IEventReceiver {
 
     private fun getDisplaySize() {
         // 重新获取屏幕分辨率
-        val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val wm = getSystemService(WINDOW_SERVICE) as WindowManager
         val point = Point()
         wm.defaultDisplay.getRealSize(point)
         if (point.x != displayWidth || point.y != displayHeight) {
@@ -183,7 +183,7 @@ public class AccessibilityScenceMode : AccessibilityService(), IEventReceiver {
 
     public override fun onServiceConnected() {
         super.onServiceConnected()
-        spf = getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
+        spf = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
 
         // 获取屏幕方向
         onScreenConfigurationChanged(this.resources.configuration)
@@ -317,7 +317,7 @@ public class AccessibilityScenceMode : AccessibilityService(), IEventReceiver {
             AccessibilityWindowInfo.TYPE_SPLIT_SCREEN_DIVIDER
     )
 
-    public fun getEffectiveWindows(includeSystemApp: Boolean = false): List<AccessibilityWindowInfo> {
+    fun getEffectiveWindows(includeSystemApp: Boolean = false): List<AccessibilityWindowInfo> {
         val windowsList = windows
         if (windowsList != null && windowsList.size > 1) {
             val effectiveWindows = windowsList.filter {
@@ -335,7 +335,7 @@ public class AccessibilityScenceMode : AccessibilityService(), IEventReceiver {
         return ArrayList()
     }
 
-    public fun getForegroundApps(): Array<String> {
+    fun getForegroundApps(): Array<String> {
         val windows = this.getEffectiveWindows(true)
         return windows.map {
             it.root?.packageName
@@ -411,7 +411,7 @@ public class AccessibilityScenceMode : AccessibilityService(), IEventReceiver {
                             } catch (ex: java.lang.Exception) {
                                 null
                             }
-                            append("\n层级: ${window.layer} ${wp} Focused：${windowFocused}\n类型: ${window.type} Rect[${outBounds.left},${outBounds.top},${outBounds.right},${outBounds.bottom}]")
+                            append("\n层级: ${window.layer} $wp Focused：${windowFocused}\n类型: ${window.type} Rect[${outBounds.left},${outBounds.top},${outBounds.right},${outBounds.bottom}]")
                         }
 
                         val size = (outBounds.right - outBounds.left) * (outBounds.bottom - outBounds.top)
@@ -431,7 +431,7 @@ public class AccessibilityScenceMode : AccessibilityService(), IEventReceiver {
                             } catch (ex: java.lang.Exception) {
                                 null
                             }
-                            append("\n层级: ${window.layer} ${wp} Focused：${windowFocused}\n类型: ${window.type} Rect[${outBounds.left},${outBounds.top},${outBounds.right},${outBounds.bottom}]")
+                            append("\n层级: ${window.layer} $wp Focused：${windowFocused}\n类型: ${window.type} Rect[${outBounds.left},${outBounds.top},${outBounds.right},${outBounds.bottom}]")
                         }
 
                         if (lastWindowFocus && !windowFocused) {

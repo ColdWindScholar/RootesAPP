@@ -66,7 +66,7 @@ class ActivityChargeController : ActivityBase() {
 
 
         ResumeCharge = "sh " + FileWrite.writePrivateShellFile("addin/resume_charge.sh", "addin/resume_charge.sh", this)
-        spf = getSharedPreferences(SpfConfig.CHARGE_SPF, Context.MODE_PRIVATE)
+        spf = getSharedPreferences(SpfConfig.CHARGE_SPF, MODE_PRIVATE)
         qcSettingSuupport = batteryUtils.qcSettingSupport()
         pdSettingSupport = batteryUtils.pdSupported()
 

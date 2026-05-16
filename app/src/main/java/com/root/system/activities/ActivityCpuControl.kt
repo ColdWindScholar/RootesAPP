@@ -730,7 +730,7 @@ class ActivityCpuControl : ActivityBase() {
             initData()
         }.start()
 
-        val globalSPF = context.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
+        val globalSPF = context.getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
         val dynamic = AccessibleServiceHelper().serviceRunning(context) && globalSPF.getBoolean(SpfConfig.GLOBAL_SPF_DYNAMIC_CONTROL, SpfConfig.GLOBAL_SPF_DYNAMIC_CONTROL_DEFAULT)
         if (dynamic && (cpuModeName == null)) {
             DialogHelper.helpInfo(this,

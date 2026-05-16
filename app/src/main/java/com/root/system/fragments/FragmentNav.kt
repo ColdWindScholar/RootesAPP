@@ -1,23 +1,17 @@
 package com.root.system.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.projectkr.shell.OpenPageHelper
 import com.root.krscript.model.PageNode
 import com.root.system.R
-import com.projectkr.shell.OpenPageHelper // Ensure this is the correct import
-import kotlinx.android.synthetic.main.fragment_nav.*
-import android.widget.Toast
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import com.root.common.shell.KeepShellPublic
-import com.root.kr.KrScriptConfig2
-import com.root.system.activities.ActivityProcess
-import com.root.system.dialogs.DiagRec
 import kotlinx.android.synthetic.main.fragment_cpu_modes.*
+import kotlinx.android.synthetic.main.fragment_nav.*
 import okhttp3.*
 import java.io.IOException
 

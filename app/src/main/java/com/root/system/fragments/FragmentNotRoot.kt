@@ -17,7 +17,7 @@ class FragmentNotRoot : androidx.fragment.app.Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         btn_retry.setOnClickListener {
-            CheckRootStatus(this.context!!, Runnable {
+            CheckRootStatus(this.context!!, {
                 if (this.activity != null) {
                     this.activity!!.recreate()
                 }

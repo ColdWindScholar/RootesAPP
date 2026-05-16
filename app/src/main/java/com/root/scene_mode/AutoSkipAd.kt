@@ -6,8 +6,6 @@ import android.graphics.Rect
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
-import android.widget.Toast
-import com.root.Scene
 import com.root.store.AutoSkipConfigStore
 import com.root.store.SpfConfig
 import java.util.*
@@ -70,11 +68,11 @@ class AutoSkipAd(private val service: AccessibilityService) {
         val xMax = minSide * 0.3f
         val yMax = minSide * 0.28f
         if (top > yMax && bottom > yMax) {
-            Log.d("@Scene", "Y Filter ${top} ${bottom} ${yMax}")
+            Log.d("@Scene", "Y Filter $top $bottom $yMax")
             return false
         }
         if (left > xMax && right > xMax) {
-            Log.d("@Scene", "X Filter ${left} ${right} ${xMax}")
+            Log.d("@Scene", "X Filter $left $right $xMax")
             return false
         }
         // Log.d("@Scene", "Y Filter ${top} ${bottom} ${yMax}")
@@ -133,7 +131,7 @@ class AutoSkipAd(private val service: AccessibilityService) {
                                 if (splash || pointFilter(p)) {
                                     // 尝试点子节点
                                     if (autoClickBase.clickNode(node)) {
-                                        Log.d("@Scene", "SkipAD √ $packageName ${p} id: ${viewId}, text:" + node.text)
+                                        Log.d("@Scene", "SkipAD √ $packageName $p id: ${viewId}, text:" + node.text)
                                      //   Scene.toast("Scene自动点了(${text})", Toast.LENGTH_SHORT)
                                         return
                                     }
@@ -144,7 +142,7 @@ class AutoSkipAd(private val service: AccessibilityService) {
                                     if (wrapNode != null) {
                                         wrapNode.getBoundsInScreen(pp)
                                         if ((splash || pointFilter(pp)) && autoClickBase.clickNode(wrapNode)) {
-                                            Log.d("@Scene", "SkipAD √ $packageName ${p} id: ${wrapNode.viewIdResourceName}, text:" + node.text)
+                                            Log.d("@Scene", "SkipAD √ $packageName $p id: ${wrapNode.viewIdResourceName}, text:" + node.text)
                                             lastClickedApp = packageName.toString()
                                             lastClickedNode = node
                                             lastCompletedEventTime = t

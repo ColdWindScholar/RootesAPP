@@ -116,7 +116,7 @@ class AdapterBatteryStats(
         return list.size
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         internal lateinit var itemTitle: TextView
         internal lateinit var itemIcon: ImageView
         internal lateinit var itemAvg: TextView

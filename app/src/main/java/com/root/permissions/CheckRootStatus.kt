@@ -1,23 +1,15 @@
 package com.root.permissions
 
-import android.Manifest
 import android.content.Context
-import android.content.Intent
-import android.os.Build
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.content.PermissionChecker
 import com.root.Scene
 import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
-import com.root.utils.CommonCmds
 import com.root.system.R
-import com.root.system.activities.ActionPageOnline
+import com.root.utils.CommonCmds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -28,11 +20,11 @@ import kotlin.system.exitProcess
  * Created by helloklf on 2017/6/3.
  */
 
-public class CheckRootStatus(var context: Context, private val next: Runnable? = null, private var disableSeLinux: Boolean = false, private val skip: Runnable? = null) {
+class CheckRootStatus(var context: Context, private val next: Runnable? = null, private var disableSeLinux: Boolean = false, private val skip: Runnable? = null) {
     var myHandler: Handler = Handler(Looper.getMainLooper())
 
     var therad: Thread? = null
-    public fun forceGetRoot() {
+    fun forceGetRoot() {
         if (lastCheckResult) {
             if (next != null) {
                 myHandler.post(next)
@@ -80,7 +72,7 @@ public class CheckRootStatus(var context: Context, private val next: Runnable? =
                                 DialogHelper.confirm(
                                     context,
                                     "1.可能不是su suu timesu，请恢复Root \n 2.没有在Root管理器给于软件Root\n3.隐藏Root",
-                                    onConfirm = DialogHelper.DialogButton("重试", Runnable {
+                                    onConfirm = DialogHelper.DialogButton("重试", {
                                         dismiss()
 
                                         KeepShellPublic.tryExit()
@@ -90,7 +82,7 @@ public class CheckRootStatus(var context: Context, private val next: Runnable? =
                                         }
                                         forceGetRoot()
                                     }),
-                                    onCancel = DialogHelper.DialogButton("关闭App", Runnable {
+                                    onCancel = DialogHelper.DialogButton("关闭App", {
 
 
                                         System.exit(0)
@@ -138,7 +130,7 @@ public class CheckRootStatus(var context: Context, private val next: Runnable? =
     companion object {
         private var rootStatus = false
 
-        public fun checkRootAsync() {
+        fun checkRootAsync() {
             GlobalScope.launch(Dispatchers.IO) {
                 setRootStatus(KeepShellPublic.checkRoot())
             }

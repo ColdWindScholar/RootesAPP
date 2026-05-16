@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.root.common.R
 import com.root.common.shell.AsynSuShellUnit
-import java.util.LinkedHashSet
 
 open class ProgressBarDialog(private var context: Activity, private var uniqueId: String? = null) {
     private var alert: DialogHelper.DialogWrap? = null

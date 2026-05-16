@@ -1,6 +1,5 @@
 package com.root.system.fragments
 
-import android.app.Activity
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,17 +8,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.projectkr.shell.OpenPageHelper
 import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
-import com.root.krscript.model.PageNode
+import com.root.system.R
+import com.root.system.dialogs.DialogWX
+import kotlinx.android.synthetic.main.fragment_donate.*
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
-import com.root.system.R
-import com.root.system.dialogs.DiagLogin
-import com.root.system.dialogs.DialogWX
-import kotlinx.android.synthetic.main.fragment_donate.*
 
 class FragmentDonate : Fragment() {
 
@@ -57,7 +53,7 @@ class FragmentDonate : Fragment() {
             DialogHelper.confirm(
                 requireActivity(),
                 "是否确定选择操作？",
-                onConfirm = DialogHelper.DialogButton("执行操作", Runnable {
+                onConfirm = DialogHelper.DialogButton("执行操作", {
                     KeepShellPublic.doCmdSync("rm -rf /data/data/com.root.system/shared_prefs/user_prefs.xml")
                     System.exit(0)
                 }),

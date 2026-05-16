@@ -4,15 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.root.common.shared.FileWrite
-import com.root.common.ui.DialogHelper
-import com.root.system.R
 import com.root.krscript.model.RunnableNode
 import com.root.krscript.ui.DialogLogFragment
+import com.root.system.R
 import kotlinx.android.synthetic.main.activity_custom_command.*
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URLEncoder
 import java.nio.charset.Charset
+
 //import com.root.krscript.model.RunnableNode
 
 class ActivityCustomCommand : ActivityBase() {
@@ -71,8 +71,8 @@ private fun runCommand() {
         // 创建 DialogLogFragment
         val dialogFragment = DialogLogFragment.create(
             nodeInfo, 
-            onExit, 
-            Runnable {}, 
+            onExit,
+            {},
             script, 
             null
         )

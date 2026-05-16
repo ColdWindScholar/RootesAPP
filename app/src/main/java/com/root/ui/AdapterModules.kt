@@ -59,7 +59,7 @@ class AdapterModules(private val context: Context, private val list: ArrayList<S
             viewHolder.itemDesc?.text = ""
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         internal var itemTitle: TextView? = null
         internal var itemDesc: TextView? = null
         internal var itemSource: TextView? = null

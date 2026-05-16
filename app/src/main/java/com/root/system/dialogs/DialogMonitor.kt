@@ -4,13 +4,9 @@ import android.app.Activity
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.Toast
-import com.root.Scene
 import com.root.common.ui.DialogHelper
-import com.root.utils.AccessibleServiceHelper
 import com.root.system.R
 import com.root.system.popup.*
-
-import android.content.Intent
 
 class DialogMonitor(var context: Activity) {
     fun show() {

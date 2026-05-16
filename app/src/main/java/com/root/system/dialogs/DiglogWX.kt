@@ -1,10 +1,9 @@
 package com.root.system.dialogs
 
 import android.app.Activity
+import android.view.View
 import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
-import android.view.View
-import com.root.system.dialogs.DialogWXPNG
 import com.root.system.R
 import com.root.utils.AlipayDonate
 

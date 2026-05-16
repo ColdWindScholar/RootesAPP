@@ -35,8 +35,8 @@ class Update {
     }
 
     fun checkUpdate(context: Context) {
-        val handler = Handler(Looper.getMainLooper());
-        Thread(Runnable {
+        val handler = Handler(Looper.getMainLooper())
+        Thread {
             //http://47.106.224.127/
             try {
                 val url = URL("http://rootes.top/update_system.json")
@@ -79,7 +79,7 @@ class Update {
                 }
 
             }
-        }).start()
+        }.start()
     }
 
     private fun update(context: Context, jsonObject: JSONObject) {

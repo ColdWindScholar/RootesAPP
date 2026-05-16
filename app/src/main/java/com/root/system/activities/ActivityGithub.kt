@@ -42,7 +42,7 @@ class ActivityGithub : ActivityBase(), AdapterModules.OnItemClickListener {
         onViewCreated()
 
         // 初始化下载管理器和广播接收器
-        downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         setupDownloadReceivers()
 
         // 自动刷新并显示数据

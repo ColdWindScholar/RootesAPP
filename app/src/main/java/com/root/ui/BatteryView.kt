@@ -1,7 +1,6 @@
 package com.root.ui
 
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -10,6 +9,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import androidx.core.content.withStyledAttributes
 import com.root.system.R
 
 
@@ -45,26 +45,26 @@ class BatteryView : View {
     private var mHeight: Int = 0
     private var mWidth: Int = 0
 
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        @SuppressLint("CustomViewStyleable") val array = context.obtainStyledAttributes(attrs, R.styleable.RamInfo)
-        val total = array.getInteger(R.styleable.RamInfo_total, 1)
-        val fee = array.getInteger(R.styleable.RamInfo_free, 1)
-        val feeRatio = (fee * 100.0 / total).toInt()
-        ratio = 100 - feeRatio
-        //strPercent = new int[]{100 - feeRatio, feeRatio};
-        array.recycle()
+        context.withStyledAttributes(attrs, R.styleable.RamInfo) {
+            val total = getInteger(R.styleable.RamInfo_total, 1)
+            val fee = getInteger(R.styleable.RamInfo_free, 1)
+            val feeRatio = (fee * 100.0 / total).toInt()
+            ratio = 100 - feeRatio
+            //strPercent = new int[]{100 - feeRatio, feeRatio};
+        }
     }
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        @SuppressLint("CustomViewStyleable") val array = context.obtainStyledAttributes(attrs, R.styleable.RamInfo)
-        val total = array.getInteger(R.styleable.RamInfo_total, 1)
-        val fee = array.getInteger(R.styleable.RamInfo_free, 1)
-        val feeRatio = (fee * 100.0 / total).toInt()
-        ratio = feeRatio
-        //strPercent = new int[]{100 - feeRatio, feeRatio};
-        array.recycle()
+        context.withStyledAttributes(attrs, R.styleable.RamInfo) {
+            val total = getInteger(R.styleable.RamInfo_total, 1)
+            val fee = getInteger(R.styleable.RamInfo_free, 1)
+            val feeRatio = (fee * 100.0 / total).toInt()
+            ratio = feeRatio
+            //strPercent = new int[]{100 - feeRatio, feeRatio};
+        }
     }
 
     /**

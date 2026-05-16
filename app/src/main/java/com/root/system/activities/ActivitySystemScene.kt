@@ -88,8 +88,8 @@ class ActivitySystemScene : ActivityBase() {
     private fun onViewCreated() {
         modeSwitcher = ModeSwitcher()
         processBarDialog = ProgressBarDialog(this)
-        globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
-        chargeConfig = getSharedPreferences(SpfConfig.CHARGE_SPF, Context.MODE_PRIVATE)
+        globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
+        chargeConfig = getSharedPreferences(SpfConfig.CHARGE_SPF, MODE_PRIVATE)
 
         val tabIconHelper = TabIconHelper(configlist_tabhost, this)
         configlist_tabhost.setup()
@@ -137,7 +137,7 @@ class ActivitySystemScene : ActivityBase() {
     private fun standbyAppConfig() {
         processBarDialog.showDialog()
         Thread {
-            val configFile = context.getSharedPreferences(SceneStandbyMode.configSpfName, Context.MODE_PRIVATE)
+            val configFile = context.getSharedPreferences(SceneStandbyMode.configSpfName, MODE_PRIVATE)
             val whiteList = context.resources.getStringArray(R.array.scene_standby_white_list)
             val options = ArrayList(AppListHelper(context).getAll().filter {
                 !whiteList.contains(it.packageName)
@@ -167,7 +167,7 @@ class ActivitySystemScene : ActivityBase() {
 
     // 保存休眠应用配置
     private fun saveStandbyAppConfig(apps: List<AppInfo>) {
-        val configFile = getSharedPreferences(SceneStandbyMode.configSpfName, Context.MODE_PRIVATE).edit()
+        val configFile = getSharedPreferences(SceneStandbyMode.configSpfName, MODE_PRIVATE).edit()
         configFile.clear()
 
         apps.forEach {

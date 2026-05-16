@@ -171,8 +171,8 @@ class ActivityAddinOnline1 : ActivityBase() {
         })
 
         vtools_online.settings.javaScriptEnabled = true
-        vtools_online.settings.setLoadWithOverviewMode(true);
-        vtools_online.settings.setUseWideViewPort(true);
+        vtools_online.settings.setLoadWithOverviewMode(true)
+        vtools_online.settings.setUseWideViewPort(true)
 
         val url = vtools_online.url
         if (url != null) {
@@ -188,7 +188,7 @@ class ActivityAddinOnline1 : ActivityBase() {
         }
         vtools_online.addJavascriptInterface(object {
             @JavascriptInterface
-            public fun setStatusBarColor(colorStr: String): Boolean {
+            fun setStatusBarColor(colorStr: String): Boolean {
                 try {
                     val color = Color.parseColor(colorStr)
                     vtools_online.post {
@@ -208,7 +208,7 @@ class ActivityAddinOnline1 : ActivityBase() {
             }
 
             @JavascriptInterface
-            public fun setNavigationBarColor(colorStr: String): Boolean {
+            fun setNavigationBarColor(colorStr: String): Boolean {
                 try {
                     val color = Color.parseColor(colorStr)
                     vtools_online.post {
@@ -229,7 +229,7 @@ class ActivityAddinOnline1 : ActivityBase() {
             }
 
             @JavascriptInterface
-            public fun showToast(str: String) {
+            fun showToast(str: String) {
                 try {
                     vtools_online.post {
                         Toast.makeText(context, str, Toast.LENGTH_LONG).show()
@@ -252,7 +252,7 @@ class ActivityAddinOnline1 : ActivityBase() {
     private fun downloadPowercfg(url: String) {
         val progressBarDialog = ProgressBarDialog(this)
         progressBarDialog.showDialog("正在获取配置，稍等...")
-        Thread(Runnable {
+        Thread {
             try {
                 val myURL = URL(url)
                 val conn = myURL.openConnection()
@@ -260,9 +260,15 @@ class ActivityAddinOnline1 : ActivityBase() {
                 conn.getInputStream()
                 val reader = conn.getInputStream().bufferedReader(Charset.forName("UTF-8"))
                 val powercfg = reader.readText()
-                if (powercfg.startsWith("#!/") && CpuConfigInstaller().installCustomConfig(this, powercfg, ModeSwitcher.SOURCE_SCENE_ONLINE)) {
+                if (powercfg.startsWith("#!/") && CpuConfigInstaller().installCustomConfig(
+                        this,
+                        powercfg,
+                        ModeSwitcher.SOURCE_SCENE_ONLINE
+                    )
+                ) {
                     vtools_online.post {
-                        DialogHelper.animDialog(AlertDialog.Builder(this)
+                        DialogHelper.animDialog(
+                            AlertDialog.Builder(this)
                                 .setTitle("配置文件已安装")
                                 .setPositiveButton(R.string.btn_confirm) { _, _ ->
                                     setResult(Activity.RESULT_OK)
@@ -283,13 +289,13 @@ class ActivityAddinOnline1 : ActivityBase() {
                     Toast.makeText(applicationContext, "下载配置文件失败！", Toast.LENGTH_LONG).show()
                 }
             }
-        }).start()
+        }.start()
     }
 
     private fun downloadPowercfgV2(url: String) {
         val progressBarDialog = ProgressBarDialog(this)
         progressBarDialog.showDialog("正在获取配置，稍等...")
-        Thread(Runnable {
+        Thread {
             try {
                 val myURL = URL(url)
                 val conn = myURL.openConnection()
@@ -309,9 +315,15 @@ class ActivityAddinOnline1 : ActivityBase() {
                         } else if (zipEntry.name == "powercfg.sh") {
                             val byteArray = zipInputStream.readBytes()
                             val powercfg = byteArray.toString(Charset.defaultCharset())
-                            if (powercfg.startsWith("#!/") && CpuConfigInstaller().installCustomConfig(this, powercfg, ModeSwitcher.SOURCE_SCENE_ONLINE)) {
+                            if (powercfg.startsWith("#!/") && CpuConfigInstaller().installCustomConfig(
+                                    this,
+                                    powercfg,
+                                    ModeSwitcher.SOURCE_SCENE_ONLINE
+                                )
+                            ) {
                                 vtools_online.post {
-                                    DialogHelper.animDialog(AlertDialog.Builder(this)
+                                    DialogHelper.animDialog(
+                                        AlertDialog.Builder(this)
                                             .setTitle("配置文件已安装")
                                             .setPositiveButton(R.string.btn_confirm) { _, _ ->
                                                 setResult(Activity.RESULT_OK)
@@ -320,7 +332,8 @@ class ActivityAddinOnline1 : ActivityBase() {
                                 }
                             } else {
                                 vtools_online.post {
-                                    Toast.makeText(applicationContext, "下载配置文件失败或文件无效！", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(applicationContext, "下载配置文件失败或文件无效！", Toast.LENGTH_LONG)
+                                        .show()
                                 }
                             }
                             vtools_online.post {
@@ -340,24 +353,24 @@ class ActivityAddinOnline1 : ActivityBase() {
                     Toast.makeText(applicationContext, "下载配置文件失败！", Toast.LENGTH_LONG).show()
                 }
             }
-        }).start()
+        }.start()
     }
 
     private var fileSelectedInterface: ParamsFileChooserRender.FileSelectedInterface? = null
     private val ACTION_FILE_PATH_CHOOSER = 65400
     private fun chooseFilePath(fileSelectedInterface: ParamsFileChooserRender.FileSelectedInterface): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 2);
+            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 2)
             Toast.makeText(this, getString(R.string.kr_write_external_storage), Toast.LENGTH_LONG).show()
             return false
         } else {
             try {
-                val intent = Intent(Intent.ACTION_GET_CONTENT);
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.setType("*/*")
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(intent, ACTION_FILE_PATH_CHOOSER);
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                startActivityForResult(intent, ACTION_FILE_PATH_CHOOSER)
                 this.fileSelectedInterface = fileSelectedInterface
-                return true;
+                return true
             } catch (ex: java.lang.Exception) {
                 return false
             }
@@ -366,7 +379,7 @@ class ActivityAddinOnline1 : ActivityBase() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == ACTION_FILE_PATH_CHOOSER) {
-            val result = if (data == null || resultCode != Activity.RESULT_OK) null else data.data
+            val result = if (data == null || resultCode != RESULT_OK) null else data.data
             if (fileSelectedInterface != null) {
                 if (result != null) {
                     val absPath = getPath(result)
