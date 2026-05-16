@@ -8,6 +8,11 @@ android {
         minSdkVersion 21
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    android {
+        lint {
+            baseline = file("lint-baseline.xml")
+        }
+    }
     buildFeatures {
         viewBinding = true
     }

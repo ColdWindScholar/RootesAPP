@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/dialogRoot"
-    android:focusable="true"
-    android:orientation="vertical"
-    android:focusableInTouchMode="true"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              style="@style/dialogRoot"
+              android:focusable="true"
+              android:orientation="vertical"
+              android:focusableInTouchMode="true"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/search_bar"
@@ -34,7 +35,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:src="@drawable/dialog_search_clear"
-            android:tint="?android:textColorPrimary"
+            app:tint="?android:textColorPrimary"
             android:scaleType="centerInside"
             android:padding="15dp"
             android:layout_width="40dp"

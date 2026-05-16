@@ -40,9 +40,9 @@ open class DialogFullScreen(private val layout: Int, private val darkMode: Boole
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return Dialog(activity!!, if (themeResId != 0) themeResId else R.style.dialog_full_screen_light)
+            return Dialog(requireActivity(), if (themeResId != 0) themeResId else R.style.dialog_full_screen_light)
         } else {
-            return Dialog(activity!!, -1)
+            return Dialog(requireActivity(), -1)
         }
     }
 
