@@ -351,7 +351,7 @@ class PageConfigReader {
                                 option.isFab = attrValue == "fab"
                             }
                             "suffix" -> {
-                                val suffix = attrValue.toLowerCase(Locale.ENGLISH).trim { it <= ' ' }
+                                val suffix = attrValue.lowercase(Locale.ENGLISH).trim { it <= ' ' }
 
                                 if (option.mime.isEmpty()) {
                                     option.mime = Suffix2Mime().toMime(suffix)
@@ -360,7 +360,7 @@ class PageConfigReader {
                                 option.suffix = suffix
                             }
                             "mime" -> {
-                                option.mime = attrValue.toLowerCase(Locale.ENGLISH)
+                                option.mime = attrValue.lowercase(Locale.ENGLISH)
                             }
                         }
                     }
@@ -585,7 +585,7 @@ class PageConfigReader {
     private fun tagEndInSwitch(switchNode: SwitchNode?, parser: XmlPullParser) {
         if (switchNode != null) {
             val shellResult = executeResultRoot(context, switchNode.getState)
-            switchNode.checked = shellResult != "error" && (shellResult == "1" || shellResult.toLowerCase() == "true")
+            switchNode.checked = shellResult != "error" && (shellResult == "1" || shellResult.lowercase(getDefault()) == "true")
             if (switchNode.setState == null) {
                 switchNode.setState = ""
             }
@@ -609,7 +609,7 @@ class PageConfigReader {
     private fun rowNode(textNode: TextNode, parser: XmlPullParser) {
         val textRow = TextNode.TextRow()
         for (i in 0 until parser.attributeCount) {
-            val attrName = parser.getAttributeName(i).toLowerCase()
+            val attrName = parser.getAttributeName(i).lowercase(getDefault())
             val attrValue = resourceStringResolver.resolveRow(parser.getAttributeValue(i))
             try {
                 when (attrName) {
@@ -630,11 +630,8 @@ class PageConfigReader {
                     }
                     "align" -> {
                         when (attrValue) {
-                            "left" -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                textRow.align = Layout.Alignment.ALIGN_LEFT
-                            }
-                            "right" -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                textRow.align = Layout.Alignment.ALIGN_RIGHT
+                            "opposite" -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                textRow.align = Layout.Alignment.ALIGN_OPPOSITE
                             }
                             "center" -> textRow.align = Layout.Alignment.ALIGN_CENTER
                             "normal" -> textRow.align = Layout.Alignment.ALIGN_NORMAL
