@@ -10,6 +10,7 @@ import com.root.store.SpfConfig
 import com.root.system.R
 import com.root.system.addin.DexCompileAddin
 import com.root.system.addin.Immersive
+import com.root.system.databinding.ActivityAddinBinding
 import com.root.system.dialogs.DialogAddinModifyDPI
 import com.root.system.dialogs.DialogAddinModifyDevice
 import com.root.system.dialogs.DialogAddinWIFI
@@ -17,6 +18,7 @@ import com.root.system.dialogs.DialogCustomMAC
 import java.util.*
 
 class ActivityAddin : ActivityBase() {
+    private lateinit var binding: ActivityAddinBinding
     private fun createItem(title: String, desc: String, runnable: Runnable?, wran: Boolean = true): HashMap<String, Any> {
         val item = HashMap<String, Any>()
         item["Title"] = title
@@ -29,11 +31,12 @@ class ActivityAddin : ActivityBase() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_addin)
+        binding = ActivityAddinBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setBackArrow()
 
-        initAddin(this.addin_system_listview)
+        initAddin(binding.addinSystemListview)
     }
 
     private fun initAddin(view: View) {
@@ -81,8 +84,8 @@ class ActivityAddin : ActivityBase() {
                 arrayOf("Title", "Desc"),
                 intArrayOf(R.id.Title, R.id.Desc)
         )
-        addin_system_listview.adapter = mSimpleAdapter
-        addin_system_listview.onItemClickListener = onActionClick
+        binding.addinSystemListview.adapter = mSimpleAdapter
+        binding.addinSystemListview.onItemClickListener = onActionClick
     }
 
     private var onActionClick = AdapterView.OnItemClickListener { parent, _, position, _ ->
