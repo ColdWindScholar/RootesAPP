@@ -145,7 +145,9 @@ class ActivityAppRetrieve : ActivityBase() {
                             msg.append("\n")
                         }
 
-                        DialogHelper.helpInfo(this, "以下应用未能恢复", msg.toString() + "\n\n可尝试在Recovery(TWRP)模式备份并删除 /data/system/users/0/package-restrictions.xml")
+                        DialogHelper.helpInfo(this, "以下应用未能恢复",
+                            "$msg\n\n可尝试在Recovery(TWRP)模式备份并删除 /data/system/users/0/package-restrictions.xml"
+                        )
 
                         if (uninstalledApp.size != items.size) {
                             loadData()
