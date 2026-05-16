@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
 import com.root.system.R
+import com.root.system.databinding.FragmentDonateBinding
 import com.root.system.dialogs.DialogWX
-import kotlinx.android.synthetic.main.fragment_donate.*
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -20,6 +20,7 @@ import java.io.IOException
 class FragmentDonate : Fragment() {
 
     private lateinit var usernameTextView: TextView
+    private lateinit var binding: FragmentDonateBinding
     private lateinit var emailTextView: TextView
     private lateinit var joinedAtTextView: TextView
 
@@ -29,12 +30,13 @@ class FragmentDonate : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_donate, container, false)
+        binding = FragmentDonateBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        activity!!.title = getString(R.string.app_name)
+        requireActivity().title = getString(R.string.app_name)
     }
 
 
@@ -49,7 +51,7 @@ class FragmentDonate : Fragment() {
         // Load user data from SharedPreferences
         loadUserData()
 
-        pay_wxpay.setOnClickListener {
+        binding.payWxpay.setOnClickListener {
             DialogHelper.confirm(
                 requireActivity(),
                 "是否确定选择操作？",
@@ -61,7 +63,7 @@ class FragmentDonate : Fragment() {
             )
             }
 
-        pay_wxpay2.setOnClickListener {
+        binding.payWxpay2.setOnClickListener {
           val dialogWX = DialogWX(requireActivity())
             dialogWX.showWXMenu()
         }
