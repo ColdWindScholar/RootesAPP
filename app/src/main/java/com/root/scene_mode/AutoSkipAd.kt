@@ -113,11 +113,11 @@ class AutoSkipAd(private val service: AccessibilityService) {
                 var node: AccessibilityNodeInfo
                 for (i in indices) {
                     node = get(i)
-                    val className = node.className.toString().toLowerCase(Locale.getDefault())
+                    val className = node.className.toString().lowercase(Locale.getDefault())
                     if (
-                            className == "android.widget.textview" || className.toLowerCase(Locale.getDefault()).contains("button")
+                            className == "android.widget.textview" || className.lowercase(Locale.getDefault()).contains("button")
                     ) {
-                        val text = node.text.trim().replace(Regex("[\nsS秒]", RegexOption.MULTILINE), "").toString()
+                        val text = node.text.trim().replace(Regex("[\nsS秒]", RegexOption.MULTILINE), "")
                         if (
                                 text == "跳过" || text == "跳过广告" ||
                                 textRegx1.matches(text) ||
@@ -127,7 +127,7 @@ class AutoSkipAd(private val service: AccessibilityService) {
                                 val viewId = node.viewIdResourceName
                                 val p = Rect()
                                 node.getBoundsInScreen(p)
-                                val splash = lastActivity?.toLowerCase(Locale.getDefault())?.contains("splash") == true
+                                val splash = lastActivity?.lowercase(Locale.getDefault())?.contains("splash") == true
                                 if (splash || pointFilter(p)) {
                                     // 尝试点子节点
                                     if (autoClickBase.clickNode(node)) {

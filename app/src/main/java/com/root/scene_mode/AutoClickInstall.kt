@@ -38,12 +38,12 @@ class AutoClickInstall : AutoClickBase() {
 
         try {
             for (ki in autoClickKeyWords.indices) {
-                val nextNodes = event.source.findAccessibilityNodeInfosByText(autoClickKeyWords[ki])
+                val nextNodes = event.source?.findAccessibilityNodeInfosByText(autoClickKeyWords[ki])
                 if (nextNodes != null && !nextNodes.isEmpty()) {
                     var node: AccessibilityNodeInfo
                     for (i in nextNodes.indices) {
                         node = nextNodes[i]
-                        if (node.className.toString().toLowerCase(Locale.getDefault()).contains("button") && node.isEnabled) {
+                        if (node.className.toString().lowercase(Locale.getDefault()).contains("button") && node.isEnabled) {
                             if (node.text.trim().toString() != autoClickKeyWords[ki])
                                 continue
                             super.clickNode(node) || super.tryTouchNodeRect(node, service)
@@ -60,12 +60,12 @@ class AutoClickInstall : AutoClickBase() {
 
             for (ki in autoClickKeyWords.indices) {
 
-                val nodes = event.source.findAccessibilityNodeInfosByText(autoClickKeyWords2[ki])
+                val nodes = event.source?.findAccessibilityNodeInfosByText(autoClickKeyWords2[ki])
                 if (nodes != null && !nodes.isEmpty()) {
                     var node: AccessibilityNodeInfo
                     for (i in nodes.indices) {
                         node = nodes[i]
-                        if (node.className.toString().toLowerCase(Locale.getDefault()).contains("button")) {
+                        if (node.className.toString().lowercase(Locale.getDefault()).contains("button")) {
                             if (!node.isEnabled) {
                                 node.isEnabled = true
                             }

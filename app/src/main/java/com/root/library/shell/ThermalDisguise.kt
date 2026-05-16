@@ -12,8 +12,8 @@ class ThermalDisguise {
     private final val gameService = "com.xiaomi.gamecenter.sdk.service/.PidService"
     private final val vtoolsStorage = "vtools.thermal.disguise"
     fun supported (): Boolean {
-        if (Build.MANUFACTURER.toUpperCase(Locale.getDefault()) == "XIAOMI") {
-            if (PlatformUtils().getCPUName().equals("lahaina")) {
+        if (Build.MANUFACTURER.uppercase(Locale.getDefault()) == "XIAOMI") {
+            if (PlatformUtils().getCPUName() == "lahaina") {
                 if (PropsUtils.getProp("init.svc.mi_thermald") == "running") {
                     return RootFile.fileExists(boardSensorTemp)
                 }
