@@ -47,7 +47,7 @@ class ActivityTimingTask : ActivityBase() {
             }
         }
         val task = TimingTaskStorage(this@ActivityTimingTask).load(taskId)
-        timingTaskInfo = if (task == null) TimingTaskInfo(taskId) else task
+        timingTaskInfo = task ?: TimingTaskInfo(taskId)
 
         // 时间选择
         binding.taksTriggerTime.setOnClickListener {
