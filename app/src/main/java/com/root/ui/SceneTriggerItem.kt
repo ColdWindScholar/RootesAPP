@@ -10,9 +10,11 @@ import com.root.data.EventType
 import com.root.model.TaskAction
 import com.root.model.TriggerInfo
 import com.root.system.R
-import kotlinx.android.synthetic.main.list_scene_task_item.view.*
+import com.root.system.databinding.ListSceneTriggerItemBinding
 
 class SceneTriggerItem : LinearLayout {
+    private lateinit var binding: ListSceneTriggerItemBinding
+
     constructor(context: Context) : super(context) {
         setLayout(context)
     }
@@ -26,14 +28,14 @@ class SceneTriggerItem : LinearLayout {
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     private fun setLayout(context: Context) {
-        LayoutInflater.from(context).inflate(R.layout.list_scene_trigger_item, this, true)
+        binding = ListSceneTriggerItemBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
     private fun setLayout(context: Context, triggerInfo: TriggerInfo) {
         setLayout(context)
 
-        system_scene_task_time.text = getEvents(triggerInfo)
-        system_scene_task_content.text = getTaskContentText(triggerInfo)
+        binding.systemSceneTaskTime.text = getEvents(triggerInfo)
+        binding.systemSceneTaskContent.text = getTaskContentText(triggerInfo)
     }
 
     private fun getEvents(triggerInfo: TriggerInfo): String {

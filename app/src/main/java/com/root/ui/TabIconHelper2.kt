@@ -72,11 +72,7 @@ class TabIconHelper2(
         }
     }
 
-    fun getColorAccent(): Int {
-        val typedValue = TypedValue()
-        this.activity.theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
-        return typedValue.data
-    }
+
 
     fun updateHighlight() {
         val currentTab = tabLayout.selectedTabPosition

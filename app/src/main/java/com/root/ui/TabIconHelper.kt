@@ -52,11 +52,6 @@ class TabIconHelper(private var tabHost: TabHost, private var activity: Activity
         return tabId
     }
 
-    fun getColorAccent(): Int {
-        val typedValue = TypedValue()
-        this.activity.theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
-        return typedValue.data
-    }
 
     fun updateHighlight() {
         for (i in 0 until tabHost.tabWidget.tabCount) {
