@@ -10,6 +10,7 @@ import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
 import com.root.system.R
 import com.root.utils.CommonCmds
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -64,8 +65,8 @@ class CheckRootStatus(var context: Context, private val next: Runnable? = null, 
                                 forceGetRoot()
                             }
                             view.findViewById<View>(R.id.btn_skip).setOnClickListener {
-                                System.exit(0)
-                                android.os.Process.killProcess(android.os.Process.myPid())
+                                next?.let { r -> myHandler.post(r) }
+                            // exitProcess(0)
                             }
 
                             view.findViewById<View>(R.id.btn_help).setOnClickListener {
@@ -85,8 +86,7 @@ class CheckRootStatus(var context: Context, private val next: Runnable? = null, 
                                     onCancel = DialogHelper.DialogButton("关闭App", {
 
 
-                                        System.exit(0)
-                                        android.os.Process.killProcess(android.os.Process.myPid())
+                                        exitProcess(0)
                                         //
                                     }),
 
@@ -130,6 +130,7 @@ class CheckRootStatus(var context: Context, private val next: Runnable? = null, 
     companion object {
         private var rootStatus = false
 
+        @OptIn(DelicateCoroutinesApi::class)
         fun checkRootAsync() {
             GlobalScope.launch(Dispatchers.IO) {
                 setRootStatus(KeepShellPublic.checkRoot())

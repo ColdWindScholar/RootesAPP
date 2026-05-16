@@ -48,10 +48,6 @@ class ActivityStartSplash : Activity() {
     private lateinit var globalSPF: SharedPreferences
     private lateinit var signCode: String
     private lateinit var signCheck: SignCheck
-    private lateinit var startStateText: TextView
-    private val versionUrl = "http://rootes.top/version.json"
-    private val zipFileUrl = "https://rootes.top/version.zip"
-    private val filesDirPath by lazy { filesDir.absolutePath }
     private lateinit var binding: ActivityStartSplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
@@ -73,7 +69,6 @@ class ActivityStartSplash : Activity() {
             Log.e("ActivityStartSplash", "Base64 decode error", e)
             Toast.makeText(this, "非官方软件，请到官方网站下载！", Toast.LENGTH_SHORT).show()
             exitProcess(0)
-            return
         }
 
         // 初始化 SignCheck
@@ -171,12 +166,12 @@ class ActivityStartSplash : Activity() {
             window.setNavigationBarColor(resources.getColor(R.color.splash_bg_color))
         }
         if (Build.VERSION.SDK_INT >= 21) {
-            val decorView = getWindow().getDecorView()
+            val decorView = window.decorView
             //让应用主题内容占用系统状态栏的空间,注意:下面两个参数必须一起使用 stable 牢固的
             val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             decorView.setSystemUiVisibility(option)
             //设置状态栏颜色为透明
-            getWindow().setStatusBarColor(Color.TRANSPARENT)
+            window.setStatusBarColor(Color.TRANSPARENT)
         }
         //  得到当前界面的装饰视图
         val decorView = window.decorView
@@ -184,7 +179,7 @@ class ActivityStartSplash : Activity() {
         val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         decorView.systemUiVisibility = option
         //设置状态栏颜色为透明
-        getWindow().setStatusBarColor(Color.TRANSPARENT)
+        window.setStatusBarColor(Color.TRANSPARENT)
 
         if (Build.VERSION.SDK_INT >= 21) {
             val decorView = window.decorView
