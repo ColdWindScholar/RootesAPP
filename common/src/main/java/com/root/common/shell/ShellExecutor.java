@@ -77,10 +77,8 @@ public class ShellExecutor {
         for (String command : commands) {
             try {
                 // 尝试执行命令
-        
-                Process process = Runtime.getRuntime().exec(command);
 
-                return process;
+                return Runtime.getRuntime().exec(command);
             } catch (IOException e) {
                 // 如果执行命令失败，继续尝试下一个命令
                 e.printStackTrace();
