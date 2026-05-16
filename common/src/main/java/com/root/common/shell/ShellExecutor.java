@@ -72,7 +72,7 @@ public class ShellExecutor {
         return process;
     }
 
-    public static Process getSuperUserRuntime() {
+    public static Process getSuperUserRuntime() throws IOException {
 
         // 依次尝试执行每个命令
         for (String command : new String[]{"su", "suu", "timesu", "02su", "kp"}) {
@@ -85,9 +85,7 @@ public class ShellExecutor {
             }
         }
 
-        // 如果所有命令都失败，抛出异常或返回null
-        println("Failed to obtain root access using su, suu, or timesu.");
-        return null;
+        return getProcess("sh");
     }
     
 
