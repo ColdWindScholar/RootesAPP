@@ -73,13 +73,11 @@ public class ShellExecutor {
     }
 
     public static Process getSuperUserRuntime() {
-   String[] commands = {"su", "suu", "timesu", "02su", "kp"};
 
         // 依次尝试执行每个命令
-        for (String command : commands) {
+        for (String command : new String[]{"su", "suu", "timesu", "02su", "kp"}) {
             try {
                 // 尝试执行命令
-
                 return Runtime.getRuntime().exec(command);
             } catch (IOException e) {
                 // 如果执行命令失败，继续尝试下一个命令
