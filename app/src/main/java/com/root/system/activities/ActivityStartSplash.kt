@@ -1,53 +1,43 @@
 package com.root.system.activities
 
-import android.widget.Toast
-import com.root.utils.InfoWidgetService
-import com.root.utils.BatteryWidgetService
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.os.*
+import android.util.Base64
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.webkit.WebView
 import android.widget.Button
 import android.widget.CompoundButton
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
 import com.root.Scene
+import com.root.common.shell.ShellExecutor
 import com.root.common.ui.DialogHelper
 import com.root.common.ui.ThemeMode
+import com.root.kr.KrScriptConfig
+import com.root.krscript.executor.ScriptEnvironmen
 import com.root.library.permissions.GeneralPermissions
 import com.root.permissions.Busybox
 import com.root.permissions.CheckRootStatus
 import com.root.permissions.WriteSettings
 import com.root.store.SpfConfig
 import com.root.system.R
-import kotlinx.android.synthetic.main.activity_start_splash.*
-import java.util.*
-import com.root.common.shell.ShellExecutor
-import com.root.kr.KrScriptConfig
-import com.root.krscript.executor.ScriptEnvironmen
-import android.widget.TextView
-import java.io.DataOutputStream
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import android.content.Context
-import java.io.*
-import android.os.*
 import com.root.system.SignCheck
-import android.util.Base64
-import android.util.Log
-import android.webkit.WebView
-import com.root.api.DownloadFile
-import com.root.api.Unzip
-import com.root.common.shell.KeepShellPublic
-import com.root.common.ui.ProgressBarDialog
+import com.root.system.databinding.ActivityStartSplashBinding
+import com.root.utils.BatteryWidgetService
+import com.root.utils.InfoWidgetService
 import kotlinx.coroutines.*
+import java.io.*
 import java.lang.Runnable
+import java.util.*
 
 class ActivityStartSplash : Activity() {
     companion object {
@@ -61,14 +51,14 @@ class ActivityStartSplash : Activity() {
     private val versionUrl = "http://rootes.top/version.json"
     private val zipFileUrl = "https://rootes.top/version.zip"
     private val filesDirPath by lazy { filesDir.absolutePath }
-
+    private lateinit var binding: ActivityStartSplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
 
         val themeMode = ThemeSwitch.switchTheme(this)
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_start_splash)
+        binding = ActivityStartSplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         updateThemeStyle(themeMode)
         //解码 Base64 字符串
         try {
@@ -213,7 +203,7 @@ class ActivityStartSplash : Activity() {
 
     private fun getColorAccent(): Int {
         val typedValue = TypedValue()
-        this.theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
+        //this.theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
         return typedValue.data
     }
 
@@ -226,7 +216,7 @@ class ActivityStartSplash : Activity() {
 
     private class CheckFileWrite(private val context: ActivityStartSplash) : Runnable {
         override fun run() {
-            context.start_state_text.text = "检查并获取必需权限……"
+            context.binding.startStateText.text = "检查并获取必需权限……"
             context.hasRoot = true
 
             context.checkFileWrite(InstallBusybox(context))
@@ -236,7 +226,7 @@ class ActivityStartSplash : Activity() {
 
     private class InstallBusybox(private val context: ActivityStartSplash) : Runnable {
         override fun run() {
-            context.start_state_text.text = "检查Busybox是否安装..."
+            context.binding.startStateText.text = "检查Busybox是否安装..."
             Busybox(context).forceInstall(BusyboxInstalled(context))
         }
 
@@ -321,13 +311,13 @@ class ActivityStartSplash : Activity() {
      */
 
     private fun startToFinish() {
-        start_state_text.text = "正在加载文件"
+        binding.startStateText.text = "正在加载文件"
 
 copyAssetsToFiles()
 
 val config = KrScriptConfig().init(this)
 if (config.beforeStartSh.isNotEmpty()) {
-    BeforeStartThread(this, config, UpdateLogViewHandler(start_state_text) {
+    BeforeStartThread(this, config, UpdateLogViewHandler(binding.startStateText) {
         gotoHome()
         // downloader()
     }).start()
@@ -351,7 +341,7 @@ if (config.beforeStartSh.isNotEmpty()) {
 
     private fun gotoHome() {
 
-        start_state_text.text = "你好，我们又见面了！"
+        binding.startStateText.text = "你好，我们又见面了！"
 
         val intent = Intent(this.applicationContext, ActivityMain::class.java)
         startActivity(intent)
