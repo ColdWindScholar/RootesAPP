@@ -1,7 +1,6 @@
 package com.root.system.activities
 
 import android.Manifest
-import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import com.projectkr.shell.OpenPageHelper
 import com.root.common.shared.FilePathResolver
 import com.root.common.ui.ProgressBarDialog
 import com.root.krscript.TryOpenActivity
@@ -28,15 +28,10 @@ import com.root.krscript.ui.DialogLogFragment
 import com.root.krscript.ui.PageMenuLoader
 import com.root.krscript.ui.ParamsFileChooserRender
 import com.root.system.R
-import com.projectkr.shell.OpenPageHelper
-import kotlinx.android.synthetic.main.activity_action_page.*
-import android.app.AlertDialog
-import android.content.Context
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import com.root.utils.showUpdateDialog
+import com.root.system.databinding.ActivityActionPageBinding
 
 class ActionPage : ActivityBase() {
+    private lateinit var binding: ActivityActionPageBinding
     private val progressBarDialog = ProgressBarDialog(this)
     private var actionsLoaded = false
     private var handler = Handler(Looper.getMainLooper())
@@ -45,7 +40,8 @@ class ActionPage : ActivityBase() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_action_page)
+        binding = ActivityActionPageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setBackArrow()
 
         /*
@@ -201,23 +197,23 @@ class ActionPage : ActivityBase() {
     }
 
     private fun addFab(menuOption: PageMenuOption) {
-        action_page_fab.run {
+        binding.actionPageFab.run {
             visibility = View.VISIBLE
             setOnClickListener {
                 onMenuItemClick(menuOption)
             }
 
             if (menuOption.type == "file" && menuOption.iconPath.isEmpty()) {
-                setImageDrawable(getDrawable(R.drawable.kr_folder))
+                setImageDrawable(getDrawable(com.root.krscript.R.drawable.kr_folder))
             } else if (menuOption.iconPath.isNotEmpty()) {
                 val icon = IconPathAnalysis().loadLogo(context, menuOption, false)
                 if (icon != null) {
                     setImageDrawable(icon)
                 } else {
-                    setImageDrawable(getDrawable(R.drawable.kr_fab))
+                    setImageDrawable(getDrawable(com.root.krscript.R.drawable.kr_fab))
                 }
             } else {
-                setImageDrawable(getDrawable(R.drawable.kr_fab))
+                setImageDrawable(getDrawable(com.root.krscript.R.drawable.kr_fab))
             }
         }
     }
