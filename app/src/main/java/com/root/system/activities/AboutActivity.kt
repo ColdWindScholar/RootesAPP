@@ -19,9 +19,9 @@ class ActivityAbout : AppCompatActivity() {
         val compileSystemTextView: TextView = findViewById(R.id.compile_system)
 
         // 设置显示信息
-        compileTimeTextView.text = "编译时间: ${BuildConfig.BUILD_TIME}"
-        compileHostTextView.text = "编译主机: ${BuildConfig.BUILD_HOST}"
-        compileProcessorTextView.text = "编译主机处理器: ${BuildConfig.BUILD_PROCESSOR}"
-        compileSystemTextView.text = "编译主机系统: ${BuildConfig.BUILD_SYSTEM}"
+        compileTimeTextView.text = "版本号: ${BuildConfig.VERSION_CODE}"
+        compileHostTextView.text = "调试模式: ${BuildConfig.DEBUG}"
+        compileProcessorTextView.text = "软件ID: ${BuildConfig.APPLICATION_ID}"
+        compileSystemTextView.text = "编译类型: ${BuildConfig.BUILD_TYPE}"
     }
 }
