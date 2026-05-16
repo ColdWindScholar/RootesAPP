@@ -23,6 +23,8 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import com.root.system.databinding.ActivtyModulesBinding
+import androidx.core.net.toUri
+
 class ActivityModules : ActivityBase(), AdapterModules.OnItemClickListener {
     private lateinit var binding: ActivtyModulesBinding
 
@@ -185,7 +187,7 @@ class ActivityModules : ActivityBase(), AdapterModules.OnItemClickListener {
     }
 
     private fun downloadModule(url: String, moduleName: String) {
-        val request = DownloadManager.Request(Uri.parse(url)).apply {
+        val request = DownloadManager.Request(url.toUri()).apply {
             setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
             setAllowedOverRoaming(false)
             setTitle(moduleName)

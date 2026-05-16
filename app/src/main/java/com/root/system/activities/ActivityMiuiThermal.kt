@@ -17,18 +17,20 @@ import com.root.common.shell.RootFile
 import com.root.common.ui.DialogHelper
 import com.root.library.device.MiuiThermalAESUtil
 import com.root.system.R
-import kotlinx.android.synthetic.main.activity_miui_thermal.*
+import com.root.system.databinding.ActivityMiuiThermalBinding
 import java.io.File
 import java.nio.charset.Charset
 
 class ActivityMiuiThermal : ActivityBase() {
+    private lateinit var binding: ActivityMiuiThermalBinding
     private val REQUEST_CFG_FILE = 1
     private var currentFile = ""
     private var encrypted = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_miui_thermal)
+        binding =  ActivityMiuiThermalBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setBackArrow()
         onViewCreated()
@@ -75,7 +77,7 @@ class ActivityMiuiThermal : ActivityBase() {
                     encrypted = true
                 } catch (ex: Exception) {
                     val content = String(File(currentFile).readBytes(), Charset.forName("UTF-8")).trim()
-                    thermal_config.setText(content)
+                    binding.thermalConfig.setText(content)
                     encrypted = false
                     return
                 }
@@ -88,13 +90,13 @@ class ActivityMiuiThermal : ActivityBase() {
     private fun readConfig() {
         val file = File(currentFile)
         val output = MiuiThermalAESUtil.decrypt(file.readBytes())
-        thermal_config.setText(String(output, Charset.forName("UTF-8")))
+        binding.thermalConfig.setText(String(output, Charset.forName("UTF-8")))
         setTitle(file.name)
     }
 
     @SuppressLint("RestrictedApi")
     private fun saveConfig() {
-        val currentContent = thermal_config.text.toString().trim().replace(Regex("\r\n"), "\n").replace(Regex("\r\t"), "\t")
+        val currentContent = binding.thermalConfig.text.toString().trim().replace(Regex("\r\n"), "\n").replace(Regex("\r\t"), "\t")
         val bytes = currentContent.toByteArray(Charset.forName("UTF-8"))
         val data = if (encrypted) MiuiThermalAESUtil.encrypt(bytes) else bytes
         val file_path = filesDir.path + File.separator + "thermal-temp.conf"
@@ -131,7 +133,7 @@ class ActivityMiuiThermal : ActivityBase() {
 
 
     private fun applyThermal(saveConfig: Boolean) {
-        val currentContent = thermal_config.text.toString().trim().replace(Regex("\r\n"), "\n").replace(Regex("\r\t"), "\t")
+        val currentContent = binding.thermalConfig.text.toString().trim().replace(Regex("\r\n"), "\n").replace(Regex("\r\t"), "\t")
         val bytes = currentContent.toByteArray(Charset.forName("UTF-8"))
         val data = if (encrypted) MiuiThermalAESUtil.encrypt(bytes) else bytes
         val file_path = filesDir.path + File.separator + "thermal-temp.conf"
