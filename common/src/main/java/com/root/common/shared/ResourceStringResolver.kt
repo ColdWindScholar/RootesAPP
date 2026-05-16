@@ -27,7 +27,7 @@ open class ResourceStringResolver(protected val context: Context) {
         }
         if (separator != null) {
             val resources = context.resources
-            val type = row.substring(1, row.indexOf(separator)).toLowerCase(Locale.ENGLISH)
+            val type = row.substring(1, row.indexOf(separator)).lowercase(Locale.ENGLISH)
             val name = row.substring(row.indexOf(separator) + 1)
 
             try {
