@@ -41,7 +41,7 @@ class DialogSingleAppOptions(context: Activity, var app: AppInfo, handler: Handl
         var icon: Drawable? = null
         try {
             val installInfo = context.packageManager.getPackageInfo(app.packageName.toString(), 0)
-            icon = installInfo.applicationInfo.loadIcon(context.packageManager)
+            icon = installInfo.applicationInfo?.loadIcon(context.packageManager)
             return icon
         } catch (ex: Exception) {
         } finally {

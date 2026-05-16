@@ -11,6 +11,8 @@ import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
 import com.root.store.SpfConfig
 import com.root.system.R
+import java.util.Locale
+import java.util.Locale.getDefault
 
 /**
  * Created by Hello on 2018/01/17.
@@ -40,7 +42,7 @@ class DialogCustomMAC(private var context: Context) {
         }
 
         DialogHelper.confirm(context, "自定义WIFI MAC", "", dialog, {
-            val mac = macInput.text.trim().replace(Regex("-"), ":").toLowerCase()
+            val mac = macInput.text.trim().replace(Regex("-"), ":").lowercase(getDefault())
             if (!Regex("[\\w\\d]{2}:[\\w\\d]{2}:[\\w\\d]{2}:[\\w\\d]{2}:[\\w\\d]{2}:[\\w\\d]{2}$", RegexOption.IGNORE_CASE).matches(mac)) {
                 Toast.makeText(context, "输入的MAC地址无效，格式应如 ec:d0:9f:af:95:01", Toast.LENGTH_LONG).show()
                 return@confirm

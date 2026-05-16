@@ -142,30 +142,31 @@ open class DialogAppOptions(protected final var context: Activity, protected var
 
     protected fun isMagisk(): Boolean {
         val keepShell = KeepShell(false)
-        val result = keepShell.doCmdSync("su -v").toUpperCase(Locale.getDefault()).contains("MAGISKSU")
+        val result = keepShell.doCmdSync("su -v").uppercase(Locale.getDefault()).contains("MAGISKSU")
         keepShell.tryExit()
         return result
     }
 
     protected fun isTmpfs(dir: String): Boolean {
         val keepShell = KeepShell(false)
-        val result = keepShell.doCmdSync("df | grep tmpfs | grep \"$dir\"").toUpperCase(Locale.getDefault()).trim().isNotEmpty()
+        val result =
+            keepShell.doCmdSync("df | grep tmpfs | grep \"$dir\"").uppercase(Locale.getDefault()).trim().isNotEmpty()
         keepShell.tryExit()
         return result
     }
 
     protected fun execShell(sb: StringBuilder) {
         val layoutInflater = LayoutInflater.from(context)
-        val dialog = layoutInflater.inflate(R.layout.dialog_loading, null)
-        val textView = (dialog.findViewById(R.id.dialog_text) as TextView)
+        val dialog = layoutInflater.inflate(com.root.common.R.layout.dialog_loading, null)
+        val textView = (dialog.findViewById(com.root.common.R.id.dialog_text) as TextView)
         textView.text = "正在获取权限"
         val alert = DialogHelper.customDialog(context, dialog, false)
         AsynSuShellUnit(ProgressHandler(dialog, alert, handler)).exec(sb.toString()).waitFor()
     }
 
     open class ProgressHandler(dialog: View, private var alert: DialogHelper.DialogWrap, protected var handler: Handler) : Handler(Looper.getMainLooper()) {
-        private var textView: TextView = (dialog.findViewById(R.id.dialog_text) as TextView)
-        private var progressBar: ProgressBar = (dialog.findViewById(R.id.dialog_app_details_progress) as ProgressBar)
+        private var textView: TextView = (dialog.findViewById(com.root.common.R.id.dialog_text) as TextView)
+        private var progressBar: ProgressBar = (dialog.findViewById(com.root.common.R.id.dialog_app_details_progress) as ProgressBar)
         private var error = java.lang.StringBuilder()
 
         override fun handleMessage(msg: Message) {
