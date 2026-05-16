@@ -45,7 +45,7 @@ task encryptNativeLibs {
     }
 
 
-    compileSdkVersion 34
+    compileSdkVersion 36
     defaultConfig {
         resConfigs 'zh'
         applicationId "com.root.system"
