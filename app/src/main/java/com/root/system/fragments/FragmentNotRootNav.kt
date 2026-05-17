@@ -44,7 +44,7 @@ class FragmentNotRootNav : Fragment() {
         binding.navOtg.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "OTG功能（免Root）"
-                pageConfigPath = "${context?.filesDir}/usr/pages/OTGNoRoot.xml.xml"
+                pageConfigPath = "${context?.filesDir}/usr/pages/OTGNoRoot.xml"
             }
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }

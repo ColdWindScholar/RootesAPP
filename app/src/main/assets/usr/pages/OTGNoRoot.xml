@@ -13,7 +13,7 @@
     <desc>请确保在同一WiFi局域网内，且对方设备已开启/支持网络ADB服务</desc>
     <params>
         <param name="port" label="输入端口" value="5555" required="true" value-sh="grep_prop port \$Data_Dir/Connect_Network_adb.log"/>
-        <param name="fs" label="选择方式" options-sh="printf 'l|连接\nd|断开\nr|重新连接'" required="true"value-sh="grep_prop fs \$Data_Dir/Connect_Network_adb.log"/>
+        <param name="fs" label="选择方式" options-sh="printf 'l|连接\nd|断开\nr|重新连接'" required="true" value-sh="grep_prop fs \$Data_Dir/Connect_Network_adb.log"/>
         <param name="ip" title="输入要连接的设备ip地址"  required="true" value-sh="grep_prop ip \$Data_Dir/Connect_Network_adb.log"/>
     </params>
     <set>. ./ADB/Connect_Network_adb.sh</set>

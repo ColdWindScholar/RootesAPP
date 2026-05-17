@@ -47,7 +47,7 @@ class FragmentNav : Fragment(), View.OnClickListener {
         binding.navOtg.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "OTG功能"
-                pageConfigSh = "/data/data/com.root.system/files/usr/pages/OTG.xml"
+                pageConfigSh = "/data/data/com.root.system/files/usr/pages/OTG.sh"
             }
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
