@@ -12,7 +12,7 @@
         </params>
         <set>. ./Search_Content.sh $Pages</set>
     </action>
-    <page title="搜索结果" config-sh="cat $Pages/Search_Results.xml" visible="[[ \`wc -l &#60; $Pages/Search_Results.xml\` -gt 13 ]] &#38;&#38; echo 1 || echo 0"/>
+    <page title="搜索结果" config-sh="cat $Pages/Search_Results.xml" visible="[[ -e $Pages/Search_Results.xml ]] &amp;&amp; echo 1 || echo 0"/>
 
 
 </group>
