@@ -25,6 +25,5 @@ cat <<Han
 
 <page title="耗电统计" activity="am start com.root.system/com.root.system.activities.ActivityPowerUtilization"/>
 </group>
-</xml>
 
 Han
