@@ -109,7 +109,7 @@ class ActivityStartSplash : Activity() {
     val webView = view.findViewById<WebView>(R.id.web_view)
 
     // 加载 HTML 内容
-    webView.loadUrl("https://rootes.top/RootES.html")
+    webView.loadUrl("https://coldwindscholar.github.io/RootEs.html")
 
     val timer = Timer()
     var timeout = 15
