@@ -71,7 +71,7 @@ class FragmentNav : Fragment(), View.OnClickListener {
         binding.navApp.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "软件功能"
-                pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/APP.xml"
+                pageConfigPath = "/data/data/com.root.system/files/usr/pages/Home/APP.xml"
             }
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
@@ -79,7 +79,7 @@ class FragmentNav : Fragment(), View.OnClickListener {
         binding. navSystem.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "系统功能"
-                pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/System.xml"
+                pageConfigPath = "/data/data/com.root.system/files/usr/pages/Home/System.xml"
             }
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
