@@ -1,9 +1,7 @@
 if ! $Have_ROOT; then
     exit 1
-# elif [[ $Version_code != $New_Code ]]; then
-    # exit 1
 fi
-    case "$ABI" in
+        case "$ABI" in
         arm*) :;;
         *)
 cat <<Han
@@ -16,9 +14,8 @@ cat <<Han
     </text>
 </group>
 Han
-exit 1
-        ;;
-    esac
+exit 1;;
+esac
 
 cat <<Han
 <?xml version="1.0" encoding="utf-8"?>
@@ -84,7 +81,7 @@ cat <<Han
 <group>
         <text>
             <title>在寻找其他功能吗？</title>
-            <desc></desc>
+            <desc/>
         </text>        
         
         

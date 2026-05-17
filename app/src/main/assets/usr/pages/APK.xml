@@ -246,7 +246,7 @@
         <desc>用于恢复不小心卸载的系统应用</desc>
         <set>for i in $apk; do pm install-existing --user 0 ${i}; done</set>
         <params>
-            <param name="apk" title="请输入应用包名，多个包名请用输入法的回车键换行即可" required="true"></param>
+            <param name="apk" title="请输入应用包名，多个包名请用输入法的回车键换行即可" required="true"/>
         </params>
     </action>
 <!-- END -->
@@ -706,7 +706,7 @@
         <title>使用包名恢复系统应用</title>
         <set>for i in $apk; do pm install-existing --user 0 ${i}; done</set>
         <params>
-            <param name="apk" title="请输入应用包名，多个包名请用输入法的回车键换行即可" required="true"></param>
+            <param name="apk" title="请输入应用包名，多个包名请用输入法的回车键换行即可" required="true"/>
         </params>
     </action>
 <!-- END -->
