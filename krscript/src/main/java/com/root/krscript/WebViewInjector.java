@@ -78,7 +78,7 @@ public class WebViewInjector {
                     } else {
                         DialogHelper.Companion.animDialog(new AlertDialog.Builder(context)
                                 .setTitle(R.string.kr_download_confirm)
-                                .setMessage("" + url + "\n\n" + mimetype + "\n" + contentLength + "Bytes")
+                                .setMessage(url + "\n\n" + mimetype + "\n" + contentLength + "Bytes")
                                 .setPositiveButton(R.string.btn_confirm, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {

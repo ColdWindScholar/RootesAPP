@@ -3,7 +3,6 @@ package com.root.common.shell
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
 import java.io.BufferedReader
 import java.io.BufferedWriter
@@ -14,15 +13,15 @@ import java.util.concurrent.locks.ReentrantLock
 /**
  * Created by Hello on 2018/01/23.
  */
-public class KeepShellAsync(private var context: Context?, private var rootMode: Boolean = true) : ShellEvents() {
+class KeepShellAsync(private var context: Context?, private var rootMode: Boolean = true) : ShellEvents() {
     companion object {
         private val keepShells = HashMap<String, KeepShellAsync>()
         fun getInstance(key: String): KeepShellAsync {
             synchronized(keepShells) {
                 if (!keepShells.containsKey(key)) {
-                    keepShells.put(key, KeepShellAsync(null))
+                    keepShells[key] = KeepShellAsync(null)
                 }
-                return keepShells.get(key)!!
+                return keepShells[key]!!
             }
         }
 
@@ -31,7 +30,7 @@ public class KeepShellAsync(private var context: Context?, private var rootMode:
                 if (!keepShells.containsKey(key)) {
                     return
                 } else {
-                    val keepShell = keepShells.get(key)!!
+                    val keepShell = keepShells[key]!!
                     keepShells.remove(key)
                     keepShell.tryExit()
                 }
@@ -42,7 +41,7 @@ public class KeepShellAsync(private var context: Context?, private var rootMode:
             synchronized(keepShells) {
                 while (keepShells.isNotEmpty()) {
                     val key = keepShells.keys.first()
-                    val keepShell = keepShells.get(key)!!
+                    val keepShell = keepShells[key]!!
                     keepShells.remove(key)
                     keepShell.tryExit()
                 }
@@ -70,7 +69,7 @@ public class KeepShellAsync(private var context: Context?, private var rootMode:
     }
 
     //尝试退出命令行程序
-    public fun tryExit() {
+    fun tryExit() {
         try {
             if (out != null)
                 out!!.close()
@@ -96,7 +95,7 @@ public class KeepShellAsync(private var context: Context?, private var rootMode:
             cmdsCache.append("\n\n")
             return
         }
-        val thread = Thread(Runnable {
+        val thread = Thread {
             try {
                 tryExit()
                 p = if (rootMode) ShellExecutor.getSuperUserRuntime() else ShellExecutor.getRuntime()
@@ -105,14 +104,19 @@ public class KeepShellAsync(private var context: Context?, private var rootMode:
                     processHandler!!.sendMessage(processHandler!!.obtainMessage(PROCESS_EVENT_STAR))
                 }
                 if (p != null) {
-                    Thread(Runnable {
+                    Thread {
                         val bufferedreader = BufferedReader(InputStreamReader(p!!.inputStream))
                         try {
                             while (true) {
                                 val line = bufferedreader.readLine()
                                 if (line != null) {
                                     if (processHandler != null) {
-                                        processHandler!!.sendMessage(processHandler!!.obtainMessage(PROCESS_EVENT_CONTENT, line))
+                                        processHandler!!.sendMessage(
+                                            processHandler!!.obtainMessage(
+                                                PROCESS_EVENT_CONTENT,
+                                                line
+                                            )
+                                        )
                                     }
                                 } else {
                                     break
@@ -122,15 +126,20 @@ public class KeepShellAsync(private var context: Context?, private var rootMode:
                         } finally {
                             bufferedreader.close()
                         }
-                    }).start()
-                    Thread(Runnable {
+                    }.start()
+                    Thread {
                         val bufferedreader = BufferedReader(InputStreamReader(p!!.errorStream))
                         try {
                             while (true) {
                                 val line = bufferedreader.readLine()
                                 if (line != null) {
                                     if (processHandler != null) {
-                                        processHandler!!.sendMessage(processHandler!!.obtainMessage(PROCESS_EVENT_ERROR_CONTENT, line))
+                                        processHandler!!.sendMessage(
+                                            processHandler!!.obtainMessage(
+                                                PROCESS_EVENT_ERROR_CONTENT,
+                                                line
+                                            )
+                                        )
                                     }
                                 } else {
                                     break
@@ -140,7 +149,7 @@ public class KeepShellAsync(private var context: Context?, private var rootMode:
                         } finally {
                             bufferedreader.close()
                         }
-                    }).start()
+                    }.start()
                 }
                 out = p!!.outputStream.bufferedWriter()
                 if (out == null) {
@@ -163,7 +172,7 @@ public class KeepShellAsync(private var context: Context?, private var rootMode:
             } finally {
                 threadStarted = false
             }
-        })
+        }
         thread.start()
         threadStarted = true
         handler.postDelayed({
@@ -181,17 +190,17 @@ public class KeepShellAsync(private var context: Context?, private var rootMode:
     }
 
     //执行脚本
-    public fun doCmd(cmd: String, isRedo: Boolean = false) {
+    fun doCmd(cmd: String, isRedo: Boolean = false) {
         try {
             //tryExit()
             if (p == null || isRedo || out == null) {
-                getRuntimeShell(cmd, Runnable {
+                getRuntimeShell(cmd) {
                     //重试一次
                     if (!isRedo)
                         doCmd(cmd, true)
                     else
                         showMsg("Failed execution action!\nError message : Unable to obtain Root permissions\n\n\ncommand : \r\n$cmd")
-                })
+                }
             } else {
                 out!!.write(cmd)
                 out!!.write("\n\n")

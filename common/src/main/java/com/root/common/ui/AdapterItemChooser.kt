@@ -1,15 +1,11 @@
 package com.root.common.ui
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.util.LruCache
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.root.common.R
 import com.root.common.model.SelectItem
-import java.util.*
-import java.util.Locale
 import java.util.Locale.getDefault
 
 class AdapterItemChooser(private val context: Context, private var items: ArrayList<SelectItem>, private val multiple: Boolean) : BaseAdapter(), Filterable {
@@ -33,7 +29,7 @@ class AdapterItemChooser(private val context: Context, private var items: ArrayL
         }
 
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            val results = Filter.FilterResults()
+            val results = FilterResults()
             val prefix: String = constraint?.toString() ?: ""
 
             if (prefix.isEmpty()) {

@@ -46,7 +46,7 @@ class ActionShortcutManager(private var context: Context) {
             shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON, (drawable as BitmapDrawable).bitmap)
 
             val shortcutIntent = Intent(Intent.ACTION_MAIN)
-            shortcutIntent.setClassName(context.getApplicationContext(), intent.component!!.className)
+            shortcutIntent.setClassName(context.applicationContext, intent.component!!.className)
             shortcutIntent.putExtras(intent)
 
             shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
@@ -81,7 +81,7 @@ class ActionShortcutManager(private var context: Context) {
             if (shortcutManager.isRequestPinShortcutSupported) {
                 val id = "addin_" + config.index
                 val shortcutIntent = Intent(Intent.ACTION_MAIN)
-                shortcutIntent.setClassName(context.getApplicationContext(), intent.component!!.className)
+                shortcutIntent.setClassName(context.applicationContext, intent.component!!.className)
                 shortcutIntent.putExtras(intent)
                 shortcutIntent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
 

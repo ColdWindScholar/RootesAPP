@@ -7,7 +7,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
@@ -58,8 +57,8 @@ class BgTaskThread(private var process: Process) : Thread() {
                 }
             }
 
-            val expandView = RemoteViews(context.getPackageName(), R.layout.kr_task_notification)
-            expandView.setTextViewText(R.id.kr_task_title, notificationTitle + "(" + notificationID + ")")
+            val expandView = RemoteViews(context.packageName, R.layout.kr_task_notification)
+            expandView.setTextViewText(R.id.kr_task_title, "$notificationTitle($notificationID)")
             expandView.setTextViewText(R.id.kr_task_log, notificationMessageRows.joinToString("", if (someIgnored) "……\n" else "").trim())
             expandView.setProgressBar(R.id.kr_task_progress, progressTotal, progressCurrent, progressTotal < 0)
             expandView.setViewVisibility(R.id.kr_task_progress, if (progressTotal == progressCurrent) View.GONE else View.VISIBLE)
@@ -69,7 +68,7 @@ class BgTaskThread(private var process: Process) : Thread() {
             }
 
             val notificationBuilder = Notification.Builder(context)
-                    .setContentTitle("" + notificationTitle + "(" + notificationID + ")")
+                    .setContentTitle("$notificationTitle($notificationID)")
                     .setContentText("" + notificationMShortMsg + " >> " + notificationMessageRows.lastOrNull())
                     .setSmallIcon(R.drawable.kr_run)
                     .setAutoCancel(true)
@@ -104,7 +103,7 @@ class BgTaskThread(private var process: Process) : Thread() {
             }
 
             if (!isFinished) {
-                notification!!.flags = Notification.FLAG_NO_CLEAR or Notification.FLAG_ONGOING_EVENT
+                notification.flags = Notification.FLAG_NO_CLEAR or Notification.FLAG_ONGOING_EVENT
             }
 
             notificationManager.notify(notificationID, notification); // 发送通知

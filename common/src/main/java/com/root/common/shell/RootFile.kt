@@ -45,7 +45,7 @@ object RootFile {
         try {
             val file = RootFileInfo()
 
-            val columns = row.trim().split(" ");
+            val columns = row.trim().split(" ")
             val size = columns[0]
             file.fileSize = size.toLong() * 1024;
 
@@ -92,7 +92,7 @@ object RootFile {
                     if (file != null) {
                         files.add(file)
                     } else {
-                        Log.e(">>>> Scene", "MapDirError Row -> " + row)
+                        Log.e(">>>> Scene", "MapDirError Row -> $row")
                     }
                 }
             }
@@ -116,7 +116,7 @@ object RootFile {
                     file.parentDir = absPath.substring(0, absPath.lastIndexOf("/"))
                     return file
                 } else {
-                    Log.e(">>>> Scene", "MapDirError Row -> " + row)
+                    Log.e(">>>> Scene", "MapDirError Row -> $row")
                 }
             }
         }

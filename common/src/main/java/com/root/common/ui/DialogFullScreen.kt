@@ -65,7 +65,7 @@ open class DialogFullScreen(private val layout: Int, private val darkMode: Boole
         super.onActivityCreated(savedInstanceState)
     }
 
-    public fun closeView() {
+    fun closeView() {
         try {
             dismiss()
         } catch (ex: java.lang.Exception) {
