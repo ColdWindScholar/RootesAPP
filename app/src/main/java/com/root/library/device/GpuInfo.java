@@ -2,7 +2,6 @@ package com.root.library.device;
 
 import android.annotation.SuppressLint;
 import android.opengl.GLSurfaceView;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -31,18 +30,10 @@ public class GpuInfo {
             super(container.getContext());
             final GpuInfoView view = this;
             setEGLConfigChooser(8, 8, 8, 8, 0, 0);
-            DemoRenderer mRenderer = new DemoRenderer(new GpuInfoHandler() {
-                @Override
-                public void onSurfaceCreated(final GpuInfo gpuInfo) {
-                    container.getRootView().post(new Runnable() {
-                        @Override
-                        public void run() {
-                        container.removeView(view);
-                        gpuInfoHandler.onSurfaceCreated(gpuInfo);
-                        }
-                    });
-                }
-            });
+            DemoRenderer mRenderer = new DemoRenderer(gpuInfo -> container.getRootView().post(() -> {
+            container.removeView(view);
+            gpuInfoHandler.onSurfaceCreated(gpuInfo);
+            }));
             setEGLContextClientVersion(2);
             setRenderer(mRenderer);
 

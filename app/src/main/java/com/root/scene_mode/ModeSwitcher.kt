@@ -96,14 +96,14 @@ open class ModeSwitcher {
         private var INIT = "init"
 
         internal fun getModName(mode: String): String {
-            when (mode) {
-                POWERSAVE -> return "省电模式"
-                PERFORMANCE -> return "性能模式"
-                FAST -> return "极速模式"
-                BALANCE -> return "均衡模式"
-                IGONED -> return "保持状态"
-                "" -> return "全局默认"
-                else -> return "未知模式"
+            return when (mode) {
+                POWERSAVE -> "省电模式"
+                PERFORMANCE -> "性能模式"
+                FAST -> "极速模式"
+                BALANCE -> "均衡模式"
+                IGONED -> "保持状态"
+                "" -> "全局默认"
+                else -> "未知模式"
             }
         }
 
@@ -126,12 +126,12 @@ open class ModeSwitcher {
     }
 
     internal fun getModIcon(mode: String): Int {
-        when (mode) {
-            POWERSAVE -> return R.drawable.p1
-            BALANCE -> return R.drawable.p2
-            PERFORMANCE -> return R.drawable.p3
-            FAST -> return R.drawable.p4
-            else -> return R.drawable.p3
+        return when (mode) {
+            POWERSAVE -> R.drawable.p1
+            BALANCE -> R.drawable.p2
+            PERFORMANCE -> R.drawable.p3
+            FAST -> R.drawable.p4
+            else -> R.drawable.p3
         }
     }
 

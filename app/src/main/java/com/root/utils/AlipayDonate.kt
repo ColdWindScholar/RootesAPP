@@ -2,9 +2,8 @@ package com.root.utils
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import java.net.URLEncoder
 import androidx.core.net.toUri
+import java.net.URLEncoder
 
 class AlipayDonate(private var context: Context) {
 
