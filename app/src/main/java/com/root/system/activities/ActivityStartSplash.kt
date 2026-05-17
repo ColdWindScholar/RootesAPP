@@ -299,8 +299,6 @@ class ActivityStartSplash : Activity() {
         else { gotoHome() }
     }
 
-
-
     private fun gotoHome() {
         binding.startStateText.text = "你好，我们又见面了！"
         startActivity( Intent(this.applicationContext, ActivityMain::class.java))
