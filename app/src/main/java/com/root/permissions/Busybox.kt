@@ -60,7 +60,7 @@ class Busybox(private var context: Context) {
             val privateBusybox = FileWrite.getPrivateFilePath(context, busyboxInstallPath)
             if (!(File(privateBusybox).exists() || FileWrite.writePrivateFile(
                             context.assets,
-                            "usr/xbin/busybox",
+                            "toolkit/busybox",
                             busyboxInstallPath, context) == privateBusybox)
             ) {
                 return false
