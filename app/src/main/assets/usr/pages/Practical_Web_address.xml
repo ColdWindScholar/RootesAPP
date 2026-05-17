@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<group title="资源聚合">
+<xml title="资源聚合">
 <!-- START -->
     <page link="https://kamiui.ml">
         <title>萤火虫资源站</title>
@@ -457,3 +457,4 @@
 <!-- END -->
 
 </group>
+</xml>

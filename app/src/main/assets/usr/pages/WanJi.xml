@@ -515,7 +515,7 @@ echo 解除完成</set>
     </switch>
 <!-- END -->
 </group>
-<group title="快速进入以下界面">
+<xml title="快速进入以下界面">
 <!-- START -->
     <action auto-off="true" interruptible="false">
         <title>系统界面调谐器</title>
@@ -650,3 +650,4 @@ echo 解除完成</set>
     </group>
     
 
+</xml>
