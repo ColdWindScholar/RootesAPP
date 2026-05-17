@@ -89,7 +89,7 @@ cat <<Han
         <title>$version $Bao</title>
         <desc>点即可跳转浏览器下载&#x000A;</desc>
         <summary>$name&#x000A;安卓：${codebase}&#x000A;大小：${filesize}&#x000A;MD5：${md5}</summary>
-        <set>if [[ \$Option = copy ]]; then echo $LINK ; elif [[ \$Option = download ]]; then Website $LINK; fi</set>
+        <set>if [[ \$Option = copy ]]; then echo $LINK ; elif [[ \$Option = download ]]; then exec am start -a android.intent.action.VIEW -d $LINK; fi</set>
             <param name="Source_url" label="来源接口" option-sh="printf 'https://ultimateota.d.miui.com|①\nhttps://bigota.d.miui.com|②'" />
             <param name="Option" label="选择类型" option-sh="printf 'copy|打印链接\ndownload|跳转浏览器下载'" />
     </action>
