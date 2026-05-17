@@ -1,4 +1,4 @@
-cat <<Han
+
 
 <?xml version="1.0" encoding="utf-8"?>
 <resource dir="file:///android_asset/Configuration_File" />
@@ -133,5 +133,3 @@ cat <<Han
     </action>
 <!-- END -->
 </group>
-
-Han
