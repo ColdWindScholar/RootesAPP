@@ -15,6 +15,7 @@ import com.root.system.databinding.FragmentDonateBinding
 import com.root.system.dialogs.DialogWX
 import okhttp3.*
 import org.json.JSONObject
+import java.io.File
 import java.io.IOException
 import kotlin.system.exitProcess
 
@@ -57,7 +58,7 @@ class FragmentDonate : Fragment() {
                 requireActivity(),
                 "是否确定选择操作？",
                 onConfirm = DialogHelper.DialogButton("执行操作", {
-                    KeepShellPublic.doCmdSync("rm -rf /data/data/com.root.system/shared_prefs/user_prefs.xml")
+                    File("/data/data/com.root.system/shared_prefs/user_prefs.xml").delete()
                     exitProcess(0)
                 }),
                 onCancel = DialogHelper.DialogButton("取消执行")
