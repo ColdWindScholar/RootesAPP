@@ -284,7 +284,7 @@ public class ScriptEnvironmen {
         if (new File(FileWrite.INSTANCE.getPrivateFilePath(context, "busybox")).exists()) {
             params.put("BUSYBOX", busyboxPath);
         } else {
-            params.put("BUSYBOX", "busybox");
+            params.put("BUSYBOX", "toybox");
         }
         try {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
