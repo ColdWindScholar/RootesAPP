@@ -42,9 +42,7 @@ class FragmentNav : Fragment(), View.OnClickListener {
 
         fetchTextFromUrl("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/notice.txt", textView)
 
-        binding.navText.setOnClickListener {
-            Toast.makeText(context, "🐮🍺", Toast.LENGTH_SHORT).show()
-        }
+
 
         binding.navOtg.setOnClickListener {
             val pageNode = PageNode("").apply {

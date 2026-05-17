@@ -36,9 +36,6 @@ class FragmentNoRootNav : Fragment() {
 
         fetchTextFromUrl("https://rootes.top/公告.txt", textView)
 
-        nav_text.setOnClickListener {
-            Toast.makeText(context, "🐮🍺", Toast.LENGTH_SHORT).show()
-        }
 
         nav_otg.setOnClickListener {
             Toast.makeText(context, "正在开放中...", Toast.LENGTH_SHORT).show()

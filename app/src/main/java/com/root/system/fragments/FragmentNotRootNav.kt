@@ -41,10 +41,6 @@ class FragmentNotRootNav : Fragment() {
 
         fetchTextFromUrl("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/notice.txt", textView)
 
-        binding.navText.setOnClickListener {
-            Toast.makeText(context, "🐮🍺", Toast.LENGTH_SHORT).show()
-        }
-
         binding.navOtg.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "OTG功能（免Root）"
