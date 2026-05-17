@@ -68,15 +68,15 @@ open class ProgressBarDialog(private var context: Activity, private var uniqueId
         }
     }
 
-    public fun execShell(sb: StringBuilder, handler: Handler? = null) {
+    fun execShell(sb: StringBuilder, handler: Handler? = null) {
         execShell(sb.toString(), handler)
     }
 
-    public fun isDialogShow(): Boolean {
+    fun isDialogShow(): Boolean {
         return this.alert != null
     }
 
-    public fun hideDialog() {
+    fun hideDialog() {
         try {
             if (alert != null) {
                 alert!!.dismiss()
@@ -101,7 +101,7 @@ open class ProgressBarDialog(private var context: Activity, private var uniqueId
             hideDialog()
             val layoutInflater = LayoutInflater.from(context)
             val dialog = layoutInflater.inflate(R.layout.dialog_loading, null)
-            textView = (dialog.findViewById(R.id.dialog_text) as TextView)
+            textView = (dialog.findViewById(R.id.dialog_text)!!)
             textView!!.text = text
             alert = DialogHelper.customDialog(context, dialog, false)
             // AlertDialog.Builder(context).setView(dialog).setCancelable(false).create()
@@ -112,7 +112,7 @@ open class ProgressBarDialog(private var context: Activity, private var uniqueId
                 dialogs.remove(this)
             }
             if (alert != null) {
-                dialogs.put(this, alert!!)
+                dialogs[this] = alert!!
             }
         }
 

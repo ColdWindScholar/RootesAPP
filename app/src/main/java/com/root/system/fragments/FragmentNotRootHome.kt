@@ -71,9 +71,6 @@ class FragmentNotRootHome : Fragment() {
         sb.append("产品: ${Build.PRODUCT}\n")
         sb.append("设备: ${Build.DEVICE}\n")
         sb.append("显示编号: ${Build.DISPLAY}\n")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            sb.append("唯一序列号: ${Build.getSerial()}\n")
-        }
 
         // 内存信息
         val memoryInfo = getMemoryInfo()
