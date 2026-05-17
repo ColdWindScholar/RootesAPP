@@ -153,10 +153,7 @@ public class WebViewInjector {
                 final OutputStream outputStream = process.getOutputStream();
                 final DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
-                setHandler(process, callbackFunction, new Runnable() {
-                    @Override
-                    public void run() {
-                    }
+                setHandler(process, callbackFunction, () -> {
                 });
 
                 ScriptEnvironmen.executeShell(context, dataOutputStream, script, params, null, null);
@@ -210,10 +207,7 @@ public class WebViewInjector {
                             webView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    webView.evaluateJavascript(callbackFunction + "(" + message.toString() + ")", new ValueCallback<String>() {
-                                        @Override
-                                        public void onReceiveValue(String value) {
-                                        }
+                                    webView.evaluateJavascript(callbackFunction + "(" + message + ")", value -> {
                                     });
                                 }
                             });

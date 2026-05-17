@@ -37,7 +37,7 @@ class ListItemGroup(context: Context,
 
     fun triggerActionByIndex(index: String): Boolean {
         for (child in this.children) {
-            if (child is ListItemClickable && child.index.equals(index)) {
+            if (child is ListItemClickable && child.index == index) {
                 child.triggerAction()
                 return true
             }
@@ -47,7 +47,7 @@ class ListItemGroup(context: Context,
 
     fun triggerUpdateByKey(keys: Array<String>) {
         for (key in keys) {
-            if (key.equals(this.key)) {
+            if (key == this.key) {
                 triggerUpdate()
             } else {
                 for (child in this.children) {
