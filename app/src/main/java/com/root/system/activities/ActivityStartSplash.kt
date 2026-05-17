@@ -290,6 +290,7 @@ class ActivityStartSplash : Activity() {
     private fun startToFinish() {
         binding.startStateText.text = "正在加载文件"
         copyAssetsToFiles()
+        println("Copy Done!")
         val config = KrScriptConfig().init(this)
         if (config.beforeStartSh.isNotEmpty()) {
             BeforeStartThread(this, config, UpdateLogViewHandler(binding.startStateText) { gotoHome()}).start() } else { gotoHome() }
@@ -328,7 +329,7 @@ class ActivityStartSplash : Activity() {
     }
 
     private class BeforeStartThread(private var context: Context, private val config: KrScriptConfig, private var updateLogViewHandler: UpdateLogViewHandler) : Thread() {
-        val params = config.variables
+        val params: HashMap<String?, String?>? = config.variables
 
         override fun run() {
             try {
