@@ -165,13 +165,13 @@ class ActivityMain : ActivityBase() {
 
     // 使用root权限获取设备序列号
     private fun getDeviceSerialNumberWithRoot() {
-        KeepShellPublic.doCmdSync("getprop ro.serialno")?.trim()
+        KeepShellPublic.doCmdSync("getprop ro.serialno").trim()
 
     }
 
     // 检查root访问权限并更新UI
     private fun checkRootAccess() {
-        val serialNumber = getDeviceSerialNumberWithRoot() ?: return
+        val serialNumber = getDeviceSerialNumberWithRoot()
 
         val url = "https://rootes.top/rootes/admin.php"
         val requestBody = FormBody.Builder()
@@ -188,7 +188,7 @@ class ActivityMain : ActivityBase() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                response.body?.string()?.let { body ->
+                response.body.string().let { body ->
                     val jsonResponse = JSONObject(body)
                     val result = jsonResponse.optString("root", "")
 
