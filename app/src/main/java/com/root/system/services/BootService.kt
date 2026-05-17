@@ -29,6 +29,8 @@ import com.root.utils.CommonCmds
 import com.root.system.R
 import com.root.utils.BatteryWidgetService
 import com.root.utils.InfoWidgetService
+import java.io.File
+
 /**
  * Created by Hello on 2017/12/27.
  */
@@ -280,7 +282,8 @@ class BootService : IntentService("vtools-boot") {
             }
         } else {
             updateNotification(getString(R.string.boot_success))
-            KeepShellPublic.doCmdSync("sh /data/data/com.root.system/boot.sh")
+            if (File("/data/data/com.root.system/boot.sh").exists()){
+            KeepShellPublic.doCmdSync("sh /data/data/com.root.system/boot.sh")}
 
             val serviceIntent = Intent(this, BatteryWidgetService::class.java)
             startService(serviceIntent)
