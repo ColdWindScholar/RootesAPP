@@ -48,11 +48,10 @@ class FragmentNotRootHome : Fragment() {
     }
 
     private fun updateDeviceInfo() {
-        val deviceInfo = getDeviceInfo()
         val cpuInfo = getCpuInfo()
         val gpuInfo = getGpuInfo()
         val batteryInfo = getBatteryInfo()
-        textView.text = "$deviceInfo\n$cpuInfo\n$gpuInfo\n$batteryInfo"
+        textView.text = "${getDeviceInfo()}\n$cpuInfo\n$gpuInfo\n$batteryInfo"
     }
 
     private fun getDeviceInfo(): String {
