@@ -39,7 +39,7 @@ class UpdateBeta {
         Thread {
             //http://47.106.224.127/
             try {
-                val url = URL("http://rootes.top/update_beta.json")
+                val url = URL("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/update_beta.json")
                 val connection = url.openConnection()
                 // 设置连接方式：get
                 // connection.setRequestMethod("GET");
