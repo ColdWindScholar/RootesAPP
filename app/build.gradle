@@ -13,7 +13,7 @@ android {
         aidl = true
         dataBinding = true
     }
-task encryptNativeLibs {
+    tasks.register('encryptNativeLibs') {
         doLast {
             def abis = ["armeabi-v7a", "arm64-v8a", "x86_64"]
             abis.each { abi ->
@@ -69,7 +69,6 @@ task encryptNativeLibs {
     buildTypes {
         release {
             shrinkResources true
-            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled true
             debuggable false
@@ -84,7 +83,6 @@ task encryptNativeLibs {
         }
         release_mini {
             shrinkResources true
-            zipAlignEnabled true
          //   proguardFiles getDefaultProguardFile('proguard-android-optimize.txt,'), 'proguard-rules.pro'
             minifyEnabled true
             debuggable false
