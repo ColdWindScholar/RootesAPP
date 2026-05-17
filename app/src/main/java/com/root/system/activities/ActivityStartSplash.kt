@@ -293,7 +293,10 @@ class ActivityStartSplash : Activity() {
         println("Copy Done!")
         val config = KrScriptConfig().init(this)
         if (config.beforeStartSh.isNotEmpty()) {
-            BeforeStartThread(this, config, UpdateLogViewHandler(binding.startStateText) { gotoHome()}).start() } else { gotoHome() }
+            BeforeStartThread(this, config, UpdateLogViewHandler(binding.startStateText)
+            { gotoHome()}
+            ).start() }
+        else { gotoHome() }
     }
 
 
