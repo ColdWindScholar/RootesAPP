@@ -16,7 +16,6 @@ import com.root.data.customer.PowerUtilizationCurve
 import com.root.data.customer.ScreenOffCleanup
 import com.root.data.publisher.BatteryState
 import com.root.data.publisher.ScreenState
-import com.root.permissions.Busybox
 import com.root.permissions.CheckRootStatus
 import com.root.scene_mode.TimingTaskManager
 import com.root.scene_mode.TriggerIEventMonitor
@@ -114,14 +113,7 @@ class Scene : Application() {
         thisPackageName = this.packageName
         CrashHandler().init(this)
 
-        // 安装busybox
-        Thread {
-            if (!Busybox.systemBusyboxInstalled()) {
-                ShellExecutor.setExtraEnvPath(
-                    FileWrite.getPrivateFilePath(this, getString(R.string.toolkit_install_path))
-                )
-            }
-        }.start()
+
 
         // 锁屏状态检测
         screenState = ScreenState(this)
