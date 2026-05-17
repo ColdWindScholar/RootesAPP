@@ -389,6 +389,9 @@ class ActivityStartSplash : Activity() {
         while (inputStream.read(buffer).also { read = it } != -1) {
             outputStream.write(buffer, 0, read)
         }
+        outputStream.flush()
+        inputStream.close()
+        outputStream.close()
     }
     
 }

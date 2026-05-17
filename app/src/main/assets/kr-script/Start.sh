@@ -1,4 +1,4 @@
-
+set -e
 if [ -e "$GJZS/cache" ]; then
     rm -rf $GJZS/cache
 fi
