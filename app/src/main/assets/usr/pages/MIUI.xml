@@ -15,7 +15,6 @@
 <!-- START -->
 <page activity="am start-activity com.root.system/com.root.system.activities.ActivityMiuiThermal">
             <title>miui温控</title>
-            <desc></desc>
         </page>
     <!-- END -->
 <!-- START -->
