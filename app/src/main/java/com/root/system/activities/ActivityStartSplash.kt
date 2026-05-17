@@ -325,22 +325,11 @@ if (config.beforeStartSh.isNotEmpty()) {
 
     }
 
-    private fun goHome3() {
-//
-//        start_state_text.text = "你好，我们又见面了！"
-//
-//        val intent = Intent(this.applicationContext, ActivityMain::class.java)
-//        startActivity(intent)
-//        finished = true
-//        finish()
-    }
+
 
     private fun gotoHome() {
-
         binding.startStateText.text = "你好，我们又见面了！"
-
-        val intent = Intent(this.applicationContext, ActivityMain::class.java)
-        startActivity(intent)
+        startActivity( Intent(this.applicationContext, ActivityMain::class.java))
         finished = true
         finish()
     }
@@ -408,30 +397,20 @@ if (config.beforeStartSh.isNotEmpty()) {
     }
     private fun copyAssetsToFiles() {
     val assetManager = assets
-    val files = assetManager.list("") ?: return
-
-    for (filename in files) {
+    for (filename in assetManager.list("")!!) {
+        println("Copying $filename")
         // 排除executor.sh文件
         if (filename == "executor.sh") {
             continue
         }
-
-        var inputStream: InputStream? = null
-        var outputStream: FileOutputStream? = null
         try {
-            inputStream = assetManager.open(filename)
-            val outFile = File(filesDir, filename)
-            outputStream = FileOutputStream(outFile)
-            copyFile(inputStream, outputStream)
+            copyFile(assetManager.open(filename), FileOutputStream(File(filesDir, filename)))
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
-            inputStream?.close()
-            outputStream?.close()
         }
     }
 }
-
 
     @Throws(IOException::class)
     private fun copyFile(inputStream: InputStream, outputStream: FileOutputStream) {
