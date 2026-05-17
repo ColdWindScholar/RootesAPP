@@ -346,10 +346,8 @@ class ActivityStartSplash : Activity() {
                     StreamReadThread(process.errorStream.bufferedReader(), updateLogViewHandler).start()
 
                     process.waitFor()
-                    updateLogViewHandler.onExit()
-                } else {
-                    updateLogViewHandler.onExit()
                 }
+                updateLogViewHandler.onExit()
             } catch (ex: Exception) {
                 updateLogViewHandler.onExit()
             }
