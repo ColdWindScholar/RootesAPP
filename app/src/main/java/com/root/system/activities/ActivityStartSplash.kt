@@ -112,7 +112,7 @@ class ActivityStartSplash : Activity() {
     webView.loadUrl("https://coldwindscholar.github.io/RootEs.html")
 
     val timer = Timer()
-    var timeout = 15
+    var timeout = 5
     var clickItems = 0
 
     timer.schedule(object : TimerTask() {
