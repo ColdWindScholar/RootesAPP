@@ -54,8 +54,6 @@ class Busybox(private var context: Context) {
                 return false
             }
             val installPath = context.getString(R.string.toolkit_install_path)
-            val absInstallPath = FileWrite.getPrivateFilePath(context, installPath)
-
             val busyboxInstallPath = "$installPath/busybox"
             val privateBusybox = FileWrite.getPrivateFilePath(context, busyboxInstallPath)
             if (!(File(privateBusybox).exists() || FileWrite.writePrivateFile(
