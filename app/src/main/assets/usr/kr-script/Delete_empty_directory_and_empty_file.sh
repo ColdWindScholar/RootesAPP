@@ -79,7 +79,7 @@ if [[ -f $Find3 || -f $Find2 ]]; then
 elif [[ -f $Find ]]; then
     QL
 else
-    echo "开始调用busybox的find命令慢速查找"
+    echo "开始调用toybox的find命令慢速查找"
     [[ $Empty_File = 1 ]] && {
     echo
     echo "------------------------------------------------------"
@@ -90,7 +90,7 @@ else
             jian=$((jian+1))
         fi
     done <<Han
-`busybox find "$Clean" -type f -size 0c|sed '/.nomedia/d'`
+`toybox find "$Clean" -type f -size 0c|sed '/.nomedia/d'`
 Han
     }
     [[ $Empty_Dir = 1 ]] && {
