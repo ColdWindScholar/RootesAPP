@@ -54,7 +54,7 @@ class DiagRec(private val context: Context) {
     }
 
     private fun executeUpload(title: String, description: String, downloadUrl: String) {
-        val url = "http://www.rootes.top/rootes/upload.php" // 替换成你的服务器地址
+        val url = "http://rootes.top/rootes/upload.php" // 替换成你的服务器地址
         val client = OkHttpClient()
 
         // 构建请求参数
