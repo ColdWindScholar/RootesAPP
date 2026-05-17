@@ -9,15 +9,15 @@ import com.root.common.shared.RootFileInfo
 
 object RootFile {
     fun itemExists(path: String): Boolean {
-        return KeepShellPublic.doCmdSync("if [[ -e \"$path\" ]]; then echo 1; fi;").equals("1")
+        return KeepShellPublic.doCmdSync("if [[ -e \"$path\" ]]; then echo 1; fi;") == "1"
     }
 
     fun fileExists(path: String): Boolean {
-        return KeepShellPublic.doCmdSync("if [[ -f \"$path\" ]]; then echo 1; fi;").equals("1")
+        return KeepShellPublic.doCmdSync("if [[ -f \"$path\" ]]; then echo 1; fi;") == "1"
     }
 
     fun fileNotEmpty(path: String): Boolean {
-        return KeepShellPublic.doCmdSync("if [[ -f \"$path\" ]] && [[ -s \"$path\" ]]; then echo 1; fi;").equals("1")
+        return KeepShellPublic.doCmdSync("if [[ -f \"$path\" ]] && [[ -s \"$path\" ]]; then echo 1; fi;") == "1"
     }
 
     fun dirExists(path: String): Boolean {
