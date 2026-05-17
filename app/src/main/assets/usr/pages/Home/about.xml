@@ -10,9 +10,9 @@
         <params>
             <param name="Content" title="输入你要搜索的功能标题，不区分大小写" required="true" />
         </params>
-        <set>. ./Search_Content.sh \$Pages</set>
+        <set>. ./Search_Content.sh $Pages</set>
     </action>
-    <page title="搜索结果" config-sh="cat \$Pages/Search_Results.xml" visible="[[ \`wc -l &#60; \$Pages/Search_Results.xml\` -gt 13 ]] &#38;&#38; echo 1 || echo 0"/>
+    <page title="搜索结果" config-sh="cat $Pages/Search_Results.xml" visible="[[ \`wc -l &#60; $Pages/Search_Results.xml\` -gt 13 ]] &#38;&#38; echo 1 || echo 0"/>
 
 
 </group>
