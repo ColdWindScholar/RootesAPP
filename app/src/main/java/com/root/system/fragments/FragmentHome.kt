@@ -224,7 +224,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
 
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("https://rootes.top/ver/3.0.8.txt")
+            .url("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/3.0.8.txt")
             .build()
 
         client.newCall(request).enqueue(object : Callback {
