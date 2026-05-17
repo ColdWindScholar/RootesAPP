@@ -36,17 +36,13 @@ public class SignCheck {
         this.cer = getCertificateSHA1Fingerprint();
     }
 
-    public String getRealCer() {
-        return realCer;
-    }
+
 
     /**
      * 设置正确的签名
      *
      */
-    public void setRealCer(String realCer) {
-        this.realCer = realCer;
-    }
+
 
     private byte[] getBytesSHA1(byte[] bytes) {
         try {
