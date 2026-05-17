@@ -11,7 +11,7 @@
 
 <group title="功能">
 <page title="SWAP虚拟空间" activity="am start com.root.system/com.root.system.activities.ActivitySwap" />
-<page title="镜像分区专区" config-sh="cat \$Pages/IMG_Function.xml" locked="$LOCKED" />
+<page title="镜像分区专区" config="file:///android_asset/usr/pages/IMG_Function.xml" locked="$LOCKED" />
 </group>
 
 
