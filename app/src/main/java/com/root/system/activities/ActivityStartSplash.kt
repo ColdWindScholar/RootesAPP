@@ -25,7 +25,6 @@ import com.root.common.ui.ThemeMode
 import com.root.kr.KrScriptConfig
 import com.root.krscript.executor.ScriptEnvironmen
 import com.root.library.permissions.GeneralPermissions
-import com.root.permissions.Busybox
 import com.root.permissions.CheckRootStatus
 import com.root.permissions.WriteSettings
 import com.root.store.SpfConfig
@@ -223,7 +222,7 @@ class ActivityStartSplash : Activity() {
     private class InstallBusybox(private val context: ActivityStartSplash) : Runnable {
         override fun run() {
             context.binding.startStateText.text = "检查Busybox是否安装..."
-            Busybox(context).forceInstall(BusyboxInstalled(context))
+            BusyboxInstalled(context)
         }
 
     }
