@@ -134,7 +134,7 @@ class FragmentNav : Fragment(), View.OnClickListener {
         binding.navHelpabout.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "搜索"
-                pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/about.xml"
+                pageConfigPath = "/data/data/com.root.system/files/usr/pages/Home/about.xml"
             }
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
