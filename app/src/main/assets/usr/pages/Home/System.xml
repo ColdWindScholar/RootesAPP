@@ -12,12 +12,12 @@
 
 <group title="功能专区">
     
-        <page title="系统相关查看与调试" config-sh="cat \$Pages/WanJi.xml"/>
+        <page title="系统相关查看与调试" config="file:///android_asset/pages/WanJi.xml"/>
         <page title="系统附加功能" activity="am start com.root.system/com.root.system.activities.ActivityAddin" />
         <page title="性能记录" activity="am start com.root.system/com.root.system.activities.ActivityFpsChart" />
         <page title="系统场景" activity="am start com.root.system/com.root.system.activities.ActivitySystemScene" />
         
-        <page title="Dynamic System Updates" config-sh="cat \$Pages/dsu.xml" visible="sh ./support/dsu.sh" />
+        <page title="Dynamic System Updates" config="file:///android_asset/pages/dsu.xml" visible="sh ./support/dsu.sh" />
         
             <page activity="am start-activity com.root.system/com.root.system.activities.ActivityProcess\$ActivityProcess">
             <title>进程管理</title>
@@ -27,7 +27,7 @@
                 
 <group title="针对功能区">
                 
-            <page title="AOSP专区" config-sh="cat \$Pages/aosp.xml" visible="sh ./support/Check_Ui.sh" />
+            <page title="AOSP专区" config="file:///android_asset/pages/aosp.xml" visible="sh ./support/Check_Ui.sh" />
             
            <!--> <page title="ColorOS专区" config-sh="cat \$Pages/OriginOS.xml" visible="sh ./support/Check_Ui_originos.sh" >
             <lock>
@@ -36,8 +36,8 @@
             </lock>
         </page><-->
             
-            <page title="OriginOS专区" config-sh="cat \$Pages/OriginOS.xml" visible="sh ./support/Check_Ui_originos.sh" />
+            <page title="OriginOS专区" config="file:///android_asset/pages/OriginOS.xml" visible="sh ./support/Check_Ui_originos.sh" />
             
            
-            <page title="MIUI专区" config-sh="cat \$Pages/MIUI.xml" visible="sh ./support/Check_Ui_miui.sh" />
+            <page title="MIUI专区" config="file:///android_asset/pages/MIUI.xml" visible="sh ./support/Check_Ui_miui.sh" />
         </group>
