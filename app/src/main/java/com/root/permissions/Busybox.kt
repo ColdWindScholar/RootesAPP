@@ -47,7 +47,7 @@ class Busybox(private var context: Context) {
     }
 
     private fun installPrivateBusybox(): Boolean {
-        if (!(privateBusyboxInstalled() || systemBusyboxInstalled())) {
+        if (!(privateBusyboxInstalled())) {
             // ro.product.cpu.abi
             val abi = Build.SUPPORTED_ABIS.joinToString(" ").lowercase(Locale.getDefault())
             if (!abi.contains("arm")) {
