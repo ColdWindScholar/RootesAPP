@@ -23,7 +23,7 @@
                     android:id="@+id/usernameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_auto_exit_desc" />
+                    android:text="tEST" />
 
             <TextView
                     style="@style/textSmall"
@@ -38,7 +38,7 @@
                     android:id="@+id/joinedAtTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_auto_exit_desc" />
+                    android:text="TEST" />
         </LinearLayout>
 
         <LinearLayout
