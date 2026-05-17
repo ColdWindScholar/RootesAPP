@@ -214,27 +214,11 @@ class ActivityStartSplash : Activity() {
             context.binding.startStateText.text = "检查并获取必需权限……"
             context.hasRoot = true
 
-            context.checkFileWrite(InstallBusybox(context))
+            context.checkFileWrite {
+                context.startToFinish()
+            }
         }
     }
-
-
-    private class InstallBusybox(private val context: ActivityStartSplash) : Runnable {
-        override fun run() {
-            context.binding.startStateText.text = "检查Busybox是否安装..."
-            BusyboxInstalled(context)
-        }
-
-    }
-
-    private class BusyboxInstalled(private val context: ActivityStartSplash) : Runnable {
-        override fun run() {
-            context.startToFinish()
-        }
-
-    }
-
-
 
     private fun checkPermission(permission: String): Boolean = PermissionChecker.checkSelfPermission(this.applicationContext, permission) == PermissionChecker.PERMISSION_GRANTED
 
@@ -298,7 +282,7 @@ class ActivityStartSplash : Activity() {
             } else {
                 initContractAction()
             }
-        }, disableSeLinux, InstallBusybox(this)).forceGetRoot()
+        }, disableSeLinux, { this.startToFinish() }).forceGetRoot()
     }
 
     /**
