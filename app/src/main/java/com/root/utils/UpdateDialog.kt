@@ -19,7 +19,7 @@ fun showUpdateDialog(context: Context) {
 
     val client = OkHttpClient()
     val request = Request.Builder()
-        .url("https://rootes.top/about.txt")
+        .url("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/about.txt")
         .build()
 
     client.newCall(request).enqueue(object : Callback {
