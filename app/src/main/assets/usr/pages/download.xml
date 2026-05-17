@@ -1,19 +1,11 @@
-cat <<Han
 
 <?xml version="1.0" encoding="utf-8"?>
 <resource dir="file:///android_asset/Configuration_File" />
 <resource dir="file:///android_asset/samples" />
 <resource dir="file:///android_asset/usr/pages/display" />
 
-
 <group>
-            <page title="Magisk仓库" activity="am start com.root.system/com.root.system.activities.ActivityModules" />
-
-        <page title="应用商店" activity="am start com.root.system/com.root.system.activities.ActivityGithub" />
-            
-            
-     <page title="资源网站" config-sh="file:///android_asset/usr/pages/Home/gpt.sh" /> 
-
+<page title="Magisk仓库" activity="am start com.root.system/com.root.system.activities.ActivityModules" />
+<page title="应用商店" activity="am start com.root.system/com.root.system.activities.ActivityGithub" />
+<page title="资源网站" config-sh="file:///android_asset/usr/pages/Home/gpt.sh" />
 </group>
-
-Han
