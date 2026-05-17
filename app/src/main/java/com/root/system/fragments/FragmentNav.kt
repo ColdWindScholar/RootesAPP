@@ -63,7 +63,7 @@ class FragmentNav : Fragment(), View.OnClickListener {
         binding.navRoot.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "Root功能"
-                pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/Root.xml"
+                pageConfigPath = "/data/data/com.root.system/files/usr/pages/Home/Root.xml"
             }
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
