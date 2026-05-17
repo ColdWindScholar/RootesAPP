@@ -9,7 +9,7 @@ if [ -f "$GJZS/.start" ]; then
   mv /data/data/$Package_name/files/kr-script/cache $GJZS/
 fi
 
-
+echo "Initing..."
 if [ -e "/data/data/com.root.system/.kr" ]; then
     rm -rf $TMPDIR/*
     rm -rf $PeiZhi_File/*
