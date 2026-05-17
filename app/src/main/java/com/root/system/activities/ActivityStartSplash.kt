@@ -205,9 +205,7 @@ class ActivityStartSplash : Activity() {
     /**
      * 开始检查必需权限
      */
-   private fun checkPermissions() {
-        checkRoot()
-}
+   private fun checkPermissions() { checkRoot() }
 
     private class CheckFileWrite(private val context: ActivityStartSplash) : Runnable {
         override fun run() {
