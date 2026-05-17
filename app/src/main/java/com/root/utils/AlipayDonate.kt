@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import java.net.URLEncoder
+import androidx.core.net.toUri
 
 class AlipayDonate(private var context: Context) {
 
@@ -45,7 +46,7 @@ class AlipayDonate(private var context: Context) {
      * @param s
      */
     private fun openUri(context: Context, s: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(s))
+        val intent = Intent(Intent.ACTION_VIEW, s.toUri())
         context.startActivity(intent)
     }
 }

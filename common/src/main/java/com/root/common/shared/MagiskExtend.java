@@ -45,11 +45,7 @@ public class MagiskExtend {
 
         long space = new File(MAGISK_PATH).getFreeSpace();
         // 镜像空间不足
-        if (space < (require + 4096)) {
-            return false;
-        }
-
-        return true;
+        return space >= (require + 4096);
     }
 
     /**

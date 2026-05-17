@@ -64,14 +64,6 @@ public class BitmapUtil {
         return bitmap;
     }
 
-    /**
-     * 将drawable对象转成bitmap对象
-     */
-    public Bitmap drawableToBitmap2(Drawable drawable) {
-        BitmapDrawable bd = (BitmapDrawable) drawable;
-        Bitmap bm = bd.getBitmap();
-        return bm;
-    }
 
     /**
      * 将bitmap对象保存成图片到sd卡中
@@ -83,7 +75,7 @@ public class BitmapUtil {
         }
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, ((OutputStream) fileOutputStream));//设置PNG的话，透明区域不会变成黑色
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);//设置PNG的话，透明区域不会变成黑色
 
             fileOutputStream.close();
             System.out.println("----------save success-------------------");

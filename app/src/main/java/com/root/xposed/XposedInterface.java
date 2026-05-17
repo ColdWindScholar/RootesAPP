@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
-import android.telephony.TelephonyManager;
 
 import com.root.store.XposedExtension;
 import com.root.xposed.wx.WeChatScanHook;
@@ -45,7 +44,7 @@ public class XposedInterface implements IXposedHookLoadPackage, IXposedHookZygot
 
             Iterator<String> iter = config.keys();
             while (iter.hasNext()) {
-                String key = (String) iter.next();
+                String key = iter.next();
                 switch (key) {
                     case "dpi": {
                         appConfig.setDpi(config.getInt(key));
