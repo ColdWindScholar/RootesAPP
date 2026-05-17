@@ -65,21 +65,13 @@ class Busybox(private var context: Context) {
             ) {
                 return false
             }
-
-            val absInstallerPath = FileWrite.writePrivateShellFile(
-                    "usr/xbin/install_busybox.sh",
-                    "$installPath/install_busybox.sh",
-                    context)
-            if (absInstallerPath != null) {
-                KeepShellPublic.doCmdSync("sh $absInstallerPath $absInstallPath")
-            }
         }
         return true
     }
 
     fun forceInstall(next: Runnable) {
         val privateBusybox = FileWrite.getPrivateFilePath(context, "busybox")
-        if (!(File(privateBusybox).exists() || FileWrite.writePrivateFile(context.assets, "usr/xbin/busybox", "busybox", context) == privateBusybox)) {
+        if (!(File(privateBusybox).exists() || FileWrite.writePrivateFile(context.assets, "toolkit/busybox", "busybox", context) == privateBusybox)) {
             return
         }
         if (systemBusyboxInstalled()) {
