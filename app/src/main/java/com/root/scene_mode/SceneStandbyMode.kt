@@ -25,8 +25,8 @@ class SceneStandbyMode(private val context: Context, private val keepShell: Keep
             for (app in apps) {
                 if (!whiteList.contains(app.packageName)) {
                     if (
-                            ((app.appType == SYSTEM || app.updated) && blackListConfig.getBoolean(app.packageName.toString(), false)) ||
-                            (app.appType == USER && (!app.updated) && blackListConfig.getBoolean(app.packageName.toString(), true))
+                            ((app.appType == SYSTEM || app.updated) && blackListConfig.getBoolean(app.packageName, false)) ||
+                            (app.appType == USER && (!app.updated) && blackListConfig.getBoolean(app.packageName, true))
                     ) {
                         cmds.append("pm ")
                         cmds.append(command)
@@ -66,14 +66,14 @@ class SceneStandbyMode(private val context: Context, private val keepShell: Keep
     }
 
     fun on() {
-        if (keepShell.doCmdSync("getprop $stateProp").equals("1")) {
+        if (keepShell.doCmdSync("getprop $stateProp") == "1") {
             return
         }
         keepShell.doCmdSync(getCmds(true))
     }
 
     fun off() {
-        if (keepShell.doCmdSync("getprop $stateProp").equals("0")) {
+        if (keepShell.doCmdSync("getprop $stateProp") == "0") {
             return
         }
         keepShell.doCmdSync(getCmds(false))

@@ -44,7 +44,7 @@ class AutoSkipAd(private val service: AccessibilityService) {
             root.findAccessibilityNodeInfosByViewId(id)?.run {
                 for (i in indices) {
                     val node = get(i)
-                    if (!(lastClickedNode == node)) {
+                    if (lastClickedNode != node) {
                         lastClickedNode = node
                         lastClickedApp = root.packageName?.toString()
                         autoClickBase.clickNode(node) || autoClickBase.tryTouchNodeRect(node, service)

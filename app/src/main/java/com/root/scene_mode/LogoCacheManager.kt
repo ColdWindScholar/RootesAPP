@@ -10,6 +10,7 @@ import android.graphics.drawable.LayerDrawable
 import android.os.Build
 import com.root.common.shared.BitmapUtil
 import com.root.common.shared.FileWrite
+import androidx.core.graphics.createBitmap
 
 class LogoCacheManager(private var context: Context) {
     private fun drawableToBitmap(drawable: Drawable): Bitmap? {
@@ -26,7 +27,7 @@ class LogoCacheManager(private var context: Context) {
             val layerDrawable = LayerDrawable(drr)
             val width = layerDrawable.intrinsicWidth
             val height = layerDrawable.intrinsicHeight
-            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            val bitmap = createBitmap(width, height)
             val canvas = Canvas(bitmap)
             layerDrawable.setBounds(0, 0, canvas.width, canvas.height)
             layerDrawable.draw(canvas)
@@ -37,7 +38,7 @@ class LogoCacheManager(private var context: Context) {
     }
 
     private fun getCacheOutput(packageName: String): String {
-        return FileWrite.getPrivateFilePath(context, "logo_cache/" + packageName + ".png")
+        return FileWrite.getPrivateFilePath(context, "logo_cache/$packageName.png")
     }
 
     fun saveIcon(drawable: Drawable, packageName: String) {
@@ -45,10 +46,7 @@ class LogoCacheManager(private var context: Context) {
     }
 
     fun loadIcon(packageName: String): Drawable? {
-        val bitmap = BitmapUtil().getBitmapFromSDCard(getCacheOutput(packageName))
-        if (bitmap == null) {
-            return null
-        }
+        val bitmap = BitmapUtil().getBitmapFromSDCard(getCacheOutput(packageName)) ?: return null
         return BitmapDrawable(bitmap)
     }
 }

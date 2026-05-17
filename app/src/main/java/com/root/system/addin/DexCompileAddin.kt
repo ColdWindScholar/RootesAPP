@@ -2,16 +2,16 @@ package com.root.system.addin
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.view.View
 import android.widget.Toast
+import androidx.core.net.toUri
 import com.root.common.ui.DialogHelper
 import com.root.library.shell.PropsUtils
-import com.root.utils.CommonCmds
 import com.root.system.R
 import com.root.system.activities.ActivityBase
 import com.root.system.services.CompileService
+import com.root.utils.CommonCmds
 
 /**
  * Created by Hello on 2018/02/20.
@@ -35,7 +35,7 @@ class DexCompileAddin(private var context: ActivityBase) : AddinBase(context) {
                 service.action = action
                 context.startService(service)
                 Toast.makeText(context, "开始后台编译，请查看通知了解进度", Toast.LENGTH_SHORT).show()
-            } catch (ex: java.lang.Exception) {
+            } catch (ex: Exception) {
                 Toast.makeText(context, "启动后台过程失败", Toast.LENGTH_SHORT).show()
             }
         }
@@ -74,7 +74,7 @@ class DexCompileAddin(private var context: ActivityBase) : AddinBase(context) {
             dialog.dismiss()
             Toast.makeText(context, "此页面，在国内(CN)可能需要“虚拟专用网络”才能正常访问", Toast.LENGTH_LONG).show()
 
-            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.addin_dex2oat_helplink))))
+            context.startActivity(Intent(Intent.ACTION_VIEW, context.getString(R.string.addin_dex2oat_helplink).toUri()))
         }
     }
 
@@ -141,7 +141,7 @@ class DexCompileAddin(private var context: ActivityBase) : AddinBase(context) {
                 "编译（优化运行速度）",
                 "恢复默认")
         val intallMode = PropsUtils.getProp("pm.dexopt.install")
-        var index = 0
+        var index: Int
         when (intallMode) {
             "extract",
             "quicken",
@@ -223,7 +223,8 @@ class DexCompileAddin(private var context: ActivityBase) : AddinBase(context) {
                             .setTitle("说明")
                             .setMessage(R.string.addin_dexopt_helpinfo)
                             .setNegativeButton("了解更多") { _, _ ->
-                                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.addin_dex2oat_helplink))))
+                                context.startActivity(Intent(Intent.ACTION_VIEW,
+                                    context.getString(R.string.addin_dex2oat_helplink).toUri()))
                             })
                 })
     }

@@ -301,10 +301,10 @@ class SceneMode private constructor(private val context: AccessibilityScenceMode
 
     // 当前状态 是否开启GPS(精准)定位
     private fun currentGPSOn(): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            return Settings.Secure.getString(contentResolver, Settings.Secure.LOCATION_MODE) == "3"
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Settings.Secure.getString(contentResolver, Settings.Secure.LOCATION_MODE) == "3"
         } else {
-            return Settings.Secure.getString(contentResolver, Settings.Secure.LOCATION_PROVIDERS_ALLOWED).contains("gps")
+            Settings.Secure.getString(contentResolver, Settings.Secure.LOCATION_PROVIDERS_ALLOWED).contains("gps")
         }
     }
 

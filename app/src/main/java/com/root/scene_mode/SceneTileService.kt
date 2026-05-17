@@ -22,8 +22,8 @@ class SceneTileService : TileService() {
         super.onClick()
     }
 
-    private fun getIcon(id: Int): Icon? {
-        return Icon.createWithResource(getApplicationContext(), id)
+    private fun getIcon(id: Int): Icon {
+        return Icon.createWithResource(applicationContext, id)
     }
 
     override fun onStartListening() {

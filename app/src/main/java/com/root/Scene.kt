@@ -23,6 +23,7 @@ import com.root.scene_mode.TriggerIEventMonitor
 import com.root.store.SpfConfig
 import com.root.utils.CrashHandler
 import com.root.system.R
+import androidx.core.content.edit
 
 class Scene : Application() {
     companion object {
@@ -49,7 +50,7 @@ class Scene : Application() {
         }
 
         fun setBoolean(key: String, value: Boolean) {
-            globalConfig.edit().putBoolean(key, value).apply()
+            globalConfig.edit { putBoolean(key, value) }
         }
 
         fun getString(key: String, defaultValue: String): String? {

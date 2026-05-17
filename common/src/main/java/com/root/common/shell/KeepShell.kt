@@ -14,18 +14,18 @@ import java.util.concurrent.locks.ReentrantLock
 /**
  * Created by Hello on 2018/01/23.
  */
-public class KeepShell(private var rootMode: Boolean = true) {
+class KeepShell(private var rootMode: Boolean = true) {
     private var p: Process? = null
     private var out: OutputStream? = null
     private var reader: BufferedReader? = null
     private var currentIsIdle = true // 是否处于闲置状态
-    public val isIdle: Boolean
+    val isIdle: Boolean
         get() {
             return currentIsIdle
         }
 
     //尝试退出命令行程序
-    public fun tryExit() {
+    fun tryExit() {
         try {
             if (out != null)
                 out!!.close()
@@ -68,7 +68,7 @@ public class KeepShell(private var rootMode: Boolean = true) {
 
     fun checkRoot(): Boolean {
         val r = doCmdSync(checkRootState).lowercase(Locale.getDefault())
-        return if (r == "error" || r.contains("permission denied") || r.contains("not allowed") || r.equals("not found")) {
+        return if (r == "error" || r.contains("permission denied") || r.contains("not allowed") || r == "not found") {
             if (rootMode) {
                 tryExit()
             }
@@ -98,7 +98,7 @@ public class KeepShell(private var rootMode: Boolean = true) {
                         flush()
                     }
                 }
-                Thread(Runnable {
+                Thread {
                     try {
                         val errorReader =
                             p!!.errorStream.bufferedReader()
@@ -108,7 +108,7 @@ public class KeepShell(private var rootMode: Boolean = true) {
                     } catch (ex: Exception) {
                         Log.e("c", "" + ex.message)
                     }
-                }).start()
+                }.start()
             } catch (ex: Exception) {
                 Log.e("getRuntime", "" + ex.message)
             } finally {
@@ -132,7 +132,7 @@ public class KeepShell(private var rootMode: Boolean = true) {
     private val endTagBytes = "\necho '$endTag'\n".toByteArray(Charset.defaultCharset())
 
     //执行脚本
-    public fun doCmdSync(cmd: String): String {
+    fun doCmdSync(cmd: String): String {
         if (mLock.isLocked && enterLockTime > 0 && System.currentTimeMillis() - enterLockTime > LOCK_TIMEOUT) {
             tryExit()
             Log.e("doCmdSync-Lock", "线程等待超时${System.currentTimeMillis()} - $enterLockTime > $LOCK_TIMEOUT")

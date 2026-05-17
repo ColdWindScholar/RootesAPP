@@ -10,11 +10,11 @@ import android.widget.EditText
 import android.widget.Toast
 import com.root.common.ui.DialogHelper
 import com.root.system.R
-import com.root.system.SharedPreferencesHelper
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import androidx.core.net.toUri
 
 class DiagRegister(private val context: Context) {
     private lateinit var dialog: DialogHelper.DialogWrap
@@ -176,7 +176,7 @@ class DiagRegister(private val context: Context) {
         dialog.dismiss()
         val diagLogin = DiagLogin(context)
         diagLogin.showLoginDialog()
-            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://rootes.top/")))
+            context.startActivity(Intent(Intent.ACTION_VIEW, "https://rootes.top/".toUri()))
             Toast.makeText(context, "请到官方网站注册", Toast.LENGTH_SHORT).show()
 
             val dialogLogin = DiagLogin(context)

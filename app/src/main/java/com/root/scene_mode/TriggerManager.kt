@@ -3,6 +3,7 @@ package com.root.scene_mode
 import android.content.Context
 import com.root.model.TriggerInfo
 import com.root.store.TriggerStorage
+import androidx.core.content.edit
 
 class TriggerManager(private var context: Context) {
     private val triggerListConfig = context.getSharedPreferences("scene_trigger_list", Context.MODE_PRIVATE)
@@ -14,12 +15,12 @@ class TriggerManager(private var context: Context) {
             events.append(",")
         }
 
-        triggerListConfig.edit().putString(triggerInfo.id, events.toString()).apply()
+        triggerListConfig.edit { putString(triggerInfo.id, events.toString()) }
         TriggerStorage(context).save(triggerInfo)
     }
 
     fun removeTrigger(triggerInfo: TriggerInfo) {
-        triggerListConfig.edit().remove(triggerInfo.id).apply()
+        triggerListConfig.edit { remove(triggerInfo.id) }
         TriggerStorage(context).remove(triggerInfo.id)
     }
 

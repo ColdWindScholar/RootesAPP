@@ -98,11 +98,11 @@ class TaskActionsExecutor(
     }
 
     private fun speedDex2oatCompile() {
-        keepShell.doCmdSync("nohup cmd package compile -m speed -a >/dev/null 2>&1 &")
+        keepShell.doCmdSync("nohup cmd package compile -m speed -a &")
     }
 
     private fun everythingDex2oatCompile() {
-        keepShell.doCmdSync("nohup cmd package compile -m everything -a >/dev/null 2>&1 &")
+        keepShell.doCmdSync("nohup cmd package compile -m everything -a &")
     }
 
     private var channelCreated = false

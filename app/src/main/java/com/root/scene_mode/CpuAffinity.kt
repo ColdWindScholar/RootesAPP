@@ -198,9 +198,9 @@ class CpuAffinity(private val context: Context) {
             val taskStr = KeepShellPublic.doCmdSync("ls /proc/$pid/task")
             val tasks = taskStr.split("\n")
             tasks.forEach { tid ->
-                val cmd = threads.getOrPut(tid, {
+                val cmd = threads.getOrPut(tid) {
                     KernelProrp.getProp("/proc/$pid/task/$tid/comm")
-                })
+                }
 
                 matchRule(rules, cmd, powerMode)?.run {
                     val affinity = getAffinity(getString("cores"))

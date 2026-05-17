@@ -11,8 +11,8 @@ import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
 import com.root.store.SpfConfig
 import com.root.system.R
-import java.util.Locale
 import java.util.Locale.getDefault
+import androidx.core.content.edit
 
 /**
  * Created by Hello on 2018/01/17.
@@ -32,12 +32,12 @@ class DialogCustomMAC(private var context: Context) {
         val autoChange = dialog.findViewById(R.id.dialog_addin_mac_autochange) as CheckBox
         macInput.setText(spf!!.getString(SpfConfig.GLOBAL_SPF_MAC, "ec:d0:9f:af:95:01"))
 
-        autoChange.isChecked = spf!!.getInt(SpfConfig.GLOBAL_SPF_MAC_AUTOCHANGE_MODE, 0).equals(mode)
+        autoChange.isChecked = spf!!.getInt(SpfConfig.GLOBAL_SPF_MAC_AUTOCHANGE_MODE, 0) == mode
         autoChange.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                spf!!.edit().putInt(SpfConfig.GLOBAL_SPF_MAC_AUTOCHANGE_MODE, mode).apply()
+                spf!!.edit { putInt(SpfConfig.GLOBAL_SPF_MAC_AUTOCHANGE_MODE, mode) }
             } else {
-                spf!!.edit().remove(SpfConfig.GLOBAL_SPF_MAC_AUTOCHANGE_MODE).apply()
+                spf!!.edit { remove(SpfConfig.GLOBAL_SPF_MAC_AUTOCHANGE_MODE) }
             }
         }
 
@@ -55,13 +55,13 @@ class DialogCustomMAC(private var context: Context) {
             } else {
                 RawText.getRawText(context, R.raw.change_mac_1)
             }
-            val shell = "mac=\"$mac\"\n" + raw
+            val shell = "mac=\"$mac\"\n$raw"
             val r = KeepShellPublic.doCmdSync(shell)
             if (r == "error") {
                 Toast.makeText(context, "修改失败！", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, "MAC已修改", Toast.LENGTH_SHORT).show()
-                spf!!.edit().putString(SpfConfig.GLOBAL_SPF_MAC, mac).apply()
+                spf!!.edit { putString(SpfConfig.GLOBAL_SPF_MAC, mac) }
             }
         })
     }
