@@ -6,17 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.projectkr.shell.OpenPageHelper
 import com.root.krscript.model.PageNode
 import com.root.system.R
-import okhttp3.*
-import java.io.IOException
 import com.root.system.activities.ActivityCharge
 import com.root.system.activities.ActivityPowerUtilization
 import com.root.system.activities.ActivityTestColor
 import com.root.system.databinding.FragmentNav2Binding
+import okhttp3.*
+import java.io.IOException
+
 class FragmentNotRootNav : Fragment() {
 
     private val client = OkHttpClient()
@@ -84,9 +84,9 @@ class FragmentNotRootNav : Fragment() {
                             textView.text = "网络请求失败: ${response.message}"
                         }
                     } else {
-                        val responseData = response.body?.string()
+                        val responseData = response.body.string()
                         activity?.runOnUiThread {
-                            textView.text = responseData ?: "没有收到数据"
+                            textView.text = responseData
                         }
                     }
                 }
