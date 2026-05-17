@@ -104,7 +104,7 @@ Han
     lu=$((lu+1))
     fi
     done <<Han
-`busybox find "$Clean" -type d|sed '/.nomedia/d'`
+`toybox find "$Clean" -type d|sed '/.nomedia/d'`
 Han
     }
 fi
