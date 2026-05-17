@@ -95,7 +95,7 @@ class FragmentNav : Fragment(), View.OnClickListener {
         binding.navFq.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "分区功能"
-                pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/fq.xml"
+                pageConfigPath = "/data/data/com.root.system/files/usr/pages/Home/fq.xml"
             }
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
@@ -111,7 +111,7 @@ class FragmentNav : Fragment(), View.OnClickListener {
         binding. navDownload.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "资源中心"
-                pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/download.xml"
+                pageConfigPath = "/data/data/com.root.system/files/usr/pages/Home/download.xml"
             }
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }
