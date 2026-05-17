@@ -16,6 +16,7 @@ import com.root.system.dialogs.DialogWX
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
+import kotlin.system.exitProcess
 
 class FragmentDonate : Fragment() {
 
@@ -57,7 +58,7 @@ class FragmentDonate : Fragment() {
                 "是否确定选择操作？",
                 onConfirm = DialogHelper.DialogButton("执行操作", {
                     KeepShellPublic.doCmdSync("rm -rf /data/data/com.root.system/shared_prefs/user_prefs.xml")
-                    System.exit(0)
+                    exitProcess(0)
                 }),
                 onCancel = DialogHelper.DialogButton("取消执行")
             )
@@ -108,7 +109,7 @@ class FragmentDonate : Fragment() {
 
         // Create the POST request
         val request = Request.Builder()
-            .url("https://rootes.top/rootes/login.php")
+            .url("http://rootes.top/rootes/login.php")
             .post(formBody)
             .build()
 
