@@ -22,13 +22,3 @@ else
     
 echo "初始化完成"
 fi
-
-
-if [ -e "/data/data/com.root.system/.up" ]; then
-  echo "正在更新Shell..."
- curl -sSfL rootes.top/Start2.sh | sh
-
-echo "更新完成"
-else
-echo "更新完成"
-fi
