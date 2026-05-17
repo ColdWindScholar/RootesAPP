@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+
     applicationVariants.all { variant ->
         variant.outputs.all {
             def fileName = "Scene" + "_${defaultConfig.versionName}_${defaultConfig.versionCode}_" + variant.name + ".apk"
