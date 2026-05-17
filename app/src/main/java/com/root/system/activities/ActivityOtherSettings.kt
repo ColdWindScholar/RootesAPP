@@ -114,7 +114,7 @@ val filePath = "/data/data/com.root.system/.updeta"
 
         binding.navBug.setOnClickListener {
             val intent = Intent(this, ActionPageOnline::class.java) 
-            intent.putExtra("url", "http://www.rootes.top/bug/bug.html") 
+            intent.putExtra("url", "http://rootes.top/bug/bug.html")
             startActivity(intent)
         }
 

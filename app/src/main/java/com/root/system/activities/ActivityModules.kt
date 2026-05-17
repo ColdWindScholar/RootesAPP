@@ -50,7 +50,7 @@ class ActivityModules : ActivityBase(), AdapterModules.OnItemClickListener {
 
         // 自动刷新并显示数据
         scope.launch {
-            refreshData("http://www.rootes.top/Magisk.json", "")
+            refreshData("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/Magisk.json", "")
         }
     }
 
@@ -96,7 +96,7 @@ class ActivityModules : ActivityBase(), AdapterModules.OnItemClickListener {
                 view.isEnabled = false
                 scope.launch(Dispatchers.IO) {
                     try {
-                        val modules = queryModulesFromUrl("http://www.rootes.top/Magisk.json", text)
+                        val modules = queryModulesFromUrl("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/Magisk.json", text)
                         if (!isDestroyed) {
                             withContext(Dispatchers.Main) {
                                 binding.moduleList.adapter = AdapterModules(this@ActivityModules, ArrayList(modules.map { it.name })).apply {
@@ -172,7 +172,7 @@ class ActivityModules : ActivityBase(), AdapterModules.OnItemClickListener {
     override fun onItemClick(view: View, position: Int) {
         scope.launch {
             try {
-                val modules = queryModulesFromUrl("http://www.rootes.top/Magisk.json", "")
+                val modules = queryModulesFromUrl("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/Magisk.json", "")
                 if (modules.isNotEmpty()) {
                     val module = modules[position]
                     downloadModule(module.url, module.name)
