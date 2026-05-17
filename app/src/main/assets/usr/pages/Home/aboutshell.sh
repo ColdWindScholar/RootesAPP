@@ -1,1 +1,0 @@
-curl -s http://rootes.top/help/rootes.xml

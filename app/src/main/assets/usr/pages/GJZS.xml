@@ -86,12 +86,5 @@
        
     <page html="http://rootes.3vhost.work/about.html" title="帮助中心" />
 </group>
-<group>
-        <text>
-            <title>在寻找其他功能吗？</title>
-            <desc></desc>
-        </text>        
-                <page title="关于" config-sh="file:///android_asset/usr/pages/Home/aboutshell.sh" locked="$LOCKED" />
-    
-    </group>
+
     
