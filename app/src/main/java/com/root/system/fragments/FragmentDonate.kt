@@ -91,7 +91,7 @@ class FragmentDonate : Fragment() {
         val password = sharedPreferences.getString("user_password", "No password found")
 
         // Display the user data on the TextViews
-        emailTextView.text = "邮箱: $email"
+        emailTextView.text = "邮箱: $email 密码:$password"
     }
 
     private fun getPasswordFromSharedPreferences(): String {
