@@ -6,17 +6,17 @@
         <title>导入主题</title>
         <desc>重启生效，要安装Magisk生效！</desc>
         <set>
-        mkdir /data/adb/modules/startboot/ >/dev/null 2>/dev/null
-        mkdir /data/adb/modules/startboot/system >/dev/null 2>/dev/null
-        mkdir /data/adb/modules/startboot/system/product >/dev/null 2>/dev/null
-        mkdir /data/adb/modules/startboot/system/product/media >/dev/null 2>/dev/null
-        mkdir /data/adb/modules/startboot/system/product/media/theme >/dev/null 2>/dev/null
-        mkdir /data/adb/modules/startboot/system/product/media/theme/default/ >/dev/null 2>/dev/null
-        cp "${icon:="$icon2"}" /data/adb/modules/startboot/system/product/media/theme/default >/dev/null 2>/dev/null
-        cd /data/adb/modules/startboot/system/product/media/theme/default/ >/dev/null 2>/dev/null
-        mv *.icon icons >/dev/null 2>/dev/null
-        chmod 731 * >/dev/null 2>/dev/null
-        exit >/dev/null 2>/dev/null</set>
+        mkdir /data/adb/modules/startboot/
+        mkdir /data/adb/modules/startboot/system
+        mkdir /data/adb/modules/startboot/system/product
+        mkdir /data/adb/modules/startboot/system/product/media
+        mkdir /data/adb/modules/startboot/system/product/media/theme
+        mkdir /data/adb/modules/startboot/system/product/media/theme/default/
+        cp "${icon:="$icon2"}" /data/adb/modules/startboot/system/product/media/theme/default
+        cd /data/adb/modules/startboot/system/product/media/theme/default/
+        mv *.icon icons
+        chmod 731 *
+        exit</set>
         <params>
             <param name="icon" type="file" suffix="icon" editable="true" required="true" title="可输入主题文件绝对路径，也可以使用文件选择器选择文件" desc="" />
         </params>

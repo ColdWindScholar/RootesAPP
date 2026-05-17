@@ -804,7 +804,7 @@ echo $i
 sleep 1
 done
 echo "即将跳转"
-	am start -a android.intent.action.VIEW -d https://www.lanzous.com/b880553 >/dev/null 2>/dev/null
+	am start -a android.intent.action.VIEW -d https://www.lanzous.com/b880553
 sleep 3
 	exit
 fi
