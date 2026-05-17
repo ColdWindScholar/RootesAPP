@@ -87,7 +87,7 @@ class FragmentNav : Fragment(), View.OnClickListener {
         binding.navBattery.setOnClickListener {
             val pageNode = PageNode("").apply {
                 title = "电池功能"
-                pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/battery.xml"
+                pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/battery.sh"
             }
             OpenPageHelper(requireActivity()).openPage(pageNode)
         }

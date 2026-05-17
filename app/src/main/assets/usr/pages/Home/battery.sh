@@ -24,6 +24,7 @@ cat <<Han
 <page title="充电控制" activity="am start com.root.system/com.root.system.activities.ActivityChargeController"/>
 
 <page title="耗电统计" activity="am start com.root.system/com.root.system.activities.ActivityPowerUtilization"/>
-        </group>
+</group>
+</xml>
 
 Han
