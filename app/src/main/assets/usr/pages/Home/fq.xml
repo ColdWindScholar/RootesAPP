@@ -64,7 +64,7 @@
       <param name="test1" label="名称" required="true"/>
         </params>
         
-            <param name="test" type="file" suffix="img" editable="true" required="true" title="可输入img文件绝对路径，也可以使用文件选择器选择文件" desc="温馨提示：可用「MT管理器」长按目录或文件 -->点属性 -->点击目录即可复制目录绝对路径，长按目录或长按名称即可复制文件绝对路径" required="true" required="true"/>
+            <param name="test" type="file" suffix="img" editable="true" title="可输入img文件绝对路径，也可以使用文件选择器选择文件" desc="温馨提示：可用「MT管理器」长按目录或文件 -->点属性 -->点击目录即可复制目录绝对路径，长按目录或长按名称即可复制文件绝对路径" required="true"/>
         
               <param name="Type">
                 <option value="fat32">FAT32</option>
@@ -84,7 +84,7 @@
       <param name="test1" label="名称" required="true"/>
         </params>
         
-            <param name="test" type="file" suffix="img" editable="true" required="true" title="可输入img文件绝对路径，也可以使用文件选择器选择文件" desc="温馨提示：可用「MT管理器」长按目录或文件 -->点属性 -->点击目录即可复制目录绝对路径，长按目录或长按名称即可复制文件绝对路径" required="true" required="true"/>
+            <param name="test" type="file" suffix="img" editable="true" title="可输入img文件绝对路径，也可以使用文件选择器选择文件" desc="温馨提示：可用「MT管理器」长按目录或文件 -->点属性 -->点击目录即可复制目录绝对路径，长按目录或长按名称即可复制文件绝对路径"  required="true"/>
         
               <param name="test2">
                 <option value="ext4">ext4</option>
@@ -104,7 +104,7 @@
       <param name="test1" label="名称" required="true"/>
         </params>
         
-            <param name="test" type="file" suffix="img" editable="true" required="true" title="可输入img文件绝对路径，也可以使用文件选择器选择文件" desc="温馨提示：可用「MT管理器」长按目录或文件 -->点属性 -->点击目录即可复制目录绝对路径，长按目录或长按名称即可复制文件绝对路径" required="true" required="true"/>
+            <param name="test" type="file" suffix="img" editable="true"  title="可输入img文件绝对路径，也可以使用文件选择器选择文件" desc="温馨提示：可用「MT管理器」长按目录或文件 -->点属性 -->点击目录即可复制目录绝对路径，长按目录或长按名称即可复制文件绝对路径" required="true"/>
         
               <param name="test2">
                 <option value="ext4">ext4</option>
