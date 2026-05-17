@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
 import com.root.system.R
 import com.root.system.databinding.FragmentDonateBinding
@@ -125,7 +124,7 @@ class FragmentDonate : Fragment() {
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
-                    val responseBody = response.body?.string()
+                    val responseBody = response.body.string()
                     try {
                         val jsonResponse = JSONObject(responseBody)
                         val status = jsonResponse.getString("status")
