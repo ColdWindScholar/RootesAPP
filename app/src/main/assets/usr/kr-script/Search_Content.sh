@@ -60,7 +60,7 @@ while read File; do
                     d=$num
             done
 done <<Han
-$(egrep -il ">.*$Content.*</" $1/* 2>/dev/null)
+$(egrep -il ">.*$Content.*</" $1/*)
 Han
 wait
 echo '</group>' >>"$xml"
