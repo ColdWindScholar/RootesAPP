@@ -291,21 +291,10 @@ class ActivityStartSplash : Activity() {
 
     private fun startToFinish() {
         binding.startStateText.text = "正在加载文件"
-
-copyAssetsToFiles()
-
-val config = KrScriptConfig().init(this)
-if (config.beforeStartSh.isNotEmpty()) {
-    BeforeStartThread(this, config, UpdateLogViewHandler(binding.startStateText) {
-        gotoHome()
-        // downloader()
-    }).start()
-} else {
-    gotoHome()
-//    downloader()
-}
-
-
+        copyAssetsToFiles()
+        val config = KrScriptConfig().init(this)
+        if (config.beforeStartSh.isNotEmpty()) {
+            BeforeStartThread(this, config, UpdateLogViewHandler(binding.startStateText) { gotoHome()}).start() } else { gotoHome() }
     }
 
 
