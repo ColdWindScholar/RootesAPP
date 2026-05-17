@@ -91,12 +91,12 @@ class OpenPageHelper(private var activity: Activity) {
 
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("https://rootes.top/about.txt")
+            .url("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/about.txt")
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
-                (context as? Activity)?.runOnUiThread {
+                context?.runOnUiThread {
                     // progressBarDialog.dismissDialog()
 
                     progressBarDialog.hideDialog()
