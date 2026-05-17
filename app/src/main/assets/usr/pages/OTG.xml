@@ -1,10 +1,7 @@
 if ! $Have_ROOT; then
     exit 1
 fi
-        case "$ABI" in
-        arm*) :;;
-        *)
-cat <<Han
+if [[ "$ABI" != "arm*" ]]; then
 <?xml version="1.0" encoding="utf-8"?>
 <group>
     <text>
@@ -14,8 +11,9 @@ cat <<Han
     </text>
 </group>
 Han
-exit 1;;
-esac
+exit 1
+fi
+
 
 cat <<Han
 <?xml version="1.0" encoding="utf-8"?>
