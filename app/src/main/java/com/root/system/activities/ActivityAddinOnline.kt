@@ -78,8 +78,8 @@ class ActivityAddinOnline1 : ActivityBase() {
                 DialogHelper.animDialog(
                         AlertDialog.Builder(context)
                                 .setMessage(message)
-                                .setPositiveButton(R.string.btn_confirm, { _, _ -> })
-                                .setOnDismissListener {
+                                .setPositiveButton(R.string.btn_confirm) { _, _ -> }
+                            .setOnDismissListener {
                                     result?.confirm()
                                 }
                                 .create()
@@ -127,15 +127,15 @@ class ActivityAddinOnline1 : ActivityBase() {
                     if (url.startsWith("https://github.com/yc9559/cpufreq-interactive-opt/") && url.contains("vtools-powercfg") && url.endsWith("powercfg.apk")) {
                         val configPath = url.substring(url.indexOf("vtools-powercfg"))
                         DialogHelper.animDialog(AlertDialog.Builder(binding.vtoolsOnline.context)
-                                .setTitle("可用的配置脚本")
-                                .setMessage("在当前页面上检测到可用于性能调节的配置脚本，是否立即将其安装到本地？\n\n配置：$configPath\n\n作者：yc9559\n\n")
-                                .setPositiveButton(R.string.btn_confirm) { _, _ ->
-                                    val configAbsPath = "https://github.com/yc9559/cpufreq-interactive-opt/raw/master/$configPath"
-                                    downloadPowercfg(configAbsPath)
-                                }
-                                .setNeutralButton(R.string.btn_cancel) { _, _ ->
-                                    view.loadUrl(url)
-                                })?.setCancelable(false)
+                            .setTitle("可用的配置脚本")
+                            .setMessage("在当前页面上检测到可用于性能调节的配置脚本，是否立即将其安装到本地？\n\n配置：$configPath\n\n作者：yc9559\n\n")
+                            .setPositiveButton(R.string.btn_confirm) { _, _ ->
+                                val configAbsPath = "https://github.com/yc9559/cpufreq-interactive-opt/raw/master/$configPath"
+                                downloadPowercfg(configAbsPath)
+                            }
+                            .setNeutralButton(R.string.btn_cancel) { _, _ ->
+                                view.loadUrl(url)
+                            }).setCancelable(false)
                     } else if (url.startsWith("https://github.com/yc9559/wipe-v2/releases/download/") && url.endsWith(".zip")) {
                         // v2
                         // https://github.com/yc9559/wipe-v2/releases/download/0.1.190503-dev/sdm625.zip
@@ -144,8 +144,7 @@ class ActivityAddinOnline1 : ActivityBase() {
                                 .setTitle("配置安装提示")
                                 .setMessage("你刚刚点击的内容，似乎是一个可用于性能调节的配置脚本，是否立即将其安装到本地？\n\n配置：$configPath\n\n作者：yc9559\n\n")
                                 .setPositiveButton(R.string.btn_confirm) { _, _ ->
-                                    val configAbsPath = url
-                                    downloadPowercfgV2(configAbsPath)
+                                    downloadPowercfgV2(url)
                                 }
                                 .setNeutralButton(R.string.btn_cancel) { _, _ ->
                                     view.loadUrl(url)
@@ -172,8 +171,8 @@ class ActivityAddinOnline1 : ActivityBase() {
         })
 
         binding.vtoolsOnline.settings.javaScriptEnabled = true
-        binding.vtoolsOnline.settings.setLoadWithOverviewMode(true)
-        binding.vtoolsOnline.settings.setUseWideViewPort(true)
+        binding.vtoolsOnline.settings.loadWithOverviewMode = true
+        binding.vtoolsOnline.settings.useWideViewPort = true
 
         val url = binding.vtoolsOnline.url
         if (url != null) {
@@ -272,7 +271,7 @@ class ActivityAddinOnline1 : ActivityBase() {
                             AlertDialog.Builder(this)
                                 .setTitle("配置文件已安装")
                                 .setPositiveButton(R.string.btn_confirm) { _, _ ->
-                                    setResult(Activity.RESULT_OK)
+                                    setResult(RESULT_OK)
                                     finish()
                                 }).setCancelable(false)
                     }
@@ -327,7 +326,7 @@ class ActivityAddinOnline1 : ActivityBase() {
                                         AlertDialog.Builder(this)
                                             .setTitle("配置文件已安装")
                                             .setPositiveButton(R.string.btn_confirm) { _, _ ->
-                                                setResult(Activity.RESULT_OK)
+                                                setResult(RESULT_OK)
                                                 finish()
                                             }).setCancelable(false)
                                 }
@@ -395,10 +394,10 @@ class ActivityAddinOnline1 : ActivityBase() {
     }
 
     private fun getPath(uri: Uri): String? {
-        try {
-            return FilePathResolver().getPath(this, uri)
+        return try {
+            FilePathResolver().getPath(this, uri)
         } catch (ex: java.lang.Exception) {
-            return null
+            null
         }
     }
 

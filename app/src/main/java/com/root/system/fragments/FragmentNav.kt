@@ -38,9 +38,9 @@ class FragmentNav : Fragment(), View.OnClickListener {
         val textView2: TextView = view.findViewById(R.id.Service2)
 
 
-        fetchTextFromUrl("https://uapis.cn/api/say", textView2)
+        fetchTextFromUrl("http://uapis.cn/api/say", textView2)
 
-        fetchTextFromUrl("https://rootes.top/公告.txt", textView)
+        fetchTextFromUrl("http://rootes.top/公告.txt", textView)
 
         binding.navText.setOnClickListener {
             Toast.makeText(context, "🐮🍺", Toast.LENGTH_SHORT).show()
