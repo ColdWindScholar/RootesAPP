@@ -1,4 +1,4 @@
-cat <<Han
+
 
 <?xml version="1.0" encoding="utf-8"?>
 <resource dir="file:///android_asset/Configuration_File" />
@@ -13,25 +13,16 @@ cat <<Han
 </group>
 
 <group title="功能">
-   
-   
-          <page title="救援专区" config-sh="cat \$Pages/JiuYuan.xml" />
-        
-        <page title="极客专区" config-sh="cat \$Pages/Geek.xml" locked="$LOCKED" visible="[[ -n \`which magisk\` ]] &#38;&#38; echo 0 || echo 1" />
-       
-        <page title="附加功能区" config-sh="cat \$Pages/FuJia.xml" />
-
-        <page title="ROOT专区" config-sh="cat \$Pages/ROOT.xml" locked="$LOCKED"/>
-        
-        <page config-sh="cat /data/user/$ANDROID_UID/$Package_name/files/usr/pages/ksu.xml" title="修补功能" />
-        
-        
-        <page config-sh="cat /data/user/$ANDROID_UID/$Package_name/files/usr/pages/lspoesd_install.xml" title="安装Lspoesd" />
+<page title="救援专区" config="file:///android_asset/usr/pages/JiuYuan.xml" />
+        <page title="极客专区" config="file:///android_asset/usr/pages//Geek.xml" locked="$Have_ROOT &amp;&amp; echo false || echo true" visible="[[ -n \`which magisk\` ]] &#38;&#38; echo 0 || echo 1" />
+        <page title="附加功能区" config="file:///android_asset/usr/pages/FuJia.xml" />
+        <page title="ROOT专区" config="file:///android_asset/usr/pages/ROOT.xml" locked="$Have_ROOT &amp;&amp; echo false || echo true"/>
+        <page config="file:///android_asset/usr/pages/ksu.xml" title="修补功能" />
+        <page config="file:///android_asset/usr/pages/lspoesd_install.xml" title="安装Lspoesd" />
         
         
            <action reload="true" auto-off="true" interruptible="false" shell="hidden" id="lspoesd">
         <title>安装玩机百宝箱扩展包（apatch）</title>
-        <set>    apd modules install /data/data/com.root.system/files/玩机百宝箱扩展包.zip > /dev/null</set>
+        <set>apd modules install /data/data/com.root.system/files/玩机百宝箱扩展包.zip</set>
     </action>
 </group>
-Han
