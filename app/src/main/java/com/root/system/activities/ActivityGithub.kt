@@ -49,7 +49,7 @@ class ActivityGithub : ActivityBase(), AdapterModules.OnItemClickListener {
 
         // 自动刷新并显示数据
         scope.launch {
-            refreshData("http://www.rootes.top/lsp.json", "")
+            refreshData("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/lsp.json", "")
         }
     }
 
@@ -95,7 +95,7 @@ class ActivityGithub : ActivityBase(), AdapterModules.OnItemClickListener {
                 view.isEnabled = false
                 scope.launch(Dispatchers.IO) {
                     try {
-                        val modules = queryModulesFromUrl("http://www.rootes.top/lsp.json", text)
+                        val modules = queryModulesFromUrl("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/lsp.json", text)
                         if (!isDestroyed) {
                             withContext(Dispatchers.Main) {
                                 binding. moduleList.adapter = AdapterModules(this@ActivityGithub, ArrayList(modules.map { it.name })).apply {
@@ -171,7 +171,7 @@ class ActivityGithub : ActivityBase(), AdapterModules.OnItemClickListener {
     override fun onItemClick(view: View, position: Int) {
         scope.launch {
             try {
-                val modules = queryModulesFromUrl("http://www.rootes.top/lsp.json", "")
+                val modules = queryModulesFromUrl("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/lsp.json", "")
                 if (modules.isNotEmpty()) {
                     val module = modules[position]
                     downloadModule(module.url, module.name)
