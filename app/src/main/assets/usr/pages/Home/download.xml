@@ -15,10 +15,6 @@ cat <<Han
     <page html="https://coldwindscholar.github.io/Magisk.html" >
         <title>Magisk仓库</title>
     </page>
-    
-        <page html="https://rootes.top/api/lspoesd.html" >
-        <title>应用商店</title>
-    </page>
             
 </group>
          
