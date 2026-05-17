@@ -6,7 +6,7 @@ function magisk_set_system_prop() {
         echo "你已安装Magisk，本次修改将通过操作进行"
         $BUSYBOX sed -i "/$1=/"d "$MAGISK_PATH/system.prop"
         $BUSYBOX sed -i "\$a$1=$2" "$MAGISK_PATH/system.prop"
-        setprop $1 $2 2> /dev/null
+        setprop $1 $2
         return 1
     fi;
     return 0
