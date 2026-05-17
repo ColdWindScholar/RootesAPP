@@ -278,7 +278,7 @@ public class ScriptEnvironmen {
 
         params.put("ANDROID_SDK", "" + Build.VERSION.SDK_INT);
         // params.put("ROOT_PERMISSION", rooted ? "granted" : "denied");
-        params.put("ROOT_PERMISSION", rooted ? "true" : "false");
+        params.put("ROOT_PERMISSION", Boolean.toString(rooted));
         params.put("SDCARD_PATH", Environment.getExternalStorageDirectory().getAbsolutePath());
         String busyboxPath = FileWrite.INSTANCE.getPrivateFilePath(context, "busybox");
         if (new File(FileWrite.INSTANCE.getPrivateFilePath(context, "busybox")).exists()) {
