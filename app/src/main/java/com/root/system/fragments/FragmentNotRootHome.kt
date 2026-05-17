@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.root.system.R
 import kotlinx.coroutines.*
+import kotlin.time.Duration.Companion.milliseconds
 
 class FragmentNotRootHome : Fragment() {
 
@@ -36,7 +37,7 @@ class FragmentNotRootHome : Fragment() {
         updateJob = CoroutineScope(Dispatchers.Main).launch {
             while (isActive) {
                 updateDeviceInfo()
-                delay(updateInterval)
+                delay(updateInterval.milliseconds)
             }
         }
     }
@@ -70,7 +71,9 @@ class FragmentNotRootHome : Fragment() {
         sb.append("产品: ${Build.PRODUCT}\n")
         sb.append("设备: ${Build.DEVICE}\n")
         sb.append("显示编号: ${Build.DISPLAY}\n")
-        sb.append("唯一序列号: ${Build.SERIAL}\n")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            sb.append("唯一序列号: ${Build.getSerial()}\n")
+        }
 
         // 内存信息
         val memoryInfo = getMemoryInfo()
