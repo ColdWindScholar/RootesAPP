@@ -39,7 +39,7 @@ class FragmentNotRootNav : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val textView: TextView = view.findViewById(R.id.Service)
 
-        fetchTextFromUrl("https://rootes.top/公告.txt", textView)
+        fetchTextFromUrl("https://github.com/ColdWindScholar/RootEsFiles/raw/refs/heads/main/notice.txt", textView)
 
         binding.navText.setOnClickListener {
             Toast.makeText(context, "🐮🍺", Toast.LENGTH_SHORT).show()
