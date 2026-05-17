@@ -342,7 +342,6 @@ class ActivityStartSplash : Activity() {
                     ScriptEnvironmen.executeShell(context, outputStream, config.beforeStartSh, params, null, "pio-splash")
                     StreamReadThread(process.inputStream.bufferedReader(), updateLogViewHandler).start()
                     StreamReadThread(process.errorStream.bufferedReader(), updateLogViewHandler).start()
-                    println("Done！！")
                     process.waitFor()
                 }
                 updateLogViewHandler.onExit()
