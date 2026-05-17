@@ -92,7 +92,7 @@
 <!-- START -->
     <action auto-off="false" interruptible="false">
         <title>线刷单个.img镜像文件到自定义分区</title>
-        <desc></desc>
+        <desc/>
         <set>[[ ! -f $img_File ]] &amp;&amp; abort "镜像文件不存在刷个球哈！" || fastboot flash "$IMG_Subarea" "$img_File"</set>
         <params>
         
@@ -272,7 +272,7 @@
 <group>
         <text>
             <title>在寻找其他功能吗？</title>
-            <desc></desc>
+            <desc/>
         </text>        
     
         <page title="OTG高级重启" config="file:///android_asset/usr/pages/ADB/ADB_Advanced_Restart.xml" />

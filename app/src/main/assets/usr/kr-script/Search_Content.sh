@@ -3,7 +3,7 @@
 
 
 Initialization() {
-cat <<Han >$xml
+cat <<Han >"$xml"
 <?xml version="1.0" encoding="utf-8"?>
 <group title="搜索">
     <action reload="true" interruptible="false">
@@ -32,7 +32,7 @@ xml="$1/Search_Results.xml"
 echo "- 正在搜索$Content，需要一段时间"
 Initialization "$1"
 while read File; do
-    [[ -z "$File" ]] || [[ "$File" = $1/Search_Results.xml ]] && continue
+    [[ -z "$File" ]] || [[ "$File" = $xml ]] && continue
     unset START END d
     START=($(sed -n '/<!-- START -->/=' "$File"))
     GJC=($(sed -n -e '/<get>/d' -e '/<set>/d' -re "s/>.*$Content.*<\//<!-- Content -->/i" -e '/<!-- Content -->/=' "$File"))
@@ -46,7 +46,7 @@ while read File; do
             # echo "查看数组END，数组个数${#END[@]}"
             # echo ${END[@]}
         fi
-            # echo "- 搜索$File中……"
+            echo "- 搜索$File中……"
             for c in ${GJC[@]}; do
                 # echo "关键词所在行$c"
                 [[ -z "${END[$num]}" ]] && break
@@ -60,10 +60,10 @@ while read File; do
                     d=$num
             done
 done <<Han
-$(egrep -il ">.*$Content.*</" $1/*)
+$(grep -E -il ">.*$Content.*</" "$1"/*)
 Han
 wait
 echo '</group>' >>"$xml"
-result=$(fgrep -c '<!-- START -->' "$xml")
+result=$(grep -F -c '<!-- START -->' "$xml")
 echo "- 已搜索到$result个结果"
 sed -i "11a <group title=\"搜索&#34;$Content&#34;结果($result)\">" "$xml"
