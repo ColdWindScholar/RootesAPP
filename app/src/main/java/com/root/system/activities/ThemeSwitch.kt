@@ -6,15 +6,10 @@ import android.app.UiModeManager
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.renderscript.Allocation
-import android.renderscript.Element
-import android.renderscript.RenderScript
-import android.renderscript.ScriptIntrinsicBlur
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -74,7 +69,7 @@ object ThemeSwitch {
                 }
             }
             if (activity is AppCompatActivity) {
-                activity.getDelegate().setLocalNightMode(AppCompatDelegate.getDefaultNightMode())
+                activity.getDelegate().localNightMode = AppCompatDelegate.getDefaultNightMode()
             }
             activity.setTheme(themeId)
 
@@ -112,7 +107,7 @@ object ThemeSwitch {
                         activity.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                     }
 
-                    if (!(activity is ActivityMain)) {
+                    if (activity !is ActivityMain) {
                         activity.window.navigationBarColor = Color.TRANSPARENT
                     }
                 }
@@ -162,31 +157,5 @@ object ThemeSwitch {
         return darkPoint > lightPoint
     }
 
-    private fun rsBlur(source: Bitmap, radius: Int, context: Context): Bitmap {
-        val inputBmp = source
-        val renderScript = RenderScript.create(context)
 
-        // Allocate memory for Renderscript to work with
-        //(2)
-        val input = Allocation.createFromBitmap(renderScript, inputBmp)
-        val output = Allocation.createTyped(renderScript, input.getType())
-        //(3)
-        // Load up an instance of the specific script that we want to use.
-        val scriptIntrinsicBlur = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript))
-        //(4)
-        scriptIntrinsicBlur.setInput(input)
-        //(5)
-        // Set the blur radius
-        scriptIntrinsicBlur.setRadius(radius.toFloat())
-        //(6)
-        // Start the ScriptIntrinisicBlur
-        scriptIntrinsicBlur.forEach(output)
-        //(7)
-        // Copy the output to the blurred bitmap
-        output.copyTo(inputBmp)
-        //(8)
-        renderScript.destroy()
-
-        return inputBmp
-    }
 }
