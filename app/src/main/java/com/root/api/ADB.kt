@@ -54,8 +54,8 @@ class ADBManager(private val context: Context) {
             // 读取设备列表
             while (reader.readLine().also { line = it } != null) {
                 if (line?.contains("\tdevice") == true) {
-                    val deviceId = line?.split("\t")?.get(0)
-                    deviceId?.let { devices.add(it) }
+                    val deviceId = line.split("\t")[0]
+                    deviceId.let { devices.add(it) }
                 }
             }
             process.waitFor()
