@@ -65,7 +65,7 @@ class CheckRootStatus(var context: Context, private val next: Runnable? = null, 
                                 forceGetRoot()
                             }
                             view.findViewById<View>(R.id.btn_skip).setOnClickListener {
-                                skip?.let { r -> myHandler.post(skip) }
+                                skip?.let { r -> myHandler.post(r) }
                             // exitProcess(0)
                             }
 
