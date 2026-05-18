@@ -15,28 +15,7 @@ object KeepShellPublic {
         }
     }
 
-    fun destroyInstance(key: String) {
-        synchronized(keepShells) {
-            if (!keepShells.containsKey(key)) {
-                return
-            } else {
-                val keepShell = keepShells.get(key)!!
-                keepShells.remove(key)
-                keepShell.tryExit()
-            }
-        }
-    }
 
-    fun destroyAll() {
-        synchronized(keepShells) {
-            while (keepShells.isNotEmpty()) {
-                val key = keepShells.keys.first()
-                val keepShell = keepShells.get(key)!!
-                keepShells.remove(key)
-                keepShell.tryExit()
-            }
-        }
-    }
 
     val defaultKeepShell = KeepShell()
     val secondaryKeepShell = KeepShell()
