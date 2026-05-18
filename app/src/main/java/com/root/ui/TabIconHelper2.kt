@@ -2,7 +2,6 @@ package com.root.ui
 
 import android.app.Activity
 import android.graphics.drawable.Drawable
-import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -51,28 +50,6 @@ class TabIconHelper2(
         return tabId
     }
 
-    private fun getTabIndex(tabText: String): Int {
-        for (i in 0 until tabLayout.tabCount) {
-            val tab = tabLayout.getTabAt(i)
-            val textView = tab?.customView?.findViewById<TextView>(R.id.ItemTitle)
-            if (textView?.text == tabText) {
-                return i
-            }
-        }
-        return -1 // 如果未找到，返回 -1
-    }
-
-    fun removeTabSpec(tabText: String) {
-        val index = getTabIndex(tabText)
-        if (index >= 0) {
-            fragments.removeAt(index) // 移除对应的 Fragment
-            views.removeAt(index) // 移除对应的视图
-            tabLayout.removeTabAt(index) // 移除 Tab
-            adapter.notifyDataSetChanged() // 通知适配器更新
-        }
-    }
-
-
 
     fun updateHighlight() {
         val currentTab = tabLayout.selectedTabPosition
@@ -110,7 +87,7 @@ fun removeTabAt(index: Int) {
             private fun updateTab() {
                 if (!tabsInited) {
                     for (i in 0 until tabLayout.tabCount) {
-                        tabLayout.getTabAt(i)?.setCustomView(views[i])
+                        tabLayout.getTabAt(i)?.customView = views[i]
                     }
                     tabsInited = true
                 }
