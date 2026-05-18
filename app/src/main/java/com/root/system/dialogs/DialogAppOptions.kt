@@ -313,8 +313,8 @@ open class DialogAppOptions(protected final var context: Activity, protected var
         checkPigz()
 
         val sb = StringBuilder()
-        sb.append("chown -R sdcard_rw:sdcard_rw \"$backupPath\" 2>/dev/null\n")
-        sb.append("chmod -R 777 \"$backupPath\" 2>/dev/null\n")
+        sb.append("chown -R sdcard_rw:sdcard_rw \"$backupPath\"\n")
+        sb.append("chmod -R 777 \"$backupPath\"\n")
         for (item in apps) {
             val packageName = item.packageName
             val apkPath = item.path.toString()
@@ -322,13 +322,13 @@ open class DialogAppOptions(protected final var context: Activity, protected var
                 sb.append("echo '[install ${item.appName}]'\n")
                 sb.append("rm -f $installApkTemp\n")
                 sb.append("cp \"$apkPath\" $installApkTemp\n")
-                sb.append("pm install -r $installApkTemp 1> /dev/null\n")
+                sb.append("pm install -r $installApkTemp\n")
                 sb.append("rm -f $installApkTemp\n")
             } else if (apk && File("$backupPath$packageName.apk").exists()) {
                 sb.append("echo '[install ${item.appName}]'\n")
                 sb.append("rm -f $installApkTemp\n")
                 sb.append("cp \"$backupPath$packageName.apk\" $installApkTemp\n")
-                sb.append("pm install -r $installApkTemp 1> /dev/null\n")
+                sb.append("pm install -r $installApkTemp\n")
                 sb.append("rm -f $installApkTemp\n")
             }
         }
@@ -382,7 +382,7 @@ open class DialogAppOptions(protected final var context: Activity, protected var
             } else if (androidP) {
                 if (item.suspended) {
                     sb.append("echo '[unsuspend ${item.appName}]'\n")
-                    sb.append("am kill $packageName 2>/dev/null\n")
+                    sb.append("am kill $packageName\n")
                     sb.append("pm unsuspend $packageName\n")
                 }
             }
