@@ -12,9 +12,8 @@ public class GpuUtils {
     private static String GPU_LOAD_PATH = null;
     private static String GPU_FREQ_CMD = null;
 
-    private static String GPU_MEMORY_CMD = null;
+
     private static String GPU_MEMORY_CMD1 = "cat /proc/mali/memory_usage | grep \"Total\" | cut -f2 -d \"(\" | cut -f1 -d \" \"";
-    private static String GPU_MEMORY_CMD2 = null;
 
     private static String platform;
     private static boolean kgsGM = true;
@@ -109,7 +108,7 @@ public class GpuUtils {
             }
         }
 
-        if (GPU_LOAD_PATH.equals("")) {
+        if (GPU_LOAD_PATH.isEmpty()) {
             return -1;
         } else {
             String load = KernelProrp.INSTANCE.getProp(GPU_LOAD_PATH);

@@ -48,7 +48,7 @@ import java.util.*
 class FragmentHome : androidx.fragment.app.Fragment() {
     private lateinit var binding: FragmentHomeBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -362,7 +362,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
             core.maxFreq = maxFreqList[coreIndex]
 
             if (!minFreqList.containsKey(coreIndex) || (core.currentFreq != "" && minFreqList[coreIndex].isNullOrEmpty())) {
-                minFreqList.put(coreIndex, CpuFrequencyUtil.getCurrentMinFrequency("cpu$coreIndex"))
+                minFreqList[coreIndex] = CpuFrequencyUtil.getCurrentMinFrequency("cpu$coreIndex")
             }
             core.minFreq = minFreqList[coreIndex]
             cores.add(core)

@@ -21,7 +21,6 @@ public class CpuFrequencyUtils {
     // private  final  String scaling_cur_freq = cpufreq_sys_dir + "cpuinfo_cur_freq";
     private final String scaling_max_freq = cpufreq_sys_dir + "scaling_max_freq";
     private final String scaling_governor = cpufreq_sys_dir + "scaling_governor";
-    private final Object cpuClusterInfoLoading = true;
     private ArrayList<String[]> cpuClusterInfo;
     private SceneJNI JNI = new SceneJNI();
     private int coreCount = -1;
@@ -208,7 +207,7 @@ public class CpuFrequencyUtils {
                     stringBuilder.append(maxFrequency);
                     stringBuilder.append(" ");
                 }
-                commands.add("echo " + stringBuilder.toString() + "> /sys/module/msm_performance/parameters/cpu_max_freq");
+                commands.add("echo " + stringBuilder + "> /sys/module/msm_performance/parameters/cpu_max_freq");
                 KeepShellPublic.INSTANCE.doCmdSync(commands);
             }
         }
@@ -350,8 +349,8 @@ public class CpuFrequencyUtils {
                 }
                 cores++;
             }
-            for (int i = 0; i < clusters.size(); i++) {
-                cpuClusterInfo.add(clusters.get(i).split("[ ]+"));
+            for (String cluster : clusters) {
+                cpuClusterInfo.add(cluster.split("[ ]+"));
             }
         }
         return cpuClusterInfo;
@@ -445,7 +444,7 @@ public class CpuFrequencyUtils {
                                 stringBuilder.append(config.max_freq);
                                 stringBuilder.append(" ");
                             }
-                            commands.add("echo " + stringBuilder.toString() + "> /sys/module/msm_performance/parameters/cpu_max_freq");
+                            commands.add("echo " + stringBuilder + "> /sys/module/msm_performance/parameters/cpu_max_freq");
                             if (config.min_freq != null && !config.min_freq.isEmpty()) {
                                 commands.add("chmod 0664 " + scaling_min_freq.replace("cpu0", "cpu" + core));
                                 commands.add("echo " + config.min_freq + " > " + scaling_min_freq.replace("cpu0", "cpu" + core));
