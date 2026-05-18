@@ -280,9 +280,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
     private var minFreqList = HashMap<Int, String>()
     private var maxFreqList = HashMap<Int, String>()
     private fun formatNumber(value: Double): String {
-        var bd = BigDecimal(value)
-        bd = bd.setScale(1, RoundingMode.HALF_UP)
-        return bd.toString()
+        return BigDecimal(value).setScale(1, RoundingMode.HALF_UP).toString()
     }
 
     @SuppressLint("SetTextI18n")
