@@ -87,13 +87,13 @@ public class ScriptEnvironmen {
             envShell = envShell.replace("$({EXECUTOR_PATH})", outputPathAbs);
 
 
-            inited = FileWrite.INSTANCE.writePrivateFile(envShell.getBytes(Charset.defaultCharset()), fileName, context);
+            inited = true;
             if (inited) {
                 environmentPath = outputPathAbs;
             }
 
             SharedPreferences.Editor configSpf = context.getSharedPreferences("kr-script-config", Context.MODE_PRIVATE).edit();
-            configSpf.putString("executor", executor);
+            configSpf.putString("executor", envShell);
             configSpf.putString("toolkitDir", toolkitDir);
             configSpf.apply();
 
