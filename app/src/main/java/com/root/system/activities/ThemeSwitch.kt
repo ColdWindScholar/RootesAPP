@@ -18,6 +18,8 @@ import androidx.core.content.PermissionChecker
 import com.root.common.ui.ThemeMode
 import com.root.store.SpfConfig
 import com.root.system.R
+import androidx.core.content.edit
+import androidx.core.graphics.get
 
 object ThemeSwitch {
     private var globalSPF: SharedPreferences? = null
@@ -34,7 +36,7 @@ object ThemeSwitch {
 
         // 设置壁纸作为背景需要读取外置存储权限（如果没权限，就恢复默认主题）
         if (theme == 10 && !(checkPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) && checkPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE))) {
-            globalSPF!!.edit().remove(SpfConfig.GLOBAL_SPF_THEME).apply()
+            globalSPF!!.edit { remove(SpfConfig.GLOBAL_SPF_THEME) }
             return switchTheme(activity)
         }
 
@@ -141,7 +143,7 @@ object ThemeSwitch {
         for (i in 0..pointCount) {
             val y = h / pointCount * i
             val x = w / pointCount * i
-            val pixel = bitmap.getPixel(x, y)
+            val pixel = bitmap[x, y]
 
             // 获取颜色
             val redValue = Color.red(pixel)
