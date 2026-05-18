@@ -27,19 +27,19 @@ else
   return 1
 fi
 
-min_free_kbytes=`getprop vtools.backup.free_kbytes`
+min_free_kbytes=$(getprop vtools.backup.free_kbytes)
 if [[ $min_free_kbytes == '' ]]; then
-  min_free_kbytes=`cat $modify_path`
-  setprop vtools.backup.free_kbytes $min_free_kbytes
+  min_free_kbytes=$(cat $modify_path)
+  setprop vtools.backup.free_kbytes "$min_free_kbytes"
 fi
 
-MemTotalStr=`cat /proc/meminfo | grep MemTotal`
+MemTotalStr=$(cat /proc/meminfo | grep MemTotal)
 MemTotal=${MemTotalStr:16:8}
 
-MemMemFreeStr=`cat /proc/meminfo | grep MemFree`
+MemMemFreeStr=$(cat /proc/meminfo | grep MemFree)
 MemMemFree=${MemMemFreeStr:16:8}
 
-SwapFreeStr=`cat /proc/meminfo | grep SwapFree`
+SwapFreeStr=$(cat /proc/meminfo | grep SwapFree)
 SwapFree=${SwapFreeStr:16:8}
 
 if [[ "$level" == "3" ]]; then
@@ -130,9 +130,9 @@ force_reclaim() {
       sleep_time=$(($RecyclingSize / 1024 / 60 + 2))
     fi
 
-    while [ $sleep_time -gt 0 ]; do
+    while [ "$sleep_time" -gt 0 ]; do
       sleep 1
-      MemMemFreeStr=`cat /proc/meminfo | grep MemFree`
+      MemMemFreeStr=$(cat /proc/meminfo | grep MemFree)
       MemMemFree=${MemMemFreeStr:16:8}
 
       # 如果内存已经回收足够，提前结束
@@ -140,7 +140,7 @@ force_reclaim() {
         break
       fi
 
-      SwapFreeStr=`cat /proc/meminfo | grep SwapFree`
+      SwapFreeStr=$(cat /proc/meminfo | grep SwapFree)
       SwapFree=${SwapFreeStr:16:8}
       # 如果SWAP可用空间已经不足，提前结束
       if [[ $SwapFree -lt 100 ]]; then
@@ -148,11 +148,11 @@ force_reclaim() {
       fi
 
       # 否则继续等待倒计时结束
-      sleep_time=$(expr $sleep_time - 1)
+      sleep_time=$(expr "$sleep_time" - 1)
     done
 
     # 还原原始设置
-    echo $min_free_kbytes > $modify_path
+    echo "$min_free_kbytes" > $modify_path
     echo $reclaim_completed
 
     # 清除执行状态标记
