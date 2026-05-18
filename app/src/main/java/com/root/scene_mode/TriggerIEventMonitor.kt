@@ -30,9 +30,9 @@ class TriggerIEventMonitor(private val context: Context, override val isAsync: B
 
                     val inTimeSection =
                             // 如果【起床时间】比【睡觉时间】要大，如 2:00 睡到 9:00 起床
-                            (getUp > sleep && (nowTimeValue >= sleep && nowTimeValue <= getUp)) ||
+                            (getUp > sleep && (nowTimeValue in sleep..getUp)) ||
                                     // 正常时间睡觉【睡觉时间】大于【起床时间】，如 23:00 睡到 7:00 起床
-                                    (getUp < sleep && (nowTimeValue >= sleep || nowTimeValue <= getUp))
+                                    (getUp < sleep && (nowTimeValue !in (getUp + 1)..<sleep))
                     if (!inTimeSection) {
                         return
                     }
@@ -60,16 +60,17 @@ class TriggerIEventMonitor(private val context: Context, override val isAsync: B
     }
 
     override fun eventFilter(eventType: EventType): Boolean {
-        when (eventType) {
+        return when (eventType) {
             EventType.SCREEN_ON,
             EventType.SCREEN_OFF,
             EventType.BOOT_COMPLETED,
             EventType.BATTERY_LOW,
             EventType.POWER_CONNECTED,
             EventType.POWER_DISCONNECTED -> {
-                return true
+                true
             }
-            else -> return false
+
+            else -> false
         }
     }
 }

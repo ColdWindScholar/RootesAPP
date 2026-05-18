@@ -22,10 +22,7 @@ class BatteryState(private val applicationContext: Context) : BroadcastReceiver(
     private var batteryManager: BatteryManager? = null
 
     override fun onReceive(context: Context, intent: Intent) {
-        val action = intent.action
-        if (action == null) {
-            return
-        }
+        val action = intent.action ?: return
 
         val pendingResult = goAsync()
         try {
@@ -64,14 +61,19 @@ class BatteryState(private val applicationContext: Context) : BroadcastReceiver(
                 }
             }
 
-            if (action == Intent.ACTION_BATTERY_LOW) {
-                EventBus.publish(EventType.BATTERY_LOW)
-            } else if (action == Intent.ACTION_BATTERY_CHANGED) {
-                EventBus.publish(EventType.BATTERY_CHANGED)
-            } else if (action == Intent.ACTION_POWER_DISCONNECTED) {
-                EventBus.publish(EventType.POWER_DISCONNECTED)
-            } else if (action == Intent.ACTION_POWER_CONNECTED) {
-                EventBus.publish(EventType.POWER_CONNECTED)
+            when (action) {
+                Intent.ACTION_BATTERY_LOW -> {
+                    EventBus.publish(EventType.BATTERY_LOW)
+                }
+                Intent.ACTION_BATTERY_CHANGED -> {
+                    EventBus.publish(EventType.BATTERY_CHANGED)
+                }
+                Intent.ACTION_POWER_DISCONNECTED -> {
+                    EventBus.publish(EventType.POWER_DISCONNECTED)
+                }
+                Intent.ACTION_POWER_CONNECTED -> {
+                    EventBus.publish(EventType.POWER_CONNECTED)
+                }
             }
             if (lastCapacity != capacity) {
                 lastCapacity = capacity

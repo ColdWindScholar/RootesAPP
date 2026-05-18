@@ -1,7 +1,5 @@
 package com.root.model;
 
-import android.graphics.drawable.Drawable;
-
 import com.root.common.ui.AdapterAppChooser;
 
 /**

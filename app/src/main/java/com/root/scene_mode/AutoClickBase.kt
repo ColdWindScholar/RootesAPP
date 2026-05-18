@@ -49,10 +49,6 @@ open class AutoClickBase {
                     // Log.d("@Scene", "onCompleted: 完成..........");
                 }
 
-                override fun onCancelled(gestureDescription: GestureDescription) {
-                    super.onCancelled(gestureDescription)
-                    // Log.d("@Scene", "onCancelled: 取消..........");
-                }
             }, null)
         }
         return false

@@ -10,7 +10,6 @@ import com.root.model.SceneConfigInfo;
 import com.root.system.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SceneConfigStore extends SQLiteOpenHelper {
     private static final int DB_VERSION = 6;
@@ -192,7 +191,7 @@ public class SceneConfigStore extends SQLiteOpenHelper {
     }
 
     public ArrayList<String> getFreezeAppList() {
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         try {
             SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
             Cursor cursor = sqLiteDatabase.rawQuery("select * from scene_config3 where freeze == 1", null);

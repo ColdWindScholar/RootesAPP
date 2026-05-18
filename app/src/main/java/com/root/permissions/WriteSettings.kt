@@ -15,15 +15,15 @@ import com.root.common.shell.KeepShellPublic
 
 class WriteSettings {
     fun checkPermission(context: Context): Boolean {
-        try {
+        return try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                return Settings.System.canWrite(context)
+                Settings.System.canWrite(context)
             } else {
                 // TODO("VERSION.SDK_INT < M")
-                return true
+                true
             }
         } catch (ex: Exception) {
-            return false
+            false
         }
     }
 

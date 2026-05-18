@@ -14,7 +14,7 @@ object PropsUtils {
      * @return 内容
      */
     fun getProp(propName: String): String {
-        return KeepShellPublic.doCmdSync("getprop \"$propName\"")
+        return KeepShellPublic.doCmdSync("getprop $propName")
     }
 
     fun setPorp(propName: String, value: String): Boolean {

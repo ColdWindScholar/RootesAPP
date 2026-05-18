@@ -4,6 +4,7 @@ import android.content.Context
 import com.root.Scene
 import com.root.library.shell.DDRUtils
 import com.root.library.shell.PlatformUtils
+import androidx.core.content.edit
 
 class HardwareInfo {
     private val config = Scene.context.getSharedPreferences("HardwareInfo", Context.MODE_PRIVATE)
@@ -12,7 +13,7 @@ class HardwareInfo {
         if (!config.contains("platform")) {
             val result = PlatformUtils().getCPUName()
             if (result.isNotEmpty() && result != "error") {
-                config.edit().putString("platform", result).apply()
+                config.edit { putString("platform", result) }
             }
         }
         return config.getString("platform", "")!!
@@ -22,7 +23,7 @@ class HardwareInfo {
         if (!config.contains("ddr_type")) {
             val result = DDRUtils().getDDRType()
             if (result > 0) {
-                config.edit().putInt("ddr_type", result).apply()
+                config.edit { putInt("ddr_type", result) }
             }
         }
         return config.getInt("ddr_type", -1)
