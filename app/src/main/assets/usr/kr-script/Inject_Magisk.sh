@@ -9,7 +9,7 @@ Check_Magisk() {
 
 
 if [[ -z "$File" ]]; then
-    abort "请选择文件路径不可为空哦﻿⊙∀⊙！"
+    abort "请选择文件路径不可为空哦⊙∀⊙！"
 elif [[ ! -f "$File" ]]; then
     abort "\"${File}\"文件不存在无法此功能！"
 fi

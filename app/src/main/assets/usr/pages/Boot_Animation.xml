@@ -122,9 +122,9 @@
 <group>
         <text>
             <title>在寻找其他功能吗？</title>
-            <desc></desc>
+            <desc/>
         </text>        
-                <page title="高级重启" config="file:///android_asset/usr/pages/Advanced_Restart.xml" locked="$LOCKED" />
+        <page title="高级重启" config="file:///android_asset/usr/pages/Advanced_Restart.xml" locked="$LOCKED" />
     
     
     </group>
