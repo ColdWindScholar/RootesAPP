@@ -3,7 +3,6 @@ package com.root.system.services
 import android.app.IntentService
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -16,7 +15,6 @@ import com.root.common.shared.FileWrite
 import com.root.common.shell.KeepShell
 import com.root.system.R
 import java.nio.charset.Charset
-import java.util.*
 
 /**
  * 后台编译应用
@@ -132,11 +130,11 @@ class CompileService : IntentService("vtools-compile") {
             val cache = "/dex2oat/reset.sh"
             if (FileWrite.writePrivateFile(cmdBuilder.toString().toByteArray(Charset.defaultCharset()), cache, this.applicationContext)) {
                 val shellFile = FileWrite.getPrivateFilePath(this.applicationContext, cache)
-                keepShell.doCmdSync("sh " + shellFile + " >/dev/null 2>&1 &")
+                keepShell.doCmdSync("sh $shellFile 2>&1 &")
             }
             keepShell.tryExit()
             compileCanceled = true
-            Scene.Companion.toast("重置过程中手机会有点卡，请耐心等待~", Toast.LENGTH_LONG)
+            Scene.toast("重置过程中手机会有点卡，请耐心等待~", Toast.LENGTH_LONG)
         } else {
             for (packageName in packageNames) {
                 if (true) {
