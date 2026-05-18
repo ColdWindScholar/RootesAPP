@@ -1,7 +1,6 @@
 package com.root.krscript.config
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +8,7 @@ import android.text.Layout
 import android.util.Log
 import android.util.Xml
 import android.widget.Toast
+import androidx.core.graphics.toColorInt
 import com.root.common.model.SelectItem
 import com.root.common.shared.ResourceStringResolver
 import com.root.krscript.executor.ExtractAssets
@@ -18,7 +18,6 @@ import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
 import java.util.*
 import java.util.Locale.getDefault
-import androidx.core.graphics.toColorInt
 
 /**
  * Created by Hello on 2018/04/01.

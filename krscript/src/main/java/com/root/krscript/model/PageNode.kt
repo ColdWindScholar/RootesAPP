@@ -4,14 +4,14 @@ class PageNode(currentConfigXml: String) : ClickableNode(currentConfigXml) {
     var pageConfigPath: String = ""
     var pageConfigSh: String = ""
     var onlineHtmlPage: String = ""
-    public var onlineHtml2Page: String = ""
+    var onlineHtml2Page: String = ""
     // 点击后要跳转的网页链接
-    public var link: String = ""
+    var link: String = ""
     // 点击后要打开的活动
-    public var activity: String = ""
+    var activity: String = ""
 
     // 读取页面配置前
-    public var beforeRead = ""
+    var beforeRead = ""
     // 读取页面配置后
     public var afterRead = ""
 

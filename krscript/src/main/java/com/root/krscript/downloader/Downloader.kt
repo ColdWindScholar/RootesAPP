@@ -15,7 +15,6 @@ import com.root.krscript.R
 import org.json.JSONObject
 import java.io.File
 import java.nio.charset.Charset
-import java.util.Locale
 import java.util.Locale.getDefault
 
 class Downloader(private var context: Context, private var activity: Activity? = null) {
