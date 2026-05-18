@@ -4,7 +4,6 @@ import android.content.Context
 import com.root.common.shell.KeepShellPublic
 import com.root.model.ProcessInfo
 import com.root.model.ThreadInfo
-import com.root.shell_utils.ToyboxIntaller
 import java.util.*
 
 /*
@@ -23,12 +22,9 @@ class ProcessUtilsSimple(private val context: Context) {
     */
     private val psCommand = object : TripleCacheValue(context, "ProcessUtils2CMD") {
         override fun initValue(): String {
-            val outsideToybox = ToyboxIntaller(context).install()
             val perfectCmd = "top -o %CPU,NAME,COMMAND,PID -q -b -n 1 -m 65535"
-            val outsidePerfectCmd = "$outsideToybox $perfectCmd"
             val insideCmd = "ps -e -o %CPU,NAME,COMMAND,PID"
-            val outsideCmd = "$outsideToybox $insideCmd"
-            for (cmd in arrayOf(outsidePerfectCmd, perfectCmd, outsideCmd, insideCmd)) {
+            for (cmd in arrayOf(perfectCmd, insideCmd)) {
                 val rows = KeepShellPublic.doCmdSync("$cmd 2>&1").split("\n".toRegex()).toTypedArray()
                 val result = rows[0]
                 if (rows.size > 10 &&
@@ -50,22 +46,7 @@ class ProcessUtilsSimple(private val context: Context) {
         return this.psCommand.toString().isNotEmpty()
     }
 
-    private fun str2Long(str: String): Long {
-        return when {
-            str.contains("K") -> {
-                str.substring(0, str.indexOf("K")).toDouble().toLong()
-            }
-            str.contains("M") -> {
-                (str.substring(0, str.indexOf("M")).toDouble() * 1024).toLong()
-            }
-            str.contains("G") -> {
-                (str.substring(0, str.indexOf("G")).toDouble() * 1048576).toLong()
-            }
-            else -> {
-                str.toLong() / 1024
-            }
-        }
-    }
+
 
     // 从进程列表排除的应用
     private val excludeProcess: ArrayList<String> = object : ArrayList<String>() {
