@@ -305,6 +305,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
                         swapUsed = swapInfos.substring(swapInfos.indexOf(" ")).trim().toInt()
                     }
                 } catch (ex: java.lang.Exception) {
+                    println(ex.message)
                 }
             }
 
