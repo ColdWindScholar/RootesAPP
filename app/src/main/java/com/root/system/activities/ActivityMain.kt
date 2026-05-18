@@ -158,9 +158,9 @@ class ActivityMain : ActivityBase() {
     private fun initializeTabs() {
         tabIconHelper2.newTabSpec(getString(R.string.app_home), getDrawable(R.drawable.app_home)!!,  FragmentHome())
         tabIconHelper2.newTabSpec(getString(R.string.app_nav), getDrawable(R.drawable.app_menu)!!, if (CheckRootStatus.lastCheckResult) FragmentNav() else FragmentNotRootNav())
-        tabIconHelper2.newTabSpec(getString(R.string.app_tuner), getDrawable(R.drawable.app_settings)!!, if (CheckRootStatus.lastCheckResult) FragmentCpuModes() else FragmentNotRoot())
+        tabIconHelper2.newTabSpec(getString(R.string.app_tuner), getDrawable(R.drawable.app_settings)!!,  FragmentCpuModes())
 
-        tabIconHelper2.newTabSpec(getString(R.string.app_user), getDrawable(R.drawable.app_like)!!, if (CheckRootStatus.lastCheckResult) FragmentDonate() else FragmentDonate())
+        tabIconHelper2.newTabSpec(getString(R.string.app_user), getDrawable(R.drawable.app_like)!!,  FragmentDonate())
     }
 
     // 使用root权限获取设备序列号
