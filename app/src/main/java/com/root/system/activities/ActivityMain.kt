@@ -73,8 +73,8 @@ class ActivityMain : ActivityBase() {
                     RootFile.list("/data/thermal/config").size > 0 -> {
                         deleteThermalCopyWarn {
                             KeepShellPublic.doCmdSync(
-                                    "chattr -R -i /data/thermal 2> /dev/null\n" +
-                                            "rm -rf /data/thermal 2> /dev/null\n" +
+                                    "chattr -R -i /data/thermal\n" +
+                                            "rm -rf /data/thermal\n" +
                                             "sync;svc power reboot || reboot;"
                             )
                         }
@@ -90,8 +90,8 @@ class ActivityMain : ActivityBase() {
                         } else {
                             deleteThermalCopyWarn {
                                 KeepShellPublic.doCmdSync(
-                                        "chattr -R -i /data/vendor/thermal 2> /dev/null\n" +
-                                                "rm -rf /data/vendor/thermal 2> /dev/null\n" +
+                                        "chattr -R -i /data/vendor/thermal\n" +
+                                                "rm -rf /data/vendor/thermal\n" +
                                                 "sync;svc power reboot || reboot;"
                                 )
                             }
