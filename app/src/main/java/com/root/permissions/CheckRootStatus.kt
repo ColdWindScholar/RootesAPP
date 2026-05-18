@@ -65,7 +65,7 @@ class CheckRootStatus(var context: Context, private val next: Runnable? = null, 
                                 forceGetRoot()
                             }
                             view.findViewById<View>(R.id.btn_skip).setOnClickListener {
-                                next?.let { r -> myHandler.post(r) }
+                                skip?.let { r -> myHandler.post(skip) }
                             // exitProcess(0)
                             }
 
@@ -83,14 +83,8 @@ class CheckRootStatus(var context: Context, private val next: Runnable? = null, 
                                         }
                                         forceGetRoot()
                                     }),
-                                    onCancel = DialogHelper.DialogButton("关闭App", {
-
-
-                                        exitProcess(0)
-                                        //
-                                    }),
-
-                                )     .setCancelable(false)
+                                    onCancel = DialogHelper.DialogButton("关闭App", {exitProcess(0) }),
+                                ).setCancelable(false)
                             }
 
                         }
