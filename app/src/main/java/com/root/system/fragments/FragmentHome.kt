@@ -117,11 +117,6 @@ class FragmentHome : androidx.fragment.app.Fragment() {
         binding.homeHelp.setOnClickListener {
             showUpdateDialog()
         }
-
-
-
-
-
         binding.homeBatteryEdit.setOnClickListener {
             DialogElectricityUnit().showDialog(requireContext())
         }
@@ -194,7 +189,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
             23 -> "Android 6.0"
             22 -> "Android 5.1"
             21 -> "Android 5.0"
-            else -> "SDK(" + Build.VERSION.SDK_INT + ")"
+            else -> "SDK(${Build.VERSION.SDK_INT})"
         } // (Build.MANUFACTURER + " " + Build.MODEL + " (SDK" + Build.VERSION.SDK_INT + ")").trim()
 
         // 点击内存信息
@@ -238,7 +233,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
             }
 
             override fun onResponse(call: okhttp3.Call, response: Response) {
-                response.body?.let { responseBody ->
+                response.body.let { responseBody ->
                     val content = responseBody.string()
                     (context as? Activity)?.runOnUiThread {
                         //  progressBarDialog.dismissDialog()
@@ -314,13 +309,13 @@ class FragmentHome : androidx.fragment.app.Fragment() {
             }
 
             myHandler.post {
-                binding.homeRaminfoText?.text = "${((totalMem - availMem) * 100 / totalMem)}% (${totalMem / 1024 + 1}GB)"
-                binding.homeRamstat?.setData(totalMem.toFloat(), availMem.toFloat())
-                binding.homeSwapstat?.setData(swapTotal.toFloat(), (swapTotal - swapUsed).toFloat())
-                binding.homeMemoryTotal?.setData(
-                        (totalMem + swapTotal).toFloat(), availMem + (swapTotal - swapUsed).toFloat(), totalMem.toFloat()
+                binding.homeRaminfoText.text = "${((totalMem - availMem) * 100 / totalMem)}% (${totalMem / 1024 + 1}GB)"
+                binding.homeRamstat.setData(totalMem.toFloat(), availMem.toFloat())
+                binding.homeSwapstat.setData(swapTotal.toFloat(), (swapTotal - swapUsed).toFloat())
+                binding.homeMemoryTotal.setData(
+                    (totalMem + swapTotal).toFloat(), availMem + (swapTotal - swapUsed).toFloat(), totalMem.toFloat()
                 )
-                binding.homeZramsizeText?.text = (
+                binding.homeZramsizeText.text = (
                         if (swapTotal > 99) {
                             "${(swapUsed * 100.0 / swapTotal).toInt()}% (${formatNumber(swapTotal / 1024.0)}GB)"
                         } else {
@@ -393,7 +388,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
             GlobalScope.launch(Dispatchers.IO) {
                 val processList = processUtils.allProcess
                 myHandler.post {
-                    (binding.homeProcessList?.adapter as AdapterProcessMini?)?.setList(processList)
+                    (binding.homeProcessList.adapter as AdapterProcessMini?)?.setList(processList)
                 }
             }
         }
