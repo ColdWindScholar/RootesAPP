@@ -48,12 +48,16 @@ class DialogCustomMAC(private var context: Context) {
                 return@confirm
             }
 
-            val raw = if (mode == SpfConfig.GLOBAL_SPF_MAC_AUTOCHANGE_MODE_1) {
-                RawText.getRawText(context, R.raw.change_mac_1)
-            } else if (mode == SpfConfig.GLOBAL_SPF_MAC_AUTOCHANGE_MODE_2) {
-                RawText.getRawText(context, R.raw.change_mac_2)
-            } else {
-                RawText.getRawText(context, R.raw.change_mac_1)
+            val raw = when (mode) {
+                SpfConfig.GLOBAL_SPF_MAC_AUTOCHANGE_MODE_1 -> {
+                    RawText.getRawText(context, R.raw.change_mac_1)
+                }
+                SpfConfig.GLOBAL_SPF_MAC_AUTOCHANGE_MODE_2 -> {
+                    RawText.getRawText(context, R.raw.change_mac_2)
+                }
+                else -> {
+                    RawText.getRawText(context, R.raw.change_mac_1)
+                }
             }
             val shell = "mac=\"$mac\"\n$raw"
             val r = KeepShellPublic.doCmdSync(shell)

@@ -18,6 +18,7 @@ import com.root.store.SpfConfig
 import com.root.utils.CommonCmds
 import com.root.system.R
 import java.util.*
+import androidx.core.content.edit
 
 /**
  * Created by Hello on 2017/12/03.
@@ -35,11 +36,11 @@ class DialogAddinModifyDPI(var context: Activity) {
     private fun backupDisplay(point: Point, dm: DisplayMetrics, context: Context) {
         val spf = context.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
         if (!spf.contains(BACKUP_SCREEN_RATIO)) {
-            spf.edit().putFloat(BACKUP_SCREEN_RATIO, point.y / point.x.toFloat()).commit()
+            spf.edit(commit = true) { putFloat(BACKUP_SCREEN_RATIO, point.y / point.x.toFloat()) }
         }
         if (!spf.contains(BACKUP_SCREEN_DPI) || !spf.contains(BACKUP_SCREEN_WIDTH)) {
             spf.edit().putInt(BACKUP_SCREEN_DPI, dm.densityDpi).commit()
-            spf.edit().putInt(BACKUP_SCREEN_WIDTH, point.x).commit()
+            spf.edit(commit = true) { putInt(BACKUP_SCREEN_WIDTH, point.x) }
         }
     }
 
@@ -150,7 +151,7 @@ class DialogAddinModifyDPI(var context: Activity) {
         })
 
         dialog.findViewById<Button>(R.id.dialog_dpi_reset).setOnClickListener {
-            if (dialogInstance.isShowing == true) {
+            if (dialogInstance.isShowing) {
                 try {
                     dialogInstance.dismiss()
                 } catch (ex: java.lang.Exception) {
@@ -186,7 +187,7 @@ class DialogAddinModifyDPI(var context: Activity) {
                     } else {
                         handler.post {
                             try {
-                                timeoutView.setText(timeOut.toString())
+                                timeoutView.text = timeOut.toString()
                             } catch (ex: Exception) {
                             }
                         }
@@ -194,7 +195,7 @@ class DialogAddinModifyDPI(var context: Activity) {
                 }
             }, 1000, 1000)
 
-            timeoutView.setText(timeOut.toString())
+            timeoutView.text = timeOut.toString()
             view.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
                 dialog.dismiss()
                 resetDisplay()

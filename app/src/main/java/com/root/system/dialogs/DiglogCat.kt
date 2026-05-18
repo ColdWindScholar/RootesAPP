@@ -7,6 +7,7 @@ import android.view.View
 import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
 import com.root.system.R
+import androidx.core.net.toUri
 
 class DialogCat(var context: Activity) {
     fun showCatMenu() {
@@ -31,7 +32,7 @@ view.findViewById<View>(R.id.power_hot_reboot).setOnClickListener {
 
     }
     fun web(url: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
         context.startActivity(intent)
     }
 }
