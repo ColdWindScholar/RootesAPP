@@ -322,31 +322,7 @@ public class ScriptEnvironmen {
         return envp;
     }
 
-    private static String getExecuteScript(Context context, String script, String tag) {
-        if (!inited) {
-            init(context);
-        }
 
-        if (script == null || script.isEmpty()) {
-            return "";
-        }
-
-        String script2 = script.trim();
-        String cachePath = "";
-        if (script2.startsWith(ASSETS_FILE)) {
-            cachePath = extractScript(context, script2);
-            if (cachePath == null) {
-                cachePath = script;
-                // String error = context.getString(R.string.script_losted) + setState;
-                // Toast.makeText(context, error, Toast.LENGTH_LONG).show();
-            }
-        } else {
-            cachePath = createShellCache(context, script);
-        }
-
-
-        return environmentPath + " \"" + cachePath + "\" \"" + tag +  "\"";
-    }
 
     static Process getRuntime() {
         try {
@@ -428,7 +404,7 @@ public class ScriptEnvironmen {
         try {
             dataOutputStream.write(envpCmds.toString().getBytes(StandardCharsets.UTF_8));
 
-            dataOutputStream.write(getExecuteScript(context, cmds, tag).getBytes(StandardCharsets.UTF_8));
+            dataOutputStream.write(cmds.getBytes(StandardCharsets.UTF_8));
 
             dataOutputStream.writeBytes("\n\n");
             dataOutputStream.writeBytes("sleep 0.2;\n");
