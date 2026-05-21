@@ -1,21 +1,13 @@
-package com.root.shell_utils;
+package com.root.shell_utils
 
-import android.os.Environment;
+import android.os.Environment
 
-import com.root.common.shell.KeepShellPublic;
-import com.root.common.shell.RootFile;
+import com.root.common.shell.KeepShellPublic
 
-public class AppErrorLogcatUtils {
-    private String logPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/玩机百宝箱BUG请发给作者.log";
+class AppErrorLogcatUtils {
+    private val logPath = Environment.getExternalStorageDirectory().absolutePath + "/玩机百宝箱BUG请发给作者.log"
 
-    public String catLogInfo() {
-        if (!RootFile.INSTANCE.fileExists(logPath)) {
-            return KeepShellPublic.INSTANCE.doCmdSync("logcat -d *:E > \"" + logPath + "\"");
-        }
-        return KeepShellPublic.INSTANCE.doCmdSync("cat \"" + logPath + "\"");
-    }
-
-    public void catLogInfo2File(int pid) {
-        KeepShellPublic.INSTANCE.doCmdSync("logcat -d *:E --pid " + pid + " > \"" + logPath + "\"");
+    fun catLogInfo2File(pid: Int) {
+        KeepShellPublic.doCmdSync("logcat -d *:E --pid $pid > \"$logPath\"")
     }
 }

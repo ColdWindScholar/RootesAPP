@@ -8,8 +8,7 @@ import android.content.res.Configuration
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
-import com.root.common.shared.FileWrite
-import com.root.common.shell.ShellExecutor
+import androidx.core.content.edit
 import com.root.data.EventBus
 import com.root.data.customer.ChargeCurve
 import com.root.data.customer.PowerUtilizationCurve
@@ -20,9 +19,8 @@ import com.root.permissions.CheckRootStatus
 import com.root.scene_mode.TimingTaskManager
 import com.root.scene_mode.TriggerIEventMonitor
 import com.root.store.SpfConfig
-import com.root.utils.CrashHandler
 import com.root.system.R
-import androidx.core.content.edit
+import com.root.utils.CrashHandler
 
 class Scene : Application() {
     companion object {

@@ -45,10 +45,10 @@ internal class AlwaysNotification(
     private var globalSPF = context.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE)
 
     private fun getAppName(packageName: String): CharSequence? {
-        try {
-            return context.packageManager.getPackageInfo(packageName, 0).applicationInfo?.loadLabel(context.packageManager)
+        return try {
+            context.packageManager.getPackageInfo(packageName, 0).applicationInfo?.loadLabel(context.packageManager)
         } catch (ex: Exception) {
-            return packageName
+            packageName
         }
     }
 
@@ -97,10 +97,10 @@ internal class AlwaysNotification(
             batteryIO = "${GlobalStatus.batteryCurrentNow}mA"
             batteryTemp = "${GlobalStatus.temperatureCurrent}°C"
 
-            if (GlobalStatus.batteryStatus == BatteryManager.BATTERY_STATUS_DISCHARGING) {
-                batteryImage = BitmapFactory.decodeResource(context.resources, getBatteryIcon(GlobalStatus.batteryCapacity))
+            batteryImage = if (GlobalStatus.batteryStatus == BatteryManager.BATTERY_STATUS_DISCHARGING) {
+                BitmapFactory.decodeResource(context.resources, getBatteryIcon(GlobalStatus.batteryCapacity))
             } else {
-                batteryImage = BitmapFactory.decodeResource(context.resources, R.drawable.b_4)
+                BitmapFactory.decodeResource(context.resources, R.drawable.b_4)
             }
             modeImage = BitmapFactory.decodeResource(context.resources, getModImage(mode))
         } catch (ex: Exception) {

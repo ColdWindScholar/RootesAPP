@@ -13,7 +13,7 @@ class ReceiverSceneMode : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.extras != null) {
             val parameterValue = intent.getStringExtra("packageName")
-            if (parameterValue == null || parameterValue.isEmpty()) {
+            if (parameterValue.isNullOrEmpty()) {
                 return
             }
             if (Build.VERSION.SDK_INT >= 23 && !Settings.canDrawOverlays(context)) {
