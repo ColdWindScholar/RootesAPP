@@ -33,7 +33,6 @@ import okhttp3.*
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
-import com.root.system.dialogs.DiagLogin
 import androidx.core.content.edit
 
 class ActivityMain : ActivityBase() {
@@ -146,8 +145,7 @@ class ActivityMain : ActivityBase() {
         // 检查Magisk支持和模块
         checkMagiskSupport()
 
-     val diagLogin = DiagLogin(this)
-        diagLogin.checkAutoLogin()
+
 
         // 设置按钮事件
         setupButtons()

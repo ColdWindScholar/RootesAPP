@@ -67,30 +67,27 @@ public class WebViewInjector {
                     new KrScriptEngine(context),
                     "KrScriptCore" // 由于类名会被混淆，写死吧... KrScriptEngine.class.getSimpleName()
             );
-            webView.setDownloadListener(new DownloadListener() {
-                @Override
-                public void onDownloadStart(final String url, String userAgent, final String contentDisposition, final String mimetype, long contentLength) {
-                    if (
-                            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                                    context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        activity.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
-                        Toast.makeText(context, R.string.kr_write_external_storage, Toast.LENGTH_LONG).show();
-                    } else {
-                        DialogHelper.Companion.animDialog(new AlertDialog.Builder(context)
-                                .setTitle(R.string.kr_download_confirm)
-                                .setMessage(url + "\n\n" + mimetype + "\n" + contentLength + "Bytes")
-                                .setPositiveButton(R.string.btn_confirm, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    new Downloader(context, null).downloadBySystem(url, contentDisposition, mimetype, UUID.randomUUID().toString(), null);
-                                    }
-                                })
-                                .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })).setCancelable(false);
-                    }
+            webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength) -> {
+                if (
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                                context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    activity.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+                    Toast.makeText(context, R.string.kr_write_external_storage, Toast.LENGTH_LONG).show();
+                } else {
+                    DialogHelper.Companion.animDialog(new AlertDialog.Builder(context)
+                            .setTitle(R.string.kr_download_confirm)
+                            .setMessage(url + "\n\n" + mimetype + "\n" + contentLength + "Bytes")
+                            .setPositiveButton(R.string.btn_confirm, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                new Downloader(context, null).downloadBySystem(url, contentDisposition, mimetype, UUID.randomUUID().toString(), null);
+                                }
+                            })
+                            .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })).setCancelable(false);
                 }
             });
         }
