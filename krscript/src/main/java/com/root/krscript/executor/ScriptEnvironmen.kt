@@ -3,9 +3,9 @@ package com.root.krscript.executor
 import android.content.Context
 import android.os.Build
 import android.os.Environment
+import androidx.core.content.edit
 import com.root.common.shared.FileWrite.getPrivateFileDir
 import com.root.common.shared.FileWrite.getPrivateFilePath
-import com.root.common.shared.FileWrite.writePrivateFile
 import com.root.common.shared.FileWrite.writePrivateShellFile
 import com.root.common.shared.MagiskExtend
 import com.root.common.shell.KeepShell
@@ -19,9 +19,6 @@ import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import androidx.core.content.edit
 
 object ScriptEnvironmen {
     private const val ASSETS_FILE = "file:///android_asset/"
@@ -105,30 +102,7 @@ object ScriptEnvironmen {
         }
     }
 
-    private fun md5(string: String): String {
-        if (string.isEmpty()) {
-            return ""
-        }
 
-        val md5: MessageDigest?
-        try {
-            md5 = MessageDigest.getInstance("MD5")
-            val bytes = md5.digest(string.toByteArray())
-            val result = StringBuilder()
-            for (b in bytes) {
-                var temp = Integer.toHexString(b.toInt() and 0xff)
-                if (temp.length == 1) {
-                    temp = "0$temp"
-                }
-                result.append(temp)
-            }
-            return result.toString()
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        }
-
-        return ""
-    }
 
     /**
      * 写入缓存（脚本代码存入脚本文件）
@@ -240,15 +214,15 @@ object ScriptEnvironmen {
     private fun getEnvironment(context: Context): HashMap<String?, String?> {
         val params = HashMap<String?, String?>()
 
-        params.put("TOOLKIT", TOOKIT_DIR)
+        params["TOOLKIT"] = TOOKIT_DIR
         if (MagiskExtend.moduleInstalled()) {
             val magiskPath = if (MagiskExtend.MAGISK_PATH.endsWith("/")) (MagiskExtend.MAGISK_PATH.substring(
                 0,
                 MagiskExtend.MAGISK_PATH.length - 1
             )) else MagiskExtend.MAGISK_PATH
-            params.put("MAGISK_PATH", magiskPath)
+            params["MAGISK_PATH"] = magiskPath
         } else {
-            params.put("MAGISK_PATH", "")
+            params["MAGISK_PATH"] = ""
         }
         params["START_DIR"] = getStartPath(context)
         // params.put("EXECUTOR_PATH", environmentPath);
@@ -372,18 +346,18 @@ object ScriptEnvironmen {
             val parentPageConfigDir = nodeInfo.pageConfigDir
             val currentPageConfigPath = nodeInfo.currentPageConfigPath
             params["PAGE_CONFIG_DIR"] = parentPageConfigDir
-            params.put("PAGE_CONFIG_FILE", currentPageConfigPath)
+            params["PAGE_CONFIG_FILE"] = currentPageConfigPath
             if (currentPageConfigPath.startsWith("file:///android_asset/")) {
                 params["PAGE_WORK_DIR"] = ExtractAssets(context).getExtractPath(parentPageConfigDir)
                 params["PAGE_WORK_FILE"] = ExtractAssets(context).getExtractPath(currentPageConfigPath)
             } else {
                 params["PAGE_WORK_DIR"] = parentPageConfigDir
-                params.put("PAGE_WORK_FILE", currentPageConfigPath)
+                params["PAGE_WORK_FILE"] = currentPageConfigPath
             }
         } else {
             params["PAGE_CONFIG_DIR"] = ""
             params["PAGE_CONFIG_FILE"] = ""
-            params.put("PAGE_WORK_DIR", "")
+            params["PAGE_WORK_DIR"] = ""
             params["PAGE_WORK_FILE"] = ""
         }
 
