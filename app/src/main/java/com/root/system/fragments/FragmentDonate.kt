@@ -83,15 +83,7 @@ class FragmentDonate : Fragment() {
     }
 
     private fun loadUserData() {
-        // Access SharedPreferences
-        val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences("user_prefs", android.content.Context.MODE_PRIVATE)
-
-        // Retrieve stored email
-        val email = sharedPreferences.getString("user_email", "No email found")
-        val password = sharedPreferences.getString("user_password", "No password found")
-
-        // Display the user data on the TextViews
-        emailTextView.text = "邮箱: $email 密码:$password"
+        emailTextView.text = "Username"
     }
 
     private fun getPasswordFromSharedPreferences(): String {
