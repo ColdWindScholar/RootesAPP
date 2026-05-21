@@ -21,9 +21,9 @@ if [[ -f $bce ]] || [[ -f $suspend ]] || [[ -f $suspend2 ]]; then
 elif [[ -f $max ]]; then
   current_max_path="/sys/class/power_supply/battery/constant_charge_current_max"
   current_max_backup="vtools.charge.current.max"
-  current_max=`getprop $current_max_backup`
+  current_max=$(getprop $current_max_backup)
   if [[ "$current_max" == "" ]] && [[ -f $current_max_path ]]; then
-    setprop $current_max_backup `cat $current_max_path`
+    setprop $current_max_backup $(cat $current_max_path)
   fi
 
   set_value $max 0

@@ -23,7 +23,7 @@ fcc_limit() {
     return
   fi
 }
-paths=`ls /sys/class/power_supply/*/constant_charge_current_max | grep -v 'mtk-'`
+paths=$(ls /sys/class/power_supply/*/constant_charge_current_max | grep -v 'mtk-')
 if [[ "$paths" == "" ]]; then
   fcc_limit
 fi
@@ -34,16 +34,16 @@ change_limit() {
 
   for path in $paths
   do
-    if [[ "$up_only" != "1" || $(cat $path) -lt "$limit" ]]; then
-      chmod 0664 $path
-      echo $limit > $path
+    if [[ "$up_only" != "1" || $(cat "$path") -lt "$limit" ]]; then
+      chmod 0664 "$path"
+      echo "$limit" > "$path"
     fi
-    cat $path
+    cat "$path"
   done
 }
 
-if [[ `getprop vtools.fastcharge` = "" ]]; then
-  $dir/fast_charge_run_once.sh >/dev/null 2>&1
+if [[ $(getprop vtools.fastcharge) = "" ]]; then
+  "$dir"/fast_charge_run_once.sh >/dev/null 2>&1
   setprop vtools.fastcharge 1
 fi
 
