@@ -69,15 +69,13 @@ class AppListHelper(private val context: Context, private val getTags: Boolean =
      */
     fun checkInstall(backupInfo: PackageInfo): String {
         try {
-            val installInfo = packageManager.getPackageInfo(backupInfo.packageName, 0)
-            if (installInfo == null)
-                return ""
-            if (backupInfo.versionCode == installInfo.versionCode) {
-                return "⭐已安装 "
+            val installInfo = packageManager.getPackageInfo(backupInfo.packageName, 0) ?: return ""
+            return if (backupInfo.versionCode == installInfo.versionCode) {
+                "已安装 "
             } else if (backupInfo.versionCode > installInfo.versionCode) {
-                return "💔已安装旧版 "
+                "已安装旧版 "
             } else {
-                return "♻已安装新版 "
+                "已安装新版 "
             }
         } catch (e: PackageManager.NameNotFoundException) {
             return ""
