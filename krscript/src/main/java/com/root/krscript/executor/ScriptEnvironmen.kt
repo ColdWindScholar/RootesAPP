@@ -1,48 +1,48 @@
-package com.root.krscript.executor;
+package com.root.krscript.executor
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.os.Build;
-import android.os.Environment;
+import android.content.Context
+import android.os.Build
+import android.os.Environment
+import com.root.common.shared.FileWrite.getPrivateFileDir
+import com.root.common.shared.FileWrite.getPrivateFilePath
+import com.root.common.shared.FileWrite.writePrivateFile
+import com.root.common.shared.FileWrite.writePrivateShellFile
+import com.root.common.shared.MagiskExtend
+import com.root.common.shell.KeepShell
+import com.root.common.shell.KeepShellPublic.checkRoot
+import com.root.common.shell.KeepShellPublic.getDefaultInstance
+import com.root.common.shell.ShellTranslation
+import com.root.krscript.FileOwner
+import com.root.krscript.model.NodeInfoBase
+import java.io.DataOutputStream
+import java.io.File
+import java.io.IOException
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+import androidx.core.content.edit
 
-import com.root.common.shared.FileWrite;
-import com.root.common.shared.MagiskExtend;
-import com.root.common.shell.KeepShell;
-import com.root.common.shell.KeepShellPublic;
-import com.root.common.shell.ShellTranslation;
-import com.root.krscript.FileOwner;
-import com.root.krscript.model.NodeInfoBase;
+object ScriptEnvironmen {
+    private const val ASSETS_FILE = "file:///android_asset/"
+    var isInited: Boolean = false
+        private set
+    private var environmentPath = ""
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.io.IOException;
-
-public class ScriptEnvironmen {
-    private static final String ASSETS_FILE = "file:///android_asset/";
-    private static boolean inited = false;
-    private static String environmentPath = "";
     // 此目录将添加到PATH尾部，作为应用程序提供的拓展程序库目录，如有需要则需要在初始化executor.sh之前为该变量赋值
-    private static String TOOKIT_DIR = "";
-    private static boolean rooted = false;
-    private static KeepShell privateShell;
-    private static ShellTranslation shellTranslation;
+    private var TOOKIT_DIR: String? = ""
+    private var rooted = false
+    private var privateShell: KeepShell? = null
+    private var shellTranslation: ShellTranslation? = null
 
-    public static boolean isInited() {
-        return inited;
-    }
+    private fun init(context: Context): Boolean {
+        val configSpf = context.getSharedPreferences("kr-script-config", Context.MODE_PRIVATE)
 
-    private static boolean init(Context context) {
-        SharedPreferences configSpf = context.getSharedPreferences("kr-script-config", Context.MODE_PRIVATE);
-
-        return init(context, configSpf.getString("executor", "kr-script/executor.sh"), configSpf.getString("toolkitDir", "kr-script/toolkit"));
+        return init(
+            context,
+            configSpf.getString("executor", "kr-script/executor.sh")!!,
+            configSpf.getString("toolkitDir", "kr-script/toolkit")
+        )
     }
 
     /**
@@ -52,82 +52,82 @@ public class ScriptEnvironmen {
      * @param executor 执行器在Assets中的位置
      * @return 是否初始化成功
      */
-    public static boolean init(Context context, String executor, String toolkitDir) {
-        if (inited) {
-            return true;
+    fun init(context: Context, executor: String, toolkitDir: String?): Boolean {
+        if (isInited) {
+            return true
         }
 
-        shellTranslation = new ShellTranslation(context.getApplicationContext());
-        rooted = KeepShellPublic.INSTANCE.checkRoot();
+        shellTranslation = ShellTranslation(context.applicationContext)
+        rooted = checkRoot()
 
         try {
             if (toolkitDir != null && !toolkitDir.isEmpty()) {
-                TOOKIT_DIR = new ExtractAssets(context).extractResources(toolkitDir);
+                TOOKIT_DIR = ExtractAssets(context).extractResources(toolkitDir)
             }
 
-            String fileName = executor;
+            var fileName = executor
             if (fileName.startsWith(ASSETS_FILE)) {
-                fileName = fileName.substring(ASSETS_FILE.length());
+                fileName = fileName.substring(ASSETS_FILE.length)
             }
 
-            InputStream inputStream = context.getAssets().open(fileName);
-            byte[] bytes = new byte[inputStream.available()];
-            inputStream.read(bytes, 0, bytes.length);
-            String envShell = new String(bytes, Charset.defaultCharset()).replace("\r", "");
+            val inputStream = context.assets.open(fileName)
+            val bytes = ByteArray(inputStream.available())
+            inputStream.read(bytes, 0, bytes.size)
+            var envShell = String(bytes, Charset.defaultCharset()).replace("\r", "")
 
-            HashMap<String, String> environment = getEnvironment(context);
-            for (String key : environment.keySet()) {
-                String value = environment.get(key);
+            val environment = getEnvironment(context)
+            for (key in environment.keys) {
+                var value = environment[key]
                 if (value == null) {
-                    value = "";
+                    value = ""
                 }
-                envShell = envShell.replace("$({" + key + "})", value);
+                envShell = envShell.replace("$({$key})", value)
             }
-            String outputPathAbs = FileWrite.INSTANCE.getPrivateFilePath(context, fileName);
-            envShell = envShell.replace("$({EXECUTOR_PATH})", outputPathAbs);
+            val outputPathAbs = getPrivateFilePath(context, fileName)
+            envShell = envShell.replace("$({EXECUTOR_PATH})", outputPathAbs)
 
 
-            inited = true;
-            if (inited) {
-                environmentPath = outputPathAbs;
+            isInited = true
+            if (isInited) {
+                environmentPath = outputPathAbs
             }
 
-            SharedPreferences.Editor configSpf = context.getSharedPreferences("kr-script-config", Context.MODE_PRIVATE).edit();
-            configSpf.putString("executor", envShell);
-            configSpf.putString("toolkitDir", toolkitDir);
-            configSpf.apply();
+            context.getSharedPreferences("kr-script-config", Context.MODE_PRIVATE).edit {
+                putString("executor", envShell)
+                putString("toolkitDir", toolkitDir)
+            }
 
-            privateShell = rooted ? KeepShellPublic.INSTANCE.getDefaultInstance() : new KeepShell(rooted);
+            privateShell = if (rooted) getDefaultInstance() else KeepShell(rooted)
 
-            return inited;
-        } catch (Exception ex) {
-            return false;
+            return isInited
+        } catch (ex: Exception) {
+            return false
         }
     }
 
-    private static String md5(String string) {
+    private fun md5(string: String): String {
         if (string.isEmpty()) {
-            return "";
+            return ""
         }
 
-        MessageDigest md5;
+        val md5: MessageDigest?
         try {
-            md5 = MessageDigest.getInstance("MD5");
-            byte[] bytes = md5.digest(string.getBytes());
-            StringBuilder result = new StringBuilder();
-            for (byte b : bytes) {
-                String temp = Integer.toHexString(b & 0xff);
-                if (temp.length() == 1) {
-                    temp = "0" + temp;
+            md5 = MessageDigest.getInstance("MD5")
+            val bytes = md5.digest(string.toByteArray())
+            val result = StringBuilder()
+            for (b in bytes) {
+                var temp = Integer.toHexString(b.toInt() and 0xff)
+                if (temp.length == 1) {
+                    temp = "0$temp"
                 }
-                result.append(temp);
+                result.append(temp)
             }
-            return result.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            return result.toString()
+        } catch (e: NoSuchAlgorithmException) {
+            e.printStackTrace()
         }
 
-        return "";
+        return ""
     }
 
     /**
@@ -137,23 +137,7 @@ public class ScriptEnvironmen {
      * @param script
      * @return
      */
-    private static String createShellCache(Context context, String script) {
-        String md5 = md5(script);
-        String outputPath = "kr-script/cache/" + md5 + ".sh";
-        if (new File(outputPath).exists()) {
-            return outputPath;
-        }
 
-        byte[] bytes = ("#!/system/bin/sh\n\n" + script)
-                .replaceAll("\r\n", "\n")
-                .replaceAll("\r\t", "\t")
-                .replaceAll("\r", "\n")
-                .getBytes();
-        if (FileWrite.INSTANCE.writePrivateFile(bytes, outputPath, context)) {
-            return FileWrite.INSTANCE.getPrivateFilePath(context, outputPath);
-        }
-        return "";
-    }
 
     /**
      * 执行脚本
@@ -162,74 +146,77 @@ public class ScriptEnvironmen {
      * @param fileName
      * @return
      */
-    private static String extractScript(Context context, String fileName) {
+    private fun extractScript(context: Context, fileName: String): String? {
+        var fileName = fileName
         if (fileName.startsWith(ASSETS_FILE)) {
-            fileName = fileName.substring(ASSETS_FILE.length());
+            fileName = fileName.substring(ASSETS_FILE.length)
         }
-        return FileWrite.INSTANCE.writePrivateShellFile(fileName, fileName, context);
+        return writePrivateShellFile(fileName, fileName, context)
     }
 
-    public static String executeResultRoot(Context context, String script, NodeInfoBase nodeInfoBase) {
-        if (!inited) {
-            init(context);
+    fun executeResultRoot(context: Context, script: String?, nodeInfoBase: NodeInfoBase?): String {
+        if (!isInited) {
+            init(context)
         }
 
         if (script == null || script.isEmpty()) {
-            return "";
+            return ""
         }
 
-        String script2 = script.trim();
-        String path;
-        if (script2.startsWith(ASSETS_FILE)) {
-            path = extractScript(context, script2);
-        } else {
-            path = createShellCache(context, script);
+        val script2 = script.trim { it <= ' ' }
+
+
+        if (!isInited) {
+            init(context)
         }
 
-        if (!inited) {
-            init(context);
-        }
+        val stringBuilder = StringBuilder()
 
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("\n");
-        if (nodeInfoBase != null && !nodeInfoBase.getCurrentPageConfigPath().isEmpty()) {
-            String parentPageConfigDir = nodeInfoBase.getPageConfigDir();
-            String currentPageConfigPath = nodeInfoBase.getCurrentPageConfigPath();
-            stringBuilder.append("export PAGE_CONFIG_DIR='").append(parentPageConfigDir).append("'\n");
-            stringBuilder.append("export PAGE_CONFIG_FILE='").append(currentPageConfigPath).append("'\n");
+        stringBuilder.append("\n")
+        if (nodeInfoBase != null && !nodeInfoBase.currentPageConfigPath.isEmpty()) {
+            val parentPageConfigDir = nodeInfoBase.pageConfigDir
+            val currentPageConfigPath = nodeInfoBase.currentPageConfigPath
+            stringBuilder.append("export PAGE_CONFIG_DIR='").append(parentPageConfigDir).append("'\n")
+            stringBuilder.append("export PAGE_CONFIG_FILE='").append(currentPageConfigPath).append("'\n")
 
             if (currentPageConfigPath.startsWith("file:///android_asset/")) {
-                stringBuilder.append("export PAGE_WORK_DIR='").append(new ExtractAssets(context).getExtractPath(parentPageConfigDir)).append("'\n");
-                stringBuilder.append("export PAGE_WORK_FILE='").append(new ExtractAssets(context).getExtractPath(currentPageConfigPath)).append("'\n");
+                stringBuilder.append("export PAGE_WORK_DIR='")
+                    .append(ExtractAssets(context).getExtractPath(parentPageConfigDir)).append("'\n")
+                stringBuilder.append("export PAGE_WORK_FILE='")
+                    .append(ExtractAssets(context).getExtractPath(currentPageConfigPath)).append("'\n")
             } else {
-                stringBuilder.append("export PAGE_WORK_DIR='").append(parentPageConfigDir).append("'\n");
-                stringBuilder.append("export PAGE_WORK_FILE='").append(currentPageConfigPath).append("'\n");
+                stringBuilder.append("export PAGE_WORK_DIR='").append(parentPageConfigDir).append("'\n")
+                stringBuilder.append("export PAGE_WORK_FILE='").append(currentPageConfigPath).append("'\n")
             }
         } else {
-            stringBuilder.append("export PAGE_CONFIG_DIR=''\n");
-            stringBuilder.append("export PAGE_CONFIG_FILE=''\n");
-            stringBuilder.append("export PAGE_WORK_DIR=''\n");
-            stringBuilder.append("export PAGE_WORK_DIR=''\n");
+            stringBuilder.append("export PAGE_CONFIG_DIR=''\n")
+            stringBuilder.append("export PAGE_CONFIG_FILE=''\n")
+            stringBuilder.append("export PAGE_WORK_DIR=''\n")
+            stringBuilder.append("export PAGE_WORK_DIR=''\n")
         }
 
-        stringBuilder.append("\n\n");
-        stringBuilder.append(environmentPath + " \"" + path + "\"");
-        if (shellTranslation != null) {
-            return shellTranslation.resolveRow(
-                privateShell.doCmdSync(stringBuilder.toString())
-            );
+        stringBuilder.append("\n\n")
+        if (script2.startsWith(ASSETS_FILE)) {
+            stringBuilder.append("$environmentPath \"${extractScript(context, script2)}\"")
         } else {
-            return privateShell.doCmdSync(stringBuilder.toString());
+            stringBuilder.append("$environmentPath\n\"$script\"")
+        }
+
+        return if (shellTranslation != null) {
+            shellTranslation!!.resolveRow(
+                privateShell!!.doCmdSync(stringBuilder.toString())
+            )
+        } else {
+            privateShell!!.doCmdSync(stringBuilder.toString())
         }
     }
 
-    private static String getStartPath(Context context) {
-        String dir = FileWrite.INSTANCE.getPrivateFileDir(context);
+    private fun getStartPath(context: Context): String {
+        val dir = getPrivateFileDir(context)
         if (dir.endsWith("/")) {
-            return dir.substring(0, dir.length() - 1);
+            return dir.substring(0, dir.length - 1)
         }
-        return dir;
+        return dir
     }
 
     /*
@@ -243,116 +230,118 @@ public class ScriptEnvironmen {
         }
         return value;
     }*/
-
     /**
      * 获取框架的环境变量
      *
      * @param context
      * @return
      */
-    private static HashMap<String, String> getEnvironment(Context context) {
-        HashMap<String, String> params = new HashMap<>();
+    private fun getEnvironment(context: Context): HashMap<String?, String?> {
+        val params = HashMap<String?, String?>()
 
-        params.put("TOOLKIT", TOOKIT_DIR);
+        params.put("TOOLKIT", TOOKIT_DIR)
         if (MagiskExtend.moduleInstalled()) {
-            String magiskPath = MagiskExtend.MAGISK_PATH.endsWith("/") ? (MagiskExtend.MAGISK_PATH.substring(0, MagiskExtend.MAGISK_PATH.length() - 1)) : MagiskExtend.MAGISK_PATH;
-            params.put("MAGISK_PATH", magiskPath);
+            val magiskPath = if (MagiskExtend.MAGISK_PATH.endsWith("/")) (MagiskExtend.MAGISK_PATH.substring(
+                0,
+                MagiskExtend.MAGISK_PATH.length - 1
+            )) else MagiskExtend.MAGISK_PATH
+            params.put("MAGISK_PATH", magiskPath)
         } else {
-            params.put("MAGISK_PATH", "");
+            params.put("MAGISK_PATH", "")
         }
-        params.put("START_DIR", getStartPath(context));
+        params["START_DIR"] = getStartPath(context)
         // params.put("EXECUTOR_PATH", environmentPath);
-        params.put("TEMP_DIR", context.getCacheDir().getAbsolutePath());
+        params["TEMP_DIR"] = context.cacheDir.absolutePath
 
-        FileOwner fileOwner = new FileOwner(context);
-        int androidUid = fileOwner.getUserId();
-        params.put("ANDROID_UID", "" + androidUid);
+        val fileOwner = FileOwner(context)
+        val androidUid = fileOwner.getUserId()
+        params["ANDROID_UID"] = "" + androidUid
 
         try {
             // @ https://blog.csdn.net/Gaugamela/article/details/78689580
-            params.put("APP_USER_ID", fileOwner.getFileOwner());
+            params["APP_USER_ID"] = fileOwner.getFileOwner()
             // params.put("APP_UID", "" + android.os.Process.myPid());
             // params.put("APP_PID", "" + android.os.Process.myPid());
             // params.put("APP_TID", "" + android.os.Process.myTid());
-        } catch (Exception ignored) {
+        } catch (ignored: Exception) {
         }
 
-        params.put("ANDROID_SDK", "" + Build.VERSION.SDK_INT);
+        params["ANDROID_SDK"] = "" + Build.VERSION.SDK_INT
         // params.put("ROOT_PERMISSION", rooted ? "granted" : "denied");
-        params.put("ROOT_PERMISSION", Boolean.toString(rooted));
-        params.put("SDCARD_PATH", Environment.getExternalStorageDirectory().getAbsolutePath());
-        String busyboxPath = FileWrite.INSTANCE.getPrivateFilePath(context, "busybox");
-        if (new File(FileWrite.INSTANCE.getPrivateFilePath(context, "busybox")).exists()) {
-            params.put("BUSYBOX", busyboxPath);
+        params["ROOT_PERMISSION"] = rooted.toString()
+        params["SDCARD_PATH"] = Environment.getExternalStorageDirectory().absolutePath
+        val busyboxPath = getPrivateFilePath(context, "busybox")
+        if (File(getPrivateFilePath(context, "busybox")).exists()) {
+            params["BUSYBOX"] = busyboxPath
         } else {
-            params.put("BUSYBOX", "toybox");
+            params["BUSYBOX"] = "toybox"
         }
         try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            params.put("PACKAGE_NAME", context.getPackageName());
-            params.put("PACKAGE_VERSION_NAME", packageInfo.versionName);
+            val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+            params["PACKAGE_NAME"] = context.packageName
+            params["PACKAGE_VERSION_NAME"] = packageInfo.versionName
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                params.put("PACKAGE_VERSION_CODE", "" + packageInfo.getLongVersionCode());
+                params["PACKAGE_VERSION_CODE"] = "" + packageInfo.longVersionCode
             } else {
-                params.put("PACKAGE_VERSION_CODE", "" + packageInfo.versionCode);
+                params["PACKAGE_VERSION_CODE"] = "" + packageInfo.versionCode
             }
-        } catch (Exception ex) {
+        } catch (ex: Exception) {
         }
 
-        return params;
+        return params
     }
 
     /**
      * @param params
      * @return
      */
-    private static ArrayList<String> getVariables(HashMap<String, String> params) {
-        ArrayList<String> envp = new ArrayList<>();
+    private fun getVariables(params: HashMap<String?, String?>?): ArrayList<String?> {
+        val envp = ArrayList<String?>()
 
         if (params != null) {
-            for (String key : params.keySet()) {
-                String value = params.get(key);
+            for (key in params.keys) {
+                var value = params[key]
                 if (value == null) {
-                    value = "";
+                    value = ""
                 }
-                envp.add(key + "='" + value.replaceAll("'", "'\\\\''") + "'");
+                envp.add(key + "='" + value.replace("'".toRegex(), "'\\\\''") + "'")
             }
         }
 
-        return envp;
+        return envp
     }
 
 
-
-    static Process getRuntime() {
-        try {
-            if (rooted) {
-            String[] commands = {"su", "suu" , "kp", "02su",  "timesu"};
-
-        // 依次尝试执行每个命令
-        for (String command : commands) {
+    val runtime: Process?
+        get() {
             try {
-                // 尝试执行命令
-                Process process = Runtime.getRuntime().exec(command);
+                if (rooted) {
+                    val commands = arrayOf<String?>("su", "suu", "kp", "02su", "timesu")
 
-                // 检查是否获得root权限 (例如通过检查某个标志或命令的输出)
-                // 这里简单地返回了process，你可以在此处进行更复杂的检查
-                return process;
-            } catch (IOException e) {
-                // 如果执行命令失败，继续尝试下一个命令
-                e.printStackTrace();
+                    // 依次尝试执行每个命令
+                    for (command in commands) {
+                        try {
+                            // 尝试执行命令
+                            val process = Runtime.getRuntime().exec(command)
+
+                            // 检查是否获得root权限 (例如通过检查某个标志或命令的输出)
+                            // 这里简单地返回了process，你可以在此处进行更复杂的检查
+                            return process
+                        } catch (e: IOException) {
+                            // 如果执行命令失败，继续尝试下一个命令
+                            e.printStackTrace()
+                        }
+                    }
+
+                    // 如果所有命令都失败，抛出异常或返回null
+                    throw IOException("Failed to obtain root access using su, suu, or timesu.")
+                } else {
+                    return Runtime.getRuntime().exec("sh")
+                }
+            } catch (ex: Exception) {
+                return null
             }
         }
-
-        // 如果所有命令都失败，抛出异常或返回null
-        throw new IOException("Failed to obtain root access using su, suu, or timesu.");
-    } else {
-                return Runtime.getRuntime().exec("sh");
-            }
-        } catch (Exception ex) {
-            return null;
-        }
-    }
 
     /**
      * 使用执行器运行脚本
@@ -362,57 +351,57 @@ public class ScriptEnvironmen {
      * @param cmds             要执行的脚本
      * @param params           参数类别
      */
-    public static void executeShell(
-            Context context,
-            DataOutputStream dataOutputStream,
-            String cmds,
-            HashMap<String, String> params,
-            NodeInfoBase nodeInfo,
-            String tag) {
-
+    fun executeShell(
+        context: Context?,
+        dataOutputStream: DataOutputStream,
+        cmds: String,
+        params: HashMap<String?, String?>?,
+        nodeInfo: NodeInfoBase?,
+        tag: String?
+    ) {
+        var params = params
         if (params == null) {
-            params = new HashMap<>();
+            params = HashMap<String?, String?>()
         }
 
         // 页面配置文件路径
         if (nodeInfo != null) {
-            String parentPageConfigDir = nodeInfo.getPageConfigDir();
-            String currentPageConfigPath = nodeInfo.getCurrentPageConfigPath();
-            params.put("PAGE_CONFIG_DIR", parentPageConfigDir);
-            params.put("PAGE_CONFIG_FILE", currentPageConfigPath);
+            val parentPageConfigDir = nodeInfo.pageConfigDir
+            val currentPageConfigPath = nodeInfo.currentPageConfigPath
+            params["PAGE_CONFIG_DIR"] = parentPageConfigDir
+            params.put("PAGE_CONFIG_FILE", currentPageConfigPath)
             if (currentPageConfigPath.startsWith("file:///android_asset/")) {
-                params.put("PAGE_WORK_DIR", new ExtractAssets(context).getExtractPath(parentPageConfigDir));
-                params.put("PAGE_WORK_FILE", new ExtractAssets(context).getExtractPath(currentPageConfigPath));
+                params["PAGE_WORK_DIR"] = ExtractAssets(context).getExtractPath(parentPageConfigDir)
+                params["PAGE_WORK_FILE"] = ExtractAssets(context).getExtractPath(currentPageConfigPath)
             } else {
-                params.put("PAGE_WORK_DIR", parentPageConfigDir);
-                params.put("PAGE_WORK_FILE", currentPageConfigPath);
+                params["PAGE_WORK_DIR"] = parentPageConfigDir
+                params.put("PAGE_WORK_FILE", currentPageConfigPath)
             }
         } else {
-            params.put("PAGE_CONFIG_DIR", "");
-            params.put("PAGE_CONFIG_FILE", "");
-            params.put("PAGE_WORK_DIR", "");
-            params.put("PAGE_WORK_FILE", "");
+            params["PAGE_CONFIG_DIR"] = ""
+            params["PAGE_CONFIG_FILE"] = ""
+            params.put("PAGE_WORK_DIR", "")
+            params["PAGE_WORK_FILE"] = ""
         }
 
-        ArrayList<String> envp = getVariables(params);
-        StringBuilder envpCmds = new StringBuilder();
-        if (envp.size() > 0) {
-            for (String param : envp) {
-                envpCmds.append("export ").append(param).append("\n");
+        val envp = getVariables(params)
+        val envpCmds = StringBuilder()
+        if (envp.isNotEmpty()) {
+            for (param in envp) {
+                envpCmds.append("export ").append(param).append("\n")
             }
         }
         try {
-            dataOutputStream.write(envpCmds.toString().getBytes(StandardCharsets.UTF_8));
+            dataOutputStream.write(envpCmds.toString().toByteArray(StandardCharsets.UTF_8))
 
-            dataOutputStream.write(cmds.getBytes(StandardCharsets.UTF_8));
+            dataOutputStream.write(cmds.toByteArray(StandardCharsets.UTF_8))
 
-            dataOutputStream.writeBytes("\n\n");
-            dataOutputStream.writeBytes("sleep 0.2;\n");
-            dataOutputStream.writeBytes("exit\n");
-            dataOutputStream.writeBytes("exit\n");
-            dataOutputStream.flush();
-        } catch (Exception ignored) {
+            dataOutputStream.writeBytes("\n\n")
+            dataOutputStream.writeBytes("sleep 0.2;\n")
+            dataOutputStream.writeBytes("exit\n")
+            dataOutputStream.writeBytes("exit\n")
+            dataOutputStream.flush()
+        } catch (ignored: Exception) {
         }
     }
 }
-
