@@ -49,6 +49,7 @@ object ScriptEnvironmen {
      * @param executor 执行器在Assets中的位置
      * @return 是否初始化成功
      */
+    @JvmStatic
     fun init(context: Context, executor: String, toolkitDir: String?): Boolean {
         if (isInited) {
             return true
