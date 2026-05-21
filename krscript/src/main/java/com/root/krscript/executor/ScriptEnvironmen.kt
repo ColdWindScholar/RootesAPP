@@ -154,6 +154,7 @@ object ScriptEnvironmen {
         return writePrivateShellFile(fileName, fileName, context)
     }
 
+    @JvmStatic
     fun executeResultRoot(context: Context, script: String?, nodeInfoBase: NodeInfoBase?): String {
         if (!isInited) {
             init(context)
@@ -312,6 +313,7 @@ object ScriptEnvironmen {
     }
 
 
+    @JvmStatic
     val runtime: Process?
         get() {
             try {
@@ -351,6 +353,7 @@ object ScriptEnvironmen {
      * @param cmds             要执行的脚本
      * @param params           参数类别
      */
+    @JvmStatic
     fun executeShell(
         context: Context?,
         dataOutputStream: DataOutputStream,
