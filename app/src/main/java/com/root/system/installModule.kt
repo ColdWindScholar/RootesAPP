@@ -8,7 +8,7 @@ object ModuleInstaller {
     // 检查并安装模块
     fun installModule(context: Context, zipFilePath: String) {
         val unzipPath = "/data/adb/modules/startboot"
-        val unzipCommand = "/data/user/0/com.root.system/files/usr/xbin/unzip"
+        val unzipCommand = "/system/bin/unzip"
         val magiskCommand = "magisk"
         
         // 检查是否存在 Magisk 命令
@@ -49,7 +49,7 @@ object ModuleInstaller {
 
     // 解压文件的具体逻辑
     private fun executeUnzip(zipFilePath: String, unzipPath: String): Boolean {
-        val unzipCommand = "/data/user/0/com.root.system/files/usr/xbin/unzip"
+        val unzipCommand = "/system/bin/unzip"
         val result = KeepShellPublic.doCmdSync("$unzipCommand $zipFilePath -d $unzipPath")
         return result.isNotEmpty()
     }
