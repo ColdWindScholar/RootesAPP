@@ -11,7 +11,7 @@ import com.root.common.shared.FileWrite.writePrivateShellFile
 import com.root.common.shared.MagiskExtend
 import com.root.common.shell.KeepShell
 import com.root.common.shell.KeepShellPublic.checkRoot
-import com.root.common.shell.KeepShellPublic.getDefaultInstance
+import com.root.common.shell.KeepShellPublic.defaultKeepShell
 import com.root.common.shell.ShellTranslation
 import com.root.krscript.FileOwner
 import com.root.krscript.model.NodeInfoBase
@@ -34,7 +34,7 @@ object ScriptEnvironmen {
     private var shellTranslation: ShellTranslation? = null
     init {
         rooted = checkRoot()
-        privateShell = if (rooted) getDefaultInstance() else KeepShell(rooted)
+        privateShell = if (rooted) defaultKeepShell else KeepShell(rooted)
     }
 
     private fun init(context: Context): Boolean {

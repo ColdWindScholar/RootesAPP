@@ -18,15 +18,8 @@ object KeepShellPublic {
 
 
     val defaultKeepShell = KeepShell()
-    val secondaryKeepShell = KeepShell()
 
-    fun getDefaultInstance(): KeepShell {
-        return if (defaultKeepShell.isIdle || !secondaryKeepShell.isIdle) {
-            defaultKeepShell
-        } else {
-            secondaryKeepShell
-        }
-    }
+
 
     fun doCmdSync(commands: List<String>): Boolean {
         val stringBuilder = StringBuilder()
@@ -41,7 +34,7 @@ object KeepShellPublic {
 
     //执行脚本
     fun doCmdSync(cmd: String): String {
-        return getDefaultInstance().doCmdSync(cmd)
+        return defaultKeepShell.doCmdSync(cmd)
     }
 
     //执行脚本
