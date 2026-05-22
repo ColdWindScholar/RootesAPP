@@ -28,7 +28,7 @@ class PageConfigSh(private var activity: Activity, private var pageConfigSh: Str
     fun execute(): ArrayList<NodeInfoBase>? {
         var items: ArrayList<NodeInfoBase>? = null
 
-        val result = ScriptEnvironmen.executeResultRoot(activity, pageConfigSh, parentConfig)?.trim()
+        val result = ScriptEnvironmen.executeResultRoot(activity, pageConfigSh, parentConfig).trim()
         if (result != null) {
             if (result.endsWith(".xml")) {
                 items = PageConfigReader(activity, result, parentConfig?.pageConfigDir).readConfigXml()

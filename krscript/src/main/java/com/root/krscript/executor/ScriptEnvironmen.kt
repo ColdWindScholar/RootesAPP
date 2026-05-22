@@ -142,9 +142,7 @@ object ScriptEnvironmen {
             init(context)
         }
 
-        val stringBuilder = StringBuilder()
 
-        stringBuilder.append("\n")
         if (nodeInfoBase != null && !nodeInfoBase.currentPageConfigPath.isEmpty()) {
             val parentPageConfigDir = nodeInfoBase.pageConfigDir
             val currentPageConfigPath = nodeInfoBase.currentPageConfigPath
@@ -163,19 +161,17 @@ object ScriptEnvironmen {
             }
         }
 
-        stringBuilder.append("\n\n")
-        if (script2.startsWith(ASSETS_FILE)) {
-            stringBuilder.append(extractScript(context, script2))
+        val scriptContent = if (script2.startsWith(ASSETS_FILE)) {
+            extractScript(context, script2)
         } else {
-            stringBuilder.append(script)
+           script
         }
-
         return if (shellTranslation != null) {
             shellTranslation!!.resolveRow(
-                privateShell!!.doCmdSync(stringBuilder.toString(), envs =  environmentHashMap)
+                privateShell!!.doCmdSync(scriptContent!!, envs =  environmentHashMap)
             )
         } else {
-            privateShell!!.doCmdSync(stringBuilder.toString(), envs =  environmentHashMap)
+            privateShell!!.doCmdSync(scriptContent!!, envs =  environmentHashMap)
         }
     }
 
