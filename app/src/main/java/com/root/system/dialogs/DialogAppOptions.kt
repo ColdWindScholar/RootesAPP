@@ -143,7 +143,6 @@ open class DialogAppOptions(protected final var context: Activity, protected var
     protected fun isMagisk(): Boolean {
         val keepShell = KeepShell(false)
         val result = keepShell.doCmdSync("su -v").uppercase(Locale.getDefault()).contains("MAGISKSU")
-        keepShell.tryExit()
         return result
     }
 

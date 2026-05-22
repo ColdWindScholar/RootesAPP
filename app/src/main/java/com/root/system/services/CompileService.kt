@@ -132,7 +132,6 @@ class CompileService : IntentService("vtools-compile") {
                 val shellFile = FileWrite.getPrivateFilePath(this.applicationContext, cache)
                 keepShell.doCmdSync("sh $shellFile 2>&1 &")
             }
-            keepShell.tryExit()
             compileCanceled = true
             Scene.toast("重置过程中手机会有点卡，请耐心等待~", Toast.LENGTH_LONG)
         } else {

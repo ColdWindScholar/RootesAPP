@@ -116,7 +116,7 @@ class SwapUtils(private val context: Context) {
 
         val keepShell = KeepShell()
         keepShell.doCmdSync(sb.toString())
-        keepShell.tryExit()
+
     }
 
     // 删除swap文件
@@ -136,7 +136,6 @@ class SwapUtils(private val context: Context) {
 
         val keepShell = KeepShell()
         keepShell.doCmdSync(sb.toString())
-        keepShell.tryExit()
     }
 
     // 是否支持zram
@@ -168,7 +167,6 @@ class SwapUtils(private val context: Context) {
         sb.append("swapoff /dev/block/zram0\n")
         val keepShell = KeepShell()
         keepShell.doCmdSync(sb.toString())
-        keepShell.tryExit()
     }
 
     // 调整zram大小
@@ -203,12 +201,11 @@ class SwapUtils(private val context: Context) {
             }
 
             sb.append("echo 4 > /sys/block/zram0/max_comp_streams\n")
-            sb.append("mkswap /dev/block/zram0 >/dev/null 2>&1\n")
-            sb.append("swapon /dev/block/zram0 -p 0 >/dev/null 2>&1\n")
+            sb.append("mkswap /dev/block/zram0\n")
+            sb.append("swapon /dev/block/zram0 -p 0\n")
             keepShell.doCmdSync(sb.toString())
         }
 
-        keepShell.tryExit()
     }
 
     // ZRAM WritBack 状态
