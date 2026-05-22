@@ -2,10 +2,8 @@ package com.root.common.shared
 
 import android.content.Context
 import android.content.res.AssetManager
-import android.os.Environment
 import android.util.Log
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 
@@ -14,52 +12,8 @@ import java.io.IOException
  * Created by helloklf on 2016/8/27.
  */
 object FileWrite {
-    val SDCardDir: String = Environment.getExternalStorageDirectory().absolutePath
 
-    fun writeFile(context: Context, file: String, hasExtName: Boolean): String? {
-        val baseUrl = "${SDCardDir}/Android/data/${context.packageName}/"
 
-        try {
-            val inputStream = if (file.startsWith("file:///android_asset/")) {
-                context.assets.open(file.substring("file:///android_asset/".length))
-            } else {
-                context.assets.open(file)
-            }
-
-            val dir = File(baseUrl)
-            if (!dir.exists())
-                dir.mkdirs()
-            val filePath = baseUrl + if (hasExtName)
-                file
-            else
-                file.substring(0, if (file.lastIndexOf(".") > 0) file.lastIndexOf(".") else file.length)
-
-            val fileOutputStream = FileOutputStream(filePath)
-
-            val datas = ByteArray(20480)
-            while (true) {
-                val len = inputStream.read(datas)
-                if (len > 0) {
-                    fileOutputStream.write(datas, 0, len)
-                } else {
-                    break
-                }
-            }
-
-            fileOutputStream.close()
-            inputStream.close()
-            val writedFile = File(filePath)
-            writedFile.setWritable(true)
-            writedFile.setExecutable(true)
-            writedFile.setReadable(true)
-            return filePath
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return null
-    }
 
     fun getPrivateFileDir(context: Context): String {
         return context.filesDir.absolutePath + "/"

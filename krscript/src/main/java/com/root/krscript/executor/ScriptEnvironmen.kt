@@ -59,7 +59,7 @@ object ScriptEnvironmen {
         rooted = checkRoot()
 
         try {
-            if (toolkitDir != null && !toolkitDir.isEmpty()) {
+            if (!toolkitDir.isNullOrEmpty()) {
                 TOOKIT_DIR = ExtractAssets(context).extractResources(toolkitDir)
             }
 
@@ -339,7 +339,7 @@ object ScriptEnvironmen {
     ) {
         var params = params
         if (params == null) {
-            params = HashMap<String?, String?>()
+            params = HashMap()
         }
 
         // 页面配置文件路径
