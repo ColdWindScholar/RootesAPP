@@ -16,7 +16,6 @@ import java.util.concurrent.locks.ReentrantLock
  */
 class KeepShell(private var rootMode: Boolean = true) {
     private var p: Process? = null
-    private var out: OutputStream? = null
     private var reader: BufferedReader? = null
     private var currentIsIdle = true // 是否处于闲置状态
     val isIdle: Boolean
@@ -25,10 +24,9 @@ class KeepShell(private var rootMode: Boolean = true) {
         }
 
     //尝试退出命令行程序
-    fun tryExit() {
+    fun tryExit(out: OutputStream?) {
         try {
-            if (out != null)
-                out!!.close()
+            out?.close()
             if (reader != null)
                 reader!!.close()
         } catch (ex: Exception) {
@@ -38,7 +36,6 @@ class KeepShell(private var rootMode: Boolean = true) {
         } catch (ex: Exception) {
         }
         enterLockTime = 0L
-        out = null
         reader = null
         p = null
         currentIsIdle = true
@@ -69,22 +66,19 @@ class KeepShell(private var rootMode: Boolean = true) {
     fun checkRoot(): Boolean {
         val r = doCmdSync(checkRootState).lowercase(Locale.getDefault())
         return if (r == "error" || r.contains("permission denied") || r.contains("not allowed") || r == "not found") {
-            if (rootMode) {
-                tryExit()
-            }
+
             false
         } else if (r.contains("success")) {
             true
         } else {
-            if (rootMode) {
-                tryExit()
-            }
+
             false
         }
     }
 
-    private fun getRuntimeShell() {
-        if (p != null) return
+    private fun getRuntimeShell(): OutputStream? {
+        if (p != null) return null
+        var out: OutputStream? = null
         val getSu = Thread {
             try {
                 mLock.lockInterruptibly()
@@ -122,6 +116,7 @@ class KeepShell(private var rootMode: Boolean = true) {
             enterLockTime = 0L
             getSu.interrupt()
         }
+        return out
     }
 
 
@@ -135,10 +130,9 @@ class KeepShell(private var rootMode: Boolean = true) {
     fun doCmdSync(cmd: String): String {
         println(cmd)
         if (mLock.isLocked && enterLockTime > 0 && System.currentTimeMillis() - enterLockTime > LOCK_TIMEOUT) {
-            tryExit()
             Log.e("doCmdSync-Lock", "线程等待超时${System.currentTimeMillis()} - $enterLockTime > $LOCK_TIMEOUT")
         }
-        getRuntimeShell()
+        val out = getRuntimeShell()
 
 
         try {
@@ -150,12 +144,7 @@ class KeepShell(private var rootMode: Boolean = true) {
                     write(startTagBytes)
                     write(cmd.toByteArray(Charset.defaultCharset()))
                     write(endTagBytes)
-                    try {
-                        flush()
-                    }
-                    catch (ex: Exception) {
-                        println(ex.message)
-                    }
+                    flush()
                 }
             }
 
@@ -181,7 +170,7 @@ class KeepShell(private var rootMode: Boolean = true) {
             return shellOutputCache.toString().trim()
         }
         catch (e: Exception) {
-            tryExit()
+            tryExit(out)
             Log.e("KeepShellAsync", "" + e.message)
             return "error"
         } finally {
