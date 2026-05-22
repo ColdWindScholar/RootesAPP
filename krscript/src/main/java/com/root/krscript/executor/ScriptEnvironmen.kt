@@ -128,7 +128,7 @@ object ScriptEnvironmen {
             init(context)
         }
 
-        if (script == null || script.isEmpty()) {
+        if (script.isNullOrEmpty()) {
             return ""
         }
 
@@ -166,7 +166,7 @@ object ScriptEnvironmen {
 
         stringBuilder.append("\n\n")
         if (script2.startsWith(ASSETS_FILE)) {
-            stringBuilder.append("$environmentScript \"${extractScript(context, script2)}\"")
+            stringBuilder.append("$environmentScript\n\"${extractScript(context, script2)}\"")
         } else {
             stringBuilder.append("$environmentScript\n\"$script\"")
         }

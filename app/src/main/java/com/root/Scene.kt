@@ -20,7 +20,6 @@ import com.root.scene_mode.TimingTaskManager
 import com.root.scene_mode.TriggerIEventMonitor
 import com.root.store.SpfConfig
 import com.root.system.R
-import com.root.utils.CrashHandler
 
 class Scene : Application() {
     companion object {
@@ -109,9 +108,6 @@ class Scene : Application() {
 
         context = this
         thisPackageName = this.packageName
-        CrashHandler().init(this)
-
-
 
         // 锁屏状态检测
         screenState = ScreenState(this)
