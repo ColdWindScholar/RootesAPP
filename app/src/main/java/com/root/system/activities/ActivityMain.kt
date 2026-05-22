@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.edit
 import com.root.Scene
 import com.root.common.shared.MagiskExtend
 import com.root.common.shell.KeepShellPublic
@@ -20,20 +21,21 @@ import com.root.common.shell.RootFile
 import com.root.common.ui.DialogHelper
 import com.root.permissions.CheckRootStatus
 import com.root.store.SpfConfig
-import com.root.system.ModuleInstaller
-import com.root.ui.TabIconHelper2
-import com.root.utils.ElectricityUnit
-import com.root.utils.Update
 import com.root.system.R
 import com.root.system.databinding.ActivityMainBinding
 import com.root.system.dialogs.DialogMonitor
 import com.root.system.dialogs.DialogPower
-import com.root.system.fragments.*
+import com.root.system.fragments.FragmentCpuModes
+import com.root.system.fragments.FragmentDonate
+import com.root.system.fragments.FragmentHome
+import com.root.system.fragments.FragmentNav
+import com.root.ui.TabIconHelper2
+import com.root.utils.ElectricityUnit
+import com.root.utils.Update
 import okhttp3.*
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
-import androidx.core.content.edit
 
 class ActivityMain : ActivityBase() {
     private lateinit var binding: ActivityMainBinding
@@ -59,11 +61,8 @@ class ActivityMain : ActivityBase() {
             }
         }
 
-        val zipFilePath = "/data/data/com.root.system/files/startboot.zip"
         override fun run() {
-            ModuleInstaller.installModule(context, zipFilePath)
-            sleep(500)
-            
+
             if (
                 MagiskExtend.magiskSupported() &&
             KernelProrp.getProp("${MagiskExtend.MAGISK_PATH}system/vendor/etc/thermal.current.ini") != ""

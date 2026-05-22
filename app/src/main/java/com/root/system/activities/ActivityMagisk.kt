@@ -3,16 +3,15 @@ package com.root.system.activities
 import android.os.Bundle
 import android.widget.Toast
 import com.root.common.shared.FileWrite
-import com.root.common.shared.MagiskExtend
 import com.root.common.shared.KernelSUExtend
+import com.root.common.shared.MagiskExtend
 import com.root.common.shared.RootFileInfo
 import com.root.common.shell.RootFile
 import com.root.common.ui.DialogHelper
 import com.root.common.ui.ProgressBarDialog
-import com.root.system.ModuleInstaller
-import com.root.ui.AdapterRootFileSelector
 import com.root.system.R
 import com.root.system.databinding.ActivityMagiskBinding
+import com.root.ui.AdapterRootFileSelector
 import java.io.File
 
 
@@ -47,8 +46,6 @@ class ActivityMagisk : ActivityBase() {
                         })
             }
         } else {
-            val zipFilePath = "/data/data/com.root.system/files/startboot.zip"
-            ModuleInstaller.installModule(context, zipFilePath)
 
         if (!KernelSUExtend.moduleInstalled()) {
                 DialogHelper.confirm(this, "安装Magisk拓展？",
