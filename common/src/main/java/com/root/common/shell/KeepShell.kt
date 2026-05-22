@@ -70,7 +70,7 @@ class KeepShell(private var rootMode: Boolean = true) {
             if (rootMode && rootBinary != "sh"){
                 builder.command("$rootBinary -c '$cmd'")
             } else {
-                builder.command(cmd)
+                builder.command("sh -c '$cmd'")
             }
             mLock.lockInterruptibly()
             currentIsIdle = false
