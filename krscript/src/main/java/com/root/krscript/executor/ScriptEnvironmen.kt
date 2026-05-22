@@ -25,7 +25,7 @@ object ScriptEnvironmen {
     private const val ASSETS_FILE = "file:///android_asset/"
     var isInited: Boolean = false
         private set
-    private var environmentScript = ""
+    private var environmentHashMap: HashMap<String, String> = HashMap()
 
     // 此目录将添加到PATH尾部，作为应用程序提供的拓展程序库目录，如有需要则需要在初始化executor.sh之前为该变量赋值
     private var TOOKIT_DIR: String? = ""
@@ -87,7 +87,12 @@ object ScriptEnvironmen {
 
             isInited = true
             if (isInited) {
-                environmentScript = envShell
+                for (i in envShell.split("\n")){
+                    if (i.trim().isNotEmpty()){
+                        val (key, value) = i.trim().split("=")
+                        environmentHashMap[key] = value
+                    }
+                }
             }
 
             context.getSharedPreferences("kr-script-config", Context.MODE_PRIVATE).edit {
@@ -103,8 +108,6 @@ object ScriptEnvironmen {
             return false
         }
     }
-
-
 
 
     /**
@@ -166,17 +169,17 @@ object ScriptEnvironmen {
 
         stringBuilder.append("\n\n")
         if (script2.startsWith(ASSETS_FILE)) {
-            stringBuilder.append("$environmentScript\n\"${extractScript(context, script2)}\"")
+            stringBuilder.append("\"${extractScript(context, script2)}\"")
         } else {
-            stringBuilder.append("$environmentScript\n\"$script\"")
+            stringBuilder.append("\"$script\"")
         }
 
         return if (shellTranslation != null) {
             shellTranslation!!.resolveRow(
-                privateShell!!.doCmdSync(stringBuilder.toString())
+                privateShell!!.doCmdSync(stringBuilder.toString(), envs =  environmentHashMap)
             )
         } else {
-            privateShell!!.doCmdSync(stringBuilder.toString())
+            privateShell!!.doCmdSync(stringBuilder.toString(), envs =  environmentHashMap)
         }
     }
 

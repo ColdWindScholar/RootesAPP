@@ -58,12 +58,17 @@ class KeepShell(private var rootMode: Boolean = true) {
     private val shellOutputCache = StringBuilder()
 
     //执行脚本
-    fun doCmdSync(cmd: String): String {
+    fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
         println(cmd)
         if (mLock.isLocked && enterLockTime > 0 && System.currentTimeMillis() - enterLockTime > LOCK_TIMEOUT) {
             Log.e("doCmdSync-Lock", "线程等待超时${System.currentTimeMillis()} - $enterLockTime > $LOCK_TIMEOUT")
         }
         val builder = ProcessBuilder()
+        envs?.let {
+            for ((key, value) in envs){
+                builder.environment()[key] = value
+            }
+        }
         val rootBinary = ShellExecutor.superUserRuntimeAvailable
         try {
             if (rootMode && rootBinary != "sh"){
