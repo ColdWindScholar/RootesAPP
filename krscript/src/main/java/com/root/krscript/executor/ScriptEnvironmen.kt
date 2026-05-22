@@ -30,7 +30,7 @@ object ScriptEnvironmen {
     // 此目录将添加到PATH尾部，作为应用程序提供的拓展程序库目录，如有需要则需要在初始化executor.sh之前为该变量赋值
     private var TOOKIT_DIR: String? = ""
     private var rooted = false
-    private var privateShell: KeepShell = if (rooted) getDefaultInstance() else KeepShell(rooted)
+    private var privateShell: KeepShell? = null
     private var shellTranslation: ShellTranslation? = null
     init {
         rooted = checkRoot()
