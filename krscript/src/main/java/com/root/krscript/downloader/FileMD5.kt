@@ -1,48 +1,46 @@
-package com.root.krscript.downloader;
+package com.root.krscript.downloader
+
+import java.io.File
+import java.io.FileInputStream
+import java.security.MessageDigest
 
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.security.MessageDigest;
-
-public class FileMD5 {
-
-
-    public String getFileMD5(File file) {
+class FileMD5 {
+    fun getFileMD5(file: File): String? {
         if (!file.isFile()) {
-            return null;
+            return null
         }
-        MessageDigest digest;
-        FileInputStream in;
-        byte[] buffer = new byte[1024];
-        int len;
+        val digest: MessageDigest?
+        val `in`: FileInputStream?
+        val buffer = ByteArray(1024)
+        var len: Int
         try {
-            digest = MessageDigest.getInstance("MD5");
-            in = new FileInputStream(file);
-            while ((len = in.read(buffer, 0, 1024)) != -1) {
-                digest.update(buffer, 0, len);
+            digest = MessageDigest.getInstance("MD5")
+            `in` = FileInputStream(file)
+            while ((`in`.read(buffer, 0, 1024).also { len = it }) != -1) {
+                digest.update(buffer, 0, len)
             }
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            `in`.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
         }
-        return bytesToHexString(digest.digest());
+        return bytesToHexString(digest.digest())
     }
 
-    public String bytesToHexString(byte[] src) {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (src == null || src.length == 0) {
-            return null;
+    fun bytesToHexString(src: ByteArray?): String? {
+        val stringBuilder = StringBuilder()
+        if (src == null || src.isEmpty()) {
+            return null
         }
-        for (byte b : src) {
-            int v = b & 0xFF;
-            String hv = Integer.toHexString(v);
-            if (hv.length() < 2) {
-                stringBuilder.append(0);
+        for (b in src) {
+            val v = b.toInt() and 0xFF
+            val hv = Integer.toHexString(v)
+            if (hv.length < 2) {
+                stringBuilder.append(0)
             }
-            stringBuilder.append(hv);
+            stringBuilder.append(hv)
         }
-        return stringBuilder.toString();
+        return stringBuilder.toString()
     }
 }
