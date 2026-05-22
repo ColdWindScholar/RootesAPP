@@ -38,6 +38,7 @@ import com.root.xposed.XposedCheck
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import androidx.core.content.edit
 
 class ActivityFreezeApps : ActivityBase() {
     private lateinit var binding: ActivityFreezeAppsBinding
@@ -528,7 +529,7 @@ class ActivityFreezeApps : ActivityBase() {
         val freeze_shortcut_suggest = view.findViewById<CompoundButton>(R.id.freeze_shortcut_suggest)
         freeze_shortcut_suggest.isChecked = config.getBoolean(SpfConfig.GLOBAL_SPF_FREEZE_ICON_NOTIFY, false)
         freeze_shortcut_suggest.setOnClickListener {
-            config.edit().putBoolean(SpfConfig.GLOBAL_SPF_FREEZE_ICON_NOTIFY, (it as CompoundButton).isChecked).apply()
+            config.edit { putBoolean(SpfConfig.GLOBAL_SPF_FREEZE_ICON_NOTIFY, (it as CompoundButton).isChecked) }
         }
 
         val freeze_time_limit = view.findViewById<SeekBar>(R.id.freeze_time_limit)
@@ -546,7 +547,7 @@ class ActivityFreezeApps : ActivityBase() {
 
                 override fun onStopTrackingTouch(seekBar: SeekBar?) {
                     seekBar?.run {
-                        config.edit().putInt(SpfConfig.GLOBAL_SPF_FREEZE_TIME_LIMIT, seekBar.progress).apply()
+                        config.edit { putInt(SpfConfig.GLOBAL_SPF_FREEZE_TIME_LIMIT, seekBar.progress) }
                     }
                 }
             })
