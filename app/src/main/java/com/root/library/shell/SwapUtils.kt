@@ -64,11 +64,10 @@ class SwapUtils(private val context: Context) {
     // 创建swap
     fun mkswap(size: Int) {
         val sb = StringBuilder()
-        sb.append("swapoff $swapfilePath >/dev/null 2>&1;\n")
+        sb.append("swapoff $swapfilePath;\n")
         sb.append("dd if=/dev/zero of=$swapfilePath bs=1048576 count=$size;\n")
         val keepShell = KeepShell()
         keepShell.doCmdSync(sb.toString())
-        keepShell.tryExit()
     }
 
     // 启动swap
@@ -99,7 +98,6 @@ class SwapUtils(private val context: Context) {
 
         val result = swapOn(priority, useLoop, keepShell)
 
-        keepShell.tryExit()
         return result
     }
 

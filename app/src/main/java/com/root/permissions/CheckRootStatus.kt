@@ -50,14 +50,12 @@ class CheckRootStatus(var context: Context, private val next: Runnable? = null, 
                     }
                 } else {
                     myHandler.post {
-                        KeepShellPublic.tryExit()
 
                         val view = LayoutInflater.from(context).inflate(R.layout.dialog_root_rejected, null)
                         DialogHelper.customDialog(context, view, false).apply {
                             view.findViewById<View>(R.id.btn_retry).setOnClickListener {
                                 dismiss()
 
-                                KeepShellPublic.tryExit()
                                 if (therad != null && therad!!.isAlive && !therad!!.isInterrupted) {
                                     therad!!.interrupt()
                                     therad = null
@@ -76,7 +74,6 @@ class CheckRootStatus(var context: Context, private val next: Runnable? = null, 
                                     onConfirm = DialogHelper.DialogButton("重试", {
                                         dismiss()
 
-                                        KeepShellPublic.tryExit()
                                         if (therad != null && therad!!.isAlive && !therad!!.isInterrupted) {
                                             therad!!.interrupt()
                                             therad = null
@@ -97,7 +94,6 @@ class CheckRootStatus(var context: Context, private val next: Runnable? = null, 
                 Thread.sleep(1000 * 15)
 
                 if (!completed) {
-                    KeepShellPublic.tryExit()
                     myHandler.post {
                         val view = LayoutInflater.from(context).inflate(R.layout.dialog_root_timeout, null)
                         DialogHelper.customDialog(context, view, false).apply {

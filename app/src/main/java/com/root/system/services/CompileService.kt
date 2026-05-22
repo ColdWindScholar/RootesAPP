@@ -148,7 +148,6 @@ class CompileService : IntentService("vtools-compile") {
             keepShell.doCmdSync("cmd package compile -m $compile_method $packageName")
         }
         this.hideNotification()
-        keepShell.tryExit()
         compiling = false
     }
 

@@ -180,7 +180,6 @@ class BootService : IntentService("vtools-boot") {
             }
         }
 
-        keepShell.tryExit()
         hideNotification()
     }
 

@@ -54,7 +54,7 @@ class FpsUtils(private val keepShell: KeepShell = KeepShellPublic.secondaryKeepS
                                     }
 
                                 if (fpsFilePath == null || fpsFilePath == "") {
-                                    keepShell.doCmdSync("find /sys -name fps 2>/dev/null")
+                                    keepShell.doCmdSync("find /sys -name fps")
                                         .trim { it <= ' ' }.split("\n").filter { it.contains("crtc") }.min()?.run {
                                             fpsFilePath = this
                                         }
@@ -62,7 +62,6 @@ class FpsUtils(private val keepShell: KeepShell = KeepShellPublic.secondaryKeepS
                                 if (fpsFilePath == null) {
                                     fpsFilePath = ""
                                 }
-                                keepShell.tryExit()
                             } catch (ex: Exception) {
                                 fpsFilePath = ""
                             }

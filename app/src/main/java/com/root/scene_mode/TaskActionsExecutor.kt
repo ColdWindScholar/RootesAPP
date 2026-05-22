@@ -89,9 +89,7 @@ class TaskActionsExecutor(
             keepShell.doCmdSync(it.Command)
         }
 
-        if (!isCommonShell) {
-            currentShell?.tryExit()
-        }
+
         hideNotification()
 
         mWakeLock.release()

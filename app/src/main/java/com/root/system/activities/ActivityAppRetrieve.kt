@@ -33,7 +33,6 @@ class ActivityAppRetrieve : ActivityBase() {
     private val keepShell = KeepShell()
 
     override fun onDestroy() {
-        keepShell.tryExit()
         super.onDestroy()
     }
 

@@ -151,7 +151,6 @@ open class DialogAppOptions(protected final var context: Activity, protected var
         val keepShell = KeepShell(false)
         val result =
             keepShell.doCmdSync("df | grep tmpfs | grep \"$dir\"").uppercase(Locale.getDefault()).trim().isNotEmpty()
-        keepShell.tryExit()
         return result
     }
 
