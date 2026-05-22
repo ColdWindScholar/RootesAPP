@@ -86,12 +86,6 @@ class ActivityStartSplash : Activity() {
         if (!signCheck.check()) {
             Log.e("ActivityStartSplash", "SignCheck failed")
             Toast.makeText(this, "非官方玩机百宝箱，请到官方网站下载！rootes.top", Toast.LENGTH_LONG).show()
-            // 使用 finishAffinity() 关闭当前 Activity 及所有相关 Activity
-            finishAffinity()
-            //  另一种终止方式（注释掉）
-            finish()
-            // 强制终止应用（不推荐）
-            exitProcess(0)
         }
 
 

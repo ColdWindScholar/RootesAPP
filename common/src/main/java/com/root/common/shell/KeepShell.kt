@@ -150,7 +150,12 @@ class KeepShell(private var rootMode: Boolean = true) {
                     write(startTagBytes)
                     write(cmd.toByteArray(Charset.defaultCharset()))
                     write(endTagBytes)
-                    flush()
+                    try {
+                        flush()
+                    }
+                    catch (ex: Exception) {
+                        println(ex.message)
+                    }
                 }
             }
 
