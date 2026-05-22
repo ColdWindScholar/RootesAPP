@@ -10,7 +10,7 @@ import com.root.common.shell.RootFile.fileExists
 /**
  * 帧率检测
  */
-class FpsUtils(private val keepShell: KeepShell = KeepShellPublic.secondaryKeepShell) {
+class FpsUtils(private val keepShell: KeepShell = KeepShellPublic.defaultKeepShell) {
     private var fpsFilePath: String? = null
     private var subStrCommand = "| awk '{print \$2}'"
 

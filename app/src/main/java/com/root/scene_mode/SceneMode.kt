@@ -111,7 +111,7 @@ class SceneMode private constructor(private val context: AccessibilityScenceMode
 
         fun freezeApp(app: String) {
             if (app.equals("com.android.vending")) {
-                GAppsUtilis().disable(KeepShellPublic.secondaryKeepShell)
+                GAppsUtilis().disable(KeepShellPublic.defaultKeepShell)
             } else {
                 KeepShellPublic.doCmdSync("pm disable $app")
             }
@@ -121,7 +121,7 @@ class SceneMode private constructor(private val context: AccessibilityScenceMode
             getCurrentInstance()?.setFreezeAppLeaveTime(app)
 
             if (app.equals("com.android.vending")) {
-                GAppsUtilis().enable(KeepShellPublic.secondaryKeepShell)
+                GAppsUtilis().enable(KeepShellPublic.defaultKeepShell)
             } else {
                 KeepShellPublic.doCmdSync("pm unsuspend ${app}\npm enable $app")
             }

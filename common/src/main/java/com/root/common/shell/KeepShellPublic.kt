@@ -16,10 +16,7 @@ object KeepShellPublic {
     }
 
 
-
     val defaultKeepShell = KeepShell()
-
-
 
     fun doCmdSync(commands: List<String>): Boolean {
         val stringBuilder = StringBuilder()
