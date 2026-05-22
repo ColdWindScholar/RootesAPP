@@ -67,6 +67,7 @@ object ShellExecutor {
         return process
     }
 
+    @JvmStatic
     @get:Throws(IOException::class)
     val superUserRuntime: Process
         get() {
