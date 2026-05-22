@@ -145,11 +145,7 @@ open class ModeSwitcher {
         }
     }
 
-    internal fun setCurrent(powerCfg: String, app: String): ModeSwitcher {
-        setCurrentPowercfg(powerCfg)
-        setCurrentPowercfgApp(app)
-        return this
-    }
+
 
     internal fun setCurrentPowercfg(powerCfg: String): ModeSwitcher {
         currentPowercfg = powerCfg
@@ -185,7 +181,7 @@ open class ModeSwitcher {
         }
 
         if (configProvider.isNotEmpty()) {
-            keepShellExec("sh $configProvider $INIT > /dev/null 2>&1")
+            keepShellExec("sh $configProvider $INIT")
             setCurrentPowercfg("")
 
             inited = true
@@ -219,12 +215,12 @@ open class ModeSwitcher {
                         if (dynamic && strictMode) {
                             keepShellExec(
                                     "export top_app=$packageName\n" +
-                                            "sh $configProvider '$mode' > /dev/null 2>&1"
+                                            "sh $configProvider '$mode'"
                             )
                         } else {
                             keepShellExec(
                                     "export top_app=\n" +
-                                        "sh $configProvider '$mode' > /dev/null 2>&1"
+                                        "sh $configProvider '$mode'"
                             )
                         }
                         setCurrentPowercfg(mode)
@@ -244,12 +240,12 @@ open class ModeSwitcher {
                             val currentTime = SystemClock.elapsedRealtime()
                             keepShellExec(
                                     "export top_app=$packageName\n" +
-                                            "sh $configProvider '$mode' 'task$currentTime' > /dev/null 2>&1"
+                                            "sh $configProvider '$mode' 'task$currentTime'"
                             )
                         } else {
                             keepShellExec(
                                     "export top_app=''\n" +
-                                            "sh $configProvider '$mode' > /dev/null 2>&1"
+                                            "sh $configProvider '$mode'"
                             )
                         }
                         setCurrentPowercfg(mode)
@@ -272,11 +268,6 @@ open class ModeSwitcher {
             setCurrentPowercfgApp("")
         }
         return this
-    }
-
-    // 是否已经完成指定模式的自定义
-    fun modeReplaced(mode: String): Boolean {
-        return CpuConfigStorage(Scene.context).exists(mode)
     }
 
     // 是否已完成四个模式的配置
