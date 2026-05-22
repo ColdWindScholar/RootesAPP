@@ -25,7 +25,7 @@ object ScriptEnvironmen {
     private const val ASSETS_FILE = "file:///android_asset/"
     var isInited: Boolean = false
         private set
-    private var environmentPath = ""
+    private var environmentScript = ""
 
     // 此目录将添加到PATH尾部，作为应用程序提供的拓展程序库目录，如有需要则需要在初始化executor.sh之前为该变量赋值
     private var TOOKIT_DIR: String? = ""
@@ -82,17 +82,16 @@ object ScriptEnvironmen {
                 }
                 envShell = envShell.replace("$({$key})", value)
             }
-            val outputPathAbs = getPrivateFilePath(context, fileName)
-            envShell = envShell.replace("$({EXECUTOR_PATH})", outputPathAbs)
+            envShell = envShell.replace("$({EXECUTOR_PATH})", "fake_value")
 
 
             isInited = true
             if (isInited) {
-                environmentPath = outputPathAbs
+                environmentScript = envShell
             }
 
             context.getSharedPreferences("kr-script-config", Context.MODE_PRIVATE).edit {
-                putString("executor", envShell)
+                putString("executor", fileName)
                 putString("toolkitDir", toolkitDir)
             }
 
@@ -175,9 +174,9 @@ object ScriptEnvironmen {
 
         stringBuilder.append("\n\n")
         if (script2.startsWith(ASSETS_FILE)) {
-            stringBuilder.append("$environmentPath \"${extractScript(context, script2)}\"")
+            stringBuilder.append("$environmentScript \"${extractScript(context, script2)}\"")
         } else {
-            stringBuilder.append("$environmentPath\n\"$script\"")
+            stringBuilder.append("$environmentScript\n\"$script\"")
         }
 
         return if (shellTranslation != null) {

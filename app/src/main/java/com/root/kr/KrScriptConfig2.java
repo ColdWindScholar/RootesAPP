@@ -66,9 +66,6 @@ public class KrScriptConfig2 {
         return this;
     }
 
-    public HashMap<String, String> getVariables() {
-        return configInfo;
-    }
 
     private String getExecutorCore() {
         if (configInfo != null && configInfo.containsKey(EXECUTOR_CORE)) {
