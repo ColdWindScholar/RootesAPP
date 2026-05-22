@@ -4,7 +4,7 @@ import java.io.IOException
 
 object ShellExecutor {
     private val extraEnvPath: String = ""
-    private var defaultEnvPath = "" // /sbin:/system/sbin:/system/bin:/system/xbin:/odm/bin:/vendor/bin:/vendor/xbin
+    var defaultEnvPath = "" // /sbin:/system/sbin:/system/bin:/system/xbin:/odm/bin:/vendor/bin:/vendor/xbin
 
 
     private val envPath: String?

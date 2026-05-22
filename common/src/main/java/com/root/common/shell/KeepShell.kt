@@ -1,7 +1,6 @@
 package com.root.common.shell
 
 import android.util.Log
-import com.root.common.shell.ShellExecutor.defaultEnvPath
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
