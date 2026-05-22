@@ -61,6 +61,7 @@ class PageConfigReader {
                     Toast.makeText(context, "Page configuration parsing error!\n" + ex.message, Toast.LENGTH_LONG).show()
                 }
                 Log.e("KrConfig Fail！", "" + ex.message)
+                ex.printStackTrace()
             }
 
         }
@@ -218,6 +219,7 @@ class PageConfigReader {
                 Toast.makeText(context, "解析配置文件失败\n" + ex.message, Toast.LENGTH_LONG).show()
             }
             Log.e("KrConfig Fail！", "" + ex.message)
+            ex.printStackTrace()
         }
 
         return null
