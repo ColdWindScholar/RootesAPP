@@ -65,7 +65,7 @@ class KeepShell(private var rootMode: Boolean = true) {
             Log.e("doCmdSync-Lock", "线程等待超时${System.currentTimeMillis()} - $enterLockTime > $LOCK_TIMEOUT")
         }
         val builder = ProcessBuilder()
-        builder.directory(File("/data/data/com.root.system/files/"))
+        builder.directory(File("/data/data/com.root.system/files/usr/kr-script"))
         envs?.let {
             for ((key, value) in envs){
                 builder.environment()[key] = value
