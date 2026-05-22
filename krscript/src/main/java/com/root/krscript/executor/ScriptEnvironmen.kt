@@ -130,6 +130,7 @@ object ScriptEnvironmen {
 
     @JvmStatic
     fun executeResultRoot(context: Context, script: String?, nodeInfoBase: NodeInfoBase?): String {
+        println("Execute: $script")
         if (!isInited) {
             init(context)
         }

@@ -68,7 +68,7 @@ open class ActivityBase : AppCompatActivity() {
         }, 500)
         if (isTaskRoot) {
             Scene.postDelayed({
-                KeepShellPublic.doCmdSync("dumpsys meminfo " + context.packageName + " > /dev/null")
+                KeepShellPublic.doCmdSync("dumpsys meminfo ${context.packageName}")
             }, 100)
         }
     }
