@@ -2,6 +2,7 @@ package com.root.system
 import com.root.common.ui.DialogHelper
 import android.content.Context
 import com.root.common.shell.KeepShellPublic
+import java.io.File
 
 object ModuleInstaller {
 
@@ -12,13 +13,13 @@ object ModuleInstaller {
         val magiskCommand = "magisk"
         
         // 检查是否存在 Magisk 命令
-        if (isFileExists("/sbin/$magiskCommand")) {
+        if (File("/sbin/$magiskCommand").exists()) {
             // 如果 Magisk 命令存在，直接返回，不进行任何操作
             return
         }
         
         // 检查 unzip 命令是否存在
-        if (!isFileExists(unzipCommand)) {
+        if (!File(unzipCommand).exists()) {
             DialogHelper.alert(
                 context = context,
                 title = "错误",
@@ -55,8 +56,5 @@ object ModuleInstaller {
     }
 
     // 使用 Shell 判断文件是否存在
-    private fun isFileExists(filePath: String): Boolean {
-        val result = KeepShellPublic.doCmdSync("test -f $filePath && echo exists || echo notexists")
-        return result.contains("exists")
-    }
+
 }
