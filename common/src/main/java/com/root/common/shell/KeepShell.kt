@@ -7,6 +7,8 @@ import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 import com.root.common.shell.ShellExecutor
+import java.io.IOException
+
 /**
  * Created by Hello on 2018/01/23.
  */
@@ -73,11 +75,15 @@ class KeepShell(private var rootMode: Boolean = true) {
             mLock.lockInterruptibly()
             currentIsIdle = false
             GlobalScope.launch(Dispatchers.IO){
+                try{
                 val process = builder.start()
                 val output = process.inputStream.bufferedReader().readLines()
                 val error = process.errorStream.bufferedReader().readLines()
                 val exitCode = process.waitFor()
-                shellOutputCache.append(output + error)
+                shellOutputCache.append(output + error)}
+                catch (ex: IOException){
+                    ex.printStackTrace()
+                }
             }
             return shellOutputCache.toString().trim()
         }
