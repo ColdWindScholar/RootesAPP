@@ -258,8 +258,8 @@ class AppListHelper(private val context: Context, private val getTags: Boolean =
 
                     val item = AppInfo.getItem()
                     item.selected = false
-                    item.appName = applicationInfo?.loadLabel(packageManager).toString() + "  (" + packageInfo.versionCode + ")"
-                    item.packageName = applicationInfo!!.packageName
+                    item.appName = applicationInfo.loadLabel(packageManager).toString() + "  (" + packageInfo.versionCode + ")"
+                    item.packageName = applicationInfo.packageName
                     item.path = applicationInfo.sourceDir
                     item.stateTags = checkInstall(packageInfo)
                     item.versionName = packageInfo.versionName
