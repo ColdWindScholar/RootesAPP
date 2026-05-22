@@ -43,14 +43,12 @@ class KeepShell(private var rootMode: Boolean = true) {
                     "fi\n"
 
     fun checkRoot(): Boolean {
-        val r = doCmdSync(checkRootState).lowercase(Locale.getDefault())
+        val r = doCmdSync(checkRootState, noRoot = true).lowercase(Locale.getDefault())
         return if (r == "error" || r.contains("permission denied") || r.contains("not allowed") || r == "not found") {
-
             false
         } else if (r.contains("success")) {
             true
         } else {
-
             false
         }
     }
@@ -59,14 +57,14 @@ class KeepShell(private var rootMode: Boolean = true) {
     private val shellOutputCache = StringBuilder()
 
     //执行脚本
-    fun doCmdSync(cmd: String): String {
+    fun doCmdSync(cmd: String, noRoot: Boolean = false): String {
         println(cmd)
         if (mLock.isLocked && enterLockTime > 0 && System.currentTimeMillis() - enterLockTime > LOCK_TIMEOUT) {
             Log.e("doCmdSync-Lock", "线程等待超时${System.currentTimeMillis()} - $enterLockTime > $LOCK_TIMEOUT")
         }
         val builder = ProcessBuilder()
         try {
-            if (rootMode && checkRoot()){
+            if (rootMode && checkRoot() && !noRoot){
                 builder.command("su -c '$cmd'")
             } else {
                 builder.command(cmd)
