@@ -328,7 +328,7 @@ class ActivityStartSplash : Activity() {
 
         override fun run() {
             try {
-                val process = if (CheckRootStatus.lastCheckResult) ShellExecutor.getSuperUserRuntime() else ShellExecutor.getRuntime()
+                val process = if (CheckRootStatus.lastCheckResult) ShellExecutor.superUserRuntime else ShellExecutor.runtime
                 if (process != null) {
                     val outputStream = DataOutputStream(process.outputStream)
                     ScriptEnvironmen.executeShell(context, outputStream, config.beforeStartSh, params, null, "pio-splash")
