@@ -106,14 +106,6 @@ object ScriptEnvironmen {
 
 
 
-    /**
-     * 写入缓存（脚本代码存入脚本文件）
-     *
-     * @param context
-     * @param script
-     * @return
-     */
-
 
     /**
      * 执行脚本
