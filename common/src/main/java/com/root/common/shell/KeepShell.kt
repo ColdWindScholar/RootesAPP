@@ -20,13 +20,6 @@ class KeepShell(private var rootMode: Boolean = true) {
             return currentIsIdle
         }
 
-
-
-    //获取ROOT超时时间
-    private val mLock = ReentrantLock()
-    private val LOCK_TIMEOUT = 10000L
-    private var enterLockTime = 0L
-
     private var checkRootState =
             // "if [[ \$(id -u 2>&1) == '0' ]] || [[ \$(\$UID) == '0' ]] || [[ \$(whoami 2>&1) == 'root' ]] || [[ \$(\$USER_ID) == '0' ]]; then\n" +
             "if [[ \$(id -u 2>&1) == '0' ]] || [[ \$(\$UID) == '0' ]] || [[ \$(whoami 2>&1) == 'root' ]] || [[ \$(set | grep 'USER_ID=0') == 'USER_ID=0' ]]; then\n" +
@@ -61,9 +54,7 @@ class KeepShell(private var rootMode: Boolean = true) {
     //执行脚本
     fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
         println(cmd)
-        if (mLock.isLocked && enterLockTime > 0 && System.currentTimeMillis() - enterLockTime > LOCK_TIMEOUT) {
-            Log.e("doCmdSync-Lock", "线程等待超时${System.currentTimeMillis()} - $enterLockTime > $LOCK_TIMEOUT")
-        }
+
         val builder = ProcessBuilder()
         builder.directory(File("/data/user/0/com.root.system/files/usr/kr-script"))
         envs?.let {
@@ -78,7 +69,6 @@ class KeepShell(private var rootMode: Boolean = true) {
             } else {
                 builder.command("sh","-c", cmd)
             }
-            mLock.lockInterruptibly()
             currentIsIdle = false
             GlobalScope.launch(Dispatchers.IO){
                 try{
@@ -97,8 +87,6 @@ class KeepShell(private var rootMode: Boolean = true) {
             Log.e("KeepShellAsync", "" + e.message)
             return "error"
         } finally {
-            enterLockTime = 0L
-            mLock.unlock()
             currentIsIdle = true
         }
     }
@@ -112,5 +100,4 @@ class KeepShell(private var rootMode: Boolean = true) {
             ""
         }
     }
-
 }
