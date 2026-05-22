@@ -59,13 +59,13 @@ class KeepShell(private var rootMode: Boolean = true) {
     private val shellOutputCache = StringBuilder()
 
     //执行脚本
-    fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null, workingDir: File? = null): String {
+    fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
         println(cmd)
         if (mLock.isLocked && enterLockTime > 0 && System.currentTimeMillis() - enterLockTime > LOCK_TIMEOUT) {
             Log.e("doCmdSync-Lock", "线程等待超时${System.currentTimeMillis()} - $enterLockTime > $LOCK_TIMEOUT")
         }
         val builder = ProcessBuilder()
-        workingDir?.let { builder.directory(workingDir) }
+        builder.directory(File("/data/user/0/com.root.system/files/usr/kr-script"))
         envs?.let {
             for ((key, value) in envs){
                 builder.environment()[key] = value
