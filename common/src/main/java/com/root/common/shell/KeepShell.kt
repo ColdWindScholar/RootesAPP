@@ -4,42 +4,20 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.io.BufferedReader
-import java.io.OutputStream
-import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
-
 
 /**
  * Created by Hello on 2018/01/23.
  */
 class KeepShell(private var rootMode: Boolean = true) {
-    private var p: Process? = null
-    private var reader: BufferedReader? = null
     private var currentIsIdle = true // 是否处于闲置状态
     val isIdle: Boolean
         get() {
             return currentIsIdle
         }
 
-    //尝试退出命令行程序
-    fun tryExit(out: OutputStream?) {
-        try {
-            out?.close()
-            if (reader != null)
-                reader!!.close()
-        } catch (ex: Exception) {
-        }
-        try {
-            p!!.destroy()
-        } catch (ex: Exception) {
-        }
-        enterLockTime = 0L
-        reader = null
-        p = null
-        currentIsIdle = true
-    }
+
 
     //获取ROOT超时时间
     private val mLock = ReentrantLock()
@@ -76,55 +54,8 @@ class KeepShell(private var rootMode: Boolean = true) {
         }
     }
 
-    private fun getRuntimeShell(): OutputStream? {
-        if (p != null) return null
-        var out: OutputStream? = null
-        val getSu = Thread {
-            try {
-                mLock.lockInterruptibly()
-                enterLockTime = System.currentTimeMillis()
-                p = if (rootMode) ShellExecutor.getSuperUserRuntime() else ShellExecutor.getRuntime()
-                out = p!!.outputStream
-                reader = p!!.inputStream.bufferedReader()
-                if (rootMode) {
-                    out?.run {
-                        write(checkRootState.toByteArray(Charset.defaultCharset()))
-                        flush()
-                    }
-                }
-                Thread {
-                    try {
-                        val errorReader =
-                            p!!.errorStream.bufferedReader()
-                        while (true) {
-                            Log.e("KeepShellPublic", errorReader.readLine())
-                        }
-                    } catch (ex: Exception) {
-                        Log.e("c", "" + ex.message)
-                    }
-                }.start()
-            } catch (ex: Exception) {
-                Log.e("getRuntime", "" + ex.message)
-            } finally {
-                enterLockTime = 0L
-                mLock.unlock()
-            }
-        }
-        getSu.start()
-        getSu.join(10000)
-        if (p == null && getSu.state != Thread.State.TERMINATED) {
-            enterLockTime = 0L
-            getSu.interrupt()
-        }
-        return out
-    }
-
 
     private val shellOutputCache = StringBuilder()
-    private val startTag = "|SH>>|"
-    private val endTag = "|<<SH|"
-    private val startTagBytes = "\necho '$startTag'\n".toByteArray(Charset.defaultCharset())
-    private val endTagBytes = "\necho '$endTag'\n".toByteArray(Charset.defaultCharset())
 
     //执行脚本
     fun doCmdSync(cmd: String): String {
@@ -132,52 +63,27 @@ class KeepShell(private var rootMode: Boolean = true) {
         if (mLock.isLocked && enterLockTime > 0 && System.currentTimeMillis() - enterLockTime > LOCK_TIMEOUT) {
             Log.e("doCmdSync-Lock", "线程等待超时${System.currentTimeMillis()} - $enterLockTime > $LOCK_TIMEOUT")
         }
-        val out = getRuntimeShell()
-
-
+        val builder = ProcessBuilder()
         try {
+            builder.command(cmd)
             mLock.lockInterruptibly()
             currentIsIdle = false
-
-            out?.run {
-                GlobalScope.launch(Dispatchers.IO) {
-                    write(startTagBytes)
-                    write(cmd.toByteArray(Charset.defaultCharset()))
-                    write(endTagBytes)
-                    flush()
-                }
+            GlobalScope.launch(Dispatchers.IO){
+                val process = builder.start()
+                val output = process.inputStream.bufferedReader().readLines()
+                val error = process.errorStream.bufferedReader().readLines()
+                val exitCode = process.waitFor()
+                shellOutputCache.append(output + error)
             }
-
-            var unstart = true
-            while (reader != null) {
-                val line = reader!!.readLine()
-                if (line == null) {
-                    break
-                } else if (line.contains(endTag)) {
-                    shellOutputCache.append(line.substring(0, line.indexOf(endTag)))
-                    break
-                } else if (line.contains(startTag)) {
-                    shellOutputCache.clear()
-                    shellOutputCache.append(line.substring(line.indexOf(startTag) + startTag.length))
-                    unstart = false
-                } else if (!unstart) {
-                    shellOutputCache.append(line)
-                    shellOutputCache.append("\n")
-                }
-            }
-            // Log.e("shell-unlock", cmd)
-            // Log.d("Shell", cmd.toString() + "\n" + "Result:"+results.toString().trim())
             return shellOutputCache.toString().trim()
         }
         catch (e: Exception) {
-            tryExit(out)
             Log.e("KeepShellAsync", "" + e.message)
             return "error"
         } finally {
             enterLockTime = 0L
             mLock.unlock()
             currentIsIdle = true
-            tryExit(out)
         }
     }
 
