@@ -4,6 +4,7 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.File
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
@@ -64,6 +65,7 @@ class KeepShell(private var rootMode: Boolean = true) {
             Log.e("doCmdSync-Lock", "线程等待超时${System.currentTimeMillis()} - $enterLockTime > $LOCK_TIMEOUT")
         }
         val builder = ProcessBuilder()
+        builder.directory(File("/data/data/com.root.system/files/"))
         envs?.let {
             for ((key, value) in envs){
                 builder.environment()[key] = value
