@@ -31,7 +31,7 @@ object ScriptEnvironmen {
     private var TOOKIT_DIR: String? = ""
     private var rooted = false
     private lateinit var privateShell: KeepShell
-    private lateinit var shellTranslation: ShellTranslation
+    private var shellTranslation: ShellTranslation? = null
 
     private fun init(context: Context): Boolean {
         val configSpf = context.getSharedPreferences("kr-script-config", Context.MODE_PRIVATE)
@@ -168,10 +168,10 @@ object ScriptEnvironmen {
         }
         return if (shellTranslation != null) {
             shellTranslation!!.resolveRow(
-                privateShell!!.doCmdSync(scriptContent!!, envs =  environmentHashMap)
+                privateShell.doCmdSync(scriptContent!!, envs =  environmentHashMap)
             )
         } else {
-            privateShell!!.doCmdSync(scriptContent!!, envs =  environmentHashMap)
+            privateShell.doCmdSync(scriptContent!!, envs =  environmentHashMap)
         }
     }
 
