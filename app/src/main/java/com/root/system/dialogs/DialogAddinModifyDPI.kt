@@ -39,7 +39,7 @@ class DialogAddinModifyDPI(var context: Activity) {
             spf.edit(commit = true) { putFloat(BACKUP_SCREEN_RATIO, point.y / point.x.toFloat()) }
         }
         if (!spf.contains(BACKUP_SCREEN_DPI) || !spf.contains(BACKUP_SCREEN_WIDTH)) {
-            spf.edit().putInt(BACKUP_SCREEN_DPI, dm.densityDpi).commit()
+            spf.edit(commit = true) { putInt(BACKUP_SCREEN_DPI, dm.densityDpi) }
             spf.edit(commit = true) { putInt(BACKUP_SCREEN_WIDTH, point.x) }
         }
     }
