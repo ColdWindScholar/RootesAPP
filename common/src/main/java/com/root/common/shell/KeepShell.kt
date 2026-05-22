@@ -174,10 +174,10 @@ class KeepShell(private var rootMode: Boolean = true) {
             Log.e("KeepShellAsync", "" + e.message)
             return "error"
         } finally {
-            tryExit(out)
             enterLockTime = 0L
             mLock.unlock()
             currentIsIdle = true
+            tryExit(out)
         }
     }
 
