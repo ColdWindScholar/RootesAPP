@@ -65,7 +65,7 @@ class KeepShell(private var rootMode: Boolean = true) {
             Log.e("doCmdSync-Lock", "线程等待超时${System.currentTimeMillis()} - $enterLockTime > $LOCK_TIMEOUT")
         }
         val builder = ProcessBuilder()
-        val rootBinary = ShellExecutor.getSuperUserRuntimeAvailable()
+        val rootBinary = ShellExecutor.superUserRuntimeAvailable
         try {
             if (rootMode && rootBinary != "sh"){
                 builder.command("$rootBinary -c '$cmd'")
