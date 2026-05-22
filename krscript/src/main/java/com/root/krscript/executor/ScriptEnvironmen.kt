@@ -171,10 +171,10 @@ object ScriptEnvironmen {
         }
         return if (shellTranslation != null) {
             shellTranslation!!.resolveRow(
-                privateShell!!.doCmdSync(scriptContent!!, envs =  environmentHashMap)
+                privateShell!!.doCmdSync(scriptContent!!, envs =  environmentHashMap, workingDir = File(context.filesDir, "usr/kr-script"))
             )
         } else {
-            privateShell!!.doCmdSync(scriptContent!!, envs =  environmentHashMap)
+            privateShell!!.doCmdSync(scriptContent!!, envs =  environmentHashMap, workingDir = File(context.filesDir, "usr/kr-script"))
         }
     }
 
