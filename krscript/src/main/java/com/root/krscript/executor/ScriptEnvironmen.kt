@@ -165,9 +165,9 @@ object ScriptEnvironmen {
 
         stringBuilder.append("\n\n")
         if (script2.startsWith(ASSETS_FILE)) {
-            stringBuilder.append("\"${extractScript(context, script2)}\"")
+            stringBuilder.append(extractScript(context, script2))
         } else {
-            stringBuilder.append("\"$script\"")
+            stringBuilder.append(script)
         }
 
         return if (shellTranslation != null) {
