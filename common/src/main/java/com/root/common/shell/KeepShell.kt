@@ -74,9 +74,9 @@ class KeepShell(private var rootMode: Boolean = true) {
         val rootBinary = ShellExecutor.superUserRuntimeAvailable
         try {
             if (rootMode && rootBinary != "sh"){
-                builder.command("$rootBinary -c '$cmd'")
+                builder.command(rootBinary, "-c", cmd)
             } else {
-                builder.command("sh -c '$cmd'")
+                builder.command("sh","-c", cmd)
             }
             mLock.lockInterruptibly()
             currentIsIdle = false
