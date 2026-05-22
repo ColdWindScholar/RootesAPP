@@ -6,7 +6,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
-
+import com.root.common.shell.ShellExecutor
 /**
  * Created by Hello on 2018/01/23.
  */
@@ -43,7 +43,7 @@ class KeepShell(private var rootMode: Boolean = true) {
                     "fi\n"
 
     fun checkRoot(): Boolean {
-        val r = doCmdSync(checkRootState, noRoot = true).lowercase(Locale.getDefault())
+        val r = doCmdSync(checkRootState).lowercase(Locale.getDefault())
         return if (r == "error" || r.contains("permission denied") || r.contains("not allowed") || r == "not found") {
             false
         } else if (r.contains("success")) {
@@ -57,15 +57,16 @@ class KeepShell(private var rootMode: Boolean = true) {
     private val shellOutputCache = StringBuilder()
 
     //执行脚本
-    fun doCmdSync(cmd: String, noRoot: Boolean = false): String {
+    fun doCmdSync(cmd: String): String {
         println(cmd)
         if (mLock.isLocked && enterLockTime > 0 && System.currentTimeMillis() - enterLockTime > LOCK_TIMEOUT) {
             Log.e("doCmdSync-Lock", "线程等待超时${System.currentTimeMillis()} - $enterLockTime > $LOCK_TIMEOUT")
         }
         val builder = ProcessBuilder()
+        val rootBinary = ShellExecutor.getSuperUserRuntimeAvailable()
         try {
-            if (rootMode && checkRoot() && !noRoot){
-                builder.command("su -c '$cmd'")
+            if (rootMode && rootBinary != "sh"){
+                builder.command("$rootBinary -c '$cmd'")
             } else {
                 builder.command(cmd)
             }

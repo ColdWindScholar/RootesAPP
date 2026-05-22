@@ -82,6 +82,22 @@ public class ShellExecutor {
 
         return getProcess(new String[]{"sh"});
     }
+    public static String getSuperUserRuntimeAvailable() {
+
+        // 依次尝试执行每个命令
+        for (String command : new String[]{"su", "suu", "timesu", "02su", "kp"}) {
+            try {
+                // 尝试执行命令
+                Runtime.getRuntime().exec(command);
+                return command;
+            } catch (IOException e) {
+                // 如果执行命令失败，继续尝试下一个命令
+                e.printStackTrace();
+            }
+        }
+
+        return "sh";
+    }
     
 
     public static Process getRuntime() throws IOException {
