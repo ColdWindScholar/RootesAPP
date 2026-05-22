@@ -3,6 +3,7 @@ package com.root.krscript.executor
 import android.content.Context
 import android.os.Build
 import android.os.Environment
+import android.util.Log
 import androidx.core.content.edit
 import com.root.common.shared.FileWrite.getPrivateFileDir
 import com.root.common.shared.FileWrite.getPrivateFilePath
@@ -99,6 +100,7 @@ object ScriptEnvironmen {
 
             return isInited
         } catch (ex: Exception) {
+            ex.message?.let { Log.d("shell init",it) }
             return false
         }
     }
