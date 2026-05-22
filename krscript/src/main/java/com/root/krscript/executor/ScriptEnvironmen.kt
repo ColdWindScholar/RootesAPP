@@ -148,23 +148,19 @@ object ScriptEnvironmen {
         if (nodeInfoBase != null && !nodeInfoBase.currentPageConfigPath.isEmpty()) {
             val parentPageConfigDir = nodeInfoBase.pageConfigDir
             val currentPageConfigPath = nodeInfoBase.currentPageConfigPath
-            stringBuilder.append("export PAGE_CONFIG_DIR='").append(parentPageConfigDir).append("'\n")
-            stringBuilder.append("export PAGE_CONFIG_FILE='").append(currentPageConfigPath).append("'\n")
-
+            environmentHashMap["PAGE_CONFIG_DIR"] = parentPageConfigDir
+            environmentHashMap["PAGE_CONFIG_FILE"] = currentPageConfigPath
             if (currentPageConfigPath.startsWith("file:///android_asset/")) {
-                stringBuilder.append("export PAGE_WORK_DIR='")
-                    .append(ExtractAssets(context).getExtractPath(parentPageConfigDir)).append("'\n")
-                stringBuilder.append("export PAGE_WORK_FILE='")
-                    .append(ExtractAssets(context).getExtractPath(currentPageConfigPath)).append("'\n")
+                environmentHashMap["PAGE_WORK_DIR"] = ExtractAssets(context).getExtractPath(parentPageConfigDir)
+                environmentHashMap["PAGE_WORK_FILE"] = ExtractAssets(context).getExtractPath(currentPageConfigPath)
             } else {
-                stringBuilder.append("export PAGE_WORK_DIR='").append(parentPageConfigDir).append("'\n")
-                stringBuilder.append("export PAGE_WORK_FILE='").append(currentPageConfigPath).append("'\n")
+                environmentHashMap["PAGE_WORK_DIR"] = parentPageConfigDir
+                environmentHashMap["PAGE_WORK_FILE"] = currentPageConfigPath
             }
         } else {
-            stringBuilder.append("export PAGE_CONFIG_DIR=''\n")
-            stringBuilder.append("export PAGE_CONFIG_FILE=''\n")
-            stringBuilder.append("export PAGE_WORK_DIR=''\n")
-            stringBuilder.append("export PAGE_WORK_DIR=''\n")
+            for (i in listOf("PAGE_CONFIG_DIR", "PAGE_CONFIG_FILE", "PAGE_WORK_DIR")){
+                environmentHashMap[i] = ""
+            }
         }
 
         stringBuilder.append("\n\n")
