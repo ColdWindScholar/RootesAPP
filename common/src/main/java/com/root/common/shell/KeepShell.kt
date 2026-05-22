@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock
  */
 class KeepShell(private var rootMode: Boolean = true) {
     private var currentIsIdle = true // 是否处于闲置状态
+    val rootBinaries = listOf("su", "suu", "timesu", "02su", "kp")
     val isIdle: Boolean
         get() {
             return currentIsIdle
@@ -65,7 +66,11 @@ class KeepShell(private var rootMode: Boolean = true) {
         }
         val builder = ProcessBuilder()
         try {
-            builder.command(cmd)
+            if (rootMode){
+                builder.command("su -c '$cmd'")
+            } else {
+                builder.command(cmd)
+            }
             mLock.lockInterruptibly()
             currentIsIdle = false
             GlobalScope.launch(Dispatchers.IO){

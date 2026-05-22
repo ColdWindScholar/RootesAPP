@@ -8,7 +8,6 @@ import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.IOException
 import java.io.InputStreamReader
-import java.util.concurrent.locks.ReentrantLock
 
 /**
  * Created by Hello on 2018/01/23.
@@ -25,38 +24,15 @@ class KeepShellAsync(private var context: Context?, private var rootMode: Boolea
             }
         }
 
-        fun destoryInstance(key: String) {
-            synchronized(keepShells) {
-                if (!keepShells.containsKey(key)) {
-                    return
-                } else {
-                    val keepShell = keepShells[key]!!
-                    keepShells.remove(key)
-                    keepShell.tryExit()
-                }
-            }
-        }
 
-        fun destoryAll() {
-            synchronized(keepShells) {
-                while (keepShells.isNotEmpty()) {
-                    val key = keepShells.keys.first()
-                    val keepShell = keepShells[key]!!
-                    keepShells.remove(key)
-                    keepShell.tryExit()
-                }
-            }
-        }
+
+
     }
 
     private var p: Process? = null
     private var out: BufferedWriter? = null
     private var handler: Handler = Handler(Looper.getMainLooper())
-    private val mLock = ReentrantLock()
 
-    fun setHandler(handler: Handler) {
-        this.processHandler = handler
-    }
 
     private fun showMsg(msg: String) {
         try {
