@@ -30,8 +30,12 @@ object ScriptEnvironmen {
     // 此目录将添加到PATH尾部，作为应用程序提供的拓展程序库目录，如有需要则需要在初始化executor.sh之前为该变量赋值
     private var TOOKIT_DIR: String? = ""
     private var rooted = false
-    private var privateShell: KeepShell? = null
+    private var privateShell: KeepShell = if (rooted) getDefaultInstance() else KeepShell(rooted)
     private var shellTranslation: ShellTranslation? = null
+    init {
+        rooted = checkRoot()
+        privateShell = if (rooted) getDefaultInstance() else KeepShell(rooted)
+    }
 
     private fun init(context: Context): Boolean {
         val configSpf = context.getSharedPreferences("kr-script-config", Context.MODE_PRIVATE)
@@ -57,7 +61,7 @@ object ScriptEnvironmen {
         }
 
         shellTranslation = ShellTranslation(context.applicationContext)
-        rooted = checkRoot()
+
 
         try {
             if (!toolkitDir.isNullOrEmpty()) {
@@ -100,7 +104,6 @@ object ScriptEnvironmen {
                 putString("toolkitDir", toolkitDir)
             }
 
-            privateShell = if (rooted) getDefaultInstance() else KeepShell(rooted)
 
             return isInited
         } catch (ex: Exception) {
