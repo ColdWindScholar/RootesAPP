@@ -49,8 +49,5 @@ object KeepShellPublic {
         return defaultKeepShell.checkRoot()
     }
 
-    fun tryExit() {
-        defaultKeepShell.tryExit()
-        secondaryKeepShell.tryExit()
-    }
+
 }
