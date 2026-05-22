@@ -66,7 +66,7 @@ class KeepShell(private var rootMode: Boolean = true) {
         }
         val builder = ProcessBuilder()
         try {
-            if (rootMode){
+            if (rootMode && checkRoot()){
                 builder.command("su -c '$cmd'")
             } else {
                 builder.command(cmd)
