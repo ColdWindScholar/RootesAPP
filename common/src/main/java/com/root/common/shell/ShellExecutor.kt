@@ -96,7 +96,6 @@ object ShellExecutor {
                     return command
                 } catch (e: IOException) {
                     // 如果执行命令失败，继续尝试下一个命令
-                    e.printStackTrace()
                 }
             }
 
