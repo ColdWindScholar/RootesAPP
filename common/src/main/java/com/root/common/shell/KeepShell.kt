@@ -71,17 +71,14 @@ class KeepShell(private var rootMode: Boolean = true) {
                 builder.command("sh","-c", cmd)
             }
             currentIsIdle = false
-            GlobalScope.launch(Dispatchers.IO){
-                try{
+            try{
                 val process = builder.start()
                 val output = process.inputStream.bufferedReader().readLines()
                 val error = process.errorStream.bufferedReader().readLines()
                 val exitCode = process.waitFor()
                 shellOutputCache.append(output + error)}
                 catch (ex: IOException){
-                    ex.printStackTrace()
-                }
-            }
+                    ex.printStackTrace() }
             println("Exec:$cmd\nR:$shellOutputCache")
             return shellOutputCache.toString().trim()
         }
