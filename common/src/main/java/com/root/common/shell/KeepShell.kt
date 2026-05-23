@@ -54,8 +54,8 @@ class KeepShell(private var rootMode: Boolean = true) {
         val builder = ProcessBuilder()
         builder.directory(File("/data/user/0/com.root.system/files/usr/kr-script"))
         builder.environment()["PATH"] =  "/sbin:/system/sbin:/system/bin:/system/xbin:/odm/bin:/vendor/bin:/vendor/xbin"
-        var output: List<String> = listOf("error")
-        var error: List<String> = listOf("error")
+        var output: List<String> = listOf()
+        var error: List<String> = listOf()
         envs?.let {
             for ((key, value) in envs){
                 builder.environment()[key] = value
