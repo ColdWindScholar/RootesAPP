@@ -74,8 +74,8 @@ class KeepShell(private var rootMode: Boolean = true) {
                     val o = process.inputStream.bufferedReader().readLines()
                     val e = process.errorStream.bufferedReader().readLines()
                 val exitCode = process.waitFor()
-                    output.append(o.joinToString(separator = "\n"))
-                    output.append(e.joinToString(separator = "\n"))
+                    output.append(o)
+                    output.append(e)
                 }
                 catch (ex: IOException){
                     ex.printStackTrace()
