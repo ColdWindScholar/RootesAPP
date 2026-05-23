@@ -96,7 +96,7 @@ class KeepShell(private var rootMode: Boolean = true) {
                 shellOutputCache.append((output + error).joinToString("\n"))}
                 catch (ex: IOException){
                     ex.printStackTrace() }
-            println("Exec:$cmd\nR:$shellOutputCache")
+            println("Env:$envs\nExec:$execContent\nR:$shellOutputCache")
             return shellOutputCache.toString().trim()
         }
         catch (e: Exception) {
