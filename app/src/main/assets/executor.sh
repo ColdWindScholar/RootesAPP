@@ -29,7 +29,7 @@ core=$({TOOLKIT})/kr-script/Util_Functions.sh
 Bin_MT1="$DATA_DIR/bin.mt.plus/files/term/usr/bin"
 Bin_MT2="$DATA_DIR/bin.mt.plus/files/term/usr/lib"
 Bin_MT3="$DATA_DIR/bin.mt.plus.canary/files/term/usr/bin"
-Bin_MT4="$PREFIX"
+Bin_MT4="$({TOOLKIT})"
 TMP=/data/local/tmp
 
 START_DIR="$({START_DIR})"
