@@ -45,7 +45,7 @@ object ShellExecutor {
         }
 
     @Throws(IOException::class)
-    private fun getProcess(run: List<String?>?): ProcessBuilder {
+    private fun getProcess(run: List<String?>?):  Process {
         val env = envPath
         val builder = ProcessBuilder()
         builder.environment()["PATH"] = env
@@ -60,13 +60,13 @@ object ShellExecutor {
         if (env != null) {
             builder.environment()["PATH"] = env
         }
-        val process = builder.command(run)
+        val process = builder.command(run).start()
         return process
     }
 
     @JvmStatic
     @get:Throws(IOException::class)
-    val superUserRuntime: ProcessBuilder get() { return getProcess(listOf(superUserRuntimeAvailable)) }
+    val superUserRuntime: Process get() { return getProcess(listOf(superUserRuntimeAvailable)) }
     val superUserRuntimeAvailable: String
         get() {
             // 依次尝试执行每个命令
@@ -86,7 +86,7 @@ object ShellExecutor {
 
 
     @get:Throws(IOException::class)
-    val runtime: ProcessBuilder?
+    val runtime: Process?
         get() {
             try {
                 return getProcess(listOf("sh"))
