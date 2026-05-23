@@ -64,11 +64,18 @@ class KeepShell(private var rootMode: Boolean = true) {
             }
         }
         val rootBinary = ShellExecutor.superUserRuntimeAvailable
+        var execContent = cmd
+        if (cmd.startsWith("/data/data/com.root.system")){
+            val fileObj = File(cmd)
+            if (fileObj.exists()) {
+                execContent = fileObj.readText()
+            }
+        }
         try {
             if (rootMode && rootBinary != "sh"){
-                builder.command(rootBinary, "-c", cmd)
+                builder.command(rootBinary, "-c", execContent)
             } else {
-                builder.command("sh","-c", cmd)
+                builder.command("sh","-c", execContent)
             }
             currentIsIdle = false
             try{
