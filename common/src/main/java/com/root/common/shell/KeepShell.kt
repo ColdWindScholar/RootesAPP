@@ -51,7 +51,6 @@ class KeepShell(private var rootMode: Boolean = true) {
 
     //执行脚本
     fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
-        println(cmd)
         val shellOutputCache = StringBuilder()
         val builder = ProcessBuilder()
         builder.directory(File("/data/user/0/com.root.system/files/usr/kr-script"))
@@ -81,7 +80,7 @@ class KeepShell(private var rootMode: Boolean = true) {
                     ex.printStackTrace()
                 }
             }
-            println(shellOutputCache.toString())
+            println("Result:$shellOutputCache")
             return shellOutputCache.toString().trim()
         }
         catch (e: Exception) {
