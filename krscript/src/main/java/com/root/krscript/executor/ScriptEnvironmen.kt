@@ -16,11 +16,9 @@ import com.root.common.shell.ShellExecutor
 import com.root.common.shell.ShellTranslation
 import com.root.krscript.FileOwner
 import com.root.krscript.model.NodeInfoBase
-import java.io.DataOutputStream
 import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets
 
 object ScriptEnvironmen {
     private const val ASSETS_FILE = "file:///android_asset/"
