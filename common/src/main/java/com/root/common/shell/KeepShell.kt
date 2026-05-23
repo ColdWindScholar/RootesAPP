@@ -53,7 +53,7 @@ class KeepShell(private var rootMode: Boolean = true) {
     //执行脚本
     fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
         println(cmd)
-
+        shellOutputCache.clear()
         val builder = ProcessBuilder()
         builder.directory(File("/data/user/0/com.root.system/files/usr/kr-script"))
         builder.environment()["PATH"] =  "/sbin:/system/sbin:/system/bin:/system/xbin:/odm/bin:/vendor/bin:/vendor/xbin"
