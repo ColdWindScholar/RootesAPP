@@ -23,10 +23,6 @@ class KeepShellAsync(private var context: Context?, private var rootMode: Boolea
                 return keepShells[key]!!
             }
         }
-
-
-
-
     }
 
     private var p: Process? = null
