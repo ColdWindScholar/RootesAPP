@@ -169,7 +169,6 @@ object ScriptEnvironmen {
         } else {
            script
         }
-        println("Execute: $scriptContent")
         return if (shellTranslation != null) {
             shellTranslation!!.resolveRow(
                 privateShell!!.doCmdSync(scriptContent!!, envs =  environmentHashMap)
