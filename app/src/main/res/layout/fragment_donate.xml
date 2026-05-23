@@ -14,34 +14,6 @@
 
 
         <LinearLayout
-                android:id="@+id/test"
-                android:clickable="false"
-                style="@style/ListCardItemClickable">
-
-            <TextView
-                    style="@style/textSmall"
-                    android:id="@+id/usernameTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="tEST" />
-
-            <TextView
-                    style="@style/textSmall"
-                    android:clickable="false"
-                    android:id="@+id/emailTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TEST" />
-
-            <TextView
-                    style="@style/textSmall"
-                    android:id="@+id/joinedAtTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TEST" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/pay_wxpay"
             style="@style/ListCardItemClickable">
 
