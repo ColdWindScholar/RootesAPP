@@ -169,13 +169,15 @@ object ScriptEnvironmen {
         } else {
            script
         }
-        return if (shellTranslation != null) {
+        val retContent = if (shellTranslation != null) {
             shellTranslation!!.resolveRow(
                 privateShell!!.doCmdSync(scriptContent!!, envs =  environmentHashMap)
             )
         } else {
             privateShell!!.doCmdSync(scriptContent!!, envs =  environmentHashMap)
         }
+        print(retContent)
+        return retContent
     }
 
     private fun getStartPath(context: Context): String {
