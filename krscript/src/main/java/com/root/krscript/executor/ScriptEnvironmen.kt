@@ -85,7 +85,6 @@ object ScriptEnvironmen {
                 }
                 envShell = envShell.replace("$({$key})", value)
             }
-            envShell = envShell.replace("$({EXECUTOR_PATH})", "fake_value")
 
 
             isInited = true
