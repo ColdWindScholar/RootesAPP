@@ -45,9 +45,10 @@ object ShellExecutor {
         }
 
     @Throws(IOException::class)
-    private fun getProcess(run: Array<String?>?): Process {
+    private fun getProcess(run: List<String?>?): ProcessBuilder {
         val env = envPath
-        val runtime = Runtime.getRuntime()
+        val builder = ProcessBuilder()
+        builder.environment()["PATH"] = env
         /*
         // 部分机型会有Aborted错误
         if (env != null) {
@@ -56,20 +57,16 @@ object ShellExecutor {
             });
         }
         */
-        val process = runtime.exec(run)
         if (env != null) {
-            val outputStream = process.outputStream
-            outputStream.write("export ".toByteArray())
-            outputStream.write(env.toByteArray())
-            outputStream.write("\n".toByteArray())
-            outputStream.flush()
+            builder.environment()["PATH"] = env
         }
+        val process = builder.command(run)
         return process
     }
 
     @JvmStatic
     @get:Throws(IOException::class)
-    val superUserRuntime: Process get() { return getProcess(arrayOf(superUserRuntimeAvailable)) }
+    val superUserRuntime: ProcessBuilder get() { return getProcess(listOf(superUserRuntimeAvailable)) }
     val superUserRuntimeAvailable: String
         get() {
             // 依次尝试执行每个命令
@@ -89,10 +86,10 @@ object ShellExecutor {
 
 
     @get:Throws(IOException::class)
-    val runtime: Process?
+    val runtime: ProcessBuilder?
         get() {
             try {
-                return getProcess(arrayOf("sh"))
+                return getProcess(listOf("sh"))
             } catch (e: IOException) {
                 e.printStackTrace()
             }
