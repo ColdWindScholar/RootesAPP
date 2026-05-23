@@ -252,78 +252,6 @@ Install_Applet2() {
                            fi
 }
 
-Start_Installing_Busybox() {
-    JCe=$PeiZhi_File/busybox_Installed.log
-    [[ -f $JCe ]] && JCe2=`cat $JCe`
-    case "$ABI" in
-        arm64*) Type=arm64;;
-        arm*) Type=arm;;
-        x86_64*) Type=x86_64;;
-        x86*) Type=x86;;
-        mips64*) Type=mips64;;
-        mips*) Type=mips;;
-        *) echo "！ 未知的架构 ${ABI}，无法安装busybox"; return 1;;
-    esac
-    
-    Start_Install() { CloudBusybox="$8"; }
-        . "$Load" Install_busybox
-}
-
-Start_Installing_Busybox() {
-    JCe=$PeiZhi_File/busybox_Installed.log
-    [[ -f $JCe ]] && JCe2=`cat $JCe`
-    case "$ABI" in
-        arm64*) Type=arm64;;
-        arm*) Type=arm;;
-        x86_64*) Type=x86_64;;
-        x86*) Type=x86;;
-        mips64*) Type=mips64;;
-        mips*) Type=mips;;
-        *) echo "！ 未知的架构 ${ABI}，无法安装busybox"; return 1;;
-    esac
-    
-    CloudBusybox=1
-
-    Start_Install() {
-        # Download "$@"
-        Download_File=$Other/busybox/busybox_$Type
-        if [[ -f "$Download_File" ]]; then
-            BusyBox2=$ELF4_Path/busybox
-            [[ ! -d $ELF4_Path ]] && mkdir -p "$ELF4_Path" && chown $APP_USER_ID:$APP_USER_ID $ELF4_Path || rm -f $ELF4_Path/*
-            cp "$Download_File" "$BusyBox2" && chmod 700 $BusyBox2
-            echo "- 正在安装busybox-$Type版"
-            "$BusyBox2" --install -s "$ELF4_Path" &>/dev/null
-                if [[ -L "$ELF4_Path/true" ]]; then
-                    echo "- busybox-$Type版安装成功。"
-                    echo "$CloudBusybox" >$JCe
-                    chown $APP_USER_ID:$APP_USER_ID "$BusyBox2"
-                    # rm -f $Download_File
-                else
-                    echo "！busybox安装失败❌"
-                    rm -f "$BusyBox2"
-                    sleep 3
-                fi
-        fi
-    }
-
-        if [[ -z "$JCe2" || ! -L $ELF4_Path/true ]]; then
-            echo "- 开始安装busybox"
-            Start_Install
-        elif [[ "$JCe2" -lt "$CloudBusybox" ]]; then
-            echo "- 开始更新busybox"
-            Start_Install
-        fi
-}
-
-Installing_Busybox() {
-    # Install_curl
-    # Cloud_Update
-    Start_Installing_Busybox
-    . $Load Install_Applet
-    [[ ! -d $lu ]] && mkdir -p $lu &>/dev/null
-    [[ ! -d $lu2 ]] && mkdir -p $lu2 &>/dev/null
-    [[ ! -d $lu3 ]] && mkdir -p $lu3 &>/dev/null
-}
 
 Start_Time() {
     Start_ns=`date +'%s%N'`
@@ -878,34 +806,6 @@ Clean_install() {
 
 
 Play_Music() {
-    am start -n com.root.system/.MusicPlayer -e music "$1" >/dev/null
+    am start -n com.root.system/.MusicPlayer -e music "$1"
 }
 
-Notice() {
-if [[ -n $desc1 ]]; then
-cat <<End
-    <group>
-        <text>
-            <title>📢公告</title>
-            <desc>`echo -e $desc1`</desc>
-        </text>
-    </group>
-End
-fi
-}
-
-get_lanzou_directlink() {
-    # https://github.com/liuran001/Lanzou_DirectLink_sh
-    [ -z "$1" ] && echo "请输入蓝奏云分享链接" && exit 1
-    function curl() {
-        command curl -s -A 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25' -e 'https://wwa.lanzoux.com' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Accept-Encoding: deflate, sdch, br' -H 'Accept-Language: zh-CN,zh;q=0.8' -H 'Cache-Control: max-age=0' -H 'Connection: keep-alive' -H 'Upgrade-Insecure-Requests: 1' "$@"
-    }
-    fileid=$(echo "$1" | awk -F '/' '{print $NF}')
-    url="https://wwa.lanzoux.com/tp/$fileid"
-    html=$(curl "$url")
-    tedomain=$(echo "$html" | awk -F 'var vkjxld' '{printf $2}' | awk -F "'" '{printf $2}')
-    domianload=$(echo "$html" | awk -F 'var hyggid' '{printf $2}' | awk -F "'" '{printf $2}')
-    downurl="$tedomain""$domianload"
-    directlink=$(curl -I "$downurl" | grep location | awk -F 'location: ' '{print $2}')
-    echo "$directlink" | sed "s/\r//g" | xargs echo -n
-}

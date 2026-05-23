@@ -8,49 +8,7 @@ abort() {
     exit 1
 }
 
-Installing_Busybox() {
-    local JCe JCe2
-    [[ ! -d $Data_Dir ]] && mkdir -p $Data_Dir && chown $APP_USER_ID:$APP_USER_ID $Data_Dir 
-    JCe=$Data_Dir/busybox_Installed.log
-    [[ -f $JCe ]] && JCe2=`cat $JCe`
-    case "$ABI" in
-        arm64*) Type=arm64;;
-        arm*) Type=arm;;
-        x86_64*) Type=x86_64;;
-        x86*) Type=x86;;
-        mips64*) Type=mips64;;
-        mips*) Type=mips;;
-        *) echo "！ 未知的架构 ${ABI}，无法安装busybox"; return 1;;
-    esac
 
-    Start_Install() {
-        Download_File=$PeiZhi_File/busybox/busybox_$Type
-        if [[ -f "$Download_File" ]]; then
-            BusyBox2=$ELF4_Path/busybox
-            [[ ! -d $ELF4_Path ]] && mkdir -p "$ELF4_Path" && chown $APP_USER_ID:$APP_USER_ID $ELF4_Path || rm -f $ELF4_Path/*
-            cp -f "$Download_File" "$BusyBox2" && chmod 700 $BusyBox2
-            echo "- 正在安装busybox-$Type版-$1($2)"
-            $BusyBox2 --install -s $ELF4_Path
-                if [[ -L "$ELF4_Path/true" ]]; then
-                    echo "- busybox-$Type版-$1($2)安装成功。"
-                    echo "$2" >$JCe
-                    chown $APP_USER_ID:$APP_USER_ID "$BusyBox2"
-                else
-                    echo "！busybox安装失败❌"
-                    rm -f "$BusyBox2"
-                    sleep 3
-                fi
-        fi
-    }
-
-        if [[ -z "$JCe2" || ! -L $ELF4_Path/true ]]; then
-            echo "- 开始安装busybox"
-            Start_Install "$@"
-        elif [[ "$JCe2" -lt "$2" ]]; then
-            echo "- 开始更新busybox"
-            Start_Install "$@"
-        fi
-}
 
 Installing_curl() {
     cp -rf $PeiZhi_File/curl/$Type/* $PREFIX
@@ -64,7 +22,7 @@ Installing_curl() {
 export ABI=`getprop ro.product.cpu.abi`
 [[ -z "$ABI" ]] && export ABI=`getprop ro.product.cpu.abi2`
 
-Installing_Busybox 1.31.1 13121
+
     case "$ABI" in
         arm64*) Type=arm64-v8a;;
         armeabi*) Type=armeabi;;
