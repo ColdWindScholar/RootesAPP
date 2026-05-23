@@ -71,6 +71,16 @@ class KeepShell(private var rootMode: Boolean = true) {
                 execContent = fileObj.readText()
             }
         }
+        envs?.keys?.let {
+            if ("Core" in it){
+                val corePath = envs["Core"]
+                corePath?.let { it1 -> if (it1.startsWith("/data/data/com.root.system")) {
+                    val fileObj = File(corePath)
+                    if (fileObj.exists()) {
+                        execContent = fileObj.readText()  + execContent
+                    }
+                } }
+            } }
         try {
             if (rootMode && rootBinary != "sh"){
                 builder.command(rootBinary, "-c", execContent)
