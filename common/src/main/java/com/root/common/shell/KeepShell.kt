@@ -74,7 +74,7 @@ class KeepShell(private var rootMode: Boolean = true) {
         envs?.keys?.let {
             if ("Core" in it){
                 val corePath = envs["Core"]
-                corePath?.let { it1 -> if (it1.startsWith("/data/data/com.root.system")) {
+                corePath?.let { it1 -> if (it1.startsWith("/data/data")) {
                     val fileObj = File(corePath)
                     if (fileObj.exists()) {
                         execContent = fileObj.readText()  + execContent
