@@ -54,8 +54,7 @@ class KeepShell(private var rootMode: Boolean = true) {
         val builder = ProcessBuilder()
         builder.directory(File("/data/user/0/com.root.system/files/usr/kr-script"))
         builder.environment()["PATH"] =  "/sbin:/system/sbin:/system/bin:/system/xbin:/odm/bin:/vendor/bin:/vendor/xbin"
-        var output: List<String> = listOf()
-        var error: List<String> = listOf()
+        val output = StringBuilder()
         envs?.let {
             for ((key, value) in envs){
                 builder.environment()[key] = value
@@ -72,16 +71,18 @@ class KeepShell(private var rootMode: Boolean = true) {
             GlobalScope.launch(Dispatchers.IO){
                 try{
                 val process = builder.start()
-                    output = process.inputStream.bufferedReader().readLines()
-                    error = process.errorStream.bufferedReader().readLines()
+                    val o = process.inputStream.bufferedReader().readLines()
+                    val e = process.errorStream.bufferedReader().readLines()
                 val exitCode = process.waitFor()
+                    output.append(o.joinToString(separator = "\n"))
+                    output.append(e.joinToString(separator = "\n"))
                 }
                 catch (ex: IOException){
                     ex.printStackTrace()
                 }
             }
-            println("Exec:$cmd\nResult:" + (output + error).joinToString("\n"))
-            return (output + error).joinToString("\n")
+            println("Exec:$cmd\nResult:$output")
+            return (output.toString())
         }
         catch (e: Exception) {
             Log.e("KeepShellAsync", "" + e.message)
