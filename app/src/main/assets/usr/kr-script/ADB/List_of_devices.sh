@@ -3,9 +3,9 @@
 . $core
 case $1 in
 -0)
-    a=`adb devices -l | grep -v -i 'List of .*'`
-    Number=`adb devices | grep -v -i 'List of .*' | wc -l`
-    if [[ -n `echo "$a" | grep -i 'unauthorized'` ]]; then
+    a=$(adb devices -l | grep -v -i 'List of .*')
+    Number=$(adb devices | grep -v -i 'List of .*' | wc -l)
+    if [[ -n $(echo "$a" | grep -i 'unauthorized') ]]; then
     {
         adb keygen "$Data_Dir/.android/adbkey"
         adb reconnect offline
@@ -15,7 +15,7 @@ case $1 in
                 adb disconnect $ip:$port
                 adb connect $ip:$port
             fi
-    } &>/dev/null
+    }
                 echo "- 已检测到未授权USB调试，已重新申请授权"
                 echo "- 请在确定授权后，右上角菜单里刷新页面，重新检测"
     elif [[ -z "$a" ]]; then
@@ -30,7 +30,7 @@ case $1 in
 ;;
 
 -FASTBOOT)
-    a=`fastboot devices -l | sed 's/fastboot/ &/g'`
+    a=$(fastboot devices -l | sed 's/fastboot/ &/g')
     if [[ -n "$a" ]]; then
         echo  "- 设备已连接："
         echo "$a"
@@ -45,13 +45,13 @@ case $1 in
         exit 0
     }
     
-    a=`lsusb`
+    a=$(lsusb)
     echo "$a" | egrep -q '.*9008$' && ui_print '- 已处于9008模式下' || ui_print "！无9008设备连接"
     ui_print "$a"
 ;;
 
 -USB)
-    a=`lsusb`
+    a=$(lsusb)
     if [[ -n "$a" ]]; then
         b=`echo "$a" | wc -l`
         if [[ $b -eq 2 ]]; then
