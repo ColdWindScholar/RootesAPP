@@ -141,7 +141,7 @@ public class WebViewInjector {
                         params.put(key, paramsObject.getString(key));
                     }
                 }
-                process = ShellExecutor.getSuperUserRuntime();
+                process = ScriptEnvironmen.executeShell(context, script, params, null, null,true);
             } catch (Exception ex) {
                 Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -151,7 +151,6 @@ public class WebViewInjector {
                 setHandler(process, callbackFunction, () -> {
                 });
 
-                ScriptEnvironmen.executeShell(context, process, script, params, null, null);
                 return true;
             } else {
                 return false;
