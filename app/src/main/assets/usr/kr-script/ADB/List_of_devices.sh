@@ -1,6 +1,6 @@
 #本脚本由　by Han | 情非得已c，编写
 #应用于玩机百宝箱上
-
+. $core
 case $1 in
 -0)
     a=`adb devices -l | grep -v -i 'List of .*'`
