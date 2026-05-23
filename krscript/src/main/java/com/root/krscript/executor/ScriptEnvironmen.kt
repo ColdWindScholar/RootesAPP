@@ -317,14 +317,14 @@ object ScriptEnvironmen {
      * 使用执行器运行脚本
      *
      * @param context          Context
-     * @param dataOutputStream Runtime进程的输出流
+     * @param process Runtime进程的输出流
      * @param cmds             要执行的脚本
      * @param params           参数类别
      */
     @JvmStatic
     fun executeShell(
         context: Context?,
-        dataOutputStream: DataOutputStream,
+        process: Process,
         cmds: String,
         params: HashMap<String?, String?>?,
         nodeInfo: NodeInfoBase?,
@@ -365,14 +365,15 @@ object ScriptEnvironmen {
         println(envpCmds)
         println(cmds)
         try {
-            dataOutputStream.write(envpCmds.toString().toByteArray(StandardCharsets.UTF_8))
+            val outputStream = DataOutputStream(process.outputStream)
+            outputStream.write(envpCmds.toString().toByteArray(StandardCharsets.UTF_8))
 
-            dataOutputStream.write(cmds.toByteArray(StandardCharsets.UTF_8))
+            outputStream.write(cmds.toByteArray(StandardCharsets.UTF_8))
 
-            dataOutputStream.writeBytes("\n")
-            dataOutputStream.writeBytes("sleep 0.2\n")
-            dataOutputStream.writeBytes("exit\n")
-            dataOutputStream.flush()
+            outputStream.writeBytes("\n")
+            outputStream.writeBytes("sleep 0.2\n")
+            outputStream.writeBytes("exit\n")
+            outputStream.flush()
         } catch (ignored: Exception) {
         }
     }

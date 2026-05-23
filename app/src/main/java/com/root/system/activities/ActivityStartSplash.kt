@@ -330,8 +330,7 @@ class ActivityStartSplash : Activity() {
             try {
                 val process = if (CheckRootStatus.lastCheckResult) ShellExecutor.superUserRuntime else ShellExecutor.runtime
                 if (process != null) {
-                    val outputStream = DataOutputStream(process.outputStream)
-                    ScriptEnvironmen.executeShell(context, outputStream, config.beforeStartSh, params, null, "pio-splash")
+                    ScriptEnvironmen.executeShell(context, process, config.beforeStartSh, params, null, "pio-splash")
                     StreamReadThread(process.inputStream.bufferedReader(), updateLogViewHandler).start()
                     StreamReadThread(process.errorStream.bufferedReader(), updateLogViewHandler).start()
                     process.waitFor()
