@@ -48,11 +48,11 @@ class KeepShell(private var rootMode: Boolean = true) {
     }
 
 
-    private val shellOutputCache = StringBuilder()
+
 
     //执行脚本
     fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
-        println(cmd)
+        val shellOutputCache = StringBuilder()
         shellOutputCache.clear()
         val builder = ProcessBuilder()
         builder.directory(File("/data/user/0/com.root.system/files/usr/kr-script"))
