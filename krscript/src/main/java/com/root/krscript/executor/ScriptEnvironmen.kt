@@ -176,7 +176,7 @@ object ScriptEnvironmen {
         } else {
             privateShell!!.doCmdSync(scriptContent!!, envs =  environmentHashMap)
         }
-        print(retContent)
+        println("RC:$retContent")
         return retContent
     }
 
