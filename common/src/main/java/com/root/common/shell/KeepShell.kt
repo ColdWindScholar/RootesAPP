@@ -72,15 +72,15 @@ class KeepShell(private var rootMode: Boolean = true) {
             GlobalScope.launch(Dispatchers.IO){
                 try{
                 val process = builder.start()
-                output = process.inputStream.bufferedReader().readLines()
-                error = process.errorStream.bufferedReader().readLines()
+                    output = process.inputStream.bufferedReader().readLines()
+                    error = process.errorStream.bufferedReader().readLines()
                 val exitCode = process.waitFor()
                 }
                 catch (ex: IOException){
                     ex.printStackTrace()
                 }
             }
-            println((output + error).joinToString("\n"))
+            println("Exec:$cmd\nResult:" + (output + error).joinToString("\n"))
             return (output + error).joinToString("\n")
         }
         catch (e: Exception) {
