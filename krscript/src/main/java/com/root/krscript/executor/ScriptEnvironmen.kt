@@ -12,6 +12,7 @@ import com.root.common.shared.MagiskExtend
 import com.root.common.shell.KeepShell
 import com.root.common.shell.KeepShellPublic.checkRoot
 import com.root.common.shell.KeepShellPublic.defaultKeepShell
+import com.root.common.shell.ShellExecutor
 import com.root.common.shell.ShellTranslation
 import com.root.krscript.FileOwner
 import com.root.krscript.model.NodeInfoBase
@@ -264,21 +265,7 @@ object ScriptEnvironmen {
      * @param params
      * @return
      */
-    private fun getVariables(params: HashMap<String?, String?>?): ArrayList<String?> {
-        val envp = ArrayList<String?>()
 
-        if (params != null) {
-            for (key in params.keys) {
-                var value = params[key]
-                if (value == null) {
-                    value = ""
-                }
-                envp.add(key + "='" + value.replace("'".toRegex(), "'\\\\''") + "'")
-            }
-        }
-
-        return envp
-    }
 
 
     @JvmStatic
@@ -318,19 +305,18 @@ object ScriptEnvironmen {
      * 使用执行器运行脚本
      *
      * @param context          Context
-     * @param process Runtime进程的输出流
      * @param cmds             要执行的脚本
      * @param params           参数类别
      */
     @JvmStatic
     fun executeShell(
         context: Context?,
-        process: Process,
         cmds: String,
         params: HashMap<String?, String?>?,
         nodeInfo: NodeInfoBase?,
-        tag: String?
-    ) {
+        tag: String?,
+        rootMode: Boolean = true
+    ):Process {
         var params = params
         if (params == null) {
             params = HashMap()
@@ -356,26 +342,15 @@ object ScriptEnvironmen {
             params["PAGE_WORK_FILE"] = ""
         }
 
-        val envp = getVariables(params)
-        val envpCmds = StringBuilder()
-        if (envp.isNotEmpty()) {
-            for (param in envp) {
-                envpCmds.append("export ").append(param).append("\n")
+        val builder = ProcessBuilder()
+        if (params.isNotEmpty()) {
+            for (param in params.keys) {
+                builder.environment()[param] = params[param]
             }
         }
-        println(envpCmds)
         println(cmds)
-        try {
-            val outputStream = DataOutputStream(process.outputStream)
-            outputStream.write(envpCmds.toString().toByteArray(StandardCharsets.UTF_8))
-
-            outputStream.write(cmds.toByteArray(StandardCharsets.UTF_8))
-
-            outputStream.writeBytes("\n")
-            outputStream.writeBytes("sleep 0.2\n")
-            outputStream.writeBytes("exit\n")
-            outputStream.flush()
-        } catch (ignored: Exception) {
-        }
+        val execBinary =if (rootMode) ShellExecutor.superUserRuntimeAvailable else "sh"
+        builder.command(execBinary, "-c", cmds)
+        return builder.start()
     }
 }
