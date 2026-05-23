@@ -143,7 +143,7 @@ show_progress() {
 }
 
 adb() (
-    local ADB=`$which adb`
+    local ADB=`which adb`
     if [[ $# -eq 0 ]]; then
         exec "$ADB"
     fi
@@ -163,7 +163,7 @@ adb() (
 )
 
 fastboot() (
-    local FASTBOOT=`$which fastboot`
+    local FASTBOOT=`which fastboot`
     if [[ $# -eq 0 ]]; then
         exec "$FASTBOOT"
     fi
