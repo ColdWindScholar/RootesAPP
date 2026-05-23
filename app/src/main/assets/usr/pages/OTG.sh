@@ -1,6 +1,3 @@
-if ! $Have_ROOT; then
-    exit 1
-fi
 if [ "$ABI" != "arm64-v8a" ] && [ "$ABI" != "arm-v7a" ]; then
 cat <<Han
 <?xml version="1.0" encoding="utf-8"?>
