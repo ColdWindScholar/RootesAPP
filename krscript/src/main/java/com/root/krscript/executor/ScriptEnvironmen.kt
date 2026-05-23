@@ -338,15 +338,15 @@ object ScriptEnvironmen {
             params["PAGE_WORK_DIR"] = ""
             params["PAGE_WORK_FILE"] = ""
         }
-
         val builder = ProcessBuilder()
         builder.directory(File("/data/user/0/com.root.system/files/usr/kr-script"))
-        if (params.isNotEmpty()) {
-            for (param in params.keys) {
-                builder.environment()[param] = params[param]
+        val mergedParams = params+environmentHashMap
+        if (mergedParams.isNotEmpty()) {
+            for (param in mergedParams.keys) {
+                builder.environment()[param] = mergedParams[param]
             }
         }
-        println("Running $tag:$cmds\nEnv:$params")
+        println("Running $tag:$cmds\nEnv:$mergedParams")
         val execBinary =if (rootMode) ShellExecutor.superUserRuntimeAvailable else "sh"
         builder.command(execBinary, "-c", cmds)
         return builder.start()
