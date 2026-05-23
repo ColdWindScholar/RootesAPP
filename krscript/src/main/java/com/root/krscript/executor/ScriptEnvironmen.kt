@@ -341,6 +341,7 @@ object ScriptEnvironmen {
         }
 
         val builder = ProcessBuilder()
+        builder.directory(File("/data/user/0/com.root.system/files/usr/kr-script"))
         if (params.isNotEmpty()) {
             for (param in params.keys) {
                 builder.environment()[param] = params[param]
