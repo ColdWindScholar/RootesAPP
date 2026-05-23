@@ -48,8 +48,6 @@ class KeepShell(private var rootMode: Boolean = true) {
     }
 
 
-
-
     //执行脚本
     fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
         val shellOutputCache = StringBuilder()
