@@ -346,7 +346,7 @@ object ScriptEnvironmen {
                 builder.environment()[param] = params[param]
             }
         }
-        println(cmds)
+        println("Running $tag:$cmds")
         val execBinary =if (rootMode) ShellExecutor.superUserRuntimeAvailable else "sh"
         builder.command(execBinary, "-c", cmds)
         return builder.start()
