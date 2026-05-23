@@ -1,9 +1,9 @@
 #Custom variable
 export Util_Functions_Code=2023101001
 export SDdir=/data/media/0
-export Magisk=`$which magisk`
-export Ksud=`$which ksud`
-export apd=`$which apd`
+export Magisk=`which magisk`
+export Ksud=`which ksud`
+export apd=`which apd`
 export Modules_Dir=/data/adb/modules
 
 if $Have_ROOT; then
