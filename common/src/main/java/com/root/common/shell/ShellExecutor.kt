@@ -1,5 +1,6 @@
 package com.root.common.shell
 
+import java.io.File
 import java.io.IOException
 
 object ShellExecutor {
@@ -48,7 +49,7 @@ object ShellExecutor {
     private fun getProcess(run: List<String?>?):  Process {
         val env = envPath
         val builder = ProcessBuilder()
-        builder.environment()["PATH"] = env
+        builder.directory(File("/data/user/0/com.root.system/files/usr/kr-script"))
         /*
         // 部分机型会有Aborted错误
         if (env != null) {
