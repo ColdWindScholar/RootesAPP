@@ -83,15 +83,12 @@ public class ShellExecutor {
             }) : null;
             new SimpleShellWatcher().setHandler(process, shellHandlerBase, onExit);
 
-            final OutputStream outputStream = process.getOutputStream();
-            DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
             try {
                 shellHandlerBase.sendMessage(shellHandlerBase.obtainMessage(ShellHandlerBase.EVENT_START, "shell@android:\n"));
                 shellHandlerBase.sendMessage(shellHandlerBase.obtainMessage(ShellHandlerBase.EVENT_START, cmds + "\n\n"));
                 shellHandlerBase.onStart(forceStopRunnable);
-                dataOutputStream.writeBytes("sleep 0.2;\n");
 
-                ScriptEnvironmen.executeShell(context, dataOutputStream, cmds, params, nodeInfo, sessionTag);
+                ScriptEnvironmen.executeShell(context, process, cmds, params, nodeInfo, sessionTag);
             } catch (Exception ex) {
                 process.destroy();
             }
