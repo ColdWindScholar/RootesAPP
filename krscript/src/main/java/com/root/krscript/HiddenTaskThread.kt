@@ -19,9 +19,7 @@ class HiddenTaskThread(private var process: Process) : Thread() {
     class ServiceShellHandler(private val context: Context) : ShellHandlerBase() {
         private var errorRows = ArrayList<String>()
         private var notificationMShortMsg = ""
-        private var progressCurrent = 0
-        private var progressTotal = 0
-        private var forceStop: Runnable? = null
+
         private var isFinished = false
 
         override fun updateLog(msg: SpannableString?) {
@@ -42,10 +40,10 @@ class HiddenTaskThread(private var process: Process) : Thread() {
 
         override fun onExit(msg: Any?) {
             isFinished = true
-            if (errorRows.size > 0) {
+            if (errorRows.isNotEmpty()) {
                 Toast.makeText(
                         context,
-                        context.getString(R.string.kr_script_task_has_error) + "\n\n" +
+                        context.getString(R.string.kr_script_task_has_error) + "\n" +
                                 errorRows.joinToString("\n"),
                         Toast.LENGTH_LONG).show()
             }
