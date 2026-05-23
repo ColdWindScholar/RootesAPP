@@ -690,12 +690,12 @@ grep_prop() {
 
 mkdir() {
     umask 022
-    `$which mkdir` "$@"
+    mkdir "$@"
 }
 
 touch() {
     umask 022
-    `$which touch` "$@"
+    touch "$@"
 }
 
 set_perm() {
@@ -815,7 +815,7 @@ End_installation() {
 }
 
 check_ab_device() {
-    . $ShellScript/Block_Device_Name.sh | egrep -q 'boot_a|boot_b'
+    . "$ShellScript"/Block_Device_Name.sh | egrep -q 'boot_a|boot_b'
     return $?
 }
 

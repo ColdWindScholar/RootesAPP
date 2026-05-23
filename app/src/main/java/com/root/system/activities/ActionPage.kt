@@ -182,7 +182,7 @@ class ActionPage : ActivityBase() {
         }
 
         if (menuOptions != null && menu != null) {
-            for (i in 0 until menuOptions!!.size) {
+            for (i in menuOptions!!.indices) {
                 val menuOption = menuOptions!![i]
                 if (menuOption.isFab) {
                     addFab(menuOption)
@@ -288,11 +288,11 @@ class ActionPage : ActivityBase() {
 
             // TODO:文件类型过滤
             override fun mimeType(): String? {
-                return if (menuOption.mime.isEmpty()) null else menuOption.mime
+                return menuOption.mime.ifEmpty { null }
             }
 
             override fun suffix(): String? {
-                return if (menuOption.suffix.isEmpty()) null else menuOption.suffix
+                return menuOption.suffix.ifEmpty { null }
             }
 
             override fun type(): Int {

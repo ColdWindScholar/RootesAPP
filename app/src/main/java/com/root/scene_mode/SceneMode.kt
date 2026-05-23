@@ -93,7 +93,7 @@ class SceneMode private constructor(private val context: AccessibilityScenceMode
         }
 
         // 创建一个新实例
-        fun getNewInstance(context: AccessibilityScenceMode, store: SceneConfigStore): SceneMode? {
+        fun getNewInstance(context: AccessibilityScenceMode, store: SceneConfigStore): SceneMode {
             if (instance != null) {
                 instance?.clearState()
             }
@@ -120,7 +120,7 @@ class SceneMode private constructor(private val context: AccessibilityScenceMode
         fun unfreezeApp(app: String) {
             getCurrentInstance()?.setFreezeAppLeaveTime(app)
 
-            if (app.equals("com.android.vending")) {
+            if (app == "com.android.vending") {
                 GAppsUtilis().enable(KeepShellPublic.defaultKeepShell)
             } else {
                 KeepShellPublic.doCmdSync("pm unsuspend ${app}\npm enable $app")
@@ -152,7 +152,7 @@ class SceneMode private constructor(private val context: AccessibilityScenceMode
     fun setFreezeAppLeaveTime(packageName: String) {
         val currentHistory = removeFreezeAppHistory(packageName)
 
-        val history = if (currentHistory != null) currentHistory else FreezeAppHistory()
+        val history = currentHistory ?: FreezeAppHistory()
         history.leaveTime = System.currentTimeMillis()
         history.packageName = packageName
 
@@ -492,20 +492,24 @@ class SceneMode private constructor(private val context: AccessibilityScenceMode
     }
 
     private fun setGroupAutoDelay(util: CGroupMemoryUtlis, app: String, mode: String) {
-        if (mode == "scene_bg") {
-            Scene.postDelayed({
-                if (currentSceneConfig?.packageName != app) {
-                    util.setGroup(app, mode)
-                }
-            }, 3000)
-        } else if (mode == "scene_cache") {
-            Scene.postDelayed({
-                if (currentSceneConfig?.packageName != app) {
-                    util.setGroup(app, mode)
-                }
-            }, 8000)
-        } else {
-            util.setGroup(app, mode)
+        when (mode) {
+            "scene_bg" -> {
+                Scene.postDelayed({
+                    if (currentSceneConfig?.packageName != app) {
+                        util.setGroup(app, mode)
+                    }
+                }, 3000)
+            }
+            "scene_cache" -> {
+                Scene.postDelayed({
+                    if (currentSceneConfig?.packageName != app) {
+                        util.setGroup(app, mode)
+                    }
+                }, 8000)
+            }
+            else -> {
+                util.setGroup(app, mode)
+            }
         }
     }
 
