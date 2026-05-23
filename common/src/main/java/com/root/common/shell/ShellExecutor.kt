@@ -69,22 +69,7 @@ object ShellExecutor {
 
     @JvmStatic
     @get:Throws(IOException::class)
-    val superUserRuntime: Process
-        get() {
-            // 依次尝试执行每个命令
-
-            for (command in arrayOf("su", "suu", "timesu", "02su", "kp")) {
-                try {
-                    // 尝试执行命令
-                    return Runtime.getRuntime().exec(command)
-                } catch (e: IOException) {
-                    // 如果执行命令失败，继续尝试下一个命令
-                    e.printStackTrace()
-                }
-            }
-
-            return getProcess(arrayOf("sh"))
-        }
+    val superUserRuntime: Process get() { return getProcess(arrayOf(superUserRuntimeAvailable)) }
     val superUserRuntimeAvailable: String
         get() {
             // 依次尝试执行每个命令
