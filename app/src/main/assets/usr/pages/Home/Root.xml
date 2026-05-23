@@ -12,7 +12,7 @@
 
 <group title="功能">
 <page title="救援专区" config="file:///android_asset/usr/pages/JiuYuan.xml" />
-        <page title="极客专区" config="file:///android_asset/usr/pages//Geek.xml" locked="$Have_ROOT &amp;&amp; echo false || echo true" visible="[[ -n \`which magisk\` ]] &#38;&#38; echo 0 || echo 1" />
+        <page title="极客专区" config="file:///android_asset/usr/pages//Geek.xml" locked="$Have_ROOT &amp;&amp; echo false || echo true" visible="[[ -n $(which magisk) ]] &#38;&#38; echo 0 || echo 1" />
         <page title="附加功能区" config="file:///android_asset/usr/pages/FuJia.xml" />
         <page title="ROOT专区" config="file:///android_asset/usr/pages/ROOT.xml" locked="$Have_ROOT &amp;&amp; echo false || echo true"/>
         <page config="file:///android_asset/usr/pages/ksu.xml" title="修补功能" />
