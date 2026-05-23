@@ -17,7 +17,6 @@ import com.root.common.shell.ShellTranslation
 import com.root.krscript.FileOwner
 import com.root.krscript.model.NodeInfoBase
 import java.io.File
-import java.io.IOException
 import java.nio.charset.Charset
 
 object ScriptEnvironmen {
