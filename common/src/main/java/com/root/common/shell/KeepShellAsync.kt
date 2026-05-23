@@ -128,7 +128,6 @@ class KeepShellAsync(private var context: Context?, private var rootMode: Boolea
                     error?.run()
                 } else if (cmd != null) {
                     out!!.write(cmd)
-                    out!!.write("\n\n")
                     if (cmdsCache.isNotEmpty()) {
                         out!!.write(cmdsCache.toString())
                         cmdsCache.clear()
