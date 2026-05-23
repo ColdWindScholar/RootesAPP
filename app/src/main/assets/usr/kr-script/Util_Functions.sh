@@ -772,12 +772,12 @@ Frame_installation_Check() {
 }
 
 Power() {
-    echo "`cat /sys/class/power_supply/battery/capacity 2>/dev/null`%"
+    echo "$(cat /sys/class/power_supply/battery/capacity 2>/dev/null)%"
 }
 
 module_prop() {
     echo "- 正在打印模块信息……"
-cat <<Han >$Module_XinXi
+cat <<Han >"$Module_XinXi"
 id=$id
 name=$name
 version=$version
