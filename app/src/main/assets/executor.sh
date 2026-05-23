@@ -9,7 +9,6 @@ Version_code=$({PACKAGE_VERSION_CODE})
 PREFIX=$({TOOLKIT})
 Have_ROOT=$({ROOT_PERMISSION})
 ANDROID_UID=$({ANDROID_UID})
-LANGUAGE=zh-cn
 DATA_DIR=${HOME%/${Package_name}*}
 PATH0="$PATH"
 Pages=$({TOOLKIT})/pages
