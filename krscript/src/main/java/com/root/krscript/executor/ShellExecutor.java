@@ -8,8 +8,6 @@ import android.widget.Toast;
 import com.root.krscript.model.RunnableNode;
 import com.root.krscript.model.ShellHandlerBase;
 
-import java.io.DataOutputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 
 /**
@@ -33,15 +31,8 @@ public class ShellExecutor {
         if (started) {
             return null;
         }
-
-        final Process process = ScriptEnvironmen.getRuntime();
-        if (process == null) {
-            Toast.makeText(context, "未能启动命令行进程", Toast.LENGTH_SHORT).show();
-            if (onExit != null) {
-                onExit.run();
-            }
-        } else {
-            final Runnable forceStopRunnable = (nodeInfo.getInterruptable() || nodeInfo.getShell().equals(RunnableNode.Companion.getShellModeBgTask()))? (() -> {
+        Process process =  ScriptEnvironmen.executeShell(context, cmds, params, nodeInfo, sessionTag, false);
+        final Runnable forceStopRunnable = (nodeInfo.getInterruptable() || nodeInfo.getShell().equals(RunnableNode.Companion.getShellModeBgTask()))? (() -> {
                 /*
                 // 没啥用，这个pid和在shell创建的子进程不是父子关系，杀死此进程对shell里创建的进程毫无影响
                 int pid = -1;
@@ -56,7 +47,12 @@ public class ShellExecutor {
                 }
                 */
                 killProcess(context);
-
+            if (process == null) {
+                Toast.makeText(context, "未能启动命令行进程", Toast.LENGTH_SHORT).show();
+                if (onExit != null) {
+                    onExit.run();
+                }
+            }
                 try {
                     process.getInputStream().close();
                 } catch (Exception ignored) {}
@@ -81,6 +77,7 @@ public class ShellExecutor {
                     }
                 }
             }) : null;
+
             new SimpleShellWatcher().setHandler(process, shellHandlerBase, onExit);
 
             try {
@@ -88,12 +85,12 @@ public class ShellExecutor {
                 shellHandlerBase.sendMessage(shellHandlerBase.obtainMessage(ShellHandlerBase.EVENT_START, cmds + "\n\n"));
                 shellHandlerBase.onStart(forceStopRunnable);
 
-                ScriptEnvironmen.executeShell(context, process, cmds, params, nodeInfo, sessionTag);
+
             } catch (Exception ex) {
                 process.destroy();
             }
             started = true;
-        }
+
         return process;
     }
 }
