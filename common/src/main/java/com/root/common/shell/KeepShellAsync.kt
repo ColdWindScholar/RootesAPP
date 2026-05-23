@@ -127,7 +127,7 @@ class KeepShellAsync(private var context: Context?, private var rootMode: Boolea
                 if (out == null) {
                     error?.run()
                 } else if (cmd != null) {
-                    out!!.write("cd /data/user/0/com.root.system/files/usr/kr-script")
+                    out!!.write("cd /data/user/0/com.root.system/files/usr/kr-script\n")
                     out!!.write(cmd)
                     out!!.write("\n\n")
                     if (cmdsCache.isNotEmpty()) {
