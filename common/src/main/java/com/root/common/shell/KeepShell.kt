@@ -82,6 +82,7 @@ class KeepShell(private var rootMode: Boolean = true) {
                     ex.printStackTrace()
                 }
             }
+            println("Exec:$cmd\nR:$shellOutputCache")
             return shellOutputCache.toString().trim()
         }
         catch (e: Exception) {
