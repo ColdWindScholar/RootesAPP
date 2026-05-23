@@ -104,13 +104,7 @@ val filePath = "/data/data/com.root.system/.updeta"
             dialogCat.showCatMenu()
         }
 
-        binding.navAbout.setOnClickListener {
-            val pageNode = PageNode("").apply {
-                title = "作者女装大佬"
-                pageConfigSh = "/data/data/com.root.system/files/usr/pages/Home/aboutshell.sh"
-            }
-            OpenPageHelper(this).openPage(pageNode)
-        }
+
 
         binding.navBug.setOnClickListener {
             val intent = Intent(this, ActionPageOnline::class.java) 
