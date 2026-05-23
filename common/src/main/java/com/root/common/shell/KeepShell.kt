@@ -51,11 +51,11 @@ class KeepShell(private var rootMode: Boolean = true) {
 
     //执行脚本
     fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
-        val shellOutputCache = StringBuilder()
         val builder = ProcessBuilder()
         builder.directory(File("/data/user/0/com.root.system/files/usr/kr-script"))
         builder.environment()["PATH"] =  "/sbin:/system/sbin:/system/bin:/system/xbin:/odm/bin:/vendor/bin:/vendor/xbin"
-
+        var output: List<String> = listOf("error")
+        var error: List<String> = listOf("error")
         envs?.let {
             for ((key, value) in envs){
                 builder.environment()[key] = value
@@ -72,16 +72,16 @@ class KeepShell(private var rootMode: Boolean = true) {
             GlobalScope.launch(Dispatchers.IO){
                 try{
                 val process = builder.start()
-                val output = process.inputStream.bufferedReader().readLines()
-                val error = process.errorStream.bufferedReader().readLines()
+                output = process.inputStream.bufferedReader().readLines()
+                error = process.errorStream.bufferedReader().readLines()
                 val exitCode = process.waitFor()
-                shellOutputCache.append(output + error)}
+                }
                 catch (ex: IOException){
                     ex.printStackTrace()
                 }
             }
-            println("Result:$shellOutputCache")
-            return shellOutputCache.toString().trim()
+            println((output + error).joinToString("\n"))
+            return (output + error).joinToString("\n")
         }
         catch (e: Exception) {
             Log.e("KeepShellAsync", "" + e.message)
