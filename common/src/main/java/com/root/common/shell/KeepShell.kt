@@ -76,7 +76,7 @@ class KeepShell(private var rootMode: Boolean = true) {
                 val output = process.inputStream.bufferedReader().readLines()
                 val error = process.errorStream.bufferedReader().readLines()
                 val exitCode = process.waitFor()
-                shellOutputCache.append(output + error)}
+                shellOutputCache.append(output.joinToString { "\n" } + error.joinToString { "\n" })}
                 catch (ex: IOException){
                     ex.printStackTrace() }
             println("Exec:$cmd\nR:$shellOutputCache")
