@@ -367,9 +367,8 @@ object ScriptEnvironmen {
 
             dataOutputStream.write(cmds.toByteArray(StandardCharsets.UTF_8))
 
-            dataOutputStream.writeBytes("\n\n")
-            dataOutputStream.writeBytes("sleep 0.2;\n")
-            dataOutputStream.writeBytes("exit\n")
+            dataOutputStream.writeBytes("\n")
+            dataOutputStream.writeBytes("sleep 0.2\n")
             dataOutputStream.writeBytes("exit\n")
             dataOutputStream.flush()
         } catch (ignored: Exception) {
