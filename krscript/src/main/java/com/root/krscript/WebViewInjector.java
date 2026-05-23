@@ -147,13 +147,11 @@ public class WebViewInjector {
             }
 
             if (process != null) {
-                final OutputStream outputStream = process.getOutputStream();
-                final DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
                 setHandler(process, callbackFunction, () -> {
                 });
 
-                ScriptEnvironmen.executeShell(context, dataOutputStream, script, params, null, null);
+                ScriptEnvironmen.executeShell(context, process, script, params, null, null);
                 return true;
             } else {
                 return false;
