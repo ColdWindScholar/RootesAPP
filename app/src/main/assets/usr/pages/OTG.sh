@@ -1,3 +1,4 @@
+. $core
 if [ "$ABI" != "arm64-v8a" ] && [ "$ABI" != "arm-v7a" ]; then
 cat <<Han
 <?xml version="1.0" encoding="utf-8"?>

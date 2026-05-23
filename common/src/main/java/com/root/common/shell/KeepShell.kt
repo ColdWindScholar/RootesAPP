@@ -71,14 +71,6 @@ class KeepShell(private var rootMode: Boolean = true) {
                 execContent = fileObj.readText()
             }
         }
-        val corePath = envs?.get("core")
-        println("corePath: $corePath")
-        corePath?.let { it1 -> if (it1.startsWith("/data/data")) {
-                    val fileObj = File(corePath)
-                    if (fileObj.exists()) {
-                        execContent = fileObj.readText()  + execContent
-                    }
-                } }
 
         try {
             if (rootMode && rootBinary != "sh"){
