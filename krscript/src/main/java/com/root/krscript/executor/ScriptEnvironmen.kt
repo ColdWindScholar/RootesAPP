@@ -285,6 +285,7 @@ object ScriptEnvironmen {
     val runtime: Process?
         get() {
             try {
+                val builder = ProcessBuilder()
                 if (rooted) {
                     val commands = arrayOf<String?>("su", "suu", "kp", "02su", "timesu")
 
@@ -292,11 +293,11 @@ object ScriptEnvironmen {
                     for (command in commands) {
                         try {
                             // 尝试执行命令
-                            val process = Runtime.getRuntime().exec(command)
+                            val process = builder.command(command)
 
                             // 检查是否获得root权限 (例如通过检查某个标志或命令的输出)
                             // 这里简单地返回了process，你可以在此处进行更复杂的检查
-                            return process
+                            return process.start()
                         } catch (e: IOException) {
                             // 如果执行命令失败，继续尝试下一个命令
                             e.printStackTrace()
@@ -306,7 +307,7 @@ object ScriptEnvironmen {
                     // 如果所有命令都失败，抛出异常或返回null
                     throw IOException("Failed to obtain root access using su, suu, or timesu.")
                 } else {
-                    return Runtime.getRuntime().exec("sh")
+                    return builder.command("sh").start()
                 }
             } catch (ex: Exception) {
                 return null
