@@ -362,6 +362,8 @@ object ScriptEnvironmen {
                 envpCmds.append("export ").append(param).append("\n")
             }
         }
+        println(envpCmds)
+        println(cmds)
         try {
             dataOutputStream.write(envpCmds.toString().toByteArray(StandardCharsets.UTF_8))
 
