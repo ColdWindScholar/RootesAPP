@@ -1,6 +1,6 @@
-stared=`ps | grep adbd`
-stared2=`ps -ef | grep adbd`
-port=`getprop service.adb.tcp.port`
+stared=$(ps | grep adbd)
+stared2=$(ps -ef | grep adbd)
+port=$(getprop service.adb.tcp.port)
 
 if [[ ! -n "$port" ]]
 then

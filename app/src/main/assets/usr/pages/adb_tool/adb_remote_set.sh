@@ -17,10 +17,10 @@ killall -9 adbd 2>/dev/null
 sleep 1;
 start adbd;
 
-ip=`ifconfig wlan0 | grep "inet addr" | awk '{ print $2}' | awk -F: '{print $2}'` 2>/dev/null
+ip=$(ifconfig wlan0 | grep "inet addr" | awk '{ print $2}' | awk -F: '{print $2}') 2>/dev/null
 if [[ ! -n "$ip" ]]
 then
-    ip=`ifconfig eth0 | grep "inet addr" | awk '{ print $2}' | awk -F: '{print $2}'` 2>/dev/null
+    ip=$(ifconfig eth0 | grep "inet addr" | awk '{ print $2}' | awk -F: '{print $2}') 2>/dev/null
 fi
 
 echo "在连接了和手机相同网络(局域网)的电脑上"
