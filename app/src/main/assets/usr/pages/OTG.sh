@@ -1,5 +1,5 @@
 . $core
-if [ "$ABI" != "arm64-v8a" ] && [ "$ABI" != "arm-v7a" ]; then
+if [ ! -e $binariesPath/libadb.so ]; then
 cat <<Han
 <?xml version="1.0" encoding="utf-8"?>
 <group>
@@ -40,7 +40,7 @@ cat <<Han
     </action>
     <action confirm="true" auto-off="true" interruptible="false">
         <title>断开所有adb服务，网络ADB连接</title>
-        <set>{ adb disconnect; stop adbd; adb kill-server; rm -rf &#34;$Data_Dir/Connect_Network_adb2.log&#34;; } &#38;&#62;/dev/null</set>
+        <set>{ $binariesPath/libadb.so disconnect; stop adbd; $binariesPath/libadb.so kill-server; rm -rf &#34;$Data_Dir/Connect_Network_adb2.log&#34;; } &#38;&#62;/dev/null</set>
     </action>
     <action confirm="true" auto-off="true" interruptible="false">
         <title>修复adb 5037端口被占用</title>
@@ -48,11 +48,11 @@ cat <<Han
     </action>
     <text>
         <slices>
-            <slice run="adb start-server; echo 已启用ADB服务" size="15" color="#FF0366D6" u="1">启用ADB服务</slice>
+            <slice run="$binariesPath/libadb.so start-server; echo 已启用ADB服务" size="15" color="#FF0366D6" u="1">启用ADB服务</slice>
             <slice>　　</slice>
-            <slice run="adb kill-server; echo 已关闭ADB服务" size="15" color="#FF0366D6" u="1">关闭ADB服务</slice>
+            <slice run="$binariesPath/libadb.so kill-server; echo 已关闭ADB服务" size="15" color="#FF0366D6" u="1">关闭ADB服务</slice>
             <slice>　　</slice>
-            <slice run="adb -reset; echo 已重启ADB服务" size="15" color="#FF0366D6" u="1">重启ADB服务</slice>
+            <slice run="$binariesPath/libadb.so -reset; echo 已重启ADB服务" size="15" color="#FF0366D6" u="1">重启ADB服务</slice>
         </slices>
     </text>
 </group>
