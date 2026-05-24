@@ -2,7 +2,7 @@
 #应用于玩机百宝箱上
 
 
-for i in `pgrep -f adb fastboot`; do
+for i in $(pgrep -f adb fastboot); do
     pstree -p "$i"
     echo
 done
