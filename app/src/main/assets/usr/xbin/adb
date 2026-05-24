@@ -6,11 +6,4 @@ lu="$HOME/.android"
         chown $APP_USER_ID:$APP_USER_ID "$lu"
      fi
 
-if [[ "$arch" == "aarch64" ]]; then
-    exec "$ELF3_Path/arm64/adb.elf" "$@"
-elif [[ "$arch" == "arm" ]]; then
-    exec "$ELF3_Path/arm/adb.elf" "$@"
-else
-    echo "不支持"
-fi
-
+$nativeLibPath/libadb.so "$@"
