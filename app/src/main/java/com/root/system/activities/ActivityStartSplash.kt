@@ -6,7 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Base64
 import android.util.Log
 import android.util.TypedValue
@@ -18,8 +21,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
+import androidx.core.content.edit
 import com.root.Scene
-import com.root.common.shell.ShellExecutor
 import com.root.common.ui.DialogHelper
 import com.root.common.ui.ThemeMode
 import com.root.kr.KrScriptConfig
@@ -33,12 +36,12 @@ import com.root.system.SignCheck
 import com.root.system.databinding.ActivityStartSplashBinding
 import com.root.utils.BatteryWidgetService
 import com.root.utils.InfoWidgetService
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.*
-import java.lang.Runnable
 import java.util.*
 import kotlin.system.exitProcess
-import androidx.core.content.edit
 
 class ActivityStartSplash : Activity() {
     companion object {
