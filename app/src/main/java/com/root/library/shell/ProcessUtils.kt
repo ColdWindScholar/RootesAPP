@@ -77,15 +77,6 @@ class ProcessUtils(private val context: Context) {
         }
     }
 
-    // 从进程列表排除的应用
-    private val excludeProcess: ArrayList<String> = object : ArrayList<String>() {
-        init {
-            add("toybox")
-            add("ps")
-            add("top")
-            add("com.root.system")
-        }
-    }
 
     // 解析单行数据
     private fun readRow(row: String): ProcessInfo? {
@@ -97,9 +88,6 @@ class ProcessUtils(private val context: Context) {
                 processInfo.res = str2Long(columns[1])
                 processInfo.swap = str2Long(columns[2])
                 processInfo.name = columns[3]
-                if (excludeProcess.contains(processInfo.name)) {
-                    return null
-                }
                 processInfo.pid = columns[4].toInt()
                 processInfo.user = columns[5]
                 processInfo.command = columns[6]
