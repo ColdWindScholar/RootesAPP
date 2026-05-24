@@ -576,7 +576,7 @@
 <group title="安装应用">
 
    <!-- START -->
-    <page title="应用软件修改ID" config-sh="sh /data/data/com.root.system/files/usr/pages/APK_ID.xml" locked="$LOCKED" />
+    <page title="应用软件修改ID" config-sh="sh /data/data/com.root.system/files/usr/pages/APK_ID.sh" locked="$LOCKED" />
     
 <!-- END -->
     <!-- START -->

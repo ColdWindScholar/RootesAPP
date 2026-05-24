@@ -9,14 +9,14 @@ input_file="/data/system/users/0/settings_ssaid.xml"
 shell=". /data/data/com.root.system/files/usr/pages/APK_ID.sh \$package \$Content"
 
 # 创建目录并备份
-mkdir -p $GJZS/cpm >/dev/null 2>&1
-cp $input_file $GJZS/cpm >/dev/null 2>&1
+mkdir -p $GJZS/cpm
+cp $input_file $GJZS/cpm
 
 # 切换到备份目录
-cd $GJZS/cpm >/dev/null 2>&1
+cd $GJZS/cpm
 
 # 将 Android Binary XML 转换为人类可读的 XML
-abx2xml settings_ssaid.xml "$temp_xml" >/dev/null 2>&1
+abx2xml settings_ssaid.xml "$temp_xml"
 
 # 定义 XML 文件路径
 xml_file="$temp_xml"
