@@ -77,14 +77,10 @@ class ProcessUtilsSimple(private val context: Context) {
             val processInfoList = ArrayList<ProcessInfo>()
             val psCommand = this.psCommand.toString()
             if (psCommand.isNotEmpty()) {
-                val skipRows = if (psCommand.startsWith("ps")) 1 else 0
-                val rows = KeepShellPublic.doCmdSync(psCommand).split("\n".toRegex()).toTypedArray()
-                var index = 0
-                for (row in rows) {
-                    if (index < skipRows) {
+                for (row in  KeepShellPublic.doCmdSync(psCommand).split("\n".toRegex()).toTypedArray()) {
+                    if (row.startsWith("%CPU")){
                         continue
                     }
-                    index ++
                     val processInfo = readRow(row.trim { it <= ' ' })
                     if (processInfo != null) {
                         processInfoList.add(processInfo)
