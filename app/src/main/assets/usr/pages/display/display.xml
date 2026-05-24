@@ -6,8 +6,8 @@
         <title>重启SystemUI</title>
         <desc>结束SystemUI进程，使其重新加载</desc>
         <set>
-            am kill com.android.systemui 2> /dev/null
-            killall -9 com.android.systemui 2> /dev/null
+            am kill com.android.systemui
+            killall -9 com.android.systemui
         </set>
     </action>
 
