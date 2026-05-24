@@ -41,7 +41,7 @@
     <action>
         <title>异常修复</title>
         <desc>如果对方设备在系统模式下，请务必将开发者选项里 -->默认USB配置 -->选择传输文件（MTP），否则你点异常修复也没用</desc>
-        <set>adb -reset</set>
+        <set>$binariesPath/libadb.so -reset</set>
     </action>
 <!-- END -->
 </group>

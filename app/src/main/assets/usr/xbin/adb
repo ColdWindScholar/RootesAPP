@@ -6,4 +6,4 @@ lu="$HOME/.android"
         chown $APP_USER_ID:$APP_USER_ID "$lu"
      fi
 
-$nativeLibPath/libadb.so "$@"
+$binariesPath/libadb.so "$@"
