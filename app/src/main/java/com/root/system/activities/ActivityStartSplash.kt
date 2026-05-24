@@ -62,12 +62,7 @@ class ActivityStartSplash : Activity() {
         updateThemeStyle(themeMode)
         //解码 Base64 字符串
         try {
-            signCode = String(
-                Base64.decode(
-                    "M0Y6NUM6RkI6Q0E6N0U6NkU6OUY6Q0E6MzE6NjY6NjI6NUI6Mjc6M0E6MDM6OEI6RjM6OUY6NEU6ODU=",
-                    Base64.DEFAULT
-                )
-            )
+            signCode = "3F:5C:FB:CA:7E:6E:9F:CA:31:66:62:5B:27:3A:03:8B:F3:9F:4E:85"
         } catch (e: IllegalArgumentException) {
             Log.e("ActivityStartSplash", "Base64 decode error", e)
             Toast.makeText(this, "非官方软件，请到官方网站下载！", Toast.LENGTH_SHORT).show()
