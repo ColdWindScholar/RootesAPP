@@ -90,7 +90,7 @@ object ScriptEnvironmen {
             if (isInited) {
                 for (i in envShell.split("\n")){
                     if (i.trim().isNotEmpty()){
-                        val (key, value) = i.trim().split("=")
+                        val (key, value) = i.trim().split("=", limit = 2)
                         environmentHashMap[key] = value
                     }
                 }
