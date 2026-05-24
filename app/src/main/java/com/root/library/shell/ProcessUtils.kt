@@ -26,17 +26,7 @@ class ProcessUtils(private val context: Context) {
     private val listCmd: TripleCacheValue = object : TripleCacheValue(context, "ProcessUtilsList") {
         override fun initValue(): String {
             val perfectCmd = "top -o %CPU,RES,SWAP,NAME,PID,USER,COMMAND,CMDLINE -q -b -n 1 -m 65535"
-            // String insideCmd = "ps -e -o %CPU,RSS,SHR,NAME,PID,USER,COMMAND,CMDLINE";
-            // String insideCmd = "ps -e -o %CPU,RES,SHR,RSS,NAME,PID,S,USER,COMMAND,CMDLINE";
-            val insideCmd = "ps -e -o %CPU,RES,SWAP,NAME,PID,USER,COMMAND,CMDLINE"
-            for (cmd in arrayOf(perfectCmd, insideCmd)) {
-                val rows = doCmdSync("$cmd 2>&1").split("\n".toRegex()).toTypedArray()
-                val result = rows[0]
-                if (rows.size > 10 && !(result.contains("bad -o") || result.contains("Unknown option") || result.contains("bad"))) {
-                    return cmd
-                }
-            }
-            return ""
+            return perfectCmd
         }
     }
     private val detailCmd: TripleCacheValue = object : TripleCacheValue(context, "ProcessUtilsDetail") {
@@ -44,14 +34,7 @@ class ProcessUtils(private val context: Context) {
             // String insideCmd = "ps -e -o %CPU,RSS,SHR,NAME,PID,USER,COMMAND,CMDLINE";
             // String insideCmd = "ps -e -o %CPU,RES,SHR,RSS,NAME,PID,S,USER,COMMAND,CMDLINE";
             val insideCmd = "ps -e -o %CPU,RES,SWAP,NAME,PID,USER,COMMAND,CMDLINE"
-            for (cmd in arrayOf(insideCmd)) {
-                val rows = doCmdSync("$cmd 2>&1").split("\n".toRegex()).toTypedArray()
-                val result = rows[0]
-                if (rows.size > 10 && !(result.contains("bad -o") || result.contains("Unknown option") || result.contains("bad"))) {
-                    return "$cmd --pid "
-                }
-            }
-            return ""
+            return "$insideCmd --pid "
         }
     }
 
