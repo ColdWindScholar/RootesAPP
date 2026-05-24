@@ -235,7 +235,7 @@ object ScriptEnvironmen {
         params["ANDROID_SDK"] = Build.VERSION.SDK_INT.toString()
         // params.put("ROOT_PERMISSION", rooted ? "granted" : "denied");
         params["ROOT_PERMISSION"] = rooted.toString()
-        params["nativeLibPath"] = context.applicationInfo.nativeLibraryDir
+        params["nativeLibPath"] = context.applicationInfo.nativeLibraryDir.toString()
         params["SDCARD_PATH"] = Environment.getExternalStorageDirectory().absolutePath
         val busyboxPath = getPrivateFilePath(context, "busybox")
         if (File(getPrivateFilePath(context, "busybox")).exists()) {
