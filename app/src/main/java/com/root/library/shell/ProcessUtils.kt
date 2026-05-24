@@ -143,7 +143,7 @@ class ProcessUtils(private val context: Context) {
     fun killProcess(processInfo: ProcessInfo) {
         if (isAndroidProcess(processInfo)) {
             val packageName = if (processInfo.name.contains(":")) processInfo.name.substring(0, processInfo.name.indexOf(":")) else processInfo.name
-            doCmdSync(String.format("killall -9 %s;am force-stop %s;am kill %s", packageName, packageName, packageName))
+            doCmdSync("killall -9 $packageName;am force-stop $packageName;am kill $packageName")
         } else {
             killProcess(processInfo.pid)
         }
