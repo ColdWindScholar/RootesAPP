@@ -1,9 +1,0 @@
-export HOME="$Data_Dir"
-arch=$(uname -m)
-lu="$HOME/.android"
-     if [[ ! -d "$lu" ]]; then
-        mkdir -p "$lu"
-        chown $APP_USER_ID:$APP_USER_ID "$lu"
-     fi
-
-$binariesPath/libadb.so "$@"
