@@ -8,4 +8,4 @@ for i in $package; do
          echo $i >>$Data_Dir/Hidden_app_Records.log
       fi
 done
-    [[ -n $package ]] && echo "已隐藏应用的记录已写入到数据目录，清除「玩机百宝箱」全部数据会导致记录丢失哦﻿⊙∀⊙！"
+    [[ -n $package ]] && echo "已隐藏应用的记录已写入到数据目录，清除「玩机百宝箱」全部数据会导致记录丢失哦⊙∀⊙！"
