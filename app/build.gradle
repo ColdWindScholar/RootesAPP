@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-
+    packagingOptions.jniLibs.useLegacyPackaging true
     applicationVariants.all { variant ->
         variant.outputs.all {
             def fileName = "Scene" + "_${defaultConfig.versionName}_${defaultConfig.versionCode}_" + variant.name + ".apk"

@@ -46,7 +46,6 @@
     -->
 
     <application
-            android:extractNativeLibs="true"
             android:enableOnBackInvokedCallback="true"
         android:name="com.root.Scene"
         android:allowBackup="false"
