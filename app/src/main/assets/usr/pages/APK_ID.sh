@@ -9,8 +9,8 @@ input_file="/data/system/users/0/settings_ssaid.xml"
 shell=". /data/data/com.root.system/files/usr/pages/APK_ID.sh \$package \$Content"
 
 # 创建目录并备份
-mkdir -p $GJZS/cpm
-cp $input_file $GJZS/cpm
+mkdir -p "$GJZS"/cpm
+cp $input_file "$GJZS"/cpm
 
 # 切换到备份目录
 cd $GJZS/cpm

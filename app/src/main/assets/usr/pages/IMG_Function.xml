@@ -17,7 +17,7 @@
             <param name="ChongQi" label="是否刷入成功自动重启系统" type="checkbox" />
             <param name="ChongQi2" label="是否刷入成功自动重启至Recovery（恢复模式里）" type="checkbox" />
             <param name="IMG" title="注：要刷入的镜像大小不能大于显示的大小，否则会刷入不了" options-sh="sh ./Block_Device_Name.sh" required="true"/>
-            <param name="Brush_in" type="file" suffix="img" editable="true" required="true" title="可输入img文件绝对路径，也可以使用文件选择器选择文件" desc="温馨提示：可用「MT管理器」长按目录或文件 -->点属性 -->点击目录即可复制目录绝对路径，长按目录或长按名称即可复制文件绝对路径" required="true"/>
+            <param name="Brush_in" type="file" suffix="img" editable="true" title="可输入img文件绝对路径，也可以使用文件选择器选择文件" desc="温馨提示：可用「MT管理器」长按目录或文件 -->点属性 -->点击目录即可复制目录绝对路径，长按目录或长按名称即可复制文件绝对路径" required="true"/>
         </params>
     </action>
 <!-- END -->
@@ -27,8 +27,8 @@
         <set>. ./Mirror_Partition_Brush_in.sh</set>
         <params>
             <param name="ChongQi2" label="是否刷入成功自动重启至Recovery（恢复模式里）" type="switch" />
-            <param name="IMG" title="注：要刷入的镜像大小不能大于显示的大小，否则会刷入不了" options-sh="sh ./Block_Device_Name.sh | grep recovery" required="true" required="true"/>
-            <param name="Brush_in" type="file" suffix="img" editable="true" required="true" title="可输入img文件绝对路径，也可以使用文件选择器选择文件" desc="温馨提示：可用「MT管理器」长按目录或文件 -->点属性 -->点击目录即可复制目录绝对路径，长按目录或长按名称即可复制文件绝对路径" required="true" required="true"/>
+            <param name="IMG" title="注：要刷入的镜像大小不能大于显示的大小，否则会刷入不了" options-sh="sh ./Block_Device_Name.sh | grep recovery" required="true"/>
+            <param name="Brush_in" type="file" suffix="img" editable="true" title="可输入img文件绝对路径，也可以使用文件选择器选择文件" desc="温馨提示：可用「MT管理器」长按目录或文件 -->点属性 -->点击目录即可复制目录绝对路径，长按目录或长按名称即可复制文件绝对路径" required="true"/>
         </params>
     </action>
 <!-- END -->
@@ -38,7 +38,7 @@
         <set>. ./Mirror_Partition_Extract.sh</set>
         <params>
             <param name="IMG" title="请选择分区支持多选：" multiple="true" options-sh="sh ./Block_Device_Name.sh" required="true"/>
-            <param name="Extract" type="folder" editable="true" required="true" title="可输入img文件绝对路径，也可以使用文件选择器选择文件" desc="温馨提示：可用「MT管理器」长按目录或文件 -->点属性 -->点击目录即可复制目录绝对路径，长按目录或长按名称即可复制文件绝对路径" value-sh="Dir=$Data_Dir/img_Extract_Dir.log; if [[ -f $Dir ]]; then cat $Dir; else echo $GJZS/img_Extract; fi " required="true"/>
+            <param name="Extract" type="folder" editable="true" title="可输入img文件绝对路径，也可以使用文件选择器选择文件" desc="温馨提示：可用「MT管理器」长按目录或文件 -->点属性 -->点击目录即可复制目录绝对路径，长按目录或长按名称即可复制文件绝对路径" value-sh="Dir=$Data_Dir/img_Extract_Dir.log; if [[ -f $Dir ]]; then cat $Dir; else echo $GJZS/img_Extract; fi " required="true"/>
         </params>
     </action>
 <!-- END -->
