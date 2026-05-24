@@ -20,34 +20,6 @@ class ProcessUtilsSimple(private val context: Context) {
     版权声明：本文为CSDN博主「火山石」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
     原文链接：https://blog.csdn.net/zhangcanyan/java/article/details/84556808
     */
-    private val psCommand = object : TripleCacheValue(context, "ProcessUtils2CMD") {
-        override fun initValue(): String {
-            val perfectCmd = "top -o %CPU,NAME,COMMAND,PID -q -b -n 1 -m 65535"
-            val insideCmd = "ps -e -o %CPU,NAME,COMMAND,PID"
-            for (cmd in arrayOf(perfectCmd, insideCmd)) {
-                val rows = KeepShellPublic.doCmdSync("$cmd 2>&1").split("\n".toRegex()).toTypedArray()
-                val result = rows[0]
-                if (rows.size > 10 &&
-                        !(
-                            result.contains("bad -o") ||
-                            result.contains("Unknown option") ||
-                            result.contains("bad")
-                        )
-                ) {
-                    return cmd
-                }
-            }
-            return ""
-        }
-    }
-
-    // 兼容性检查（TODO: 首次调用此函数可能比较耗时，需要调用这做loading优化体验）
-    fun supported(): Boolean {
-        return this.psCommand.toString().isNotEmpty()
-    }
-
-
-
     // 从进程列表排除的应用
 
 
@@ -75,9 +47,8 @@ class ProcessUtilsSimple(private val context: Context) {
     val allProcess: ArrayList<ProcessInfo>
         get() {
             val processInfoList = ArrayList<ProcessInfo>()
-            val psCommand = this.psCommand.toString()
-            if (psCommand.isNotEmpty()) {
-                for (row in  KeepShellPublic.doCmdSync(psCommand).split("\n".toRegex()).toTypedArray()) {
+            val perfectCmd = "top -o %CPU,NAME,COMMAND,PID -q -b -n 1 -m 65535"
+                for (row in KeepShellPublic.doCmdSync(perfectCmd).split("\n")) {
                     if (row.startsWith("%CPU")){
                         continue
                     }
@@ -86,7 +57,7 @@ class ProcessUtilsSimple(private val context: Context) {
                         processInfoList.add(processInfo)
                     }
                 }
-            }
+
             return processInfoList
         }
 

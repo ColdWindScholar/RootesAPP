@@ -34,7 +34,7 @@ class FloatMonitorThreads(private val mContext: Context) {
 
     val supported: Boolean
         get () {
-            return processUtils.supported()
+            return true
         }
 
     private var params: WindowManager.LayoutParams = WindowManager.LayoutParams().apply {
