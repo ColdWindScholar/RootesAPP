@@ -13,18 +13,18 @@ echo "- 当出现USB授权弹窗时，请确定USB调试，授权过的无需再
 
 case $fs in
     l)
-        adb connect $ip:$port
+        $binariesPath/libadb.so connect $ip:$port
     ;;
     
     d)
-        adb disconnect $ip:$port
+        $binariesPath/libadb.so disconnect $ip:$port
         rm -rf "$Data_Dir/$Connect_Network_adb2.log"
     ;;
     
     r)
-        adb reconnect &>/dev/null
-        adb disconnect $ip:$port
-        adb connect $ip:$port
+        $binariesPath/libadb.so reconnect
+        $binariesPath/libadb.so disconnect $ip:$port
+        $binariesPath/libadb.so connect $ip:$port
         echo "- 已重新连接请确定USB调试"
     ;;
 esac
