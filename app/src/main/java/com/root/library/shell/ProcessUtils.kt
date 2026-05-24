@@ -80,8 +80,7 @@ class ProcessUtils(private val context: Context) {
     // 从进程列表排除的应用
     private val excludeProcess: ArrayList<String> = object : ArrayList<String>() {
         init {
-            add("toybox-outside")
-            add("toybox-outside64")
+            add("toybox")
             add("ps")
             add("top")
             add("com.root.system")
