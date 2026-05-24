@@ -39,7 +39,7 @@ cat <<Han
             <param name="Way" label="选择制作方式" options-sh="printf 'zs|制作并刷入\nz|仅制作'" required="true"/>
 Han
 
-for i in `seq $Picture`; do
+for i in $(seq $Picture); do
 cat <<Han
             <param name="bmp$i" title="${i}.bmp图片，最大不能大于${bmp_max[$i]}b/字节" type="file" suffix="bmp" editable="true" required="true" value="$GJZS/Customize_BootAnimation_Screen1/$i.bmp" />
 Han
@@ -74,4 +74,3 @@ cat <<Han
     </page>
 </group>
 Han
-fi
