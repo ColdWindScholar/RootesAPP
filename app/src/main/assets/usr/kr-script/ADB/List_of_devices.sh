@@ -1,19 +1,18 @@
 #本脚本由　by Han | 情非得已c，编写
 #应用于玩机百宝箱上
-. $core
 case $1 in
 -0)
-    a=$(adb devices -l | grep -v -i 'List of .*')
-    Number=$(adb devices | grep -v -i 'List of .*' | wc -l)
+    a=$($binariesPath/libadb.so devices -l | grep -v -i 'List of .*')
+    Number=$($binariesPath/libadb.so devices | grep -v -i 'List of .*' | wc -l)
     if [[ -n $(echo "$a" | grep -i 'unauthorized') ]]; then
     {
-        adb keygen "$Data_Dir/.android/adbkey"
-        adb reconnect offline
+        $binariesPath/libadb.so keygen "$Data_Dir/.android/adbkey"
+        $binariesPath/libadb.so reconnect offline
             if [[ -f "$Data_Dir/Connect_Network_adb2.log" ]]; then
                 . "$Data_Dir/Connect_Network_adb2.log"
-                adb reconnect
-                adb disconnect $ip:$port
-                adb connect $ip:$port
+                $binariesPath/libadb.so reconnect
+                $binariesPath/libadb.so disconnect $ip:$port
+                $binariesPath/libadb.so connect $ip:$port
             fi
     }
                 echo "- 已检测到未授权USB调试，已重新申请授权"
@@ -30,7 +29,7 @@ case $1 in
 ;;
 
 -FASTBOOT)
-    a=$(fastboot devices -l | sed 's/fastboot/ &/g')
+    a=$($binariesPath/libfastboot.so devices -l | sed 's/fastboot/ &/g')
     if [[ -n "$a" ]]; then
         echo  "- 设备已连接："
         echo "$a"
