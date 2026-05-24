@@ -11,7 +11,7 @@ cd $Modules_Dir
 for i in $state; do
     cp -rf $i $TMPDIR/tar
 done
-    echo "- 开始备份中，请骚等﻿⊙∀⊙！"
+    echo "- 开始备份中，请骚等⊙∀⊙！"
     cd $TMPDIR/tar
     echo
     tar -czvf "$F" ./*
