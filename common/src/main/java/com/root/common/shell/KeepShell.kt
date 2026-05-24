@@ -72,7 +72,7 @@ class KeepShell(private var rootMode: Boolean = true) {
 
         try {
             if (rootMode && rootBinary != "sh"){
-                builder.command(rootBinary, "-c", execContent)
+                builder.command("/sbin/$rootBinary", "-c", execContent)
             } else {
                 builder.command("sh","-c", execContent)
             }
