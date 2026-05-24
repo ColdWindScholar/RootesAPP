@@ -32,16 +32,9 @@ class FloatTaskManager(private val context: Context) {
 
     val supported: Boolean
         get () {
-            return processUtils.supported()
+            return true
         }
 
-    /**
-     * dp转换成px
-     */
-    private fun dp2px(context: Context, dpValue: Float): Int {
-        val scale = context.resources.displayMetrics.density
-        return (dpValue * scale + 0.5f).toInt()
-    }
 
     fun showPopupWindow() {
         if (mView != null) {
