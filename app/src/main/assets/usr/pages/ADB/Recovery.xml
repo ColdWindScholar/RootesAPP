@@ -16,8 +16,6 @@
         </set>
     </action>
 <!-- END -->
-         <page title="跳过方法" config-sh="sh /data/user/$ANDROID_UID/$Package_name/files/usr/pages/Help/OTG_MIUI.xml" />
-
 <!-- START -->
     <action>
         <title>Recovery模式下Sideload线刷</title>

@@ -16,8 +16,6 @@ adb reboot
         </set>
     </action>
 <!-- END -->
-
-         <page title="跳过方法" config-sh="sh /data/user/$ANDROID_UID/$Package_name/files/usr/pages/Help/OTG_MIUI.xml" />
 <!-- START -->
     <action>
         <title>清除锁屏密码</title>
