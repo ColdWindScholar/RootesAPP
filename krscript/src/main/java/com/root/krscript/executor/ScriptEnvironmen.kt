@@ -232,7 +232,7 @@ object ScriptEnvironmen {
         } catch (ignored: Exception) {
         }
 
-        params["ANDROID_SDK"] = "" + Build.VERSION.SDK_INT
+        params["ANDROID_SDK"] = Build.VERSION.SDK_INT.toString()
         // params.put("ROOT_PERMISSION", rooted ? "granted" : "denied");
         params["ROOT_PERMISSION"] = rooted.toString()
         params["nativeLibPath"] = context.applicationInfo.nativeLibraryDir
