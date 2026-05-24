@@ -25,16 +25,14 @@ class ProcessUtils(private val context: Context) {
 
     private val listCmd: TripleCacheValue = object : TripleCacheValue(context, "ProcessUtilsList") {
         override fun initValue(): String {
-            val perfectCmd = "top -o %CPU,RES,SWAP,NAME,PID,USER,COMMAND,CMDLINE -q -b -n 1 -m 65535"
-            return perfectCmd
+            return "top -o %CPU,RES,SWAP,NAME,PID,USER,COMMAND,CMDLINE -q -b -n 1 -m 65535"
         }
     }
     private val detailCmd: TripleCacheValue = object : TripleCacheValue(context, "ProcessUtilsDetail") {
         override fun initValue(): String {
             // String insideCmd = "ps -e -o %CPU,RSS,SHR,NAME,PID,USER,COMMAND,CMDLINE";
             // String insideCmd = "ps -e -o %CPU,RES,SHR,RSS,NAME,PID,S,USER,COMMAND,CMDLINE";
-            val insideCmd = "ps -e -o %CPU,RES,SWAP,NAME,PID,USER,COMMAND,CMDLINE"
-            return "$insideCmd --pid "
+            return "ps -e -o %CPU,RES,SWAP,NAME,PID,USER,COMMAND,CMDLINE --pid "
         }
     }
 
