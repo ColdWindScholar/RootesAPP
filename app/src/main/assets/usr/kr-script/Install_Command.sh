@@ -5,7 +5,7 @@ abort() {
 
 
 Script_Dir=$TMPDIR/Script_Dir
-jian=`cat ~/downloader/path/* 2>/dev/null`
+jian=`cat ~/downloader/path/* `
 jian2=$Script_Dir/META-INF/com/google/android/update-binary
 
 [[ ! -f "$jian" ]] && abort "！未下载文件"
