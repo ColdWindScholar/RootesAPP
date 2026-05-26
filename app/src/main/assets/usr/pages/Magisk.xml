@@ -35,7 +35,7 @@
             </page>
         
 <!-- END -->
-        <page title="Magisk扩展" activity="am start com.root.system/com.root.system.activities.ActivityMagisk" />
+        <page title="Magisk扩展" activity="com.root.system/com.root.system.activities.ActivityMagisk" />
 
 <!-- START -->
         <page id="Modules_Management_page" config-sh=". $ShellScript/Magisk_Module/Modules_Management_page.sh" locked="$LOCKED">
