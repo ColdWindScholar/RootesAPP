@@ -12,7 +12,7 @@
 <group title="功能">
     <pages>
 
-        <page title="应用程序管理专区" activity="am start com.root.system/com.root.system.activities.ActivityApplistions" />
+        <page title="应用程序管理专区" activity="com.root.system/com.root.system.activities.ActivityApplistions" />
         
         <page title="应用功能区" config-sh="cat $Pages/APK.xml" locked="$LOCKED" />
     
@@ -25,7 +25,7 @@
                 fi
             </lock>
         </page>
-           <page title="应用偏见" activity="am start com.root.system/com.root.system.activities.ActivityFreezeApps2" />
+           <page title="应用偏见" activity="com.root.system/com.root.system.activities.ActivityFreezeApps2" />
            
         <page title="LSPosed域功能" config-sh="cat $Pages/LSPosed.xml" visible="sh ./support/lspoesd.sh" />
         
