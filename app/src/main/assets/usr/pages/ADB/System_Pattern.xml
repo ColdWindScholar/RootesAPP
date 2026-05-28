@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<group>
-         <page title="使用说明" config-sh="sh /data/user/$ANDROID_UID/$Package_name/files/usr/pages/Help/OTGSystem.xml" />
-</group>
 
 <group title="功能区">
 <!-- START -->
