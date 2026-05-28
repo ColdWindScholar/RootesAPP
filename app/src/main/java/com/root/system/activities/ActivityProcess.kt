@@ -112,7 +112,7 @@ class ActivityProcess : ActivityBase() {
     private fun updateData() {
         val data = processUtils.allProcess
         handle.post {
-            (binding.processList?.adapter as AdapterProcess?)?.setList(data)
+            (binding.processList.adapter as AdapterProcess?)?.setList(data)
         }
     }
 
@@ -144,11 +144,6 @@ class ActivityProcess : ActivityBase() {
     override fun onPause() {
         pause()
         super.onPause()
-    }
-
-    //返回键事件
-    override fun onBackPressed() {
-        this.finish()
     }
 
     private val regexUser = Regex("u[0-9]+_.*")
