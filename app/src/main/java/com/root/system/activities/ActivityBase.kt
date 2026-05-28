@@ -1,6 +1,5 @@
 package com.root.system.activities
 
-import android.app.ActivityManager
 import android.content.Context
 import android.os.Bundle
 import android.os.PersistableBundle
