@@ -7,9 +7,9 @@
         <title>MIUI HyperOS 政企版跳过开机引导</title>
         <desc>使用ADB Root下，MIUI HyperOS 政企版跳过开机引导（需要Root）</desc>
         <set>
-        adb shell su -c settings put secure user_setup_complete 1
-adb shell su -c settings put global device_provisioned 1
-adb reboot
+            $binariesPath/libadb.so shell su -c settings put secure user_setup_complete 1
+            $binariesPath/libadb.so shell su -c settings put global device_provisioned 1
+            $binariesPath/libadb.so reboot
         </set>
     </action>
 <!-- END -->
@@ -69,27 +69,27 @@ adb reboot
 <!-- START -->
     <text>
         <slices>
-            <slice run="adb2 -c input keyevent 82" size="15" color="#FF0366D6" u="1">菜单键</slice>
+            <slice run="$binariesPath/libadb.so shell input keyevent 82" size="15" color="#FF0366D6" u="1">菜单键</slice>
             <slice>　　　</slice>
-            <slice run="adb2 -c input keyevent 3" size="15" color="#FF0366D6" u="1">HOME键</slice>
+            <slice run="$binariesPath/libadb.so shell input keyevent 3" size="15" color="#FF0366D6" u="1">HOME键</slice>
             <slice>　　　</slice>
-            <slice run="adb2 -c input keyevent 4" size="15" color="#FF0366D6" u="1">返回键</slice>
+            <slice run="$binariesPath/libadb.so shell input keyevent 4" size="15" color="#FF0366D6" u="1">返回键</slice>
             <slice break="true"></slice>
             <slice break="true"></slice>
             <slice break="true"></slice>
-            <slice run="adb2 -c input keyevent 26" size="15" color="#FF0366D6" u="1">电源键</slice>
+            <slice run="$binariesPath/libadb.so shell input keyevent 26" size="15" color="#FF0366D6" u="1">电源键</slice>
             <slice>　　　</slice>
-            <slice run="adb2 -c input keyevent 24;adb2 -c input keyevent 24" size="15" color="#FF0366D6" u="1">音量+键</slice>
+            <slice run="$binariesPath/libadb.so shell input keyevent 24;$binariesPath/libadb.so shell input keyevent 24" size="15" color="#FF0366D6" u="1">音量+键</slice>
             <slice>　　　</slice>
-            <slice run="adb2 -c input keyevent 25;adb2 -c input keyevent 25" size="15" color="#FF0366D6" u="1">音量-键</slice>
+            <slice run="$binariesPath/libadb.so shell input keyevent 25;$binariesPath/libadb.so shell input keyevent 25" size="15" color="#FF0366D6" u="1">音量-键</slice>
             <slice break="true"></slice>
             <slice break="true"></slice>
             <slice break="true"></slice>
-            <slice run="adb2 -c input keyevent KEYCODE_MEDIA_PREVIOUS" size="15" color="#FF0366D6" u="1">上一曲</slice>
+            <slice run="$binariesPath/libadb.so shell input keyevent KEYCODE_MEDIA_PREVIOUS" size="15" color="#FF0366D6" u="1">上一曲</slice>
             <slice>　　　</slice>
-            <slice run="adb2 -c input keyevent KEYCODE_MEDIA_PLAY_PAUSE" size="15" color="#FF0366D6" u="1">播放/暂停</slice>
+            <slice run="$binariesPath/libadb.so shell input keyevent KEYCODE_MEDIA_PLAY_PAUSE" size="15" color="#FF0366D6" u="1">播放/暂停</slice>
             <slice>　　　</slice>
-            <slice run="adb2 -c input keyevent KEYCODE_MEDIA_NEXT" size="15" color="#FF0366D6" u="1">下一曲</slice>
+            <slice run="$binariesPath/libadb.so shell input keyevent KEYCODE_MEDIA_NEXT" size="15" color="#FF0366D6" u="1">下一曲</slice>
         </slices>
     </text>
 <!-- END -->

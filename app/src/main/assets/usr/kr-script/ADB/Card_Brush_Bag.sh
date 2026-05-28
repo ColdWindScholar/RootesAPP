@@ -3,4 +3,4 @@
 
 
 . $Load Card_Brush_Bag "$@"
-adb sideload "$Download_File"
+$binariesPath/libadb.so sideload "$Download_File"
