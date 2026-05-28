@@ -49,7 +49,7 @@ class ActivityOtherSettings : ActivityBase() {
 
 
     val switch: Switch = findViewById(R.id.settings_log)
-val filePath = "/data/data/com.root.system/.updeta"
+val filePath = "/data/data/com.root.system/.update"
         val file = File(filePath)
 
 
@@ -203,12 +203,12 @@ val filePath = "/data/data/com.root.system/.updeta"
 
     // 创建 /sdcard/rootes/.start 文件
     private fun createStartFile() {
-      KeepShellPublic.doCmdSync("echo yes >/data/data/com.root.system/.updeta")
+      KeepShellPublic.doCmdSync("echo yes >/data/data/com.root.system/.update")
     }
 
     // 删除 /sdcard/rootes/.start 文件
     private fun deleteStartFile() {
-        KeepShellPublic.doCmdSync("rm -rf /data/data/com.root.system/.updeta")
+        KeepShellPublic.doCmdSync("rm -rf /data/data/com.root.system/.update")
     }
 
 
