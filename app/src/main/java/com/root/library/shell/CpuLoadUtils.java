@@ -49,6 +49,7 @@ public class CpuLoadUtils {
         }
 
         @SuppressLint("UseSparseArrays") HashMap<Integer, Double> loads = new HashMap<>();
+        loads.put(-1, 0d);
         String times = KernelProrp.INSTANCE.getProp("/proc/stat", "^cpu");
         if (!times.equals("error") && times.startsWith("cpu")) {
             try {
