@@ -224,7 +224,7 @@
             android:screenOrientation="behind" />
         <activity
                 android:exported="true"
-            android:name=".activities.ActivityAddinOnline"
+            android:name=".activities.ActivityAddinOnline1"
             android:configChanges="keyboardHidden|orientation|uiMode"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="false"
