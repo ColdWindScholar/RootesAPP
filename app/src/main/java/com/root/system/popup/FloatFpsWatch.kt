@@ -268,7 +268,7 @@ class FloatFpsWatch(private val mContext: Context) {
                     view?.alpha = 1f
                     Toast.makeText(mContext, "帧率录制结束！", Toast.LENGTH_SHORT).show()
                 } else {
-                    val app = if (GlobalStatus.lastPackageName.isNullOrEmpty()) "android" else GlobalStatus.lastPackageName
+                    val app = GlobalStatus.lastPackageName.ifEmpty { "android" }
                     sessionId = fpsWatchStore.createSession(app)
                     sessionApp = GlobalStatus.lastPackageName
                     setImageResource(R.drawable.stop)
