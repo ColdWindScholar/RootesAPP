@@ -250,10 +250,6 @@ class ActivityMain : ActivityBase() {
     }
 
     private fun actionGraph() {
-        if (!CheckRootStatus.lastCheckResult) {
-            Toast.makeText(this, getString(R.string.not_root_disabled), Toast.LENGTH_SHORT).show()
-            return
-        }
         if (Build.VERSION.SDK_INT >= 23) {
             if (Settings.canDrawOverlays(this)) {
                 DialogMonitor(this).show()
