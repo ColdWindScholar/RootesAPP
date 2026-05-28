@@ -277,19 +277,7 @@ class ActivityMain : ActivityBase() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {}
 
-    override fun onBackPressed() {
-        try {
-            when {
-                supportFragmentManager.backStackEntryCount > 0 -> supportFragmentManager.popBackStack()
-                else -> {
-                    excludeFromRecent()
-                    super.onBackPressed()
-                }
-            }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-        }
-    }
+
 
     override fun onPause() {
         super.onPause()

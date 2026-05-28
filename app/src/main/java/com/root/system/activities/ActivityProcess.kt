@@ -148,7 +148,6 @@ class ActivityProcess : ActivityBase() {
 
     //返回键事件
     override fun onBackPressed() {
-        excludeFromRecent()
         this.finish()
     }
 

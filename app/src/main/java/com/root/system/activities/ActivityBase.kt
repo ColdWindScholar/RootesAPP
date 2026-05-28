@@ -43,16 +43,6 @@ open class ActivityBase : AppCompatActivity() {
         }
     }
 
-    protected fun excludeFromRecent() {
-            val service = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
-            for (task in service.appTasks) {
-                if (task.taskInfo.id == this.taskId) {
-                    task.setExcludeFromRecents(true)
-                }
-            }
-
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         Scene.postDelayed({

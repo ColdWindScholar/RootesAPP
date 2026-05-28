@@ -453,11 +453,4 @@ class ActionPage : ActivityBase() {
     fun _openPage(pageNode: PageNode) {
         OpenPageHelper(this).openPage(pageNode)
     }
-
-    override fun onDestroy() {
-        if (isTaskRoot) {
-            excludeFromRecent()
-        }
-        super.onDestroy()
-    }
 }
