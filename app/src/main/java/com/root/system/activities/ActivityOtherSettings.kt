@@ -14,7 +14,6 @@ import androidx.core.content.PermissionChecker
 import com.projectkr.shell.OpenPageHelper
 import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
-import com.root.common.ui.ProgressBarDialog
 import com.root.data.EventBus
 import com.root.data.EventType
 import com.root.krscript.model.PageNode
@@ -27,12 +26,12 @@ import com.root.utils.CommonCmds
 import com.root.utils.UpdateBeta
 
 import java.io.File
+import androidx.core.content.edit
 
 class ActivityOtherSettings : ActivityBase() {
     private lateinit var binding: ActivityOtherSettingsBinding
     private lateinit var spf: SharedPreferences
     private var myHandler = Handler(Looper.getMainLooper())
-private val startFilePath = "/data/data/com.root.system"
 
     override fun onPostResume() {
         super.onPostResume()
@@ -46,7 +45,6 @@ private val startFilePath = "/data/data/com.root.system"
         super.onCreate(savedInstanceState)
         binding = ActivityOtherSettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-val progressBarDialog = ProgressBarDialog(this)
         setBackArrow()
 
 
@@ -121,11 +119,16 @@ val filePath = "/data/data/com.root.system/.updeta"
             if (binding.settingsDisableSelinux.isChecked) {
                 KeepShellPublic.doCmdSync(CommonCmds.DisableSELinux)
                 myHandler.postDelayed({
-                    spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, binding.settingsDisableSelinux.isChecked).apply()
+                    spf.edit {
+                        putBoolean(
+                            SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE,
+                            binding.settingsDisableSelinux.isChecked
+                        )
+                    }
                 }, 10000)
             } else {
                 KeepShellPublic.doCmdSync(CommonCmds.ResumeSELinux)
-                spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, binding.settingsDisableSelinux.isChecked).apply()
+                spf.edit { putBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, binding.settingsDisableSelinux.isChecked) }
             }
         }
         binding.settingsLogcat.setOnClickListener {
@@ -137,24 +140,24 @@ val filePath = "/data/data/com.root.system/.updeta"
 
         binding.settingsDebugLayer.isChecked = spf.getBoolean(SpfConfig.GLOBAL_SPF_SCENE_LOG, false)
         binding.settingsDebugLayer.setOnClickListener {
-            spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_SCENE_LOG, (it as Switch).isChecked).apply()
+            spf.edit { putBoolean(SpfConfig.GLOBAL_SPF_SCENE_LOG, (it as Switch).isChecked) }
 
             EventBus.publish(EventType.SERVICE_DEBUG)
         }
 
         binding.settingsHelpIcon.isChecked = spf.getBoolean(SpfConfig.GLOBAL_SPF_HELP_ICON, true)
         binding.settingsHelpIcon.setOnClickListener {
-            spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_HELP_ICON, (it as Switch).isChecked).apply()
+            spf.edit { putBoolean(SpfConfig.GLOBAL_SPF_HELP_ICON, (it as Switch).isChecked) }
         }
 
         binding.settingsAutoExit.isChecked = spf.getBoolean(SpfConfig.GLOBAL_SPF_AUTO_EXIT, true)
         binding.settingsAutoExit.setOnClickListener {
-            spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_AUTO_EXIT, (it as Switch).isChecked).apply()
+            spf.edit { putBoolean(SpfConfig.GLOBAL_SPF_AUTO_EXIT, (it as Switch).isChecked) }
         }
 
         binding.settingsBlackNotification.isChecked = spf.getBoolean(SpfConfig.GLOBAL_NIGHT_BLACK_NOTIFICATION, false)
         binding.settingsBlackNotification.setOnClickListener {
-            spf.edit().putBoolean(SpfConfig.GLOBAL_NIGHT_BLACK_NOTIFICATION, (it as Switch).isChecked).apply()
+            spf.edit { putBoolean(SpfConfig.GLOBAL_NIGHT_BLACK_NOTIFICATION, (it as Switch).isChecked) }
         }
     }
 
@@ -169,14 +172,14 @@ val filePath = "/data/data/com.root.system/.updeta"
     fun onThemeClick(view: View) {
         val tag = view.tag.toString().toInt()
         if (tag == 10 && spf.getInt(SpfConfig.GLOBAL_SPF_THEME, 1) == 10) {
-            spf.edit().remove(SpfConfig.GLOBAL_SPF_THEME).apply()
+            spf.edit { remove(SpfConfig.GLOBAL_SPF_THEME) }
             this.recreate()
         } else {
             if (tag == 10 && !hasRWPermission()) {
                 DialogHelper.helpInfo(view.context, "", getString(R.string.wallpaper_rw_permission))
                 (view as Switch).isChecked = false
             } else {
-                spf.edit().putInt(SpfConfig.GLOBAL_SPF_THEME, tag).apply()
+                spf.edit { putInt(SpfConfig.GLOBAL_SPF_THEME, tag) }
                 this.recreate()
             }
         }
@@ -190,27 +193,13 @@ val filePath = "/data/data/com.root.system/.updeta"
     override fun onDestroy() {
         super.onDestroy()
 
-        spf.edit().putBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, binding.settingsDisableSelinux.isChecked).apply()
+        spf.edit { putBoolean(SpfConfig.GLOBAL_SPF_DISABLE_ENFORCE, binding.settingsDisableSelinux.isChecked) }
     }
 
     public override fun onPause() {
         super.onPause()
     }
-    
-   private fun start(filePath: String): Boolean {
-       val file = File(filePath)
-       return if (file.exists()) {
-           true
-   } else {
-       false
-       }
-   }
 
-    // 检查 /sdcard/rootes/.start 文件是否存在
-    private fun isStartFileExists(): Boolean {
-        val startFile = File(startFilePath)
-        return startFile.exists()
-    }
 
     // 创建 /sdcard/rootes/.start 文件
     private fun createStartFile() {
@@ -223,11 +212,6 @@ val filePath = "/data/data/com.root.system/.updeta"
     }
 
 
-    // 检查 /sdcard/rootes/.start 文件是否存在
-    private fun isStartFileExists1(): Boolean {
-        val startFile = File(startFilePath)
-        return startFile.exists()
-    }
 
     // 创建 /sdcard/rootes/.start 文件
     private fun createStartFile1() {

@@ -39,26 +39,18 @@ open class ActivityBase : AppCompatActivity() {
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener {
-            this.onBackPressed()
+            this.finish()
         }
     }
 
-    override fun onBackPressed() {
-        // super.onBackPressed()
-        // FIX: Activity(IRequestFinishCallback$Stub) 内存泄露
-        finishAfterTransition()
-    }
-
     protected fun excludeFromRecent() {
-        try {
             val service = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
             for (task in service.appTasks) {
                 if (task.taskInfo.id == this.taskId) {
                     task.setExcludeFromRecents(true)
                 }
             }
-        } catch (ex: Exception) {
-        }
+
     }
 
     override fun onDestroy() {
