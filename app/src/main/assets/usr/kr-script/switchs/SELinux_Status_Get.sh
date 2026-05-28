@@ -2,7 +2,7 @@
 #应用于玩机百宝箱上
 
 
-if [[ `getenforce` = Enforcing ]]; then
+if [[ $(getenforce) = Enforcing ]]; then
     echo 1
 else
     echo 0
