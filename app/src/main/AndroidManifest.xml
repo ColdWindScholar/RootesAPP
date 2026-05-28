@@ -191,21 +191,18 @@
             android:configChanges="keyboardHidden|orientation|uiMode"
             android:excludeFromRecents="true"
             android:label="设置"
-            android:launchMode="singleTop"
             android:screenOrientation="behind" />
         <activity
             android:name=".activities.ActivityTestColor"
             android:configChanges="keyboardHidden|orientation|uiMode"
             android:excludeFromRecents="true"
             android:label="玩机百宝箱 屏幕检测"
-            android:launchMode="singleTop"
             android:screenOrientation="behind" />
         <activity
             android:name=".activities.ActivityAPPID"
             android:configChanges="keyboardHidden|orientation|uiMode"
             android:excludeFromRecents="true"
             android:label="Magisk Github"
-            android:launchMode="singleTop"
             android:screenOrientation="behind" />
 
 
