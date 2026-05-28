@@ -58,7 +58,7 @@ class FloatFpsWatch(private val mContext: Context) {
         }
         startMonitorTime = System.currentTimeMillis()
 
-        if (!(mContext is AccessibilityService)) {
+        if (mContext !is AccessibilityService) {
             if (Build.VERSION.SDK_INT >= 23 && !Settings.canDrawOverlays(mContext)) {
                 Toast.makeText(mContext, mContext.getString(R.string.permission_float), Toast.LENGTH_LONG).show()
                 return false
@@ -102,7 +102,7 @@ class FloatFpsWatch(private val mContext: Context) {
 
         val navHeight = 0
         if (navHeight > 0) {
-            val display = mWindowManager!!.getDefaultDisplay()
+            val display = mWindowManager!!.defaultDisplay
             val p = Point()
             display.getRealSize(p)
             params.y = -navHeight
@@ -185,7 +185,7 @@ class FloatFpsWatch(private val mContext: Context) {
 
         // 尝试获得大核心的最高负载
         val loads = cpu.cpuLoad
-        var cpuLoad = (loads.getValue(-1)?: -1.0).toDouble()
+        var cpuLoad = (loads.getValue(-1)?: -1.0)
         // 一般BigLittle架构的处理器，后面几个核心都是大核，游戏主要依赖大核性能。而小核负载一般来源于后台进程，因此不需要分析小核负载
         val centerIndex = coreCount / 2
         var bigCoreLoadMax = 0.0
@@ -234,7 +234,7 @@ class FloatFpsWatch(private val mContext: Context) {
         stopTimer()
 
         timer = Timer()
-        timer!!.scheduleAtFixedRate(object : TimerTask() {
+        timer!!.schedule(object : TimerTask() {
             override fun run() {
                 updateInfo()
             }
