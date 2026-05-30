@@ -11,7 +11,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.edit
 import com.root.Scene
@@ -35,7 +35,7 @@ import com.root.utils.ElectricityUnit
 import com.root.utils.Update
 import java.io.File
 
-class ActivityMain : AppCompatActivity() {
+class ActivityMain : ActivityBase() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var globalSPF: SharedPreferences
     private lateinit var tabIconHelper2: TabIconHelper2
@@ -65,7 +65,7 @@ class ActivityMain : AppCompatActivity() {
             KernelProrp.getProp("${MagiskExtend.MAGISK_PATH}system/vendor/etc/thermal.current.ini") != ""
             ) {
                 when {
-                    RootFile.list("/data/thermal/config").size > 0 -> {
+                    RootFile.list("/data/thermal/config").isNotEmpty() -> {
                         deleteThermalCopyWarn {
                             KeepShellPublic.doCmdSync(
                                     "chattr -R -i /data/thermal\n" +
@@ -74,7 +74,7 @@ class ActivityMain : AppCompatActivity() {
                             )
                         }
                     }
-                    RootFile.list("/data/vendor/thermal/config").size > 0 -> {
+                    RootFile.list("/data/vendor/thermal/config").isNotEmpty() -> {
                         if (
                                 RootFile.fileEquals(
                                         "/data/vendor/thermal/config/thermal-normal.conf",
@@ -132,10 +132,8 @@ class ActivityMain : AppCompatActivity() {
         initializeTabs()
 
         // 检查root访问权限并处理捐赠标签
-        tabIconHelper2.newTabSpec(getString(R.string.app_donate), getDrawable(R.drawable.app_like)!!, FragmentDonate())
+        tabIconHelper2.newTabSpec(getString(R.string.app_donate), AppCompatResources.getDrawable(this, R.drawable.app_like)!!, FragmentDonate())
 
-
-        binding.tabContent.adapter = tabIconHelper2.adapter
         binding.tabList.getTabAt(0)?.select() // 默认选中第一个标签
 
         // 检查Magisk支持和模块
@@ -149,10 +147,10 @@ class ActivityMain : AppCompatActivity() {
 
     // 初始化标签
     private fun initializeTabs() {
-        tabIconHelper2.newTabSpec(getString(R.string.app_home), getDrawable(R.drawable.app_home)!!,  FragmentHome())
-        tabIconHelper2.newTabSpec(getString(R.string.app_nav), getDrawable(R.drawable.app_menu)!!, FragmentNav())
-        tabIconHelper2.newTabSpec(getString(R.string.app_tuner), getDrawable(R.drawable.app_settings)!!,  FragmentCpuModes())
-        tabIconHelper2.newTabSpec(getString(R.string.app_user), getDrawable(R.drawable.app_like)!!,  FragmentDonate())
+        tabIconHelper2.newTabSpec(getString(R.string.app_home), AppCompatResources.getDrawable(this, R.drawable.app_home)!!,  FragmentHome())
+        tabIconHelper2.newTabSpec(getString(R.string.app_nav), AppCompatResources.getDrawable(this, R.drawable.app_menu)!!, FragmentNav())
+        tabIconHelper2.newTabSpec(getString(R.string.app_tuner), AppCompatResources.getDrawable(this, R.drawable.app_settings)!!,  FragmentCpuModes())
+        tabIconHelper2.newTabSpec(getString(R.string.app_user), AppCompatResources.getDrawable(this, R.drawable.app_like)!!,  FragmentDonate())
     }
 
 
