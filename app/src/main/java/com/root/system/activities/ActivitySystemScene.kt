@@ -57,14 +57,14 @@ class ActivitySystemScene : ActivityBase() {
     private fun updateCustomList() {
         nextTask = null
         binding.systemSceneTaskList.removeAllViews()
-        TimingTaskManager(context).listTask().forEach {
+        TimingTaskManager(this).listTask().forEach {
             addCustomTaskItemView(it)
             checkNextTask(it)
         }
         updateNextTaskInfo()
 
         binding.systemSceneTriggerList.removeAllViews()
-        TriggerManager(context).list().forEach {
+        TriggerManager(this).list().forEach {
             it?.run {
                 addCustomTriggerView(it)
             }
@@ -139,9 +139,9 @@ class ActivitySystemScene : ActivityBase() {
     private fun standbyAppConfig() {
         processBarDialog.showDialog()
         Thread {
-            val configFile = context.getSharedPreferences(SceneStandbyMode.configSpfName, MODE_PRIVATE)
-            val whiteList = context.resources.getStringArray(R.array.scene_standby_white_list)
-            val options = ArrayList(AppListHelper(context).getAll().filter {
+            val configFile = this.getSharedPreferences(SceneStandbyMode.configSpfName, MODE_PRIVATE)
+            val whiteList = this.resources.getStringArray(R.array.scene_standby_white_list)
+            val options = ArrayList(AppListHelper(this).getAll().filter {
                 !whiteList.contains(it.packageName)
             }.sortedBy {
                 it.appType
@@ -184,7 +184,7 @@ class ActivitySystemScene : ActivityBase() {
     }
 
     private fun buildCustomTaskItemView(timingTaskInfo: TimingTaskInfo): SceneTaskItem {
-        val sceneTaskItem = SceneTaskItem(context, timingTaskInfo)
+        val sceneTaskItem = SceneTaskItem(this, timingTaskInfo)
         sceneTaskItem.setLayoutParams(LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
         sceneTaskItem.isClickable = true
         return sceneTaskItem
@@ -201,7 +201,7 @@ class ActivitySystemScene : ActivityBase() {
         }
         sceneTaskItem.setOnLongClickListener {
             DialogHelper.confirm(this, "删除该任务？", "", {
-                TimingTaskManager(context).removeTask(timingTaskInfo)
+                TimingTaskManager(this).removeTask(timingTaskInfo)
                 updateCustomList()
             })
             true
@@ -209,7 +209,7 @@ class ActivitySystemScene : ActivityBase() {
     }
 
     private fun addCustomTriggerView(triggerInfo: TriggerInfo) {
-        val itemView = SceneTriggerItem(context, triggerInfo)
+        val itemView = SceneTriggerItem(this, triggerInfo)
         itemView.setLayoutParams(LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
         itemView.isClickable = true
 
@@ -222,7 +222,7 @@ class ActivitySystemScene : ActivityBase() {
         }
         itemView.setOnLongClickListener {
             DialogHelper.confirm(this, "删除该触发器？", "", {
-                TriggerManager(context).removeTrigger(triggerInfo)
+                TriggerManager(this).removeTrigger(triggerInfo)
                 updateCustomList()
             })
             true
