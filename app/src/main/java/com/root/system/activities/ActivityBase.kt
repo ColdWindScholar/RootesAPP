@@ -39,9 +39,6 @@ open class ActivityBase : AppCompatActivity() {
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener {
-            val intent = Intent(this, ActivityMain::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT) // 保留任务栈中的 Activity
-            startActivity(intent)
             this.finish()
         }
     }
