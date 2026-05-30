@@ -109,7 +109,6 @@ class ActivityMain : ActivityBase() {
             finish()
             return
         }
-        val context = this
         globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
         if (!globalSPF.contains(SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT)) {
             globalSPF.edit {
@@ -128,7 +127,10 @@ class ActivityMain : ActivityBase() {
         tabIconHelper2 = TabIconHelper2(binding.tabList, binding.tabContent, this, supportFragmentManager, R.layout.list_item_tab2)
 
         // 初始化其他标签
-        initializeTabs()
+        tabIconHelper2.newTabSpec(getString(R.string.app_home), getDrawable( R.drawable.app_home)!!,  FragmentHome())
+        tabIconHelper2.newTabSpec(getString(R.string.app_nav), getDrawable( R.drawable.app_menu)!!, FragmentNav())
+        tabIconHelper2.newTabSpec(getString(R.string.app_tuner), getDrawable( R.drawable.app_settings)!!,  FragmentCpuModes())
+        tabIconHelper2.newTabSpec(getString(R.string.app_user), getDrawable(R.drawable.app_like)!!,  FragmentDonate())
 
         // 检查root访问权限并处理捐赠标签
 
@@ -140,15 +142,6 @@ class ActivityMain : ActivityBase() {
 
         // 设置按钮事件
         setupButtons()
-    }
-
-
-    // 初始化标签
-    private fun initializeTabs() {
-        tabIconHelper2.newTabSpec(getString(R.string.app_home), getDrawable( R.drawable.app_home)!!,  FragmentHome())
-        tabIconHelper2.newTabSpec(getString(R.string.app_nav), getDrawable( R.drawable.app_menu)!!, FragmentNav())
-        tabIconHelper2.newTabSpec(getString(R.string.app_tuner), getDrawable( R.drawable.app_settings)!!,  FragmentCpuModes())
-        tabIconHelper2.newTabSpec(getString(R.string.app_user), getDrawable(R.drawable.app_like)!!,  FragmentDonate())
     }
 
 
