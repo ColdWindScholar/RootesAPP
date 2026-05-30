@@ -27,6 +27,7 @@ import com.root.ui.SceneTaskItem
 import com.root.ui.SceneTriggerItem
 import com.root.ui.TabIconHelper
 import com.root.utils.AppListHelper
+import androidx.core.content.edit
 
 class ActivitySystemScene : ActivityBase() {
     private lateinit var binding: ActivitySystemSceneBinding
@@ -106,7 +107,7 @@ class ActivitySystemScene : ActivityBase() {
             binding.systemSceneBp.visibility = View.VISIBLE
             val limit = chargeConfig.getInt(SpfConfig.CHARGE_SPF_BP_LEVEL, SpfConfig.CHARGE_SPF_BP_LEVEL_DEFAULT)
             binding.systemSceneBpLt.text = (limit - 20).toString() + "%"
-            binding.systemSceneBpGt.text = limit.toString() + "%"
+            binding.systemSceneBpGt.text = "$limit%"
         }
 
         binding.systemSceneAddTask.setOnClickListener {
@@ -146,7 +147,7 @@ class ActivitySystemScene : ActivityBase() {
                 it.appType
             }.map {
                 it.apply {
-                    selected = configFile.getBoolean(packageName.toString(), it.appType == AppInfo.AppType.USER && !it.updated)
+                    selected = configFile.getBoolean(packageName, it.appType == AppInfo.AppType.USER && !it.updated)
                 }
             })
 
@@ -168,18 +169,18 @@ class ActivitySystemScene : ActivityBase() {
 
     // 保存休眠应用配置
     private fun saveStandbyAppConfig(apps: List<AppInfo>) {
-        val configFile = getSharedPreferences(SceneStandbyMode.configSpfName, MODE_PRIVATE).edit()
-        configFile.clear()
+        getSharedPreferences(SceneStandbyMode.configSpfName, MODE_PRIVATE).edit {
+            clear()
 
-        apps.forEach {
-            if (it.selected && it.appType == AppInfo.AppType.SYSTEM) {
-                configFile.putBoolean(it.packageName.toString(), true)
-            } else if ((!it.selected) && it.appType == AppInfo.AppType.USER) {
-                configFile.putBoolean(it.packageName.toString(), false)
+            apps.forEach {
+                if (it.selected && it.appType == AppInfo.AppType.SYSTEM) {
+                    putBoolean(it.packageName, true)
+                } else if ((!it.selected) && it.appType == AppInfo.AppType.USER) {
+                    putBoolean(it.packageName, false)
+                }
             }
-        }
 
-        configFile.apply()
+        }
     }
 
     private fun buildCustomTaskItemView(timingTaskInfo: TimingTaskInfo): SceneTaskItem {

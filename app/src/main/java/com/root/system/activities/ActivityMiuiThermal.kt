@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -57,7 +56,7 @@ class ActivityMiuiThermal : ActivityBase() {
                             if (currentIndex > -1) {
                                 val intent = Intent(this.applicationContext, ActivityFileSelector::class.java)
                                 intent.putExtra("extension", "conf")
-                                intent.putExtra("start", options.get(currentIndex))
+                                intent.putExtra("start", options[currentIndex])
                                 startActivityForResult(intent, REQUEST_CFG_FILE)
                             }
                         })
@@ -123,7 +122,7 @@ class ActivityMiuiThermal : ActivityBase() {
                 File(currentFile).readBytes()
             })
             val savedContent = String(output, Charset.forName("UTF-8"))
-            if (savedContent.equals(currentContent)) {
+            if (savedContent == currentContent) {
                 Toast.makeText(this, "保存成功~", Toast.LENGTH_LONG).show()
             } else {
                 Toast.makeText(this, "保存失败，请检查是否已授予ROOT权限，以及文件是否被锁定！", Toast.LENGTH_LONG).show()
@@ -187,37 +186,41 @@ class ActivityMiuiThermal : ActivityBase() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-        return if (id == R.id.action_open) {
-            openDir()
-            true
-        } else if (id == R.id.action_save) {
-            if (currentFile.isNotEmpty()) {
-                saveConfig()
-            } else {
-                Toast.makeText(this, "你都还没打开文件呢，保存个毛啊！", Toast.LENGTH_SHORT).show()
+        return when (val id = item.itemId) {
+            R.id.action_open -> {
+                openDir()
+                true
             }
-            true
-        } else if (id == R.id.action_apply) {
-            if (currentFile.isNotEmpty()) {
-                val view = layoutInflater.inflate(R.layout.dialog_apply_thermal, null)
-                val dialog = DialogHelper.customDialog(this, view)
-                view.findViewById<View>(R.id.btn_cancel).setOnClickListener {
-                    dialog.dismiss()
+            R.id.action_save -> {
+                if (currentFile.isNotEmpty()) {
+                    saveConfig()
+                } else {
+                    Toast.makeText(this, "你都还没打开文件呢，保存个毛啊！", Toast.LENGTH_SHORT).show()
                 }
-                view.findViewById<View>(R.id.btn_applay).setOnClickListener {
-                    val saveConfig = view.findViewById<CompoundButton>(R.id.save_thermal).isChecked
-                    dialog.dismiss()
-                    this.applyThermal(saveConfig)
-                }
-            } else {
-                Toast.makeText(this, "你都还没打开文件呢，应用个毛啊！", Toast.LENGTH_SHORT).show()
+                true
             }
-            true
-        } else if (id == R.id.action_hele) {
-            openUrl("https://github.com/helloklf/vtools/blob/scene3/docs/MIUI%E6%B8%A9%E6%8E%A7%E8%AF%B4%E6%98%8E.md")
-            true
-        } else super.onOptionsItemSelected(item)
+            R.id.action_apply -> {
+                if (currentFile.isNotEmpty()) {
+                    val view = layoutInflater.inflate(R.layout.dialog_apply_thermal, null)
+                    val dialog = DialogHelper.customDialog(this, view)
+                    view.findViewById<View>(R.id.btn_cancel).setOnClickListener {
+                        dialog.dismiss()
+                    }
+                    view.findViewById<View>(R.id.btn_applay).setOnClickListener {
+                        val saveConfig = view.findViewById<CompoundButton>(R.id.save_thermal).isChecked
+                        dialog.dismiss()
+                        this.applyThermal(saveConfig)
+                    }
+                } else {
+                    Toast.makeText(this, "你都还没打开文件呢，应用个毛啊！", Toast.LENGTH_SHORT).show()
+                }
+                true
+            }
+            R.id.action_hele -> {
+                openUrl("https://github.com/helloklf/vtools/blob/scene3/docs/MIUI%E6%B8%A9%E6%8E%A7%E8%AF%B4%E6%98%8E.md")
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

@@ -21,10 +21,8 @@ import com.root.store.TimingTaskStorage
 import com.root.system.R
 import com.root.system.databinding.ActivityTimingTaskBinding
 import java.io.File
-import java.io.FilenameFilter
 import java.net.URLDecoder
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ActivityTimingTask : ActivityBase() {
     private lateinit var timingTaskInfo: TimingTaskInfo
@@ -52,7 +50,7 @@ class ActivityTimingTask : ActivityBase() {
         // 时间选择
         binding.taksTriggerTime.setOnClickListener {
             TimePickerDialog(this, { view, hourOfDay, minute ->
-                binding.taksTriggerTime.setText(String.format(getString(R.string.format_hh_mm), hourOfDay, minute))
+                binding.taksTriggerTime.text = String.format(getString(R.string.format_hh_mm), hourOfDay, minute)
                 timingTaskInfo.triggerTimeMinutes = hourOfDay * 60 + minute
             }, timingTaskInfo.triggerTimeMinutes / 60, timingTaskInfo.triggerTimeMinutes % 60, true).show()
         }
@@ -128,7 +126,7 @@ class ActivityTimingTask : ActivityBase() {
             // 触发时间
             val hourOfDay = triggerTimeMinutes / 60
             val minute = triggerTimeMinutes % 60
-            binding.taksTriggerTime.setText(String.format(getString(R.string.format_hh_mm), hourOfDay, minute))
+            binding.taksTriggerTime.text = String.format(getString(R.string.format_hh_mm), hourOfDay, minute)
 
             // 重复周期
             if (expireDate > 0) {

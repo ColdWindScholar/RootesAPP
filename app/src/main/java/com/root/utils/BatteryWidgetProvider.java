@@ -4,7 +4,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import com.root.system.R;
 
 // BatteryWidgetProvider.java
 public class BatteryWidgetProvider extends AppWidgetProvider {

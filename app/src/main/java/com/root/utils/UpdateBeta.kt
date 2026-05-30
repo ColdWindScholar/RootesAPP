@@ -18,6 +18,7 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.net.URL
+import androidx.core.net.toUri
 
 
 class UpdateBeta {
@@ -94,7 +95,7 @@ class UpdateBeta {
                     try {
                         val intent = Intent()
                         intent.setAction(Intent.ACTION_VIEW)
-                        intent.data = Uri.parse(downloadUrl)
+                        intent.data = downloadUrl.toUri()
                         context.startActivity(intent)
                     } catch (ex: java.lang.Exception) {
                         Toast.makeText(context, "启动下载失败！", Toast.LENGTH_SHORT).show()

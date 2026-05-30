@@ -2,7 +2,6 @@ package com.root.system.activities
 
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -30,6 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
+import androidx.core.content.edit
 
 
 class ActivityChargeController : ActivityBase() {
@@ -61,7 +61,7 @@ class ActivityChargeController : ActivityBase() {
                 if (currentValue == defaultValue) {
                     return
                 } else {
-                    spf.edit().putInt(SpfConfig.CHARGE_SPF_EXEC_MODE, currentValue).apply()
+                    spf.edit { putInt(SpfConfig.CHARGE_SPF_EXEC_MODE, currentValue) }
                 }
             }
         }
@@ -203,11 +203,11 @@ class ActivityChargeController : ActivityBase() {
             }, nightModeGetUp / 60, nightModeGetUp % 60, true).show()
         }
 
-        binding.batterySleep.setText(minutes2Str(spf.getInt(SpfConfig.CHARGE_SPF_TIME_SLEEP, SpfConfig.CHARGE_SPF_TIME_SLEEP_DEFAULT)))
+        binding.batterySleep.text = minutes2Str(spf.getInt(SpfConfig.CHARGE_SPF_TIME_SLEEP, SpfConfig.CHARGE_SPF_TIME_SLEEP_DEFAULT))
         binding.batterySleep.setOnClickListener {
             val nightModeSleep = spf.getInt(SpfConfig.CHARGE_SPF_TIME_SLEEP, SpfConfig.CHARGE_SPF_TIME_SLEEP_DEFAULT)
             TimePickerDialog(this.context, { _, hourOfDay, minute ->
-                spf.edit().putInt(SpfConfig.CHARGE_SPF_TIME_SLEEP, hourOfDay * 60 + minute).apply()
+                spf.edit { putInt(SpfConfig.CHARGE_SPF_TIME_SLEEP, hourOfDay * 60 + minute) }
                 binding.batterySleep.text = String.format(getString(R.string.battery_night_mode_time), hourOfDay, minute)
                 notifyConfigChanged()
             }, nightModeSleep / 60, nightModeSleep % 60, true).show()
@@ -292,7 +292,7 @@ class ActivityChargeController : ActivityBase() {
                                 temp + "°C   " +
                                 voltage + "v"
                         if (kernelCapacity > -1) {
-                            val str = "" + kernelCapacity + "%"
+                            val str = "$kernelCapacity%"
                             val ss = SpannableString(str)
                             if (str.contains(".")) {
                                 val small = AbsoluteSizeSpan((binding.battrystatusLevel.textSize * 0.3).toInt(), false)
@@ -302,7 +302,7 @@ class ActivityChargeController : ActivityBase() {
                             }
                             binding.battrystatusLevel.text = ss
                         } else {
-                            binding.battrystatusLevel.text = "" + level + "%"
+                            binding.battrystatusLevel.text = "$level%"
                         }
 
                         binding.batteryCapacityChart.setData(100f, 100f - level, temp.toFloat())
@@ -408,7 +408,7 @@ class ActivityChargeController : ActivityBase() {
             if (spf.getInt(SpfConfig.CHARGE_SPF_BP_LEVEL, Int.MIN_VALUE) == progress) {
                 return
             }
-            spf.edit().putInt(SpfConfig.CHARGE_SPF_BP_LEVEL, progress).apply()
+            spf.edit { putInt(SpfConfig.CHARGE_SPF_BP_LEVEL, progress) }
             next.run()
         }
 

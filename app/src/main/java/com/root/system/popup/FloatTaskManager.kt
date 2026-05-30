@@ -17,6 +17,8 @@ import com.root.library.shell.ProcessUtilsSimple
 import com.root.ui.AdapterProcessMini
 import com.root.system.R
 import java.util.*
+import androidx.core.content.edit
+import androidx.core.view.isVisible
 
 class FloatTaskManager(private val context: Context) {
     companion object {
@@ -103,7 +105,7 @@ class FloatTaskManager(private val context: Context) {
                             }
                         }
                         MotionEvent.ACTION_UP -> {
-                            monitorStorage.edit().putInt("x", params.x).putInt("y", params.y).apply()
+                            monitorStorage.edit { putInt("x", params.x).putInt("y", params.y) }
                         }
                         MotionEvent.ACTION_OUTSIDE,
                         MotionEvent.ACTION_CANCEL -> {
@@ -204,7 +206,7 @@ class FloatTaskManager(private val context: Context) {
 
         // 切换最小化
         fw_float_minimize.setOnClickListener {
-            if (process_list.visibility == View.VISIBLE) {
+            if (process_list.isVisible) {
                 process_list.visibility = View.GONE
                 process_filter.visibility = View.GONE
                 fw_float_close.visibility = View.GONE

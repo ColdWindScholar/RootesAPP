@@ -7,17 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.StatFs;
-import android.os.SystemClock;
-import android.os.Environment;
-import android.app.ActivityManager;
-import android.widget.RemoteViews;
-
-import com.root.library.shell.CpuFrequencyUtils;
-import com.root.library.shell.GpuUtils;
-import com.root.system.R;
-
-import java.util.Locale;
 
 public class InfoWidgetService extends Service {
     private Handler handler = new Handler();

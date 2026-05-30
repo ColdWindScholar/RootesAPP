@@ -5,15 +5,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.root.system.R
 import com.root.system.databinding.ActivtyModulesBinding
 import com.root.ui.AdapterModules
 import kotlinx.coroutines.*
@@ -186,7 +185,7 @@ class ActivityGithub : ActivityBase(), AdapterModules.OnItemClickListener {
     }
 
     private fun downloadModule(url: String, moduleName: String) {
-        val request = DownloadManager.Request(Uri.parse(url)).apply {
+        val request = DownloadManager.Request(url.toUri()).apply {
             setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
             setAllowedOverRoaming(false)
             setTitle(moduleName)
@@ -205,7 +204,7 @@ class ActivityGithub : ActivityBase(), AdapterModules.OnItemClickListener {
                 val status = it.getInt(it.getColumnIndex(DownloadManager.COLUMN_STATUS))
                 if (status == DownloadManager.STATUS_SUCCESSFUL) {
                     val uriString = it.getString(it.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))
-                    val uri = Uri.parse(uriString)
+                    val uri = uriString.toUri()
                     val file = File(uri.path!!)
                     val newFile = File(file.parent, file.name.replace(".txt", ".apk")) // 将 .txt 替换为 .zip
                     if (file.renameTo(newFile)) {

@@ -373,10 +373,6 @@ class ActivityAppDetails : ActivityBase() {
         }
     }
 
-    override fun finish() {
-        super.finish()
-    }
-
     override fun onPause() {
         super.onPause()
     }

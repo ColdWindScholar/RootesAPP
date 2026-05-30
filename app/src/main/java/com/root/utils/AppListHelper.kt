@@ -8,8 +8,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import com.root.model.AppInfo
 import java.io.File
-import java.util.*
-import java.util.Locale
 import java.util.Locale.getDefault
 
 

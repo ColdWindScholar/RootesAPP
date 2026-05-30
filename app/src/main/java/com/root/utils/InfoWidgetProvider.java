@@ -14,8 +14,6 @@ import com.root.library.shell.CpuFrequencyUtils;
 import com.root.library.shell.GpuUtils;
 import com.root.system.R;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 public class InfoWidgetProvider extends AppWidgetProvider {

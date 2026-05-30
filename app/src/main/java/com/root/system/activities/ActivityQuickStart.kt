@@ -59,7 +59,7 @@ class ActivityQuickStart : Activity() {
     }
 
     private class CheckRootSuccess(context: ActivityQuickStart, private var appPackageName: String) : Runnable {
-        private var context: WeakReference<ActivityQuickStart>
+        private var context: WeakReference<ActivityQuickStart> = WeakReference(context)
         override fun run() {
             context.get()!!.binding.startStateText.text = "正在启动应用..."
             context.get()!!.hasRoot = true
@@ -70,10 +70,6 @@ class ActivityQuickStart : Activity() {
                 KeepShellPublic.doCmdSync("pm unsuspend ${appPackageName}\npm unhide ${appPackageName}\npm enable ${appPackageName}\n")
             }
             context.get()!!.startApp()
-        }
-
-        init {
-            this.context = WeakReference(context)
         }
     }
 

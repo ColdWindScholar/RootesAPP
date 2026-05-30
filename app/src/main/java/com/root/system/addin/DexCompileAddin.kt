@@ -142,18 +142,19 @@ class DexCompileAddin(private var context: ActivityBase) : AddinBase(context) {
                 "恢复默认")
         val intallMode = PropsUtils.getProp("pm.dexopt.install")
         var index: Int
-        when (intallMode) {
+        index = when (intallMode) {
             "extract",
             "quicken",
             "interpret-only",
-            "verify-none" -> index = 0
-            "speed" -> index = 1
-            "everything" -> index = 1
+            "verify-none" -> 0
+
+            "speed" -> 1
+            "everything" -> 1
             else -> {
                 if (PropsUtils.getProp("pm.dexopt.core-app") == "verify-none") {
-                    index = 3
+                    3
                 } else
-                    index = 0
+                    0
             }
         }
         DialogHelper.animDialog(AlertDialog.Builder(context)

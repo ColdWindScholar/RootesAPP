@@ -32,6 +32,7 @@ import com.root.system.R
 import com.root.ui.AdapterSwaplist
 import com.root.system.databinding.ActivitySwapBinding
 import java.util.*
+import androidx.core.content.edit
 
 
 class ActivitySwap : ActivityBase() {
@@ -140,7 +141,7 @@ class ActivitySwap : ActivityBase() {
                 DialogHelper.confirm(this,
                         "确认重启手机？",
                         "Swap被大量使用(${usedSize}MB)，短时间内很难完成回收。\n因此需要重启手机来完成此操作，请确保你的重要数据都已保存！！！", {
-                    swapConfig.edit().putBoolean(SpfConfig.SWAP_SPF_SWAP, false).apply()
+                    swapConfig.edit { putBoolean(SpfConfig.SWAP_SPF_SWAP, false) }
                     swapModuleUtils.saveModuleConfig(swapConfig)
                     KeepShellPublic.doCmdSync("sync\nsleep 2\nsvc power reboot || reboot")
                 })
@@ -232,7 +233,7 @@ class ActivitySwap : ActivityBase() {
 
                 timer.cancel()
                 myHandler.post {
-                    swapConfig.edit().putBoolean(SpfConfig.SWAP_SPF_SWAP, false).apply()
+                    swapConfig.edit { putBoolean(SpfConfig.SWAP_SPF_SWAP, false) }
                     processBarDialog.hideDialog()
                     getSwaps()
                 }
@@ -462,12 +463,10 @@ class ActivitySwap : ActivityBase() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
         })
-
-        var swapCurrentSize = 0
-        if (swapUtils.swapExists) {
-            swapCurrentSize = swapUtils.swapFileSize
+        val swapCurrentSize: Int = if (swapUtils.swapExists) {
+            swapUtils.swapFileSize
         } else {
-            swapCurrentSize = swapConfig.getInt(SpfConfig.SWAP_SPF_SWAP_SWAPSIZE, 0)
+            swapConfig.getInt(SpfConfig.SWAP_SPF_SWAP_SWAPSIZE, 0)
         }
 
         swapSize.progress = swapCurrentSize / 128
@@ -544,18 +543,19 @@ class ActivitySwap : ActivityBase() {
         }
         view.findViewById<View>(R.id.btn_confirm).setOnClickListener {
             dialog.dismiss()
-
-            val priority: Int
-            when (radioGroupSimulator.checked) {
+            val priority = when (radioGroupSimulator.checked) {
                 priorityHight -> {
-                    priority = 5
+                    5
                 }
+
                 priorityMiddle -> {
-                    priority = 0
+                    0
                 }
+
                 priorityLow -> {
-                    priority = -2
+                    -2
                 }
+
                 else -> {
                     return@setOnClickListener
                 }
@@ -655,7 +655,7 @@ class ActivitySwap : ActivityBase() {
             tr["priority"] = params[4]
             list.add(tr)
 
-            if (path.startsWith("/swapfile") || path.equals("/data/swapfile") || (loopName != null && path.contains(loopName))) {
+            if (path.startsWith("/swapfile") || path == "/data/swapfile" || (loopName != null && path.contains(loopName))) {
                 try {
                     swapSize = size.toFloat()
                     swapFree = size.toFloat() - used.toFloat()
@@ -752,10 +752,10 @@ class ActivitySwap : ActivityBase() {
                     var prop = ""
                     var value = ""
                     for (row in split("\n")) {
-                        if (row.startsWith("pswpin")) {
-                            prop = "从SWAP读出："
+                        prop = if (row.startsWith("pswpin")) {
+                            "从SWAP读出："
                         } else if (row.startsWith("pswpout")) {
-                            prop = "写入到SWAP："
+                            "写入到SWAP："
                         } else {
                             continue
                         }
@@ -829,16 +829,16 @@ class ActivitySwap : ActivityBase() {
                         zramInfoValueParseMB(comprDataSize),
                         zramCompressionRatio(origDataSize, comprDataSize))
             }
-            if (zramWriteBackStat != null) {
-                return generalStats + "\n\n" + String.format(
-                        getString(R.string.swap_zram_writback_stat),
-                        zramWriteBackStat.backingDev,
-                        zramWriteBackStat.backed / 1024,
-                        zramWriteBackStat.backReads / 1024,
-                        zramWriteBackStat.backWrites / 1024
+            return if (zramWriteBackStat != null) {
+                generalStats + "\n\n" + String.format(
+                    getString(R.string.swap_zram_writback_stat),
+                    zramWriteBackStat.backingDev,
+                    zramWriteBackStat.backed / 1024,
+                    zramWriteBackStat.backReads / 1024,
+                    zramWriteBackStat.backWrites / 1024
                 )
             } else {
-                return generalStats
+                generalStats
             }
         }
     }
@@ -897,7 +897,7 @@ class ActivitySwap : ActivityBase() {
             if (spf.getInt(spfProp, Int.MIN_VALUE) == value) {
                 return
             }
-            spf.edit().putInt(spfProp, value).commit()
+            spf.edit(commit = true) { putInt(spfProp, value) }
             onValueChange?.run()
         }
     }

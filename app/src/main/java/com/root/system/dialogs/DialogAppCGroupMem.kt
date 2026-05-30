@@ -23,10 +23,10 @@ class DialogAppCGroupMem(var context: Activity, val current: String?, val iResul
         fun getName(group: String?): String {
             val selectedIndex = groupValues.indexOf(group)
 
-            if (selectedIndex > -1) {
-                return groupNames[selectedIndex]
+            return if (selectedIndex > -1) {
+                groupNames[selectedIndex]
             } else {
-                return "Unknown"
+                "Unknown"
             }
         }
     }

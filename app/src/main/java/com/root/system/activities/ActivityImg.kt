@@ -22,9 +22,9 @@ class ActivityImg : ActivityBase() {
     private lateinit var binding: ActivityImgBinding
     private fun createItem(title: String, desc: String, key: String): HashMap<String, Any> {
         val item = HashMap<String, Any>()
-        item.put("Title", title)
-        item.put("Desc", desc)
-        item.put("Key", key)
+        item["Title"] = title
+        item["Desc"] = desc
+        item["Key"] = key
         return item
     }
 

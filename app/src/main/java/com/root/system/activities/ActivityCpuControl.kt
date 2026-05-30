@@ -1,7 +1,6 @@
 package com.root.system.activities
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,13 +19,11 @@ import com.root.model.CpuStatus
 import com.root.scene_mode.ModeSwitcher
 import com.root.store.CpuConfigStorage
 import com.root.store.SpfConfig
-import com.root.utils.AccessibleServiceHelper
 import com.root.system.R
 import com.root.system.databinding.ActivityCpuControlBinding
+import com.root.utils.AccessibleServiceHelper
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class ActivityCpuControl : ActivityBase() {
     private lateinit var binding: ActivityCpuControlBinding
@@ -56,8 +53,8 @@ class ActivityCpuControl : ActivityBase() {
     private fun initData() {
         clusterCount = CpuFrequencyUtil.getClusterInfo().size
         for (cluster in 0 until clusterCount) {
-            cluterFreqs.put(cluster, CpuFrequencyUtil.getAvailableFrequencies(cluster))
-            cluterGovernors.put(cluster, CpuFrequencyUtil.getAvailableGovernors(cluster))
+            cluterFreqs[cluster] = CpuFrequencyUtil.getAvailableFrequencies(cluster)
+            cluterGovernors[cluster] = CpuFrequencyUtil.getAvailableGovernors(cluster)
         }
 
         coreCount = CpuFrequencyUtil.coreCount
@@ -67,7 +64,7 @@ class ActivityCpuControl : ActivityBase() {
 
         supportedGPU = GpuUtils.supported()
         adrenoGPU = GpuUtils.isAdrenoGPU()
-        qualcommThermalSupported = thermalControlUtils.isSupported()
+        qualcommThermalSupported = thermalControlUtils.isSupported
 
         if (supportedGPU) {
             adrenoGovernors = GpuUtils.getGovernors()
@@ -162,7 +159,7 @@ class ActivityCpuControl : ActivityBase() {
 
             bindGPUConfig()
 
-            for (i in 0 until cores.size) {
+            for (i in cores.indices) {
                 val core = i
                 cores[core].setOnClickListener {
                     CpuFrequencyUtil.setCoreOnlineState(core, (it as CheckBox).isChecked)
@@ -561,8 +558,8 @@ class ActivityCpuControl : ActivityBase() {
             }
 
             if (qualcommThermalSupported) {
-                status.coreControl = thermalControlUtils.getCoreControlState()
-                status.vdd = thermalControlUtils.getVDDRestrictionState()
+                status.coreControl = thermalControlUtils.coreControlState
+                status.vdd = thermalControlUtils.vddRestrictionState
                 status.msmThermal = thermalControlUtils.theramlState
             }
 
@@ -652,7 +649,7 @@ class ActivityCpuControl : ActivityBase() {
 
     private fun setText(view: TextView?, text: String) {
         if (view != null && view.text != text) {
-            view.setText(text)
+            view.text = text
         }
     }
 
@@ -660,7 +657,7 @@ class ActivityCpuControl : ActivityBase() {
         try {
             for (cluster in 0 until clusterCount) {
                 if (status.cpuClusterStatuses.size > cluster) {
-                    val cluster_view = binding.cpuClusterList.findViewWithTag<View>("cluster_" + cluster)
+                    val cluster_view = binding.cpuClusterList.findViewWithTag<View>("cluster_$cluster")
                     val cluster_min_freq = cluster_view.findViewById<TextView>(R.id.cluster_min_freq)
                     val cluster_max_freq = cluster_view.findViewById<TextView>(R.id.cluster_max_freq)
                     val cluster_governor = cluster_view.findViewById<TextView>(R.id.cluster_governor)

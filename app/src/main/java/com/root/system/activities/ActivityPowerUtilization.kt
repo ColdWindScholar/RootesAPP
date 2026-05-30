@@ -17,14 +17,13 @@ import com.root.data.GlobalStatus
 import com.root.library.device.BatteryCapacity
 import com.root.library.shell.BatteryUtils
 import com.root.store.BatteryHistoryStore
-import com.root.ui.power.AdapterBatteryStats
 import com.root.system.R
 import com.root.system.databinding.ActivityPowerUtilizationBinding
 import com.root.system.dialogs.DialogElectricityUnit
+import com.root.ui.power.AdapterBatteryStats
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.*
 import kotlin.math.abs
 
 class ActivityPowerUtilization : ActivityBase() {
@@ -119,7 +118,7 @@ class ActivityPowerUtilization : ActivityBase() {
                 }
                 binding.batteryCapacity.text = ss
             } else {
-                binding.batteryCapacity.text = "" + level + "%"
+                binding.batteryCapacity.text = "$level%"
             }
 
             binding.batteryStatus.text = (when (GlobalStatus.batteryStatus) {

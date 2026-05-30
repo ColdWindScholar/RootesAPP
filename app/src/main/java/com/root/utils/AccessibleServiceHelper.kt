@@ -20,7 +20,5 @@ class AccessibleServiceHelper {
         return AccessibilityServiceUtils().stopService("${context.packageName}/${AccessibilityScenceMode::class.java.name}")
     }
 
-    fun serviceRunning(context: Context, serviceName: String): Boolean {
-        return AccessibleServiceState().serviceRunning(context, serviceName)
-    }
+
 }

@@ -22,10 +22,8 @@ import com.root.store.TriggerStorage
 import com.root.system.R
 import com.root.system.databinding.ActivityTriggerBinding
 import java.io.File
-import java.io.FilenameFilter
 import java.net.URLDecoder
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ActivityTrigger : ActivityBase() {
     private lateinit var triggerInfo: TriggerInfo
@@ -47,18 +45,18 @@ class ActivityTrigger : ActivityBase() {
             }
         }
         val task = TriggerStorage(this@ActivityTrigger).load(id)
-        triggerInfo = if (task == null) TriggerInfo(id) else task
+        triggerInfo = task ?: TriggerInfo(id)
 
         // 时间选择
         binding.triggerTimeStart.setOnClickListener {
             TimePickerDialog(this, { view, hourOfDay, minute ->
-                binding.triggerTimeStart.setText(String.format(getString(R.string.format_hh_mm), hourOfDay, minute))
+                binding.triggerTimeStart.text = String.format(getString(R.string.format_hh_mm), hourOfDay, minute)
                 triggerInfo.timeStart = hourOfDay * 60 + minute
             }, triggerInfo.timeStart / 60, triggerInfo.timeStart % 60, true).show()
         }
         binding.triggerTimeEnd.setOnClickListener {
             TimePickerDialog(this, { view, hourOfDay, minute ->
-                binding.triggerTimeEnd.setText(String.format(getString(R.string.format_hh_mm), hourOfDay, minute))
+                binding.triggerTimeEnd.text = String.format(getString(R.string.format_hh_mm), hourOfDay, minute)
                 triggerInfo.timeEnd = hourOfDay * 60 + minute
             }, triggerInfo.timeEnd / 60, triggerInfo.timeEnd % 60, true).show()
         }
@@ -92,11 +90,7 @@ class ActivityTrigger : ActivityBase() {
         val dirPath = FileWrite.getPrivateFilePath(this, "custom-command")
         val dir = File(dirPath)
         if (dir.exists()) {
-            val files = dir.listFiles(object : FilenameFilter {
-                override fun accept(dir: File?, name: String?): Boolean {
-                    return name?.endsWith(".sh") == true
-                }
-            })
+            val files = dir.listFiles { dir, name -> name?.endsWith(".sh") == true }
 
             val fileNames = files?.map {
                 SelectItem().apply {

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.hardware.Camera;
 import android.os.Build;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -81,16 +80,13 @@ public class WeChatScanHook {
                 TextView textView = createControls(container);
 
                 // 设置点击后切换摄像头
-                textView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        cameraHookProvider.setCameraIdHook(
-                                cameraHookProvider.getCameraIdHookNext()
-                        );
+                textView.setOnClickListener(v -> {
+                    cameraHookProvider.setCameraIdHook(
+                            cameraHookProvider.getCameraIdHookNext()
+                    );
 
-                        // 其实就是改变hook参数并重启activity啦
-                        activity.recreate();
-                    }
+                    // 其实就是改变hook参数并重启activity啦
+                    activity.recreate();
                 });
             }
         }

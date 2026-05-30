@@ -118,7 +118,7 @@ class ActivityCharge : ActivityBase() {
                 }
                 binding.battrystatusLevel.text = ss
             } else {
-                binding.battrystatusLevel.text = "" + level + "%"
+                binding.battrystatusLevel.text = "$level%"
             }
 
             binding.batterySize.text = batteryMAH
