@@ -9,6 +9,7 @@ import android.os.SystemClock
 import com.root.library.calculator.GetUpTime
 import com.root.model.TimingTaskInfo
 import com.root.store.TimingTaskStorage
+import androidx.core.content.edit
 
 class TimingTaskManager(private var context: Context) {
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -31,7 +32,7 @@ class TimingTaskManager(private var context: Context) {
 
         setTask(timingTaskInfo)
 
-        taskListConfig.edit().putBoolean(taskId, timingTaskInfo.enabled).apply()
+        taskListConfig.edit { putBoolean(taskId, timingTaskInfo.enabled) }
     }
 
     fun setTask(timingTaskInfo: TimingTaskInfo) {
@@ -76,7 +77,7 @@ class TimingTaskManager(private var context: Context) {
 
     fun removeTask(timingTaskInfo: TimingTaskInfo) {
         cancelTask(timingTaskInfo)
-        taskListConfig.edit().remove(timingTaskInfo.taskId).apply()
+        taskListConfig.edit { remove(timingTaskInfo.taskId) }
         val storage = TimingTaskStorage(context)
         storage.remove(timingTaskInfo.taskId)
     }

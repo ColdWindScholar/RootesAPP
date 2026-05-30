@@ -26,8 +26,8 @@ class TriggerManager(private var context: Context) {
 
     fun list(): List<TriggerInfo?> {
         val storage = TriggerStorage(context)
-        return triggerListConfig.all.keys.map {
+        return triggerListConfig.all.keys.mapNotNull {
             storage.load(it)
-        }.filter { it != null }.toList()
+        }.toList()
     }
 }
