@@ -11,6 +11,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.edit
 import com.root.Scene
@@ -128,10 +129,10 @@ class ActivityMain : ActivityBase() {
         tabIconHelper2 = TabIconHelper2(binding.tabList, binding.tabContent, this, supportFragmentManager, R.layout.list_item_tab2)
 
         // 初始化其他标签
-        tabIconHelper2.newTabSpec(getString(R.string.app_home), getDrawable( R.drawable.app_home)!!,  FragmentHome())
-        tabIconHelper2.newTabSpec(getString(R.string.app_nav), getDrawable( R.drawable.app_menu)!!, FragmentNav())
-        tabIconHelper2.newTabSpec(getString(R.string.app_tuner), getDrawable( R.drawable.app_settings)!!,  FragmentCpuModes())
-        tabIconHelper2.newTabSpec(getString(R.string.app_user), getDrawable(R.drawable.app_like)!!,  FragmentDonate())
+        tabIconHelper2.newTabSpec(getString(R.string.app_home), AppCompatResources.getDrawable(this, R.drawable.app_home)!!,  FragmentHome())
+        tabIconHelper2.newTabSpec(getString(R.string.app_nav), AppCompatResources.getDrawable( this,R.drawable.app_menu)!!, FragmentNav())
+        tabIconHelper2.newTabSpec(getString(R.string.app_tuner), AppCompatResources.getDrawable( this,R.drawable.app_settings)!!,  FragmentCpuModes())
+        tabIconHelper2.newTabSpec(getString(R.string.app_user), AppCompatResources.getDrawable(this,R.drawable.app_like)!!,  FragmentDonate())
         // 检查root访问权限并处理捐赠标签
         binding.tabContent.adapter = tabIconHelper2.adapter
         binding.tabList.getTabAt(0)?.select() // 默认选中第一个标签
