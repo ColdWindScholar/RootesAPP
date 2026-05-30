@@ -70,7 +70,7 @@ class ActivityApplistions : ActivityBase() {
             }
             true
         }
-        var lastInput = 0L
+        var lastInput: Long
         binding.appsSearchBox.addTextChangedListener(SearchTextWatcher {
             val current = System.currentTimeMillis()
             lastInput = current

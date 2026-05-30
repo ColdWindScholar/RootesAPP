@@ -33,6 +33,8 @@ import com.root.system.dialogs.DialogAppCGroupMem
 import com.root.system.dialogs.DialogAppOrientation
 import com.root.system.dialogs.DialogAppPowerConfig
 import com.root.utils.AccessibleServiceHelper
+import androidx.core.content.edit
+import androidx.core.view.isVisible
 
 class ActivityAppDetails : ActivityBase() {
     private lateinit var binding: ActivityAppDetailsBinding
@@ -83,9 +85,9 @@ class ActivityAppDetails : ActivityBase() {
             val checked = (it as Checkable).isChecked
             binding.sceneModeConfig.visibility = if (checked) View.VISIBLE else View.GONE
             if (checked) {
-                sceneBlackList.edit().remove(app).apply()
+                sceneBlackList.edit { remove(app) }
             } else {
-                sceneBlackList.edit().putBoolean(app, true).apply()
+                sceneBlackList.edit { putBoolean(app, true) }
             }
         }
 
@@ -102,13 +104,13 @@ class ActivityAppDetails : ActivityBase() {
 
             DialogAppPowerConfig(this, spfPowercfg.getString(app, ""), object : DialogAppPowerConfig.IResultCallback {
                 override fun onChange(mode: String?) {
-                    spfPowercfg.edit().run {
+                    spfPowercfg.edit {
                         if (mode.isNullOrEmpty()) {
                             remove(app)
                         } else {
                             putString(app, mode)
                         }
-                    }.apply()
+                    }
 
                     (it as TextView).text = ModeSwitcher.getModName(mode ?: "")
                     _result = RESULT_OK
@@ -318,7 +320,7 @@ class ActivityAppDetails : ActivityBase() {
         binding.appMonitor.isChecked = sceneConfigInfo.showMonitor
 
         binding.sceneModeAllow.isChecked = !sceneBlackList.contains(app)
-        binding.sceneModeConfig.visibility = if (binding.sceneModeConfig.visibility == View.VISIBLE && binding.sceneModeAllow.isChecked) View.VISIBLE else View.GONE
+        binding.sceneModeConfig.visibility = if (binding.sceneModeConfig.isVisible && binding.sceneModeAllow.isChecked) View.VISIBLE else View.GONE
 
         binding.sceneOrientation.text = DialogAppOrientation.Transform(this).getName(sceneConfigInfo.screenOrientation)
     }

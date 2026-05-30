@@ -412,7 +412,7 @@ class ActionPage : ActivityBase() {
                     ScriptEnvironmen.executeResultRoot(activity, afterRead, this)
                 }
 
-                if (items != null && items.size != 0) {
+                if (!items.isNullOrEmpty()) {
                     if (loadSuccess.isNotEmpty()) {
                         showDialog(getString(R.string.kr_page_load_success))
                         ScriptEnvironmen.executeResultRoot(activity, loadSuccess, this)

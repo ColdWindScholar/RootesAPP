@@ -119,8 +119,8 @@ class ActivityAppXposedConfig : ActivityBase() {
                     les < res -> -1
                     les > res -> 1
                     else -> {
-                        val lp = l.packageName.toString()
-                        val rp = r.packageName.toString()
+                        val lp = l.packageName
+                        val rp = r.packageName
                         when {
                             lp < rp -> -1
                             lp > rp -> 1

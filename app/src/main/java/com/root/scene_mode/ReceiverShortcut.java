@@ -14,16 +14,20 @@ public class ReceiverShortcut extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent != null && intent.hasExtra("packageName")) {
             String packageName = intent.getStringExtra("packageName");
-            if (packageName.equals(context.getPackageName())) {
+            if (packageName != null && packageName.equals(context.getPackageName())) {
                 return;
             }
 
             SharedPreferences config = context.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE);
             boolean useSuspendMode = config.getBoolean(SpfConfig.GLOBAL_SPF_FREEZE_SUSPEND, Build.VERSION.SDK_INT >= Build.VERSION_CODES.P);
             if (useSuspendMode) {
-                SceneMode.Companion.suspendApp(packageName);
+                if (packageName != null) {
+                    SceneMode.Companion.suspendApp(packageName);
+                }
             } else {
-                SceneMode.Companion.freezeApp(packageName);
+                if (packageName != null) {
+                    SceneMode.Companion.freezeApp(packageName);
+                }
             }
         }
     }

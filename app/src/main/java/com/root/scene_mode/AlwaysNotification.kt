@@ -67,7 +67,7 @@ internal class AlwaysNotification(
     internal fun notify() {
         try {
             var currentMode = getCurrentPowerMode()
-            if (currentMode.length == 0) {
+            if (currentMode.isEmpty()) {
                 currentMode = ""
             }
 

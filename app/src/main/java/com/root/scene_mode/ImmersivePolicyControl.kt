@@ -32,16 +32,16 @@ class ImmersivePolicyControl(private var contentResolver: ContentResolver) {
     }
 
     private fun isHide(prop: String, packageName: String): Boolean {
-        if (prop.contains("-$packageName")) {
-            return false
+        return if (prop.contains("-$packageName")) {
+            false
         } else if (prop.contains(packageName)) {
-            return true
+            true
         } else if (prop.contains("$STATUS=*")) {
-            return true
+            true
         } else if (prop.contains("$STATUS=apps")) {
-            return true
+            true
         } else {
-            return false
+            false
         }
     }
 
@@ -61,10 +61,10 @@ class ImmersivePolicyControl(private var contentResolver: ContentResolver) {
         if (isHideNavbarOnly(packageName) || isFullScreen(packageName)) {
             return true
         } else {
-            if (nav.isEmpty()) {
-                nav = "$NAV=$packageName"
+            nav = if (nav.isEmpty()) {
+                "$NAV=$packageName"
             } else {
-                nav = "$nav,$packageName"
+                "$nav,$packageName"
             }
             return saveChange()
         }
@@ -89,10 +89,10 @@ class ImmersivePolicyControl(private var contentResolver: ContentResolver) {
         if (isHideStatusOnly(packageName) || isFullScreen(packageName)) {
             return true
         } else {
-            if (status.isEmpty()) {
-                status = "$STATUS=$packageName"
+            status = if (status.isEmpty()) {
+                "$STATUS=$packageName"
             } else {
-                status = "$status,$packageName"
+                "$status,$packageName"
             }
             return saveChange()
         }
@@ -120,10 +120,10 @@ class ImmersivePolicyControl(private var contentResolver: ContentResolver) {
             showStatusBar(packageName)
             showNavBar(packageName)
         }
-        if (full.isEmpty()) {
-            full = "$FULL=$packageName"
+        full = if (full.isEmpty()) {
+            "$FULL=$packageName"
         } else {
-            full = "$full,$packageName"
+            "$full,$packageName"
         }
         return saveChange()
     }

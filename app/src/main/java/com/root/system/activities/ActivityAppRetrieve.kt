@@ -91,7 +91,7 @@ class ActivityAppRetrieve : ActivityBase() {
                             adapterAppList?.get()!!.notifyDataSetChanged()
                         }
                     } else {
-                        val checkBox = itemView.findViewById(R.id.select_state) as CheckBox
+                        val checkBox: CheckBox = itemView.findViewById(R.id.select_state)
                         checkBox.isChecked = !checkBox.isChecked
                         val all = binding.hiddenApp.findViewById<CheckBox>(R.id.select_state_all)
                         if (adapterAppList?.get() != null) {

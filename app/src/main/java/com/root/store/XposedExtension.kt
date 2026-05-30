@@ -121,24 +121,7 @@ class XposedExtension(private val context: Context) {
         return null
     }
 
-    fun setAppConfig(appConfig: AppConfig): Boolean {
-        if (current != null) {
-            try {
-                val config = JSONObject().apply {
-                    put("dpi", appConfig.dpi)
-                    put("excludeRecent", appConfig.excludeRecent)
-                    put("smoothScroll", appConfig.smoothScroll)
-                    put("webDebug", appConfig.webDebug)
-                }.toString(0)
 
-                current?.run {
-                    return setStringValue(appConfig.packageName, config)
-                }
-            } catch (ex: java.lang.Exception) {
-            }
-        }
-        return false
-    }
 
     fun getGlobalConfig(): GlobalConfig? {
         if (current != null) {

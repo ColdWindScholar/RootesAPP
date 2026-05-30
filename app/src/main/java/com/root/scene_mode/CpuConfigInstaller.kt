@@ -115,7 +115,12 @@ class CpuConfigInstaller {
                 setReadable(true)
             }
             ModeSwitcher().setCurrentPowercfg("")
-            context.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE).edit().putString(SpfConfig.GLOBAL_SPF_PROFILE_SOURCE, author).apply()
+            context.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE).edit {
+                putString(
+                    SpfConfig.GLOBAL_SPF_PROFILE_SOURCE,
+                    author
+                )
+            }
             removeCustomModes(context)
             return true
         } catch (ex: Exception) {

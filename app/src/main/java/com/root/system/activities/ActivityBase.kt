@@ -1,6 +1,7 @@
 package com.root.system.activities
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
@@ -38,6 +39,9 @@ open class ActivityBase : AppCompatActivity() {
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener {
+            if (isTaskRoot){
+                startActivity(Intent(this, ActivityMain::class.java))
+            }
             this.finish()
         }
     }
