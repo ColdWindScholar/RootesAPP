@@ -84,7 +84,7 @@ class FragmentAppSystem(private val myHandler: Handler) : androidx.fragment.app.
         GlobalScope.launch(Dispatchers.Main) {
             appList = appListHelper.getSystemAppList()
             processBarDialog.hideDialog()
-            binding.appList?.run {
+            binding.appList.run {
                 setListData(appList, this)
             }
         }.start()

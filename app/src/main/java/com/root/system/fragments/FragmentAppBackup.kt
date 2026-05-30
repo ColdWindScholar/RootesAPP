@@ -51,7 +51,7 @@ class FragmentAppBackup(private val myHandler: Handler) : androidx.fragment.app.
                 return@OnItemLongClickListener true
             val adapter = (parent.adapter as HeaderViewListAdapter).wrappedAdapter
             val app = adapter.getItem(position - 1) as AppInfo
-            DialogSingleAppOptions(requireActivity(), app, myHandler!!).showSingleAppOptions()
+            DialogSingleAppOptions(requireActivity(), app, myHandler).showSingleAppOptions()
             true
         }
 

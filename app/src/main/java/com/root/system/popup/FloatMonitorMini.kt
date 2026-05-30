@@ -190,7 +190,7 @@ class FloatMonitorMini(private val mContext: Context) {
             }
             nowMA?.run {
                 if (this > -20000 && this < 20000) {
-                    batState = "" + (if (this > 0) ("+" + this) else this) + "mA"
+                    batState = "" + (if (this > 0) ("+$this") else this) + "mA"
                 }
             }
         }
@@ -206,9 +206,9 @@ class FloatMonitorMini(private val mContext: Context) {
                 gpuLoadTextView?.text = "--"
             }
 
-            temperatureText!!.setText(batState!!)
+            temperatureText!!.text = batState
             if (fps != null) {
-                fpsText?.text = fps.toString()
+                fpsText?.text = fps
             }
         }
     }
