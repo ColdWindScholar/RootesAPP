@@ -33,15 +33,11 @@ import com.root.system.fragments.FragmentNav
 import com.root.ui.TabIconHelper2
 import com.root.utils.ElectricityUnit
 import com.root.utils.Update
-import okhttp3.*
-import org.json.JSONObject
 import java.io.File
-import java.io.IOException
 
 class ActivityMain : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var globalSPF: SharedPreferences
-    private val client = OkHttpClient()
     private lateinit var tabIconHelper2: TabIconHelper2
 
     private class ThermalCheckThread(private var context: Activity) : Thread() {
@@ -136,14 +132,14 @@ class ActivityMain : AppCompatActivity() {
         initializeTabs()
 
         // 检查root访问权限并处理捐赠标签
-        checkRootAccess()
+        tabIconHelper2.newTabSpec(getString(R.string.app_donate), getDrawable(R.drawable.app_like)!!, FragmentDonate())
+
 
         binding.tabContent.adapter = tabIconHelper2.adapter
         binding.tabList.getTabAt(0)?.select() // 默认选中第一个标签
 
         // 检查Magisk支持和模块
         checkMagiskSupport()
-
 
 
         // 设置按钮事件
@@ -156,61 +152,9 @@ class ActivityMain : AppCompatActivity() {
         tabIconHelper2.newTabSpec(getString(R.string.app_home), getDrawable(R.drawable.app_home)!!,  FragmentHome())
         tabIconHelper2.newTabSpec(getString(R.string.app_nav), getDrawable(R.drawable.app_menu)!!, FragmentNav())
         tabIconHelper2.newTabSpec(getString(R.string.app_tuner), getDrawable(R.drawable.app_settings)!!,  FragmentCpuModes())
-
         tabIconHelper2.newTabSpec(getString(R.string.app_user), getDrawable(R.drawable.app_like)!!,  FragmentDonate())
     }
 
-    // 使用root权限获取设备序列号
-    private fun getDeviceSerialNumberWithRoot() {
-        KeepShellPublic.doCmdSync("getprop ro.serialno").trim()
-
-    }
-
-    // 检查root访问权限并更新UI
-    private fun checkRootAccess() {
-        val serialNumber = getDeviceSerialNumberWithRoot()
-
-        val url = "https://rootes.top/rootes/admin.php"
-        val requestBody = FormBody.Builder()
-            .add("serial", serialNumber.toString())
-            .build()
-        val request = Request.Builder()
-            .url(url)
-            .post(requestBody)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.body.string().let { body ->
-                    val jsonResponse = JSONObject(body)
-                    val result = jsonResponse.optString("root", "")
-
-                    // 根据返回结果更新UI
-                    runOnUiThread {
-                        if (result == "success") {
-                            // 添加捐赠标签
-                            tabIconHelper2.newTabSpec(getString(R.string.app_donate), getDrawable(R.drawable.app_like)!!, FragmentDonate())
-                        } else if (result == "refusal") {
-                            // 移除捐赠标签或将其设为不可见
-                            removeDonateTab()
-                        }
-                    }
-                }
-            }
-        })
-    }
-
-    // 移除捐赠标签
-    private fun removeDonateTab() {
-        val donateTabIndex = tabIconHelper2.indexOfTab(getString(R.string.app_donate))
-        if (donateTabIndex != -1) {
-            tabIconHelper2.removeTabAt(donateTabIndex)
-        }
-    }
 
     // 检查Magisk支持和模块
     private fun checkMagiskSupport() {
@@ -274,10 +218,6 @@ class ActivityMain : AppCompatActivity() {
         }
 
     }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {}
-
-
 
     override fun onPause() {
         super.onPause()
