@@ -17,52 +17,9 @@ import java.io.OutputStream;
 public class BitmapUtil {
     public Bitmap temp;
 
-    /**
-     * 根据指定的高度进行缩放（source是bitmap）
-     */
-    public Bitmap bitmapZoomByHeight(Bitmap srcBitmap, float newHeight) {
-        float scale = newHeight / (((float) srcBitmap.getHeight()));
-        return bitmapZoomByScale(srcBitmap, scale, scale);
-    }
 
-    /**
-     * 根据指定的高度进行缩放（source是drawable）
-     */
-    public Bitmap bitmapZoomByHeight(Drawable drawable, float newHeight) {
-        Bitmap bitmap = drawableToBitmap(drawable);
-        float scale = newHeight / (((float) bitmap.getHeight()));
-        return bitmapZoomByScale(bitmap, scale, scale);
-    }
 
-    /**
-     * 根据指定的宽度比例值和高度比例值进行缩放
-     */
-    public Bitmap bitmapZoomByScale(Bitmap srcBitmap, float scaleWidth, float scaleHeight) {
-        int width = srcBitmap.getWidth();
-        int height = srcBitmap.getHeight();
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap bitmap = Bitmap.createBitmap(srcBitmap, 0, 0, width, height, matrix, true);
-        if (bitmap != null) {
-            return bitmap;
-        } else {
-            return srcBitmap;
-        }
-    }
 
-    /**
-     * 将drawable对象转成bitmap对象
-     */
-    public Bitmap drawableToBitmap(Drawable drawable) {
-        int width = drawable.getIntrinsicWidth();
-        int height = drawable.getIntrinsicHeight();
-        Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
-        Bitmap bitmap = Bitmap.createBitmap(width, height, config);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, width, height);
-        drawable.draw(canvas);
-        return bitmap;
-    }
 
 
     /**

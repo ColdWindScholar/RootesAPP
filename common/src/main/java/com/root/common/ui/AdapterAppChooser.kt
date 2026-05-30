@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.*
 import com.root.common.R
 import kotlinx.coroutines.*
-import java.util.*
-import java.util.Locale
 import java.util.Locale.getDefault
 
 class AdapterAppChooser(

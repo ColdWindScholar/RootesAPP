@@ -25,7 +25,7 @@ import java.util.Locale.getDefault
 class PageConfigReader {
     private var context: Context
     private var pageConfig: String = ""
-    private lateinit var resourceStringResolver: ResourceStringResolver
+    private var resourceStringResolver: ResourceStringResolver
 
     // 读取pageConfig时自动获得
     private var pageConfigAbsPath: String = ""

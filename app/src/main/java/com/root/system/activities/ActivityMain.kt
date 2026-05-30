@@ -11,7 +11,6 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.edit
 import com.root.Scene
@@ -146,10 +145,10 @@ class ActivityMain : ActivityBase() {
 
     // 初始化标签
     private fun initializeTabs() {
-        tabIconHelper2.newTabSpec(getString(R.string.app_home), AppCompatResources.getDrawable(this, R.drawable.app_home)!!,  FragmentHome())
-        tabIconHelper2.newTabSpec(getString(R.string.app_nav), AppCompatResources.getDrawable(this, R.drawable.app_menu)!!, FragmentNav())
-        tabIconHelper2.newTabSpec(getString(R.string.app_tuner), AppCompatResources.getDrawable(this, R.drawable.app_settings)!!,  FragmentCpuModes())
-        tabIconHelper2.newTabSpec(getString(R.string.app_user), AppCompatResources.getDrawable(this, R.drawable.app_like)!!,  FragmentDonate())
+        tabIconHelper2.newTabSpec(getString(R.string.app_home), getDrawable( R.drawable.app_home)!!,  FragmentHome())
+        tabIconHelper2.newTabSpec(getString(R.string.app_nav), getDrawable( R.drawable.app_menu)!!, FragmentNav())
+        tabIconHelper2.newTabSpec(getString(R.string.app_tuner), getDrawable( R.drawable.app_settings)!!,  FragmentCpuModes())
+        tabIconHelper2.newTabSpec(getString(R.string.app_user), getDrawable(R.drawable.app_like)!!,  FragmentDonate())
     }
 
 

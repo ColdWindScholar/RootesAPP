@@ -84,7 +84,7 @@ class DialogItemChooserMini(
                     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                     override fun afterTextChanged(s: Editable?) {
                         if (s != null) {
-                            clearBtn.visibility = if (s.length > 0) View.VISIBLE else View.GONE
+                            clearBtn.visibility = if (s.isNotEmpty()) View.VISIBLE else View.GONE
                         }
                     }
 
@@ -144,16 +144,8 @@ class DialogItemChooserMini(
         return this
     }
 
-    fun setMessage(message: String): DialogItemChooserMini {
-        this.message = message
-        updateMessage()
 
-        return this
-    }
 
-    fun setMessage(resId: Int): DialogItemChooserMini {
-        return setMessage(context.getString(resId))
-    }
 
     fun setCallback(callback: Callback?): DialogItemChooserMini {
         this.callback = callback
