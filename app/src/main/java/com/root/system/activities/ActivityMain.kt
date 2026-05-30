@@ -11,6 +11,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.edit
 import com.root.Scene
@@ -37,7 +38,7 @@ import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 
-class ActivityMain : ActivityBase() {
+class ActivityMain : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var globalSPF: SharedPreferences
     private val client = OkHttpClient()
@@ -104,7 +105,6 @@ class ActivityMain : ActivityBase() {
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val context = context
 
         if (!ActivityStartSplash.finished) {
             val intent = Intent(this.applicationContext, ActivityStartSplash::class.java)
@@ -114,7 +114,7 @@ class ActivityMain : ActivityBase() {
             finish()
             return
         }
-
+        val context = this
         globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
         if (!globalSPF.contains(SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT)) {
             globalSPF.edit {

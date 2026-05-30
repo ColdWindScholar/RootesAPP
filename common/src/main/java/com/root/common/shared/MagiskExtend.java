@@ -289,10 +289,6 @@ public class MagiskExtend {
         return false;
     }
 
-    public static void cancelReplace(String orginPath) {
-        String output = getMagiskReplaceFilePath(orginPath);
-        KeepShellPublic.INSTANCE.doCmdSync("rm -f \"" + output + "\"");
-    }
 
     public static String getProps() {
         if (moduleInstalled()) {

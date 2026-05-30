@@ -12,7 +12,7 @@ object EventBus {
      * @param eventType 事件类型
      */
     fun publish(eventType: EventType?, data: HashMap<String, Any>? = null) {
-        if (eventReceivers.size > 0) {
+        if (eventReceivers.isNotEmpty()) {
             // 复制一个副本用于循环，避免在运行过程中unsubscibe致使eventReceivers发生变化而崩溃
             val temp = ArrayList(eventReceivers)
             for (eventReceiver in temp) {
