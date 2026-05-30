@@ -1,6 +1,5 @@
 package com.root.common.ui
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -8,7 +7,6 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.DecelerateInterpolator
 import androidx.core.content.withStyledAttributes
 import com.root.common.R
 
@@ -141,18 +139,7 @@ class ProgressCircle : View {
         labelPaint!!.strokeWidth = 20f
     }
 
-    fun cgangePer(per: Int) {
-        val perOld = this.ratioState
-        val va = ValueAnimator.ofInt(perOld, per)
-        va.duration = 200
-        va.interpolator = DecelerateInterpolator()
-        va.addUpdateListener { animation ->
-            ratioState = animation.animatedValue as Int
-            invalidate()
-        }
-        va.start()
 
-    }
 
     /**
      * 画圆环
