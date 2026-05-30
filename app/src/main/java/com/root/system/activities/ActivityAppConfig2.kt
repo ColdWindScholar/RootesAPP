@@ -46,7 +46,7 @@ class ActivityAppConfig2 : ActivityBase() {
         setContentView(binding.root)
 
         setBackArrow()
-        globalSPF = context!!.getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
+        globalSPF = this.getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
 
         this.onViewCreated()
     }
@@ -79,7 +79,7 @@ class ActivityAppConfig2 : ActivityBase() {
         applistHelper = AppListHelper(this, false)
         spfPowercfg = getSharedPreferences(SpfConfig.POWER_CONFIG_SPF, MODE_PRIVATE)
         globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
-        sceneConfigStore = SceneConfigStore(this.context)
+        sceneConfigStore = SceneConfigStore(this)
 
         if (spfPowercfg.all.isEmpty()) {
             initDefaultConfig()
@@ -89,7 +89,7 @@ class ActivityAppConfig2 : ActivityBase() {
         binding.sceneAppList.setOnItemClickListener { parent, view2, position, _ ->
             try {
                 val item = (parent.adapter.getItem(position) as AppInfo)
-                val intent = Intent(this.context, ActivityAppDetails::class.java)
+                val intent = Intent(this, ActivityAppDetails::class.java)
                 intent.putExtra("app", item.packageName)
                 startActivityForResult(intent, REQUEST_APP_CONFIG)
                 lastClickRow = view2
@@ -208,7 +208,7 @@ class ActivityAppConfig2 : ActivityBase() {
         for (item in resources.getStringArray(R.array.powercfg_game)) {
             spfPowercfg.edit().putString(item, ModeSwitcher.PERFORMANCE).apply()
         }
-        for (item in context.resources.getStringArray(R.array.powercfg_powersave)) {
+        for (item in this.resources.getStringArray(R.array.powercfg_powersave)) {
             spfPowercfg.edit().putString(item, ModeSwitcher.POWERSAVE).apply()
         }
     }
