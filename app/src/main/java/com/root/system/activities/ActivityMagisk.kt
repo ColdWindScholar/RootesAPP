@@ -40,8 +40,8 @@ class ActivityMagisk : ActivityBase() {
                 DialogHelper.confirm(this, "安装Magisk拓展？",
                         "安装拓展模块，从而在不修改系统文件的情况下，更改一些参数~",
                         {
-                            MagiskExtend.magiskModuleInstall(context)
-                            Toast.makeText(context, "操作已执行~", Toast.LENGTH_LONG).show()
+                            MagiskExtend.magiskModuleInstall(this)
+                            Toast.makeText(this, "操作已执行~", Toast.LENGTH_LONG).show()
                             this@ActivityMagisk.recreate()
                         })
             }
@@ -51,8 +51,8 @@ class ActivityMagisk : ActivityBase() {
                 DialogHelper.confirm(this, "安装Magisk拓展？",
                         "安装拓展模块，从而在不修改系统文件的情况下，更改一些参数~",
                         {
-                            KernelSUExtend.magiskModuleInstall(context)
-                            Toast.makeText(context, "操作已执行~", Toast.LENGTH_LONG).show()
+                            KernelSUExtend.magiskModuleInstall(this)
+                            Toast.makeText(this, "操作已执行~", Toast.LENGTH_LONG).show()
                             this@ActivityMagisk.recreate()
                         })
             }
@@ -72,17 +72,17 @@ class ActivityMagisk : ActivityBase() {
             binding.magiskProps.setText(MagiskExtend.getProps())
         }
         binding. magiskPropsSave.setOnClickListener {
-            if (FileWrite.writePrivateFile((binding.magiskProps.text.toString() + "\n").toByteArray(), "magisk_system.prop", context)) {
-                val file = FileWrite.getPrivateFilePath(context, "magisk_system.prop")
+            if (FileWrite.writePrivateFile((binding.magiskProps.text.toString() + "\n").toByteArray(), "magisk_system.prop", this)) {
+                val file = FileWrite.getPrivateFilePath(this, "magisk_system.prop")
                 if (MagiskExtend.updateProps(file)) {
                     binding.magiskProps.setText(MagiskExtend.getProps())
-                    Toast.makeText(context, "已保存更改，重启后生效 ^_~ ", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "已保存更改，重启后生效 ^_~ ", Toast.LENGTH_LONG).show()
                     File(file).delete()
                 } else {
-                    Toast.makeText(context, "Magisk镜像空间不足，操作失败！~", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Magisk镜像空间不足，操作失败！~", Toast.LENGTH_LONG).show()
                 }
             } else {
-                Toast.makeText(context, "保存失败!_*", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "保存失败!_*", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -92,17 +92,17 @@ class ActivityMagisk : ActivityBase() {
             binding.magiskBeforestart.setText(MagiskExtend.getFsPostDataSH())
         }
         binding.magiskBeforestartSave.setOnClickListener {
-            if (FileWrite.writePrivateFile((binding.magiskBeforestart.text.toString() + "\n").toByteArray(), "magisk_post-fs-data.sh", context)) {
-                val file = FileWrite.getPrivateFilePath(context, "magisk_post-fs-data.sh")
+            if (FileWrite.writePrivateFile((binding.magiskBeforestart.text.toString() + "\n").toByteArray(), "magisk_post-fs-data.sh", this)) {
+                val file = FileWrite.getPrivateFilePath(this, "magisk_post-fs-data.sh")
                 if (MagiskExtend.updateFsPostDataSH(file)) {
                     binding.magiskBeforestart.setText(MagiskExtend.getFsPostDataSH())
-                    Toast.makeText(context, "已保存更改，重启后生效 ^_~ ", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "已保存更改，重启后生效 ^_~ ", Toast.LENGTH_LONG).show()
                     File(file).delete()
                 } else {
-                    Toast.makeText(context, "Magisk镜像空间不足，操作失败！~", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Magisk镜像空间不足，操作失败！~", Toast.LENGTH_LONG).show()
                 }
             } else {
-                Toast.makeText(context, "保存失败!_*", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "保存失败!_*", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -112,17 +112,17 @@ class ActivityMagisk : ActivityBase() {
             binding.magiskAfterstart.setText(MagiskExtend.getServiceSH())
         }
         binding.magiskAfterstartSave.setOnClickListener {
-            if (FileWrite.writePrivateFile((binding.magiskAfterstart.text.toString() + "\n").toByteArray(), "magisk_service.sh", context)) {
-                val file = FileWrite.getPrivateFilePath(context, "magisk_service.sh")
+            if (FileWrite.writePrivateFile((binding.magiskAfterstart.text.toString() + "\n").toByteArray(), "magisk_service.sh", this)) {
+                val file = FileWrite.getPrivateFilePath(this, "magisk_service.sh")
                 if (MagiskExtend.updateServiceSH(file)) {
                     binding.magiskAfterstart.setText(MagiskExtend.getServiceSH())
-                    Toast.makeText(context, "已保存更改，重启后生效 ^_~ ", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "已保存更改，重启后生效 ^_~ ", Toast.LENGTH_LONG).show()
                     File(file).delete()
                 } else {
-                    Toast.makeText(context, "Magisk镜像空间不足，操作失败！~", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Magisk镜像空间不足，操作失败！~", Toast.LENGTH_LONG).show()
                 }
             } else {
-                Toast.makeText(context, "保存失败!_*", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "保存失败!_*", Toast.LENGTH_LONG).show()
             }
         }
         adapterFileSelector = AdapterRootFileSelector(RootFileInfo(MagiskExtend.MAGISK_PATH + "system"), {

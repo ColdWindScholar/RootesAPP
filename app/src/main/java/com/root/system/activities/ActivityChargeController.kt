@@ -74,7 +74,7 @@ class ActivityChargeController : ActivityBase() {
 
         binding.settingsQc.setOnClickListener {
             val checked = (it as CompoundButton).isChecked
-            spf.edit().putBoolean(SpfConfig.CHARGE_SPF_QC_BOOSTER, checked).apply()
+            spf.edit { putBoolean(SpfConfig.CHARGE_SPF_QC_BOOSTER, checked) }
             if (checked) {
                 notifyConfigChanged()
                 Scene.toast(R.string.battery_auto_boot_desc, Toast.LENGTH_LONG)
@@ -185,7 +185,7 @@ class ActivityChargeController : ActivityBase() {
         }
 
         binding.bpDisableCharge.setOnClickListener {
-            KeepShellPublic.doCmdSync("sh " + FileWrite.writePrivateShellFile("addin/disable_charge.sh", "addin/disable_charge.sh", this.context))
+            KeepShellPublic.doCmdSync("sh " + FileWrite.writePrivateShellFile("addin/disable_charge.sh", "addin/disable_charge.sh", this))
             Scene.toast(R.string.battery_charge_disabled, Toast.LENGTH_LONG)
         }
         binding.bpEnableCharge.setOnClickListener {
@@ -196,7 +196,7 @@ class ActivityChargeController : ActivityBase() {
         binding.batteryGetUp.text = minutes2Str(spf.getInt(SpfConfig.CHARGE_SPF_TIME_GET_UP, SpfConfig.CHARGE_SPF_TIME_GET_UP_DEFAULT))
         binding.batteryGetUp.setOnClickListener {
             val nightModeGetUp = spf.getInt(SpfConfig.CHARGE_SPF_TIME_GET_UP, SpfConfig.CHARGE_SPF_TIME_GET_UP_DEFAULT)
-            TimePickerDialog(this.context, { view, hourOfDay, minute ->
+            TimePickerDialog(this, { view, hourOfDay, minute ->
                 spf.edit().putInt(SpfConfig.CHARGE_SPF_TIME_GET_UP, hourOfDay * 60 + minute).apply()
                 binding.batteryGetUp.text = String.format(getString(R.string.battery_night_mode_time), hourOfDay, minute)
                 notifyConfigChanged()
@@ -206,7 +206,7 @@ class ActivityChargeController : ActivityBase() {
         binding.batterySleep.text = minutes2Str(spf.getInt(SpfConfig.CHARGE_SPF_TIME_SLEEP, SpfConfig.CHARGE_SPF_TIME_SLEEP_DEFAULT))
         binding.batterySleep.setOnClickListener {
             val nightModeSleep = spf.getInt(SpfConfig.CHARGE_SPF_TIME_SLEEP, SpfConfig.CHARGE_SPF_TIME_SLEEP_DEFAULT)
-            TimePickerDialog(this.context, { _, hourOfDay, minute ->
+            TimePickerDialog(this, { _, hourOfDay, minute ->
                 spf.edit { putInt(SpfConfig.CHARGE_SPF_TIME_SLEEP, hourOfDay * 60 + minute) }
                 binding.batterySleep.text = String.format(getString(R.string.battery_night_mode_time), hourOfDay, minute)
                 notifyConfigChanged()
@@ -216,7 +216,7 @@ class ActivityChargeController : ActivityBase() {
         binding.batteryNightMode.setOnClickListener {
             val checked = (it as CompoundButton).isChecked
             if (checked && !spf.getBoolean(SpfConfig.CHARGE_SPF_QC_BOOSTER, false)) {
-                Toast.makeText(this.context, "需要开启 " + getString(R.string.battery_qc_charger), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "需要开启 " + getString(R.string.battery_qc_charger), Toast.LENGTH_LONG).show()
                 it.isChecked = false
             } else {
                 spf.edit().putBoolean(SpfConfig.CHARGE_SPF_NIGHT_MODE, checked).apply()
@@ -263,6 +263,7 @@ class ActivityChargeController : ActivityBase() {
         var limit = ""
         var batteryInfo: String
         var usbInfo: String
+        val c = this
         timer!!.schedule(object : TimerTask() {
             override fun run() {
                 var pdAllowed = false
@@ -279,7 +280,7 @@ class ActivityChargeController : ActivityBase() {
                 val level = GlobalStatus.batteryCapacity
                 val temp = GlobalStatus.updateBatteryTemperature()
                 val kernelCapacity = batteryUtils.getKernelCapacity(level)
-                val batteryMAH = BatteryCapacity().getBatteryCapacity(context).toInt().toString() + "mAh" + "   "
+                val batteryMAH = BatteryCapacity().getBatteryCapacity(c).toInt().toString() + "mAh" + "   "
                 val voltage = GlobalStatus.batteryVoltage
 
                 myHandler.post {

@@ -37,14 +37,15 @@ class ActivityCharge : ActivityBase() {
             DialogElectricityUnit().showDialog(this)
         }
         binding.moreBatteryStats.setOnClickListener {
-            val intent = Intent(context, ActivityPowerUtilization::class.java)
+            val intent = Intent(this, ActivityPowerUtilization::class.java)
             startActivity(intent)
         }
+        val c = this
         GlobalScope.launch(Dispatchers.Main) {
             if (BatteryUtils().qcSettingSupport() || batteryUtils.bpSettingSupport()) {
                 binding.chargeController.visibility = View.VISIBLE
                 binding.chargeController.setOnClickListener {
-                    val intent = Intent(context, ActivityChargeController::class.java)
+                    val intent = Intent(c, ActivityChargeController::class.java)
                     startActivity(intent)
                 }
             }
