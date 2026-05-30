@@ -132,7 +132,6 @@ class ActivityMain : ActivityBase() {
         initializeTabs()
 
         // 检查root访问权限并处理捐赠标签
-        tabIconHelper2.newTabSpec(getString(R.string.app_donate), AppCompatResources.getDrawable(this, R.drawable.app_like)!!, FragmentDonate())
 
         binding.tabList.getTabAt(0)?.select() // 默认选中第一个标签
 

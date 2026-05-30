@@ -14,19 +14,6 @@
 
 
         <LinearLayout
-            android:id="@+id/pay_wxpay"
-            style="@style/ListCardItemClickable">
-
-            <TextView
-                style="@style/textTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="退出帐户"
-                android:textColor="?android:colorAccent" />
-
-        </LinearLayout>
-
-            <LinearLayout
                     android:id="@+id/pay_wxpay2"
                     style="@style/ListCardItemClickable">
 
