@@ -1,6 +1,5 @@
 package com.root.system.activities
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
@@ -12,10 +11,10 @@ import com.root.common.ui.ProgressBarDialog
 import com.root.data.EventBus
 import com.root.data.EventType
 import com.root.store.SpfConfig
-import com.root.utils.AppListHelper
-import com.root.utils.AutoSkipCloudData
 import com.root.system.R
 import com.root.system.databinding.ActivityAutoClickBinding
+import com.root.utils.AppListHelper
+import com.root.utils.AutoSkipCloudData
 
 
 class ActivityAutoClick : ActivityBase() {
@@ -41,14 +40,14 @@ class ActivityAutoClick : ActivityBase() {
         binding.settingsSkipAd.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 if (globalSPF.getBoolean(SpfConfig.GLOBAL_SPF_SKIP_AD_PRECISE, false)) {
-                    AutoSkipCloudData().updateConfig(context, true)
+                    AutoSkipCloudData().updateConfig(this, true)
                 }
             }
         }
 
         binding.settingsSkipAdPrecise.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                AutoSkipCloudData().updateConfig(context, true)
+                AutoSkipCloudData().updateConfig(this, true)
             }
         }
 
@@ -75,8 +74,8 @@ class ActivityAutoClick : ActivityBase() {
     private fun adBlackListConfig() {
         processBarDialog.showDialog()
         Thread {
-            val configFile = context.getSharedPreferences(SpfConfig.AUTO_SKIP_BLACKLIST, MODE_PRIVATE)
-            val options = AppListHelper(context).getBootableApps(null, true).sortedBy {
+            val configFile = this.getSharedPreferences(SpfConfig.AUTO_SKIP_BLACKLIST, MODE_PRIVATE)
+            val options = AppListHelper(this).getBootableApps(null, true).sortedBy {
                 it.packageName
             }.map {
                 it.apply {
