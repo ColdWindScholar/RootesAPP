@@ -103,7 +103,6 @@ val filePath = "/data/data/com.root.system/.update"
         }
 
 
-
         binding.navBug.setOnClickListener {
             val intent = Intent(this, ActionPageOnline::class.java) 
             intent.putExtra("url", "http://rootes.top/bug/bug.html")

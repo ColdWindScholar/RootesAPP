@@ -109,12 +109,13 @@ class ActivityMain : ActivityBase() {
             finish()
             return
         }
+        val c = this
         globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
         if (!globalSPF.contains(SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT)) {
             globalSPF.edit {
                 putInt(
                     SpfConfig.GLOBAL_SPF_CURRENT_NOW_UNIT,
-                    ElectricityUnit().getDefaultElectricityUnit(context)
+                    ElectricityUnit().getDefaultElectricityUnit(c)
                 )
             }
         }

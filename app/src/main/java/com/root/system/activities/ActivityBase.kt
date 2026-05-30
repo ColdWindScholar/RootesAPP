@@ -1,6 +1,5 @@
 package com.root.system.activities
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -26,10 +25,7 @@ open class ActivityBase : AppCompatActivity() {
         this.themeMode = ThemeSwitch.switchTheme(this)
     }
 
-    protected val context: Context
-        get() {
-            return this
-        }
+
 
     protected fun setBackArrow() {
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
@@ -53,7 +49,7 @@ open class ActivityBase : AppCompatActivity() {
         }, 500)
         if (isTaskRoot) {
             Scene.postDelayed({
-                KeepShellPublic.doCmdSync("dumpsys meminfo ${context.packageName}")
+                KeepShellPublic.doCmdSync("dumpsys meminfo ${this.packageName}")
             }, 100)
         }
     }
