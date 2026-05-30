@@ -35,20 +35,21 @@ class ActivityPowerUtilization : ActivityBase() {
         setContentView(binding.root)
 
         setBackArrow()
-        storage = BatteryHistoryStore(context)
+        storage = BatteryHistoryStore(this)
 
         binding.electricityAdjUnit.setOnClickListener {
             DialogElectricityUnit().showDialog(this)
         }
         binding.moreCharge.setOnClickListener {
-            val intent = Intent(context, ActivityCharge::class.java)
+            val intent = Intent(this, ActivityCharge::class.java)
             startActivity(intent)
         }
+        val c = this
         GlobalScope.launch(Dispatchers.Main) {
             if (BatteryUtils().qcSettingSupport() || batteryUtils.bpSettingSupport()) {
                 binding.chargeController.visibility = View.VISIBLE
                 binding.chargeController.setOnClickListener {
-                    val intent = Intent(context, ActivityChargeController::class.java)
+                    val intent = Intent(c, ActivityChargeController::class.java)
                     startActivity(intent)
                 }
             }
@@ -79,8 +80,8 @@ class ActivityPowerUtilization : ActivityBase() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_delete -> {
-                BatteryHistoryStore(context).clearData()
-                Toast.makeText(context, "统计记录已清理", Toast.LENGTH_SHORT).show()
+                BatteryHistoryStore(this).clearData()
+                Toast.makeText(this, "统计记录已清理", Toast.LENGTH_SHORT).show()
                 updateUI()
             }
         }
@@ -100,7 +101,7 @@ class ActivityPowerUtilization : ActivityBase() {
         val sampleTime = 6
 
         handler.post {
-            binding.batteryStats.adapter = AdapterBatteryStats(context, (data.filter {
+            binding.batteryStats.adapter = AdapterBatteryStats(this, (data.filter {
                 // 仅显示运行时间超过2分钟的应用数据，避免误差过大
                 (it.count * sampleTime) > 120
             }))
