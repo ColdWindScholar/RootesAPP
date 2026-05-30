@@ -234,7 +234,7 @@ class FloatTaskManager(private val context: Context) {
         this.stopUpdate()
         if (timer == null) {
             timer = Timer()
-            timer!!.scheduleAtFixedRate(object : TimerTask() {
+            timer!!.schedule(object : TimerTask() {
                 override fun run() {
                     updateData()
                 }
