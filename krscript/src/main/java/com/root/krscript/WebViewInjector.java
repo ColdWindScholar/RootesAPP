@@ -5,11 +5,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.webkit.JavascriptInterface;
-import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
@@ -31,6 +29,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;
@@ -73,16 +72,8 @@ public class WebViewInjector {
                     DialogHelper.Companion.animDialog(new AlertDialog.Builder(context)
                             .setTitle(R.string.kr_download_confirm)
                             .setMessage(url + "\n\n" + mimetype + "\n" + contentLength + "Bytes")
-                            .setPositiveButton(R.string.btn_confirm, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                new Downloader(context, null).downloadBySystem(url, contentDisposition, mimetype, UUID.randomUUID().toString(), null);
-                                }
-                            })
-                            .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
+                            .setPositiveButton(R.string.btn_confirm, (dialog, which) -> new Downloader(context, null).downloadBySystem(url, contentDisposition, mimetype, UUID.randomUUID().toString(), null))
+                            .setNegativeButton(R.string.btn_cancel, (dialog, which) -> {
                             })).setCancelable(false);
                 }
             });
@@ -194,13 +185,8 @@ public class WebViewInjector {
                             } else {
                                 message.put("absPath", path);
                             }
-                            webView.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    webView.evaluateJavascript(callbackFunction + "(" + message + ")", value -> {
-                                    });
-                                }
-                            });
+                            webView.post(() -> webView.evaluateJavascript(callbackFunction + "(" + message + ")", value -> {
+                            }));
                         } catch (Exception ex) {
                         }
                     }
@@ -212,103 +198,70 @@ public class WebViewInjector {
         private void setHandler(Process process, final String callbackFunction, final Runnable onExit) {
             final InputStream inputStream = process.getInputStream();
             final InputStream errorStream = process.getErrorStream();
-            final Thread reader = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String line;
-                    try {
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-                        while ((line = bufferedReader.readLine()) != null) {
-                            try {
-                                final JSONObject message = new JSONObject();
-                                message.put("type", ShellHandlerBase.EVENT_READ);
-                                message.put("message", line + "\n");
-                                webView.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        webView.evaluateJavascript(callbackFunction + "(" + message.toString() + ")", new ValueCallback<String>() {
-                                            @Override
-                                            public void onReceiveValue(String value) {
+            final Thread reader = new Thread(() -> {
+                String line;
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+                    while ((line = bufferedReader.readLine()) != null) {
+                        try {
+                            final JSONObject message = new JSONObject();
+                            message.put("type", ShellHandlerBase.EVENT_READ);
+                            message.put("message", line + "\n");
+                            webView.post(() -> webView.evaluateJavascript(callbackFunction + "(" + message + ")", value -> {
 
-                                            }
-                                        });
-                                    }
-                                });
-                            } catch (Exception ex) {
-                            }
+                            }));
+                        } catch (Exception ex) {
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
-            final Thread readerError = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String line;
-                    try {
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(errorStream, "UTF-8"));
-                        while ((line = bufferedReader.readLine()) != null) {
-                            try {
-                                final JSONObject message = new JSONObject();
-                                message.put("type", ShellHandlerBase.EVENT_READ_ERROR);
-                                message.put("message", line + "\n");
-                                webView.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        webView.evaluateJavascript(callbackFunction + "(" + message.toString() + ")", new ValueCallback<String>() {
-                                            @Override
-                                            public void onReceiveValue(String value) {
+            final Thread readerError = new Thread(() -> {
+                String line;
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(errorStream, StandardCharsets.UTF_8));
+                    while ((line = bufferedReader.readLine()) != null) {
+                        try {
+                            final JSONObject message = new JSONObject();
+                            message.put("type", ShellHandlerBase.EVENT_READ_ERROR);
+                            message.put("message", line + "\n");
+                            webView.post(() -> webView.evaluateJavascript(callbackFunction + "(" + message + ")", value -> {
 
-                                            }
-                                        });
-                                    }
-                                });
-                            } catch (Exception ex) {
-                            }
+                            }));
+                        } catch (Exception ex) {
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
             final Process processFinal = process;
-            Thread waitExit = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    int status = -1;
+            Thread waitExit = new Thread(() -> {
+                int status = -1;
+                try {
+                    status = processFinal.waitFor();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
                     try {
-                        status = processFinal.waitFor();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            final JSONObject message = new JSONObject();
-                            message.put("type", ShellHandlerBase.EVENT_EXIT);
-                            message.put("message", "" + status);
-                            webView.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    webView.evaluateJavascript(callbackFunction + "(" + message.toString() + ")", new ValueCallback<String>() {
-                                        @Override
-                                        public void onReceiveValue(String value) {
+                        final JSONObject message = new JSONObject();
+                        message.put("type", ShellHandlerBase.EVENT_EXIT);
+                        message.put("message", "" + status);
+                        webView.post(() -> webView.evaluateJavascript(callbackFunction + "(" + message + ")", value -> {
 
-                                        }
-                                    });
-                                }
-                            });
-                        } catch (Exception ex) {
-                        }
+                        }));
+                    } catch (Exception ex) {
+                    }
 
-                        if (reader.isAlive()) {
-                            reader.interrupt();
-                        }
-                        if (readerError.isAlive()) {
-                            readerError.interrupt();
-                        }
-                        if (onExit != null) {
-                            onExit.run();
-                        }
+                    if (reader.isAlive()) {
+                        reader.interrupt();
+                    }
+                    if (readerError.isAlive()) {
+                        readerError.interrupt();
+                    }
+                    if (onExit != null) {
+                        onExit.run();
                     }
                 }
             });
