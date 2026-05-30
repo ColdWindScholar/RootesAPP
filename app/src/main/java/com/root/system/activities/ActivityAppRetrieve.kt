@@ -68,10 +68,10 @@ class ActivityAppRetrieve : ActivityBase() {
 
     private fun loadData() {
         progressBarDialog.showDialog("正在获取应用状态")
-
+        val c  = this
         GlobalScope.launch(Dispatchers.Main) {
             // 获得已卸载的应用（包括：隐藏的、卸载的）
-            val uninstalledApp = UninstalledApp().getUninstalledApp(context)
+            val uninstalledApp = UninstalledApp().getUninstalledApp(c)
             val appList = ArrayList<AppInfo>()
             uninstalledApp.forEach {
                 // spf.edit().putString(it.packageName, it.loadLabel(pm).toString())
@@ -79,7 +79,7 @@ class ActivityAppRetrieve : ActivityBase() {
             }
             progressBarDialog.hideDialog()
             if (binding.hiddenApp != null) {
-                val adapterObj = AdapterAppList(context, appList)
+                val adapterObj = AdapterAppList(c, appList)
                 binding.hiddenApp.adapter = adapterObj
                 adapterAppList = WeakReference(adapterObj)
                 binding.hiddenApp.onItemClickListener = AdapterView.OnItemClickListener { _, itemView, postion, _ ->

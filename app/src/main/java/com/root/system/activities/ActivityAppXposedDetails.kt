@@ -65,13 +65,13 @@ class ActivityAppXposedDetails : ActivityBase() {
     }
 
     private fun installVAddin() {
-        DialogHelper.warning(context, getString(R.string.scene_addin_miss), getString(R.string.scene_addin_miss_desc), {
+        DialogHelper.warning(this, getString(R.string.scene_addin_miss), getString(R.string.scene_addin_miss_desc), {
             try {
                 val uri = Uri.parse("http://vtools.omarea.com/")
                 val intent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(intent)
             } catch (ex: Exception) {
-                Toast.makeText(context, "启动在线页面失败！", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "启动在线页面失败！", Toast.LENGTH_SHORT).show()
             }
         })
     }

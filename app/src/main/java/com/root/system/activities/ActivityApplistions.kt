@@ -43,7 +43,7 @@ class ActivityApplistions : ActivityBase() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_retrieve) {
-            val intent = Intent(context, ActivityAppRetrieve::class.java)
+            val intent = Intent(this, ActivityAppRetrieve::class.java)
             startActivity(intent)
             return true
         }
@@ -56,11 +56,11 @@ class ActivityApplistions : ActivityBase() {
         setContentView(binding.root)
 
         setBackArrow()
-
+        val c = this
         TabIconHelper2(binding.tabList, binding.tabContent, this, supportFragmentManager).run {
-            newTabSpec("Installed", ContextCompat.getDrawable(context, R.drawable.tab_app)!!, fragmentAppUser)
-            newTabSpec("System", ContextCompat.getDrawable(context, R.drawable.tab_security)!!, fragmentAppSystem)
-            newTabSpec("Backups", ContextCompat.getDrawable(context, R.drawable.tab_package)!!, fragmentAppBackup)
+            newTabSpec("Installed", ContextCompat.getDrawable(c, R.drawable.tab_app)!!, fragmentAppUser)
+            newTabSpec("System", ContextCompat.getDrawable(c, R.drawable.tab_security)!!, fragmentAppSystem)
+            newTabSpec("Backups", ContextCompat.getDrawable(c, R.drawable.tab_package)!!, fragmentAppBackup)
             binding.tabContent.adapter = this.adapter
         }
 

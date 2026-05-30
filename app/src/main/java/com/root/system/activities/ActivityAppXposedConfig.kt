@@ -37,7 +37,7 @@ class ActivityAppXposedConfig : ActivityBase() {
         setContentView(binding.root)
 
         setBackArrow()
-        globalSPF = context!!.getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
+        globalSPF = this.getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
         xposedExtension = XposedExtension(this)
 
         this.onViewCreated()
@@ -47,11 +47,10 @@ class ActivityAppXposedConfig : ActivityBase() {
         processBarDialog = ProgressBarDialog(this)
         applistHelper = AppListHelper(this)
         globalSPF = getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
-
         binding.sceneAppList.setOnItemClickListener { parent, view2, position, _ ->
             try {
                 val item = (parent.adapter.getItem(position) as AppInfo)
-                val intent = Intent(this.context, ActivityAppXposedDetails::class.java)
+                val intent = Intent(this, ActivityAppXposedDetails::class.java)
                 intent.putExtra("app", item.packageName)
                 startActivityForResult(intent, REQUEST_APP_CONFIG)
                 lastClickRow = view2
