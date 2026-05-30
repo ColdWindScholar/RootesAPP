@@ -26,9 +26,9 @@ class FileValueMap {
                     val name = item.substring(0, end)
                     if (end < item.length - 1) {
                         val value = item.substring(end + 1)
-                        hashMap.put(name, value)
+                        hashMap[name] = value
                     } else {
-                        hashMap.put(name, "")
+                        hashMap[name] = ""
                     }
                 }
             }

@@ -186,9 +186,7 @@ val filePath = "/data/data/com.root.system/.update"
 
     }
     
-     fun onClick(v: View?) {
-            // Handle generic click events here if needed
-        }
+
 
     override fun onDestroy() {
         super.onDestroy()

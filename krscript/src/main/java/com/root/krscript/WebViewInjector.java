@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
@@ -16,7 +15,6 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.root.common.shell.KeepShellPublic;
-import com.root.common.shell.ShellExecutor;
 import com.root.common.ui.DialogHelper;
 import com.root.krscript.downloader.Downloader;
 import com.root.krscript.executor.ExtractAssets;
@@ -30,11 +28,9 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;

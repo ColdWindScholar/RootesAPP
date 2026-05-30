@@ -25,6 +25,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
+import androidx.core.content.edit
 
 /**
  *
@@ -77,7 +78,7 @@ class AppSwitchHandler(private var context: AccessibilityScenceMode, override va
             if (screenOn) {
                 timer = Timer(true).apply {
                     val interval = 6
-                    scheduleAtFixedRate(object : TimerTask() {
+                    schedule(object : TimerTask() {
                         private var ticks = 0
                         override fun run() {
                             updateModeNoitfy(true) // 耗电统计 定时更新通知显示
@@ -303,16 +304,16 @@ class AppSwitchHandler(private var context: AccessibilityScenceMode, override va
 
         if (spfPowercfg.all.isEmpty()) {
             for (item in context.resources.getStringArray(R.array.powercfg_igoned)) {
-                spfPowercfg.edit().putString(item, IGONED).apply()
+                spfPowercfg.edit { putString(item, IGONED) }
             }
             for (item in context.resources.getStringArray(R.array.powercfg_fast)) {
-                spfPowercfg.edit().putString(item, FAST).apply()
+                spfPowercfg.edit { putString(item, FAST) }
             }
             for (item in context.resources.getStringArray(R.array.powercfg_game)) {
-                spfPowercfg.edit().putString(item, PERFORMANCE).apply()
+                spfPowercfg.edit { putString(item, PERFORMANCE) }
             }
             for (item in context.resources.getStringArray(R.array.powercfg_powersave)) {
-                spfPowercfg.edit().putString(item, POWERSAVE).apply()
+                spfPowercfg.edit { putString(item, POWERSAVE) }
             }
         }
 
@@ -325,9 +326,9 @@ class AppSwitchHandler(private var context: AccessibilityScenceMode, override va
                 }
                 initPowerCfg()
             } else {
-                spfGlobal.edit().putBoolean(SpfConfig.GLOBAL_SPF_DYNAMIC_CONTROL, false).apply()
+                spfGlobal.edit { putBoolean(SpfConfig.GLOBAL_SPF_DYNAMIC_CONTROL, false) }
             }
-            spfGlobal.edit().putString(SpfConfig.GLOBAL_SPF_POWERCFG, "").commit()
+            spfGlobal.edit(commit = true) { putString(SpfConfig.GLOBAL_SPF_POWERCFG, "") }
         }
     }
 

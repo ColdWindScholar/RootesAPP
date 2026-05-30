@@ -8,6 +8,8 @@ import com.root.common.shell.KeepShellPublic
 import com.root.common.shell.KernelProrp
 import com.root.common.shell.RootFile
 import com.root.model.BatteryStatus
+import kotlin.math.abs
+import kotlin.math.pow
 
 /**
  * Created by Hello on 2017/11/01.
@@ -233,7 +235,7 @@ class BatteryUtils {
                 }
 
                 if (io.isNotEmpty() && mahLength != 0) {
-                    val `val` = if (mahLength < 5) Integer.parseInt(io) else (Integer.parseInt(io) / Math.pow(10.0, (mahLength - 4).toDouble())).toInt()
+                    val `val` = if (mahLength < 5) Integer.parseInt(io) else (Integer.parseInt(io) / 10.0.pow((mahLength - 4).toDouble())).toInt()
                     stringBuilder.insert(0, "放电速度 = " + `val` + "mA\n")
                 }
 
@@ -525,13 +527,13 @@ class BatteryUtils {
                 val raw = KernelProrp.getProp("/sys/class/power_supply/bms/capacity_raw")
                 val capacityValue = raw.toInt()
 
-                val valueMA = if (Math.abs(capacityValue - approximate) > Math.abs((capacityValue / 100f) - approximate)) {
+                val valueMA = if (abs(capacityValue - approximate) > abs((capacityValue / 100f) - approximate)) {
                     capacityValue / 100f
                 } else {
                     raw.toFloat()
                 }
                 // 如果和系统反馈的电量差距超过5%，则认为数值无效，不再读取
-                return if (Math.abs(valueMA - approximate) > 5) {
+                return if (abs(valueMA - approximate) > 5) {
                     kernelCapacitySupported = false
                     -1f
                 } else {

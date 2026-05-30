@@ -1,17 +1,14 @@
 package com.root.system.addin
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Build
 import android.view.View
 import android.widget.Toast
 import androidx.core.net.toUri
 import com.root.common.ui.DialogHelper
-import com.root.library.shell.PropsUtils
 import com.root.system.R
 import com.root.system.activities.ActivityBase
 import com.root.system.services.CompileService
-import com.root.utils.CommonCmds
 
 /**
  * Created by Hello on 2018/02/20.
@@ -82,151 +79,5 @@ class DexCompileAddin(private var context: ActivityBase) : AddinBase(context) {
         run2()
     }
 
-    fun modifyConfigOld() {
-        val arr = arrayOf(
-                "verify",
-                "speed",
-                "恢复默认")
-        val intallMode = PropsUtils.getProp("dalvik.vm.dex2oat-filter")
-        var index = 0
-        when (intallMode) {
-            "interpret-only" -> index = 0
-            "speed" -> index = 1
-        }
-        DialogHelper.animDialog(AlertDialog.Builder(context)
-                .setTitle("请选择Dex2oat配置")
-                .setSingleChoiceItems(arr, index) { _, which ->
-                    index = which
-                }
-                .setNegativeButton("确定") { _, _ ->
-                    val stringBuilder = StringBuilder()
 
-                    //移除已添加的配置
-                    stringBuilder.append("sed '/^dalvik.vm.image-dex2oat-filter=/'d /system/build.prop > /data/build.prop;")
-                    stringBuilder.append("sed -i '/^dalvik.vm.dex2oat-filter=/'d /data/build.prop;")
-
-                    when (index) {
-                        0 -> {
-                            stringBuilder.append("sed -i '\$adalvik.vm.image-dex2oat-filter=interpret-only' /data/build.prop;")
-                            stringBuilder.append("sed -i '\$adalvik.vm.dex2oat-filter=interpret-only' /data/build.prop;")
-                        }
-                        1 -> {
-                            stringBuilder.append("sed -i '\$adalvik.vm.image-dex2oat-filter=speed' /data/build.prop;")
-                            stringBuilder.append("sed -i '\$adalvik.vm.dex2oat-filter=speed' /data/build.prop;")
-                        }
-                    }
-
-                    stringBuilder.append(CommonCmds.MountSystemRW)
-                    stringBuilder.append("cp /system/build.prop /system/build.prop.${System.currentTimeMillis()}\n")
-                    stringBuilder.append("cp /data/build.prop /system/build.prop\n")
-                    stringBuilder.append("rm /data/build.prop\n")
-                    stringBuilder.append("chmod 0755 /system/build.prop\n")
-
-                    execShell(stringBuilder)
-                    Toast.makeText(context, "配置已修改，但需要重启才能生效！", Toast.LENGTH_SHORT).show()
-                }
-                .setNeutralButton("查看说明") { _, _ ->
-                    DialogHelper.animDialog(AlertDialog.Builder(context).setTitle("说明").setMessage("interpret-only模式安装应用更快。speed模式安装应用将会很慢，但是运行速度更快。"))
-                })
-    }
-
-    fun modifyConfig() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            modifyConfigOld()
-            return
-        }
-
-        val arr = arrayOf(
-                "不编译（优化安装速度）",
-                "编译（优化运行速度）",
-                "恢复默认")
-        val intallMode = PropsUtils.getProp("pm.dexopt.install")
-        var index: Int
-        index = when (intallMode) {
-            "extract",
-            "quicken",
-            "interpret-only",
-            "verify-none" -> 0
-
-            "speed" -> 1
-            "everything" -> 1
-            else -> {
-                if (PropsUtils.getProp("pm.dexopt.core-app") == "verify-none") {
-                    3
-                } else
-                    0
-            }
-        }
-        DialogHelper.animDialog(AlertDialog.Builder(context)
-
-                .setSingleChoiceItems(arr, index) { _, which ->
-                    index = which
-                }
-                .setNegativeButton("确定") { _, _ ->
-                    val stringBuilder = StringBuilder()
-
-                    //移除已添加的配置
-                    stringBuilder.append("cp /system/build.prop /data/build.prop;")
-                    //stringBuilder.append("sed -i '/^pm.dexopt.ab-ota=/'d /data/build.prop;")
-                    stringBuilder.append("sed -i '/^pm.dexopt.bg-dexopt=/'d /data/build.prop;")
-                    //stringBuilder.append("sed -i '/^pm.dexopt.boot=/'d /data/build.prop;")
-                    stringBuilder.append("sed -i '/^pm.dexopt.core-app=/'d /data/build.prop;")
-                    //stringBuilder.append("sed -i '/^pm.dexopt.first-boot=/'d /data/build.prop;")
-                    stringBuilder.append("sed -i '/^pm.dexopt.forced-dexopt=/'d /data/build.prop;")
-                    stringBuilder.append("sed -i '/^pm.dexopt.install=/'d /data/build.prop;")
-                    stringBuilder.append("sed -i '/^pm.dexopt.nsys-library=/'d /data/build.prop;")
-                    stringBuilder.append("sed -i '/^pm.dexopt.shared-apk=/'d /data/build.prop;")
-                    stringBuilder.append("sed -i '/^dalvik.vm.image-dex2oat-filter=/'d /data/build.prop;")
-                    stringBuilder.append("sed -i '/^dalvik.vm.dex2oat-filter=/'d /data/build.prop;")
-
-                    when (index) {
-                        0 -> {
-                            stringBuilder.append("sed -i '\$apm.dexopt.bg-dexopt=speed' /data/build.prop;")
-                            stringBuilder.append("sed -i '\$apm.dexopt.core-app=speed' /data/build.prop;")
-                            stringBuilder.append("sed -i '\$apm.dexopt.forced-dexopt=speed' /data/build.prop;")
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                                stringBuilder.append("sed -i '\$apm.dexopt.install=interpret-only' /data/build.prop;")
-                            } else {
-                                stringBuilder.append("sed -i '\$apm.dexopt.install=quicken' /data/build.prop;")
-                            }
-                            stringBuilder.append("sed -i '\$apm.dexopt.nsys-library=speed' /data/build.prop;")
-                            stringBuilder.append("sed -i '\$apm.dexopt.shared-apk=speed' /data/build.prop;")
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                                stringBuilder.append("sed -i '\$adalvik.vm.image-dex2oat-filter=speed' /data/build.prop;")
-                                stringBuilder.append("sed -i '\$adalvik.vm.dex2oat-filter=speed' /data/build.prop;")
-                            }
-                        }
-                        1 -> {
-                            stringBuilder.append("sed -i '\$apm.dexopt.bg-dexopt=speed' /data/build.prop;")
-                            stringBuilder.append("sed -i '\$apm.dexopt.core-app=speed' /data/build.prop;")
-                            stringBuilder.append("sed -i '\$apm.dexopt.forced-dexopt=speed' /data/build.prop;")
-                            stringBuilder.append("sed -i '\$apm.dexopt.install=speed' /data/build.prop;")
-                            stringBuilder.append("sed -i '\$apm.dexopt.nsys-library=speed' /data/build.prop;")
-                            stringBuilder.append("sed -i '\$apm.dexopt.shared-apk=speed' /data/build.prop;")
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                                stringBuilder.append("sed -i '\$adalvik.vm.image-dex2oat-filter=speed' /data/build.prop;")
-                                stringBuilder.append("sed -i '\$adalvik.vm.dex2oat-filter=speed' /data/build.prop;")
-                            }
-                        }
-                    }
-
-                    stringBuilder.append(CommonCmds.MountSystemRW)
-                    stringBuilder.append("cp /system/build.prop /system/build.prop.${System.currentTimeMillis()}\n")
-                    stringBuilder.append("cp /data/build.prop /system/build.prop\n")
-                    stringBuilder.append("rm /data/build.prop\n")
-                    stringBuilder.append("chmod 0755 /system/build.prop\n")
-
-                    execShell(stringBuilder)
-                    Toast.makeText(context, "配置已修改，但需要重启才能生效！", Toast.LENGTH_SHORT).show()
-                }
-                .setNeutralButton("查看说明") { _, _ ->
-                    DialogHelper.animDialog(AlertDialog.Builder(context)
-                            .setTitle("说明")
-                            .setMessage(R.string.addin_dexopt_helpinfo)
-                            .setNegativeButton("了解更多") { _, _ ->
-                                context.startActivity(Intent(Intent.ACTION_VIEW,
-                                    context.getString(R.string.addin_dex2oat_helplink).toUri()))
-                            })
-                })
-    }
 }

@@ -10,6 +10,7 @@ import com.root.store.CpuConfigStorage
 import com.root.store.SpfConfig
 import java.io.File
 import java.nio.charset.Charset
+import androidx.core.content.edit
 
 class CpuConfigInstaller {
     val rootDir = "powercfg"
@@ -67,15 +68,17 @@ class CpuConfigInstaller {
                 if (!afterCmds.isEmpty()) {
                     KeepShellPublic.doCmdSync(afterCmds)
                 }
-                val config =  context.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE).edit()
-                config.putString(SpfConfig.GLOBAL_SPF_PROFILE_SOURCE, (
-                        if (active) {
-                            ModeSwitcher.SOURCE_SCENE_ACTIVE
-                        } else {
-                            ModeSwitcher.SOURCE_SCENE_CONSERVATIVE
-                        }
-                        )
-                ).apply()
+                context.getSharedPreferences(SpfConfig.GLOBAL_SPF, Context.MODE_PRIVATE).edit {
+                    putString(
+                        SpfConfig.GLOBAL_SPF_PROFILE_SOURCE, (
+                                if (active) {
+                                    ModeSwitcher.SOURCE_SCENE_ACTIVE
+                                } else {
+                                    ModeSwitcher.SOURCE_SCENE_CONSERVATIVE
+                                }
+                                )
+                    )
+                }
                 removeCustomModes(context)
                 return true
             }

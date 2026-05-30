@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.root.common.shell.KeepShellPublic
 import com.root.common.shell.RootFile
 import com.root.store.SpfConfig
+import androidx.core.content.edit
 
 /*
 # 配置示例
@@ -60,9 +61,7 @@ class SwapModuleUtils {
     private val extraFreeKbytes = "extra_free_kbytes"
     private val watermarkScaleFactor = "watermark_scale_factor"
 
-    private fun getProp(prop: String): String {
-        return KeepShellPublic.doCmdSync("cat /data/swap_config.conf | grep -v '^#' | grep \"^${prop}=\" | cut -f2 -d '='")
-    }
+
 
     private fun getProp(config: List<String>, prop: String): String {
         val result = config.find { it.startsWith("$prop=") }
@@ -99,35 +98,35 @@ class SwapModuleUtils {
             return
         }
 
-        val editor = spf.edit()
-        val savedConfig = KeepShellPublic.doCmdSync("cat /data/swap_config.conf").split("\n")
+        spf.edit {
+            val savedConfig = KeepShellPublic.doCmdSync("cat /data/swap_config.conf").split("\n")
 
-        try {
-            editor.putBoolean(SpfConfig.SWAP_SPF_SWAP, getProp(savedConfig, swapEnable) == "true")
-            editor.putInt(SpfConfig.SWAP_SPF_SWAP_SWAPSIZE, getProp(savedConfig, swapSize).toInt())
-            editor.putInt(SpfConfig.SWAP_SPF_SWAP_PRIORITY, getProp(savedConfig, swapPriority).toInt())
-            editor.putBoolean(SpfConfig.SWAP_SPF_SWAP_USE_LOOP, getProp(savedConfig, swapUseLoop) == "true")
-        } catch (ex: Exception) {
-        }
+            try {
+                putBoolean(SpfConfig.SWAP_SPF_SWAP, getProp(savedConfig, swapEnable) == "true")
+                putInt(SpfConfig.SWAP_SPF_SWAP_SWAPSIZE, getProp(savedConfig, swapSize).toInt())
+                putInt(SpfConfig.SWAP_SPF_SWAP_PRIORITY, getProp(savedConfig, swapPriority).toInt())
+                putBoolean(SpfConfig.SWAP_SPF_SWAP_USE_LOOP, getProp(savedConfig, swapUseLoop) == "true")
+            } catch (ex: Exception) {
+            }
 
-        try {
-            editor.putBoolean(SpfConfig.SWAP_SPF_ZRAM, getProp(savedConfig, zramEnable) == "true")
-            editor.putInt(SpfConfig.SWAP_SPF_ZRAM_SIZE, getProp(savedConfig, zramSize).toInt())
-            editor.putString(SpfConfig.SWAP_SPF_ALGORITHM, getProp(savedConfig, zramCompAlgorithm))
-        } catch (ex: Exception) {
-        }
+            try {
+                putBoolean(SpfConfig.SWAP_SPF_ZRAM, getProp(savedConfig, zramEnable) == "true")
+                putInt(SpfConfig.SWAP_SPF_ZRAM_SIZE, getProp(savedConfig, zramSize).toInt())
+                putString(SpfConfig.SWAP_SPF_ALGORITHM, getProp(savedConfig, zramCompAlgorithm))
+            } catch (ex: Exception) {
+            }
 
-        try {
-            editor.putInt(SpfConfig.SWAP_SPF_SWAPPINESS, getProp(savedConfig, swappiness).toInt())
-            editor.putInt(SpfConfig.SWAP_SPF_EXTRA_FREE_KBYTES, getProp(savedConfig, extraFreeKbytes).toInt())
-        } catch (ex: Exception) {
-        }
-        try {
-            editor.putInt(SpfConfig.SWAP_SPF_WATERMARK_SCALE, getProp(savedConfig, watermarkScaleFactor).toInt())
-        } catch (ex: Exception) {
-        }
+            try {
+                putInt(SpfConfig.SWAP_SPF_SWAPPINESS, getProp(savedConfig, swappiness).toInt())
+                putInt(SpfConfig.SWAP_SPF_EXTRA_FREE_KBYTES, getProp(savedConfig, extraFreeKbytes).toInt())
+            } catch (ex: Exception) {
+            }
+            try {
+                putInt(SpfConfig.SWAP_SPF_WATERMARK_SCALE, getProp(savedConfig, watermarkScaleFactor).toInt())
+            } catch (ex: Exception) {
+            }
 
-        editor.apply()
+        }
     }
 
     // 当前模块版本

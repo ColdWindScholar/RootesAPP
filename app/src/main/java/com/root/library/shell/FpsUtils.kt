@@ -1,7 +1,5 @@
 package com.root.library.shell
 
-import android.os.Handler
-import android.os.Looper
 import android.view.Choreographer
 import com.root.common.shell.KeepShell
 import com.root.common.shell.KeepShellPublic
@@ -21,7 +19,6 @@ class FpsUtils(private val keepShell: KeepShell = KeepShellPublic.defaultKeepShe
     private var frameCount = 0
     private var lastFrameTime = 0L
     private var choreographer: Choreographer? = null
-    private val handler = Handler(Looper.getMainLooper())
 
     init {
         startFrameCallback()
@@ -133,7 +130,5 @@ class FpsUtils(private val keepShell: KeepShell = KeepShellPublic.defaultKeepShe
         return if (lastFrameTime != 0L) frameCount * 1000f / (System.currentTimeMillis() - lastFrameTime) else 0f
     }
 
-    fun stopFrameCallback() {
-        choreographer?.removeFrameCallback { }
-    }
+
 }

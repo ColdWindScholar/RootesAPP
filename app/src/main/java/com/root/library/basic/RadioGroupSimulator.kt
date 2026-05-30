@@ -36,7 +36,7 @@ class RadioGroupSimulator {
     }
 
     private fun autoCheck(current: CompoundButton) {
-        if (radios.filter { it.isChecked && it != current }.isEmpty()) {
+        if (radios.none { it.isChecked && it != current }) {
             current.isChecked = true
         }
     }

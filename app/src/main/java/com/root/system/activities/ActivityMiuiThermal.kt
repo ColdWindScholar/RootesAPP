@@ -19,6 +19,7 @@ import com.root.system.R
 import com.root.system.databinding.ActivityMiuiThermalBinding
 import java.io.File
 import java.nio.charset.Charset
+import androidx.core.net.toUri
 
 class ActivityMiuiThermal : ActivityBase() {
     private lateinit var binding: ActivityMiuiThermalBinding
@@ -150,7 +151,7 @@ class ActivityMiuiThermal : ActivityBase() {
                 Toast.makeText(this, "未能应用温控配置！", Toast.LENGTH_LONG).show()
             } else {
                 val savedContent = KernelProrp.getProp("/data/vendor/thermal/decrypt.txt").trim()
-                if (savedContent.equals(currentContent)) {
+                if (savedContent == currentContent) {
                     Toast.makeText(this, "应用温控配置成功~", Toast.LENGTH_LONG).show()
                 } else if (!RootFile.fileExists(outPath)) {
                     Toast.makeText(this, "未能应用温控配置！", Toast.LENGTH_LONG).show()
@@ -178,7 +179,7 @@ class ActivityMiuiThermal : ActivityBase() {
 
     private fun openUrl(link: String) {
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+            val intent = Intent(Intent.ACTION_VIEW, link.toUri())
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         } catch (ex: Exception) {

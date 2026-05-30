@@ -1,7 +1,6 @@
 package com.root.library.shell
 
 import android.content.Context
-import android.util.Log
 import com.root.common.shared.FileWrite
 import com.root.common.shell.*
 import com.root.model.ZramWriteBackStat
@@ -225,10 +224,10 @@ class SwapUtils(private val context: Context) {
     val zramCurrentSizeMB: Int
         get () {
             val currentSize = KeepShellPublic.doCmdSync("cat /sys/block/zram0/disksize")
-            try {
-                return (currentSize.toLong() / 1024 /1024).toInt()
+            return try {
+                (currentSize.toLong() / 1024 /1024).toInt()
             } catch (ex: java.lang.Exception) {
-                return 0
+                0
             }
         }
 

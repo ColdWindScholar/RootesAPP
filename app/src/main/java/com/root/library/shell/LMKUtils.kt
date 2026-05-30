@@ -38,7 +38,7 @@ class LMKUtils {
             // 2GB
             totalRamBytes > 1024 * 1024 * 1024 -> 0.5f
             // 1GB
-            totalRamBytes > 1024 * 1024 * 1024 -> 0.25f
+            false -> 0.25f
             // < 1GB (这破手机还用毛啊！！！)
             else -> 0.2f
         }

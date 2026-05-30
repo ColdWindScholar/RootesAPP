@@ -6,8 +6,8 @@ import com.root.common.shell.RootFile
 import java.util.*
 
 class ThermalDisguise {
-    private final val boardSensorTemp = "/sys/class/thermal/thermal_message/board_sensor_temp"
-    private final val migtMaxFreq = "/sys/module/migt/parameters/glk_maxfreq"
+    private val boardSensorTemp = "/sys/class/thermal/thermal_message/board_sensor_temp"
+    private val migtMaxFreq = "/sys/module/migt/parameters/glk_maxfreq"
     private final val gameServiceApp = "com.xiaomi.gamecenter.sdk.service"
     private final val gameService = "com.xiaomi.gamecenter.sdk.service/.PidService"
     private final val vtoolsStorage = "vtools.thermal.disguise"

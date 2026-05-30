@@ -126,15 +126,7 @@ public class GpuUtils {
     }
 
     // Adreno /sys/class/kgsl/kgsl-3d0/freq_table_mhz
-    public static String[] getFreqTableMhz() {
-        if (isAdrenoGPU()) {
-            String freqs = KernelProrp.INSTANCE.getProp(gpuParamsDirAdreno + "/freq_table_mhz");
-            if (!freqs.isEmpty()) {
-                return freqs.split("[ ]+");
-            }
-        }
-        return new String[]{};
-    }
+
 
     public static boolean supported() {
         return isAdrenoGPU() || isMaliGPU();

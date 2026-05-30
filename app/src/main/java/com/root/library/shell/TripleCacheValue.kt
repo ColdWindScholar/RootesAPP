@@ -1,6 +1,7 @@
 package com.root.library.shell
 
 import android.content.Context
+import androidx.core.content.edit
 
 abstract class TripleCacheValue(private val context: Context, private val storageKey: String) {
     private var cache: String? = null // 内存缓存
@@ -13,7 +14,7 @@ abstract class TripleCacheValue(private val context: Context, private val storag
                     // 重新生成值（通常是耗时操作）
                     cache = initValue()
                     if (cache?.isNotEmpty() == true) {
-                        storage.edit().putString(storageKey, cache).apply()
+                        storage.edit { putString(storageKey, cache) }
                     }
                 } else {
                     cache = storage.getString(storageKey, "")

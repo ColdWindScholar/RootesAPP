@@ -26,10 +26,10 @@ class ActionShortcutManager(private var context: Context) {
             intent.removeExtra("page")
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return createShortcutOreo(intent, drawable, config)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createShortcutOreo(intent, drawable, config)
         } else {
-            return addShortcutNougat(intent, drawable, config)
+            addShortcutNougat(intent, drawable, config)
         }
     }
 
