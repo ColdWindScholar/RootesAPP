@@ -132,9 +132,8 @@ class ActivityMain : ActivityBase() {
         tabIconHelper2.newTabSpec(getString(R.string.app_nav), getDrawable( R.drawable.app_menu)!!, FragmentNav())
         tabIconHelper2.newTabSpec(getString(R.string.app_tuner), getDrawable( R.drawable.app_settings)!!,  FragmentCpuModes())
         tabIconHelper2.newTabSpec(getString(R.string.app_user), getDrawable(R.drawable.app_like)!!,  FragmentDonate())
-
         // 检查root访问权限并处理捐赠标签
-
+        binding.tabContent.adapter = tabIconHelper2.adapter
         binding.tabList.getTabAt(0)?.select() // 默认选中第一个标签
 
         // 检查Magisk支持和模块
