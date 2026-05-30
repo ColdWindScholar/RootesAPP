@@ -33,6 +33,7 @@ import com.root.ui.AdapterSwaplist
 import com.root.system.databinding.ActivitySwapBinding
 import java.util.*
 import androidx.core.content.edit
+import androidx.core.net.toUri
 
 
 class ActivitySwap : ActivityBase() {
@@ -201,7 +202,7 @@ class ActivitySwap : ActivityBase() {
             try {
                 val intent = Intent()
                 intent.setAction(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(getString(R.string.swap_module_download_url))
+                intent.data = getString(R.string.swap_module_download_url).toUri()
                 this.startActivity(intent)
             } catch (ex: java.lang.Exception) {
                 Toast.makeText(this, "启动下载失败！", Toast.LENGTH_SHORT).show()

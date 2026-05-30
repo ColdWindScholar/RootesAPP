@@ -137,18 +137,18 @@ class ActivityFreezeApps : ActivityBase() {
         Thread {
             try {
                 // 数据库
-                val store = SceneConfigStore(context)
+                val store = SceneConfigStore(this)
                 // 数据库中记录的已添加的偏见应用
                 freezeApps = store.freezeAppList
                 val checkShortcuts = config.getBoolean(SpfConfig.GLOBAL_SPF_FREEZE_ICON_NOTIFY, false)
                 // 已添加到桌面的快捷方式
-                val pinnedShortcuts = if (checkShortcuts) FreezeAppShortcutHelper().getPinnedShortcuts(context) else arrayListOf()
+                val pinnedShortcuts = if (checkShortcuts) FreezeAppShortcutHelper().getPinnedShortcuts(this) else arrayListOf()
 
                 val lostedShortcuts = ArrayList<AppInfo>()
                 val lostedShortcutsName = StringBuilder()
 
                 // val allApp = AppListHelper(context).getAll()
-                val appListHelper = AppListHelper(context)
+                val appListHelper = AppListHelper(this)
 
                 val freezeAppsInfo = ArrayList<AppInfo>()
                 // 遍历偏见应用列表 获取应用详情
@@ -199,7 +199,7 @@ class ActivityFreezeApps : ActivityBase() {
                 getString(R.string.freeze_shortcut_lost_desc) + "\n\n$lostedShortcutsName",
                 {
                     processBarDialog.showDialog(getString(R.string.please_wait))
-                    CreateShortcutThread(lostedShortcuts, context) {
+                    CreateShortcutThread(lostedShortcuts, this) {
                         handler.post {
                             loadData()
                             processBarDialog.hideDialog()
@@ -245,14 +245,14 @@ class ActivityFreezeApps : ActivityBase() {
         }
 
         val packageName = appInfo.packageName
-        val store = SceneConfigStore(context)
+        val store = SceneConfigStore(this)
         val config = store.getAppConfig(packageName)
         config.freeze = false
         store.setAppConfig(config)
         store.close()
 
         SceneMode.getCurrentInstance()?.removeFreezeAppHistory(packageName)
-        FreezeAppShortcutHelper().removeShortcut(context, packageName)
+        FreezeAppShortcutHelper().removeShortcut(this, packageName)
     }
 
     // TODO:替换公共方法
@@ -286,7 +286,7 @@ class ActivityFreezeApps : ActivityBase() {
 
     private fun removeAndUninstall(appInfo: AppInfo) {
         removeConfig(appInfo)
-        KeepShellPublic.doCmdSync("pm uninstall --user " + getUserId(context) + " " + appInfo.packageName)
+        KeepShellPublic.doCmdSync("pm uninstall --user " + getUserId(this) + " " + appInfo.packageName)
     }
 
     private fun enableApp(appInfo: AppInfo) {
@@ -312,12 +312,12 @@ class ActivityFreezeApps : ActivityBase() {
     private fun toggleEnable(appInfo: AppInfo) {
         if (!appInfo.enabled || appInfo.suspended) {
             enableApp(appInfo)
-            Toast.makeText(context, getString(R.string.freeze_enable_completed), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.freeze_enable_completed), Toast.LENGTH_SHORT).show()
             appInfo.enabled = true
             appInfo.suspended = false
         } else {
             disableApp(appInfo)
-            Toast.makeText(context, getString(R.string.freeze_disable_completed), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.freeze_disable_completed), Toast.LENGTH_SHORT).show()
             appInfo.enabled = false
             appInfo.suspended = true
         }
@@ -365,10 +365,10 @@ class ActivityFreezeApps : ActivityBase() {
         if ((!appInfo.enabled) || appInfo.suspended) {
             enableApp(appInfo)
         }
-        if (FreezeAppShortcutHelper().createShortcut(context, appInfo.packageName)) {
-            Toast.makeText(context, getString(R.string.freeze_shortcut_add_success), Toast.LENGTH_SHORT).show()
+        if (FreezeAppShortcutHelper().createShortcut(this, appInfo.packageName)) {
+            Toast.makeText(this, getString(R.string.freeze_shortcut_add_success), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, getString(R.string.freeze_shortcut_add_fail), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.freeze_shortcut_add_fail), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -388,7 +388,7 @@ class ActivityFreezeApps : ActivityBase() {
     private fun addFreezeAppDialog() {
         processBarDialog.showDialog()
         Thread {
-            val allApp = AppListHelper(context).getBootableApps(false, true)
+            val allApp = AppListHelper(this).getBootableApps(false, true)
             val apps = allApp.filter { !freezeApps.contains(it.packageName) }
             val options = ArrayList(apps.map {
                 AdapterAppChooser.AppInfo().apply {
@@ -407,7 +407,7 @@ class ActivityFreezeApps : ActivityBase() {
                         }
                     })
                             .setExcludeApps(arrayOf(
-                                    context.packageName,
+                                    this.packageName,
                                     "com.topjohnwu.magisk",
                                     "eu.chainfire.supersu",
                                     "com.android.settings"))
@@ -430,7 +430,7 @@ class ActivityFreezeApps : ActivityBase() {
                 }
             }
         }
-        AddFreezeAppsThread(context, selectedItems, next, useSuspendMode).start()
+        AddFreezeAppsThread(this, selectedItems, next, useSuspendMode).start()
     }
 
     private class AddFreezeAppsThread(
@@ -566,7 +566,7 @@ class ActivityFreezeApps : ActivityBase() {
                 } else {
                     p.setComponentEnabledSetting(startActivity, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
                 }
-                Toast.makeText(context, getString(R.string.freeze_entrance_changed), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.freeze_entrance_changed), Toast.LENGTH_SHORT).show()
             } catch (ex: java.lang.Exception) {
             }
             (it as CompoundButton).isChecked = p.getComponentEnabledSetting(startActivity) == PackageManager.COMPONENT_ENABLED_STATE_ENABLED
@@ -589,11 +589,11 @@ class ActivityFreezeApps : ActivityBase() {
         view.findViewById<View>(R.id.menu_remove).setOnClickListener {
             dialog.dismiss()
             processBarDialog.showDialog()
-            RemoveAllThread(context, freezeApps) {
+            RemoveAllThread(this, freezeApps) {
                 handler.post {
                     loadData()
                     processBarDialog.hideDialog()
-                    Toast.makeText(context, getString(R.string.freeze_shortcut_delete_desc), Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.freeze_shortcut_delete_desc), Toast.LENGTH_LONG).show()
                 }
             }.start()
         }
@@ -609,7 +609,7 @@ class ActivityFreezeApps : ActivityBase() {
         val freezeOptions = view.findViewById<UMExpandLayout>(R.id.freeze_options)
         view.findViewById<View>(R.id.freeze_options_switch).setOnClickListener {
             freezeOptions.toggleExpand()
-            (it as ImageView).setImageDrawable(ContextCompat.getDrawable(context, (if (freezeOptions.isExpand) {
+            (it as ImageView).setImageDrawable(ContextCompat.getDrawable(this, (if (freezeOptions.isExpand) {
                 R.drawable.arrow_up
             } else {
                 R.drawable.arrow_down
@@ -623,7 +623,7 @@ class ActivityFreezeApps : ActivityBase() {
     private fun createShortcutAll() {
         DialogHelper.confirm(this, getString(R.string.freeze_batch_add), getString(R.string.freeze_batch_add_wran), {
             processBarDialog.showDialog(getString(R.string.please_wait))
-            CreateShortcutAllThread(context, freezeApps) {
+            CreateShortcutAllThread(this, freezeApps) {
                 handler.post {
                     processBarDialog.hideDialog()
                     loadData()
@@ -677,8 +677,9 @@ class ActivityFreezeApps : ActivityBase() {
     // 自动筛选已冻结的普通应用，添加到应用偏见列表
     private fun autoAddList() {
         processBarDialog.showDialog(getString(R.string.please_wait))
+        val c = this
         GlobalScope.launch(Dispatchers.IO) {
-            val appListHelper = AppListHelper(context)
+            val appListHelper = AppListHelper(c)
             val frozenApp = appListHelper.getUserAppList().filter {
                 (!it.enabled || it.suspended) && !(freezeApps.contains(it.packageName) || appListHelper.isSystemApp(applicationInfo))
             }
