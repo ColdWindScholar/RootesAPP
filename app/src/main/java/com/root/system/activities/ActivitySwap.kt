@@ -202,9 +202,9 @@ class ActivitySwap : ActivityBase() {
                 val intent = Intent()
                 intent.setAction(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(getString(R.string.swap_module_download_url))
-                context.startActivity(intent)
+                this.startActivity(intent)
             } catch (ex: java.lang.Exception) {
-                Toast.makeText(context, "启动下载失败！", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "启动下载失败！", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -376,7 +376,7 @@ class ActivitySwap : ActivityBase() {
         compactAlgorithm.text = currentAlgorithm
         compactAlgorithm.setOnClickListener {
             DialogItemChooserMini
-                    .singleChooser(context, compAlgorithmOptions, compAlgorithmOptions.indexOf(currentAlgorithm))
+                    .singleChooser(this, compAlgorithmOptions, compAlgorithmOptions.indexOf(currentAlgorithm))
                     .setTitle(R.string.swap_zram_comp_options)
                     .setCallback(object : DialogItemChooserMini.Callback {
                         override fun onConfirm(selected: List<SelectItem>, status: BooleanArray) {
@@ -506,7 +506,7 @@ class ActivitySwap : ActivityBase() {
                         processBarDialog.hideDialog()
                         val speed = (size * 1000.0 / time).toInt()
                         Toast.makeText(
-                                context,
+                                this,
                                 "Swapfile创建完毕，耗时${time / 1000}s，平均写入速度：${speed}MB/s",
                                 Toast.LENGTH_LONG
                         ).show()
@@ -874,7 +874,7 @@ class ActivitySwap : ActivityBase() {
     }
 
     private var showSwapOpened = {
-        Toast.makeText(context, getString(R.string.executed), Toast.LENGTH_LONG).show()
+        Toast.makeText(this, getString(R.string.executed), Toast.LENGTH_LONG).show()
         processBarDialog.hideDialog()
     }
 
