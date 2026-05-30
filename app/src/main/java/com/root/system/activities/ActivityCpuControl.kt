@@ -97,7 +97,7 @@ class ActivityCpuControl : ActivityBase() {
                 }
 
                 for (i in 0 until coreCount) {
-                    val checkBox = CheckBox(context)
+                    val checkBox = CheckBox(this)
                     checkBox.text = "CPU$i"
                     cores.add(checkBox)
                     val params = GridLayout.LayoutParams()
@@ -386,7 +386,7 @@ class ActivityCpuControl : ActivityBase() {
     }
 
     private fun bindClusterConfig(cluster: Int) {
-        val view = View.inflate(context, R.layout.fragment_cpu_cluster, null)
+        val view = View.inflate(this, R.layout.fragment_cpu_cluster, null)
         binding.cpuClusterList.addView(view)
         view.findViewById<TextView>(R.id.cluster_title).text = "CPU - Cluster $cluster"
         view.tag = "cluster_$cluster"
@@ -728,8 +728,8 @@ class ActivityCpuControl : ActivityBase() {
             initData()
         }.start()
 
-        val globalSPF = context.getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
-        val dynamic = AccessibleServiceHelper().serviceRunning(context) && globalSPF.getBoolean(SpfConfig.GLOBAL_SPF_DYNAMIC_CONTROL, SpfConfig.GLOBAL_SPF_DYNAMIC_CONTROL_DEFAULT)
+        val globalSPF = this.getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
+        val dynamic = AccessibleServiceHelper().serviceRunning(this) && globalSPF.getBoolean(SpfConfig.GLOBAL_SPF_DYNAMIC_CONTROL, SpfConfig.GLOBAL_SPF_DYNAMIC_CONTROL_DEFAULT)
         if (dynamic && (cpuModeName == null)) {
             DialogHelper.helpInfo(this,
                     "请注意",
@@ -738,7 +738,7 @@ class ActivityCpuControl : ActivityBase() {
     }
 
     private fun loadBootConfig() {
-        val storage = CpuConfigStorage(context)
+        val storage = CpuConfigStorage(this)
         statusOnBoot = storage.load(cpuModeName)
         binding.cpuApplyOnboot.isChecked = statusOnBoot != null
 
@@ -753,12 +753,12 @@ class ActivityCpuControl : ActivityBase() {
 
     private fun saveBootConfig() {
         if (cpuModeName != null) {
-            if (!CpuConfigStorage(context).saveCpuConfig(status, cpuModeName)) {
-                Toast.makeText(context, "保存配置文件失败！", Toast.LENGTH_SHORT).show()
+            if (!CpuConfigStorage(this).saveCpuConfig(status, cpuModeName)) {
+                Toast.makeText(this, "保存配置文件失败！", Toast.LENGTH_SHORT).show()
             }
         } else {
-            if (!CpuConfigStorage(context).saveCpuConfig(if (binding.cpuApplyOnboot.isChecked) status else null)) {
-                Toast.makeText(context, "保存配置文件失败！", Toast.LENGTH_SHORT).show()
+            if (!CpuConfigStorage(this).saveCpuConfig(if (binding.cpuApplyOnboot.isChecked) status else null)) {
+                Toast.makeText(this, "保存配置文件失败！", Toast.LENGTH_SHORT).show()
                 binding.cpuApplyOnboot.isChecked = false
             }
         }
