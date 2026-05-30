@@ -78,9 +78,10 @@ class ActivityFpsChart : ActivityBase(), AdapterSessions.OnItemClickListener {
             else -> "SDK(" + Build.VERSION.SDK_INT + ")"
         }
 
-        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.chartSessions.layoutManager = linearLayoutManager
-        val appInfoLoader = AppInfoLoader(context)
+        val appInfoLoader = AppInfoLoader(this)
+        val c = this
         GlobalScope.launch(Dispatchers.Main) {
             val sessions = fpsWatchStore.sessions()
             sessions.forEach {
@@ -91,7 +92,7 @@ class ActivityFpsChart : ActivityBase(), AdapterSessions.OnItemClickListener {
             if (sessions.size > 0) {
                 binding.chartSessionDetail?.visibility = View.VISIBLE
                 binding.chartSessionsEmpty?.visibility = View.GONE
-                binding.chartSessions?.adapter = AdapterSessions(context, sessions).apply {
+                binding.chartSessions.adapter = AdapterSessions(c, sessions).apply {
                     setOnItemClickListener(this@ActivityFpsChart)
                     setOnItemDeleteClickListener(object : AdapterSessions.OnItemClickListener {
                         override fun onItemClick(position: Int) {
@@ -109,7 +110,7 @@ class ActivityFpsChart : ActivityBase(), AdapterSessions.OnItemClickListener {
         binding.chartAdd.setOnClickListener {
             if (FloatFpsWatch.show != true) {
                 it.rotation = 45f
-                FloatFpsWatch(context).showPopupWindow()
+                FloatFpsWatch(c).showPopupWindow()
                 DialogHelper.helpInfo(this@ActivityFpsChart, "请进入需要记录帧率的应用，并点击屏幕右上方[绿色]小按钮开始记录帧率！")
                 /*
                 val serviceState = AccessibleServiceHelper().serviceRunning(context)
@@ -120,7 +121,7 @@ class ActivityFpsChart : ActivityBase(), AdapterSessions.OnItemClickListener {
                 */
             } else {
                 it.rotation = 0f
-                FloatFpsWatch(context).hidePopupWindow()
+                FloatFpsWatch(c).hidePopupWindow()
             }
         }
 
