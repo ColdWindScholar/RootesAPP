@@ -8,6 +8,7 @@ import com.root.data.IEventReceiver
 import com.root.store.ChargeSpeedStore
 import com.root.store.SpfConfig
 import java.util.*
+import kotlin.math.abs
 
 class ChargeCurve(context: Context) : IEventReceiver {
     private val storage = ChargeSpeedStore(context)
@@ -81,7 +82,7 @@ class ChargeCurve(context: Context) : IEventReceiver {
             )
             // batteryManager.getIntProperty(BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE)
 
-            if (Math.abs(GlobalStatus.batteryCurrentNow) > 100) {
+            if (abs(GlobalStatus.batteryCurrentNow) > 100) {
                 storage.addHistory(
                         GlobalStatus.batteryCurrentNow,
                         GlobalStatus.batteryCapacity,

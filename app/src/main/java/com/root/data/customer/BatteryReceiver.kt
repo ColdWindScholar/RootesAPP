@@ -147,7 +147,7 @@ class BatteryReceiver(private var service: Context, override val isAsync: Boolea
             // 判断是否在夜间慢速充电时间
             return (getUp > sleep && (nowTimeValue in sleep..getUp)) ||
                     // 正常时间睡觉【睡觉时间】大于【起床时间】，如 23:00 睡到 7:00 起床
-                    (getUp < sleep && (nowTimeValue >= sleep || nowTimeValue <= getUp))
+                    (getUp < sleep && (nowTimeValue !in (getUp + 1)..<sleep))
         }
         return false
     }

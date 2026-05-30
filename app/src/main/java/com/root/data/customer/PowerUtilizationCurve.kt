@@ -86,7 +86,7 @@ class PowerUtilizationCurve(context: Context) : IEventReceiver {
         if (screenState.isScreenOn()) {
             if (timer == null) {
                 timer = Timer().apply {
-                    scheduleAtFixedRate(object : TimerTask() {
+                    schedule(object : TimerTask() {
                         override fun run() {
                             saveLog()
                         }

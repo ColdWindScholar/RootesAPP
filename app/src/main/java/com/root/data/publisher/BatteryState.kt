@@ -54,9 +54,9 @@ class BatteryState(private val applicationContext: Context) : BroadcastReceiver(
 
             if (status != BatteryManager.BATTERY_STATUS_UNKNOWN && status != lastStatus) {
                 lastStatus = status
-                if (status.equals(BatteryManager.BATTERY_STATUS_CHARGING)) {
+                if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
                     EventBus.publish(EventType.POWER_CONNECTED)
-                } else if (status.equals(BatteryManager.BATTERY_STATUS_FULL)) {
+                } else if (status == BatteryManager.BATTERY_STATUS_FULL) {
                     EventBus.publish(EventType.BATTERY_FULL)
                 }
             }

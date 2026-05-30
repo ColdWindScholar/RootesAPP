@@ -58,7 +58,7 @@ class ScreenState(private var context: Context) : BroadcastReceiver() {
     }
 
     fun autoRegister(): ScreenState {
-        val c = if (context.applicationContext != null) context.applicationContext else context
+        val c = context.applicationContext ?: context
         c.registerReceiver(this, IntentFilter(Intent.ACTION_SCREEN_OFF))
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             c.registerReceiver(this, IntentFilter(Intent.ACTION_USER_UNLOCKED))
