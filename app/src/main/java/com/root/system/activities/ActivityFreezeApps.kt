@@ -5,18 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.*
-import android.renderscript.Allocation
-import android.renderscript.Element
-import android.renderscript.RenderScript
-import android.renderscript.ScriptIntrinsicBlur
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.AdapterAppChooser
 import com.root.common.ui.DialogAppChooser
@@ -29,16 +25,15 @@ import com.root.scene_mode.LogoCacheManager
 import com.root.scene_mode.SceneMode
 import com.root.store.SceneConfigStore
 import com.root.store.SpfConfig
+import com.root.system.R
+import com.root.system.databinding.ActivityFreezeAppsBinding
 import com.root.ui.AdapterFreezeApp
 import com.root.ui.UMExpandLayout
 import com.root.utils.AppListHelper
-import com.root.system.R
-import com.root.system.databinding.ActivityFreezeAppsBinding
 import com.root.xposed.XposedCheck
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import androidx.core.content.edit
 
 class ActivityFreezeApps : ActivityBase() {
     private lateinit var binding: ActivityFreezeAppsBinding
@@ -63,33 +58,7 @@ class ActivityFreezeApps : ActivityBase() {
         // this.getWindow().setBackgroundDrawable(BitmapDrawable(resources, rsBlur((wallPaper as BitmapDrawable).bitmap, 25)))
     }
 
-    private fun rsBlur(source: Bitmap, radius: Int): Bitmap {
-        val inputBmp = source
-        val renderScript = RenderScript.create(this)
 
-        // Allocate memory for Renderscript to work with
-        //(2)
-        val input = Allocation.createFromBitmap(renderScript, inputBmp)
-        val output = Allocation.createTyped(renderScript, input.getType())
-        //(3)
-        // Load up an instance of the specific script that we want to use.
-        val scriptIntrinsicBlur = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript))
-        //(4)
-        scriptIntrinsicBlur.setInput(input)
-        //(5)
-        // Set the blur radius
-        scriptIntrinsicBlur.setRadius(radius.toFloat())
-        //(6)
-        // Start the ScriptIntrinisicBlur
-        scriptIntrinsicBlur.forEach(output)
-        //(7)
-        // Copy the output to the blurred bitmap
-        output.copyTo(inputBmp)
-        //(8)
-        renderScript.destroy()
-
-        return inputBmp
-    }
 
     private fun onViewCreated() {
         config = this.getSharedPreferences(SpfConfig.GLOBAL_SPF, MODE_PRIVATE)
@@ -128,7 +97,7 @@ class ActivityFreezeApps : ActivityBase() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                (binding.freezeApps.adapter as Filterable).getFilter().filter(if (s == null) "" else s.toString())
+                (binding.freezeApps.adapter as Filterable).filter.filter(s?.toString() ?: "")
             }
         })
     }
@@ -470,10 +439,10 @@ class ActivityFreezeApps : ActivityBase() {
         }
 
         private fun getAppIcon(packageName: String): Drawable? {
-            try {
-                return packageManager.getApplicationIcon(packageName)
+            return try {
+                packageManager.getApplicationIcon(packageName)
             } catch (ex: java.lang.Exception) {
-                return null
+                null
             }
         }
     }
