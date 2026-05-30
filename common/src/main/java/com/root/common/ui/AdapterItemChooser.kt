@@ -62,7 +62,7 @@ class AdapterItemChooser(private val context: Context, private var items: ArrayL
                         if (valueText.contains(prefixString)) {
                             newValues.add(value)
                         } else {
-                            val words = valueText.split(" ".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                            val words = valueText.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                             val wordCount = words.size
 
                             // Start at index 0, in case valueText starts with space(s)
@@ -121,7 +121,7 @@ class AdapterItemChooser(private val context: Context, private var items: ArrayL
             val visibleFirstPosi = listView.firstVisiblePosition
             val visibleLastPosi = listView.lastVisiblePosition
 
-            if (position >= visibleFirstPosi && position <= visibleLastPosi) {
+            if (position in visibleFirstPosi..visibleLastPosi) {
                 filterItems[position] = SelectItem
                 val view = listView.getChildAt(position - visibleFirstPosi)
                 updateRow(position, view)

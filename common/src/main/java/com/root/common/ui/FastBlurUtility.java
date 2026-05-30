@@ -1,17 +1,12 @@
 package com.root.common.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.view.View;
 
 public class FastBlurUtility {
@@ -42,27 +37,7 @@ public class FastBlurUtility {
 
 
     // 实测RenderScript做模糊性能反而更低...
-    private static Bitmap blur(Bitmap bitmap, Context context) {
-        if (bitmap == null) {
-            return bitmap;
-        }
 
-        //使用RenderScript对图片进行高斯模糊处理
-        Bitmap output = Bitmap.createBitmap(bitmap); // 创建输出图片
-        RenderScript rs = RenderScript.create(context); // 构建一个RenderScript对象
-        ScriptIntrinsicBlur gaussianBlue = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs)); //
-        // 创建高斯模糊脚本
-        Allocation allIn = Allocation.createFromBitmap(rs, bitmap); // 开辟输入内存
-        Allocation allOut = Allocation.createFromBitmap(rs, output); // 开辟输出内存
-        float radius = 10f; //设置模糊半径
-        gaussianBlue.setRadius(radius); // 设置模糊半径，范围0f<radius<=25f
-        gaussianBlue.setInput(allIn); // 设置输入内存
-        gaussianBlue.forEach(allOut); // 模糊编码，并将内存填入输出内存
-        allOut.copyTo(output); // 将输出内存编码为Bitmap，图片大小必须注意
-        rs.destroy();
-        //rs.releaseAllContexts(); // 关闭RenderScript对象，API>=23则使用rs.releaseAllContexts()
-        return output;
-    }
 
     /**
      * 截屏

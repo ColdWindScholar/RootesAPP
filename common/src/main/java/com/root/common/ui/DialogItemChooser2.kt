@@ -102,12 +102,6 @@ class DialogItemChooser2(
         return this
     }
 
-    fun setMessage(message: String): DialogItemChooser2 {
-        this.message = message
-        updateMessage()
-
-        return this
-    }
 
     private fun setup(gridView: AbsListView) {
         gridView.adapter = AdapterItemChooser2(gridView.context, items, selectedItems, multiple)
