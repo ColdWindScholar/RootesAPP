@@ -212,7 +212,7 @@ adbsu() {
 
 Install_Applet2() {
     JCe="$PeiZhi_File/Applet_Installed.log"
-    [[ -f "$JCe" ]] && JCe3=`cat $JCe`
+    [[ -f "$JCe" ]] && JCe3=`cat "$JCe"`
 
     Start_Install2() {
         Download "$@"
@@ -394,7 +394,7 @@ Start_Download() {
                                        if [[ $YiXZ_2 -ge 1048576 ]]; then
                                            Size2=`awk "BEGIN{print $YiXZ_2/1048576}"`MB
                                        elif [[ $YiXZ_2 -ge 1024 ]]; then
-                                           Size2=`awk "BEGIN{print $YiXZ_2/1024}"`kb
+                                           Size2=$(awk "BEGIN{print $YiXZ_2/1024}")kb
                                        elif [[ $YiXZ_2 -le 1024 ]]; then
                                            Size2=${YiXZ_2}b
                                        fi
@@ -572,7 +572,7 @@ Mount_system() {
     if [[ $? -eq 1 ]]; then
         Mount_Write $MAGISKTMP/.magisk/mirror/system system .. 2>/dev/null
         if [[ $? -eq 1 ]]; then
-            Mount_Write $MAGISKTMP/.magisk/mirror/system_root system ... 2>/dev/null
+            Mount_Write "$MAGISKTMP"/.magisk/mirror/system_root system ... 2>/dev/null
             if [[ $? -eq 1 ]]; then
                 Mount_Write / system .... 2>/dev/null
             fi
@@ -628,7 +628,7 @@ touch() {
 
 set_perm() {
     chown $2:$3 $1 || return 1
-    chmod $4 $1 || return 1
+    chmod "$4" $1 || return 1
     CON=$5
     [ -z $CON ] && CON=u:object_r:system_file:s0
     chcon $CON $1 || return 1
@@ -681,18 +681,18 @@ Write_Record() {
     local system=${system%/*}
     local jian=$MODPATH/Write_Record.sh
         cd $MODPATH
-        for c in `find system`; do
+        for c in $(find system); do
             [[ -d "$c" ]] && continue
             if [[ -f "$system/$c" ]]; then
                 #Original_file
                 echo "$c文件存在源文件开始备份"
-                dir=`dirname "$c"`
+                dir=$(dirname "$c")
                 mkdir -p "$MODPATH/Original_file/$dir"
                 cp -arf "$system/$c" "$MODPATH/Original_file/$dir"
             else
                 #Add_file
                 echo "$system/$c文件属于新添加文件开始写入记录"
-                echo "rm -f \$$c" >>$jian
+                echo "rm -f \$$c" >>"$jian"
             fi
         done
 }
@@ -789,15 +789,15 @@ Han
 
 Clean_install() {
     [[ -z "$id" ]] && abort"！未设置id"
-    mask $id
-    rm -rf $Module
-    mkdir -p $Module
+    mask "$id"
+    rm -rf "$Module"
+    mkdir -p "$Module"
     ui_print "- 开始安装 $name-$version($versionCode)"
     ui_print "- 安装目录：$Module"
     ui_print "- 模块作者：$author"
     ui_print "- Powered by Magisk & topjohnwu"
     abort() {
-        rm -rf $Module
+        rm -rf "$Module"
         error "$@"
         sleep 3
         exit 1
