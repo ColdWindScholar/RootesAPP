@@ -1,6 +1,6 @@
 #本脚本由　by Han | 情非得已c，编写
 #应用于玩机百宝箱上
-
+. $core
 
 Find_prop() {
     sed "/^$/d" "$Modules_Dir/$1/module.prop" | sed -n '/^name/p; /^version/p; /^versionCode/p; /^author/p; /^description/p' | sed 's/\&/\&#38;/g; s/\"/\&#34;/g; s/</\&#60;/g; s/>/\&#62;/g' | sed 's/^id=/&"/; s/^name=/&"/; s/^version=/&"/; s/^versionCode=/&"/; s/^author=/&"/; s/^description=/&"/; s/$/"/g'
