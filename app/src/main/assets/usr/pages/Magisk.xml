@@ -27,12 +27,8 @@
     <pages>
 <!-- START -->
     <page title="开机页面专区" config-sh="cat /data/data/com.root.system/files/usr/pages/Boot_Animation.xml" locked="$LOCKED">
-                <lock>
-        
-        echo 'unlocked'
-    
-                </lock>
-            </page>
+        <lock>echo 'unlocked'</lock>
+    </page>
         
 <!-- END -->
         <page title="Magisk扩展" activity="com.root.system/com.root.system.activities.ActivityMagisk" />
