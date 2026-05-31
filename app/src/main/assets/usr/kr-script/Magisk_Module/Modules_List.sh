@@ -1,7 +1,7 @@
 #本脚本由　by Han | 情非得已c，编写
 #应用于玩机百宝箱上
 
-
+. $core
 ls "$Modules_Dir" | while read i; do
     name=`grep_prop name "$Modules_Dir/$i/module.prop"`
     Size=`du -sh "$Modules_Dir/$i" 2>/dev/null | awk '{print $1}'`
