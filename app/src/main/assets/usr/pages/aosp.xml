@@ -151,8 +151,8 @@
                 <option value="disable">禁用网络验证</option>
                 <option value="default">还原默认</option>
             </options>
-            <get>run network_checker_get.sh</get>
-            <set>run network_checker_set.sh</set>
+            <get>$PAGE_WORK_DIR/network_checker_get.sh</get>
+            <set>$PAGE_WORK_DIR/network_checker_set.sh</set>
         </picker>
         <picker>
             <title>切换NTP服务器</title>

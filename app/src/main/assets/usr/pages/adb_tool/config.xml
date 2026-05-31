@@ -13,7 +13,7 @@
             <summary sh="run adb_remote_summary.sh" />
             <param name="switch" label="无线调试开关" type="switch" value-sh="run adb_remote_get.sh"/>
             <param name="port" title="自定义端口" required="true" value="5555"/>
-            <set>run adb_remote_set.sh</set>
+            <set>$PAGE_WORK_DIR/adb_remote_set.sh</set>
     </action>
     <action reload="wireless_debugging">
         <title>连接无线调试</title>
@@ -23,7 +23,7 @@
             <param name="ip" title="输入IP地址"  required="true" value-sh="run value_ip.sh"/>
             <param name="port" title="输入端口" required="true" value-sh="run value_port.sh"/>
         </params>
-        <set>run set_adb.sh</set>
+        <set>$PAGE_WORK_DIR/set_adb.sh</set>
     </action>
     <action reload="wireless_debugging" warning="点击确定来断开所有已连接的设备">
         <title>断开所有ADB连接</title>
@@ -34,7 +34,7 @@
 <group title="运行命令">
     <action>
         <title>应用激活</title>
-        <set>run set_app.sh</set>
+        <set>$PAGE_WORK_DIR/set_app.sh</set>
         <params>
             <param name="app" title="请选择应用 &amp; 功能：" options-sh="run option_app.sh" />
         </params>
@@ -44,6 +44,6 @@
         <params>
             <param name="CMD" title="输入命令点击确认即可，多行命令用键盘上的回车换行" desc="多设备连接需要在命令时指定设备ID和端口，或者切换为单设备" required="true" value-sh="cat $START_DIR/kr-script/adb_tool/shell" />
         </params>
-        <set>run shell.sh</set>
+        <set>$PAGE_WORK_DIR/shell.sh</set>
     </action>
 </group>

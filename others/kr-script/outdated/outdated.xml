@@ -18,9 +18,9 @@
             title="王者荣耀配置修改"
             desc="开启OpenGLES3、Vulkan特性（可能会花屏或闪退）">
             <summary sh="run tmgp/summary.sh" />
-            <set>run tmgp/set.sh</set>
+            <set>$PAGE_WORK_DIR/tmgp/set.sh</set>
             <param name="render"
-                options-sh="run tmgp/options.sh" />
+                options-sh="$PAGE_WORK_DIR/tmgp/options.sh" />
             <param name="thread" value="0">
                 <option val="1">多线程优化</option>
                 <option val="3">默认</option>
@@ -36,13 +36,13 @@
                 <param name="action" title="操作"
                     options-sh="run qualcomm_thermal/options.sh" />
             </params>
-            <set>run qualcomm_thermal/set.sh</set>
+            <set>$PAGE_WORK_DIR/qualcomm_thermal/set.sh</set>
         </action>
         <switch visible="run thermal-engine/supported.sh" confirm="true">
             <title>thermal-engine</title>
             <desc>关闭此开关将删除thermal-engine相关文件，在820同代及更早的设备上得到删除温控的效果</desc>
-            <get>run thermal-engine/get.sh</get>
-            <set>run thermal-engine/set.sh</set>
+            <get>$PAGE_WORK_DIR/thermal-engine/get.sh</get>
+            <set>$PAGE_WORK_DIR/thermal-engine/set.sh</set>
         </switch>
     </group>
 
@@ -50,7 +50,7 @@
         <action confirm="true">
             <title>临时关闭温控</title>
             <desc>关闭存在于系统中的温控服务，重启后失效</desc>
-            <set>run thermal-engine/killer.sh</set>
+            <set>$PAGE_WORK_DIR/thermal-engine/killer.sh</set>
         </action>
     </group>
 
@@ -74,13 +74,13 @@
             <param name="renderer"
                 options-sh="run hwui_render/options.sh"
                 value-sh="run hwui_render/get.sh" />
-            <set>run hwui_render/set.sh</set>
+            <set>$PAGE_WORK_DIR/hwui_render/set.sh</set>
         </action>
         <switch min-sdk="29" confirm="true">
             <title>HWUI使用Vulkan</title>
             <desc>使用基于Vulkan的HWUI渲染引擎，这是Android Q的新特性，已知会导致“播放视频”严重卡顿，部分软件偶尔未响应。有些手机甚至可能无法进入桌面！</desc>
-            <get>run hwui_vulkan/get.sh</get>
-            <set>run hwui_vulkan/set.sh</set>
+            <get>$PAGE_WORK_DIR/hwui_vulkan/get.sh</get>
+            <set>$PAGE_WORK_DIR/hwui_vulkan/set.sh</set>
         </switch>
     </group>
 </items>

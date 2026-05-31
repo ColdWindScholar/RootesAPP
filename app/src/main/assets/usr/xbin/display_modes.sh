@@ -11,7 +11,7 @@
 #   fi
 # done
 
-ANDROID_SDK=`getprop ro.build.version.sdk`
+ANDROID_SDK=$(getprop ro.build.version.sdk)
 
 if [[ "$ANDROID_SDK" -gt 30 ]]
 then

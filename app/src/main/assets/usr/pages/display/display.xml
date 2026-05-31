@@ -74,15 +74,15 @@
         <switch visible="run $PREFIX/pages/display/common/android_n.sh" shell="hidden">
             <title>强制分屏</title>
             <desc>适用于Android 7.0+，同开发者设置中的“强制将Activity设为可调整大小”选项。开启此项，从而对声明支持分屏的应用进行分屏操作！</desc>
-            <get>run $PREFIX/pages/display/force_resize_get.sh</get>
-            <set>run $PREFIX/pages/display/force_resize_set.sh</set>
+            <get>$PAGE_WORK_DIR/$PREFIX/pages/display/force_resize_get.sh</get>
+            <set>$PAGE_WORK_DIR/$PREFIX/pages/display/force_resize_set.sh</set>
         </switch>
         <switch warning="确定切换[虚拟键/全面屏设备]标识，这可能导致界面异常？"
             visible="if [[ $MAGISK_PATH != '' ]];then echo 1; else echo 0; fi">
             <title>虚拟键/全面屏设备</title>
             <desc>标识当前设备没有实体按键，关闭此选项后系统将不会提供手势和虚拟导航键。重启生效！</desc>
-            <get>run $PREFIX/pages/display/mainkey_get.sh</get>
-            <set>run $PREFIX/pages/display/mainkey_set.sh</set>
+            <get>$PAGE_WORK_DIR/$PREFIX/pages/display/mainkey_get.sh</get>
+            <set>$PAGE_WORK_DIR/$PREFIX/pages/display/mainkey_set.sh</set>
         </switch>
 
         <action shell="hidden">
@@ -103,7 +103,7 @@
                     options-sh="run $PREFIX/pages/display/animation/options2.sh" value="1.0"
                     value-sh="settings get global transition_animation_duration_ratio" />
             </params>
-            <set>run $PREFIX/pages/display/animation/set.sh</set>
+            <set>$PAGE_WORK_DIR/$PREFIX/pages/display/animation/set.sh</set>
         </action>
     </group>
 </group>
