@@ -19,7 +19,7 @@ if check_ab_device; then
         esac
     else
     
-        qu=`bootctl get-current-slot 2>&1`
+        qu=`$binariesPath/libbootctl.so get-current-slot 2>&1`
         echo -n "- 当前使用的分区系统："
         if [[ "$qu" = 0 ]]; then
             SLOT=_a
@@ -38,7 +38,7 @@ if check_ab_device; then
     [[ $1 = -c ]] && return 0
     sleep 2
     echo "- 开始切换到另一个$fenqu分区"
-    bootctl set-active-boot-slot "$slot"
+    $binariesPath/libbootctl.so set-active-boot-slot "$slot"
     ChongQi=1
     CQ
 else

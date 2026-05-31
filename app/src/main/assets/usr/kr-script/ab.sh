@@ -26,7 +26,7 @@ if $check_ab_device; then
         esac
     else
         # 如果未能从 /proc/cmdline 获取到分区槽位，使用 bootctl 获取
-        qu=$(bootctl get-current-slot 2>&1)
+        qu=$($binariesPath/libbootctl.so get-current-slot 2>&1)
         echo -n "- 当前使用的分区系统："
         case $qu in
             0)
