@@ -1,2 +1,0 @@
-swapon /data/swapfile
-echo 完成

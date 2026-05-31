@@ -1,3 +1,0 @@
-echo 正在关闭
-swapoff /data/swapfile
-echo 完成
