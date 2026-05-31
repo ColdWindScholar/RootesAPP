@@ -1,3 +1,0 @@
-author=$(cat /sdcard/Android/yc/uperf/uperf.json | sed -n 's/.*"author": "\(.*\)".*/\1/p')
-
-echo $author

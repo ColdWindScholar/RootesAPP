@@ -3,9 +3,9 @@
 android=$(uname -r)
 cd $GJZS
 
-magiskboot unpack "${img:="$img2"}" 
+$binariesPath/libmagiskboot.so unpack "${img:="$img2"}"
 
-ksud boot-patch \
+$binariesPath/libksud.so boot-patch \
   -b "$img" \
   -k $GJZS/kernel \
   -o "$GJZS/KernelSU_$android.img" \

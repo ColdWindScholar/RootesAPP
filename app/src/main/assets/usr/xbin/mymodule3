@@ -1,1 +1,0 @@
-awk '!/^\s*#|^[*-]/{gsub("/.*", "", $1); if($1 != "") print $1}' /sdcard/Android/yc/dfps/dfps.txt

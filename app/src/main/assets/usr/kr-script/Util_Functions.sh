@@ -2,7 +2,7 @@
 export Util_Functions_Code=2023101001
 export SDdir=/data/media/0
 export Magisk=$(which magisk)
-export Ksud=$(which ksud)
+export Ksud=$binariesPath/libksud.so
 export apd=$(which apd)
 export Modules_Dir=/data/adb/modules
 
