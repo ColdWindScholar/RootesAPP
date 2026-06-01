@@ -481,7 +481,7 @@ sgame_opt_run() {
   # mask=`echo "obase=16;$((num=2#01111111))" | bc` # 7F (cpu 6-0)
 
   if [[ "$pid" != "" ]]; then
-    heavy_tid=$(top -H -b -q -n 1 -m 5 -p $pid | grep 'Thread-' | egrep  -o '[0-9]{1,}' | head -n 1)
+    heavy_tid=$(top -H -b -q -n 1 -m 5 -p $pid | grep 'Thread-' | grep -E  -o '[0-9]{1,}' | head -n 1)
     for tid in $(ls "/proc/$pid/task/"); do
       if [[ "$heavy_tid" == "$tid" ]]; then
         taskset -p "C0" "$tid" > /dev/null 2>&1

@@ -20,7 +20,7 @@ export jian=$TMPDIR/$Package_name.sh
 Termux_UID() {
     local UID2=
     UID2=`pm list packages -U com.termux | cut -d : -f 3`
-    [[ -z $UID2 ]] && UID2=`busybox ls -n $BASH | egrep -wo ' 10... ' | tr -d ' '`
+    [[ -z $UID2 ]] && UID2=`busybox ls -n $BASH | grep -E -wo ' 10... ' | tr -d ' '`
         case $UID2 in
         10*)
             echo "- 已识别到Termux UID为：$UID2"

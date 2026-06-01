@@ -25,7 +25,7 @@ get_next_loop() {
     alias losetup='busybox losetup'
   fi
 
-  nl=$(losetup -f 2>/dev/null | egrep -o '[0-9]{1,}')
+  nl=$(losetup -f 2>/dev/null | grep -E -o '[0-9]{1,}')
   if [[ "$nl" != "" ]]; then
     next_loop_path="/dev/block/loop$nl"
     return

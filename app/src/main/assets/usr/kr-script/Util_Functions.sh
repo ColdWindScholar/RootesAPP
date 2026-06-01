@@ -158,7 +158,7 @@ adb() (
     esac
     
     
-    [[ -z `"$ADB" devices | egrep -vi 'List of.*'` ]] && error "！无设备连接" && exit 126
+    [[ -z `"$ADB" devices | grep -E -vi 'List of.*'` ]] && error "！无设备连接" && exit 126
     exec "$ADB" "$@"
 )
 
