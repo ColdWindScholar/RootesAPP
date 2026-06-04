@@ -284,10 +284,9 @@ class ActivityStartSplash : Activity() {
     }
 
     private fun gotoHome() {
-        val intent = Intent(this.applicationContext, ActivityMain::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        // 使用 Activity context 并用 CLEAR_TOP|SINGLE_TOP 将已有的 ActivityMain 带到前台，保证它位于返回栈中
+        val intent = Intent(this, ActivityMain::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         startActivity(intent)
         finished = true
         finish()
