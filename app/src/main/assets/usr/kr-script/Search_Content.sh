@@ -20,7 +20,7 @@ cat <<Han >"$xml"
      <action>
         <title>清除搞机搜索结果</title>
         <set>rm -f $Pages/Search_Results.xml $Pages/ADB/Search_Results.xml
-        am start -S $Package_name/com.root.system.SplashActivity; echo 将在下次打开玩机百宝箱时生效</set>
+        echo 将在下次打开玩机百宝箱时生效</set>
     </action>
 </group>
 
