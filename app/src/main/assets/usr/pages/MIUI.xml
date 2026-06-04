@@ -290,7 +290,7 @@
             <param name="install_Way" label="选择安装方式" options-sh="printf '1|修改\n0|恢复默认'" />
             <param name="Sound" label="音效" desc="选择要修改/恢复的音效" options-sh="cat ./Charging_Sound_Effect_Sound_Option.sh" />
             <param name="music" title="选择音乐" desc="可先试听后再选择" options-sh="cat ./Charging_Sound_Effect_Music_Options.sh" required="true"/>
-            <param name="ZiDY_Effect" title="当上面选择自定义文件时才生效" type="file" editable="true" title="可输入文件绝对路径，也可以使用文件选择器选择文件" />
+            <param name="ZiDY_Effect" title="当上面选择自定义文件时才生效" type="file" editable="true"  />
         </params>
     </action>
 <!-- END -->
@@ -369,7 +369,7 @@
             <param name="install_Way" label="选择安装方式" options-sh="printf '1|修改\n0|恢复默认'" />
             <param name="Sound" label="音效" desc="选择要修改/恢复的音效" options-sh="cat ./Charging_Sound_Effect_Sound_Option.sh" />
             <param name="music" title="选择音乐" desc="可先试听后再选择" options-sh="cat ./Charging_Sound_Effect_Music_Options.sh" required="true"/>
-            <param name="ZiDY_Effect" title="当上面选择自定义文件时才生效" type="file" editable="true" title="可输入文件绝对路径，也可以使用文件选择器选择文件" />
+            <param name="ZiDY_Effect" type="file" editable="true" title="可输入文件绝对路径，也可以使用文件选择器选择文件" />
         </params>
     </action>
 <!-- END -->
