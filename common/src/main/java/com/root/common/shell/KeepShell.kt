@@ -7,6 +7,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
+import java.lang.Thread.sleep
 import java.util.*
 
 /**
@@ -14,12 +15,11 @@ import java.util.*
  */
 class KeepShell(private var rootMode: Boolean = true) {
     private var currentIsIdle = true // 是否处于闲置状态
-    val rootBinaries = listOf("su", "suu", "timesu", "02su", "kp")
     val isIdle: Boolean
         get() {
             return currentIsIdle
         }
-
+    var isBusy: Boolean = false
     private var checkRootState =
             // "if [[ \$(id -u 2>&1) == '0' ]] || [[ \$(\$UID) == '0' ]] || [[ \$(whoami 2>&1) == 'root' ]] || [[ \$(\$USER_ID) == '0' ]]; then\n" +
             "if [[ \$(id -u 2>&1) == '0' ]] || [[ \$(\$UID) == '0' ]] || [[ \$(whoami 2>&1) == 'root' ]] || [[ \$(set | grep 'USER_ID=0') == 'USER_ID=0' ]]; then\n" +
@@ -51,6 +51,10 @@ class KeepShell(private var rootMode: Boolean = true) {
 
     //执行脚本
     fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
+        while (isBusy){
+            sleep(500)
+        }
+        isBusy = true
         val shellOutputCache = StringBuilder()
         shellOutputCache.clear()
         val builder = ProcessBuilder()
@@ -93,6 +97,7 @@ class KeepShell(private var rootMode: Boolean = true) {
             Log.e("KeepShellAsync", "" + e.message)
             return "error"
         } finally {
+            isBusy = false
             currentIsIdle = true
         }
     }
