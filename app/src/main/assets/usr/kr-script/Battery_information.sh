@@ -36,7 +36,7 @@ cwa() {
     cw=`expr $cv \* $ca`
     cw1=`expr $cw / 1000000000000`
     [[ -z "$cw1" ]] && cw1=0
-    cw2=`expr $cw % 1000000000000`
+    cw2=$(expr $cw % 1000000000000)
     cw3="$cw1.$cw2w(瓦)"
 echo "
 充电协议：`view usb/type | sed 's/_HVDCP_3/ 高通QC3.0/'`
