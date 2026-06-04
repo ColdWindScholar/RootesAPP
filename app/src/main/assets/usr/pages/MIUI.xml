@@ -13,7 +13,7 @@
     </page>
 <!-- END -->
 <!-- START -->
-<page activity="am start-activity com.root.system/com.root.system.activities.ActivityMiuiThermal">
+<page activity="com.root.system/com.root.system.activities.ActivityMiuiThermal">
             <title>miui温控</title>
         </page>
     <!-- END -->
