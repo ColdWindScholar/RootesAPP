@@ -6,6 +6,8 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.root.common.R
@@ -94,13 +96,20 @@ open class ProgressBarDialog(private var context: Activity, private var uniqueId
     }
 
     @SuppressLint("InflateParams")
-    fun showDialog(text: String = "正在加载，请稍等..."): ProgressBarDialog {
+    fun showDialog(text: String = "正在加载，请稍等...",cancelRunnable: Runnable? = null): ProgressBarDialog {
         if (textView != null && alert != null) {
             textView!!.text = text
         } else {
             hideDialog()
             val layoutInflater = LayoutInflater.from(context)
             val dialog = layoutInflater.inflate(R.layout.dialog_loading, null)
+            if (cancelRunnable != null){
+                dialog.findViewById<Button>(R.id.cancel_button)!!.setOnClickListener {
+                    cancelRunnable.run()
+                }
+            } else {
+                dialog.findViewById<Button>(R.id.cancel_button)!!.visibility = View.GONE
+            }
             textView = (dialog.findViewById(R.id.dialog_text)!!)
             textView!!.text = text
             alert = DialogHelper.customDialog(context, dialog, false)
