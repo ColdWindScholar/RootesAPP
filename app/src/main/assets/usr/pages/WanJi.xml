@@ -87,7 +87,7 @@
     </action>
 <!-- END -->
 <!-- START -->
-        <page title="处理器设置" activity="am start com.root.system/com.root.system.activities.ActivityCpuControl" />
+        <page title="处理器设置" activity="com.root.system/com.root.system.activities.ActivityCpuControl" />
         <!-- END -->
 <!-- START -->
     <action>
@@ -621,7 +621,7 @@ echo 解除完成</set>
     
     <!-- END -->
 <!-- START -->
-        <page activity="am start-activity com.android.systemui/com.android.systemui.DemoMode">
+        <page activity="com.android.systemui/com.android.systemui.DemoMode">
             <title>系统界面开发工具</title>
             <desc>系统界面开发工具</desc>
         </page>
@@ -643,9 +643,9 @@ echo 解除完成</set>
             config="file:///android_asset/usr/pages/adb_tool/config.xml"
             desc="此功能建议不要在公共WiFi场合打开" title="无线调试功能">
         </page>
-        <page title="系统场景" activity="am start com.root.system/com.root.system.activities.ActivitySystemScene" />
+        <page title="系统场景" activity="com.root.system/com.root.system.activities.ActivitySystemScene" />
            
-          <page title="屏幕检测" activity="am start com.root.system/com.root.system.activities.ActivityTestColor" />
+          <page title="屏幕检测" activity="com.root.system/com.root.system.activities.ActivityTestColor" />
     
     </group>
     

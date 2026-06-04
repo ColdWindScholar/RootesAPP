@@ -12,7 +12,7 @@
 <group>
 <page title="系统界面" config="file:///android_asset/usr/pages/display/display.xml" />
     
-        <page title="屏幕检测" activity="am start com.root.system/com.root.system.activities.ActivityTestColor" />
+        <page title="屏幕检测" activity="com.root.system/com.root.system.activities.ActivityTestColor" />
     
         <action reload="true" auto-off="true" interruptible="false" warn="开机自动锁定刷新率" shell="hidden" id="fps">
             <title>锁定刷新率</title>

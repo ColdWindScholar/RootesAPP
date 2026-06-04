@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.projectkr.shell.OpenPageHelper
 import com.root.krscript.model.PageNode
@@ -19,7 +18,7 @@ class FragmentNav : Fragment(), View.OnClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View?
+    ): View
     {
         binding =  FragmentNavBinding.inflate(layoutInflater,container,false)
     return binding.root
@@ -159,9 +158,9 @@ private fun fetchTextFromUrl(url: String, textView: TextView) {
                             textView.text = "网络请求失败: ${response.message}"
                         }
                     } else {
-                        val responseData = response.body?.string()
+                        val responseData = response.body.string()
                         activity?.runOnUiThread {
-                            textView.text = responseData ?: "没有收到数据"
+                            textView.text = responseData
                         }
                     }
                 }

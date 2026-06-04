@@ -126,10 +126,10 @@
             
             <page title="MIUI专区" config="file:///android_asset/usr/pages/MIUI.xml" visible="sh ./support/Check_Ui_miui.sh" />
                   
-        <page title="系统场景" activity="am start com.root.system/com.root.system.activities.ActivitySystemScene" />
+        <page title="系统场景" activity="com.root.system/com.root.system.activities.ActivitySystemScene" />
                    <page title="系统相关查看与调试" config="file:///android_asset/usr/pages/WanJi.xml" />
         
-        <page title="系统附加功能" activity="am start com.root.system/com.root.system.activities.ActivityAddin" />
+        <page title="系统附加功能" activity="com.root.system/com.root.system.activities.ActivityAddin" />
         
                 <page title="附加功能区" config="file:///android_asset/usr/pages/FuJia.xml" />
 

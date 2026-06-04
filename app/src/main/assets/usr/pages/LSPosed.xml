@@ -35,7 +35,7 @@
             <title>在寻找其他功能吗？</title>
         </text>
                 <page title="高级重启" config="file:///android_asset/usr/pages/Advanced_Restart.xml" locked="$LOCKED" />
-        <page title="应用程序管理专区" activity="am start com.root.system/com.root.system.activities.ActivityApplistions" />
+        <page title="应用程序管理专区" activity="com.root.system/com.root.system.activities.ActivityApplistions" />
     
             <page title="附加功能区" config="file:///android_asset/usr/pages/FuJia.xml" />
 

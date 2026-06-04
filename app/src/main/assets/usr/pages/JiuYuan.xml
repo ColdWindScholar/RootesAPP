@@ -95,9 +95,9 @@
             
             <page title="MIUI专区" config="file:///android_asset/usr/pages/MIUI.xml" visible="sh ./support/Check_Ui_miui.sh" />
                   
-        <page title="系统场景" activity="am start com.root.system/com.root.system.activities.ActivitySystemScene" />
+        <page title="系统场景" activity="com.root.system/com.root.system.activities.ActivitySystemScene" />
            
-          <page title="屏幕检测" activity="am start com.root.system/com.root.system.activities.ActivityTestColor" />
+          <page title="屏幕检测" activity="com.root.system/com.root.system.activities.ActivityTestColor" />
     
     </group>
     

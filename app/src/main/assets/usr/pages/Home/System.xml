@@ -19,7 +19,7 @@
         
         <page title="Dynamic System Updates" config="file:///android_asset/usr/pages/dsu.xml" visible="sh ./support/dsu.sh" />
         
-            <page activity="am start-activity com.root.system/com.root.system.activities.ActivityProcess\$ActivityProcess">
+            <page activity="com.root.system/com.root.system.activities.ActivityProcess\$ActivityProcess">
             <title>进程管理</title>
             </page>
     

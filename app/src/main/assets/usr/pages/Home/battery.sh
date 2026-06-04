@@ -19,11 +19,11 @@ cat <<Han
 </group>
 <group title="功能">
 
-<page title="充电统计" activity="am start com.root.system/com.root.system.activities.ActivityCharge"/>
+<page title="充电统计" activity="com.root.system/com.root.system.activities.ActivityCharge"/>
 
-<page title="充电控制" activity="am start com.root.system/com.root.system.activities.ActivityChargeController"/>
+<page title="充电控制" activity="com.root.system/com.root.system.activities.ActivityChargeController"/>
 
-<page title="耗电统计" activity="am start com.root.system/com.root.system.activities.ActivityPowerUtilization"/>
+<page title="耗电统计" activity="com.root.system/com.root.system.activities.ActivityPowerUtilization"/>
 </group>
 
 Han
