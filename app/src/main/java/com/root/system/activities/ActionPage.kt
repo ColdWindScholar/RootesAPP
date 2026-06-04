@@ -406,7 +406,6 @@ class ActionPage : ActivityBase() {
                 if (items == null && pageConfigPath.isNotEmpty()) {
                     items = PageConfigReader(applicationContext, pageConfigPath, pageConfigDir).readConfigXml()
                 }
-                println(items)
                 if (afterRead.isNotEmpty()) {
                     showDialog(getString(R.string.kr_page_after_load))
                     ScriptEnvironmen.executeResultRoot(activity, afterRead, this)

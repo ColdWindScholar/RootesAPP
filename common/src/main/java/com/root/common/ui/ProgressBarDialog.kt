@@ -94,7 +94,7 @@ open class ProgressBarDialog(private var context: Activity, private var uniqueId
     }
 
     @SuppressLint("InflateParams")
-    public fun showDialog(text: String = "正在加载，请稍等..."): ProgressBarDialog {
+    fun showDialog(text: String = "正在加载，请稍等..."): ProgressBarDialog {
         if (textView != null && alert != null) {
             textView!!.text = text
         } else {
