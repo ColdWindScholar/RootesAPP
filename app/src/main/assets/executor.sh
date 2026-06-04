@@ -20,7 +20,6 @@ Data_Dir=$({TOOLKIT})/Data_Dir
 ELF1_Path=$({TOOLKIT})/bin
 ELF2_Path=$({TOOLKIT})/bin/xbin
 ELF3_Path=$({TOOLKIT})/xbin
-ELF4_Path=$({TOOLKIT})/busybox
 which="toybox which"
 data_MD5=$({TOOLKIT})/kr-script/init_all_MD5.sh
 Load=$({TOOLKIT})/kr-script/init_data.sh

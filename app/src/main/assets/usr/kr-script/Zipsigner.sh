@@ -22,7 +22,7 @@ File="${File:="$File2"}"
 File1=${File%.*}
 File2=${File##*.}
 File3="${File1}_sign.$File2"
-
+PATH=$ELF1_Path:$PATH
 ! test -f "$File" && abort "！$File 文件不存在"
 echo "签名中请骚等，速度看文件大小而定……"
 rm -rf $ELF1_Path/dalvikvm
