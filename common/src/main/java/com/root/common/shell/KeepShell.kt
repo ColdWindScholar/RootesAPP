@@ -52,7 +52,7 @@ class KeepShell(private var rootMode: Boolean = true) {
     //执行脚本
     fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
         while (isBusy){
-            sleep(500)
+            sleep(3000)
         }
         isBusy = true
         val shellOutputCache = StringBuilder()
