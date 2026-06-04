@@ -25,7 +25,7 @@ object KernelProrp {
      */
     fun setProp(propName: String, value: String): Boolean {
         return KeepShellPublic.doCmdSync(
-                "chmod 664 \"$propName\" 2 > /dev/null\n" +
+                "chmod 664 \"$propName\"\n" +
                 "echo \"$value\" > \"$propName\""
         ) != "error"
     }
