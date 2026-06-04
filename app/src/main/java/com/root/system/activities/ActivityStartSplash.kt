@@ -286,6 +286,7 @@ class ActivityStartSplash : Activity() {
     private fun gotoHome() {
         val intent = Intent(this.applicationContext, ActivityMain::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         startActivity(intent)
         finished = true
         finish()
