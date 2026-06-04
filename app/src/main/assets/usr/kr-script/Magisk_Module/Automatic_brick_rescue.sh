@@ -8,7 +8,7 @@ echo "Frequency=$Frequency" >> $Data_Dir/$1.log
 echo "Compulsory_Rescue=$Compulsory_Rescue" >> $Data_Dir/$1.log
 echo "Set_Time=$Set_Time" >> $Data_Dir/$1.log
 echo "Pattern=$Pattern" >> $Data_Dir/$1.log
-
+. $core
 if [[ `getprop init.svc.bootanim` != "stopped" ]]; then
     abort "！未支持您的设备请联系我适配，错误代码：`getprop init.svc.bootanim`"
 fi
