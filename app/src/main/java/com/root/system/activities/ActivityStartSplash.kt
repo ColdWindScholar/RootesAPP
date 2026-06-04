@@ -293,14 +293,13 @@ class ActivityStartSplash : Activity() {
     }
 
     private fun copyAssetsToFiles() {
-    val assetManager = assets
-    for (filename in assetManager.list("")!!) {
+    for (filename in assets.list("")!!) {
         // 排除executor.sh文件
         if (filename == "executor.sh") {
             continue
         }
         try {
-            copyFile(assetManager.open(filename), FileOutputStream(File(filesDir, filename)))
+            copyFile(assets.open(filename), FileOutputStream(File(filesDir, filename)))
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
