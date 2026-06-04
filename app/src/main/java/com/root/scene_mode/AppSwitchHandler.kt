@@ -54,7 +54,7 @@ class AppSwitchHandler(private var context: AccessibilityScenceMode, override va
     private val SCREEN_OFF_SWITCH_NETWORK_DELAY: Long = 25000
     private var handler = Handler(Looper.getMainLooper())
     private var notifyHelper = AlwaysNotification(context, true)
-    private val sceneMode = SceneMode.getNewInstance(context, SceneConfigStore(context))!!
+    private val sceneMode = SceneMode.getNewInstance(context, SceneConfigStore(context))
     private var timer: Timer? = null
     private var sceneAppChanged: BroadcastReceiver? = null
     private var screenState = ScreenState(context)
@@ -81,7 +81,7 @@ class AppSwitchHandler(private var context: AccessibilityScenceMode, override va
                     schedule(object : TimerTask() {
                         private var ticks = 0
                         override fun run() {
-                            updateModeNoitfy(true) // 耗电统计 定时更新通知显示
+                            updateModeNoitfy() // 耗电统计 定时更新通知显示
 
                             ticks += interval
                             ticks %= 60
@@ -179,7 +179,7 @@ class AppSwitchHandler(private var context: AccessibilityScenceMode, override va
     /**
      * 更新通知
      */
-    private fun updateModeNoitfy(saveLog: Boolean = false) {
+    private fun updateModeNoitfy() {
         if (screenOn) {
             notifyHelper.notify()
         }

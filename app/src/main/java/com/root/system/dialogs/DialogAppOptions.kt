@@ -24,7 +24,7 @@ import java.util.*
  * Created by helloklf on 2017/12/04.
  */
 
-open class DialogAppOptions(protected final var context: Activity, protected var apps: ArrayList<AppInfo>, protected var handler: Handler) {
+open class DialogAppOptions(protected var context: Activity, protected var apps: ArrayList<AppInfo>, protected var handler: Handler) {
     private var allowPigz = false
     private var backupPath = CommonCmds.AbsBackUpDir
     private var userdataPath = ""
@@ -97,7 +97,7 @@ open class DialogAppOptions(protected final var context: Activity, protected var
         }
         dialogView.findViewById<View>(R.id.app_options_uninstall).visibility = View.GONE
 
-        dialogView.findViewById<TextView>(R.id.app_options_title).setText("请选择操作")
+        dialogView.findViewById<TextView>(R.id.app_options_title).text = "请选择操作"
 
         dialogView.findViewById<View>(R.id.app_options_app_freeze).setOnClickListener {
             dialog.dismiss()
@@ -276,7 +276,7 @@ open class DialogAppOptions(protected final var context: Activity, protected var
         sb.append("\n")
 
         for (item in apps) {
-            val packageName = item.packageName.toString()
+            val packageName = item.packageName
             val path = item.path.toString()
 
             sb.append("rm -f \${backup_path}$packageName.apk\n")
@@ -509,7 +509,7 @@ open class DialogAppOptions(protected final var context: Activity, protected var
     private fun _clearAll(userOnly: Boolean) {
         val um = context.getSystemService(Context.USER_SERVICE) as UserManager?
         val userHandle = Process.myUserHandle()
-        var uid = 0L
+        var uid: Long
         if (um != null) {
             uid = um.getSerialNumberForUser(userHandle)
         } else {
@@ -519,7 +519,7 @@ open class DialogAppOptions(protected final var context: Activity, protected var
 
         val sb = StringBuilder()
         for (item in apps) {
-            val packageName = item.packageName.toString()
+            val packageName = item.packageName
             sb.append("echo '[clear ${item.appName}]'\n")
 
             if (userOnly) {
@@ -661,7 +661,7 @@ open class DialogAppOptions(protected final var context: Activity, protected var
         }
         val sb = StringBuilder()
         for (item in apps) {
-            val packageName = item.packageName.toString()
+            val packageName = item.packageName
             sb.append("echo '[compile ${item.appName}]'\n")
 
             if (forced) {

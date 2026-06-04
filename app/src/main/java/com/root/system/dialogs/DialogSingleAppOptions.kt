@@ -20,12 +20,13 @@ import com.root.model.AppInfo
 import com.root.utils.CommonCmds
 import com.root.system.R
 import java.io.File
+import androidx.core.net.toUri
 
 /**
  * Created by Hello on 2018/01/26.
  */
 
-class DialogSingleAppOptions(context: Activity, var app: AppInfo, handler: Handler) : DialogAppOptions(context, arrayListOf<AppInfo>(app), handler) {
+class DialogSingleAppOptions(context: Activity, var app: AppInfo, handler: Handler) : DialogAppOptions(context, arrayListOf(app), handler) {
     fun showSingleAppOptions() {
         when (app.appType) {
             AppInfo.AppType.USER -> showUserAppOptions()
@@ -67,12 +68,12 @@ class DialogSingleAppOptions(context: Activity, var app: AppInfo, handler: Handl
             dialog.dismiss()
             copyPackageName()
         }
-        dialogView.findViewById<TextView>(R.id.app_package_name).setText(app.packageName)
+        dialogView.findViewById<TextView>(R.id.app_package_name).text = app.packageName
         dialogView.findViewById<View>(R.id.app_options_copay_path).setOnClickListener {
             dialog.dismiss()
             copyInstallPath()
         }
-        dialogView.findViewById<TextView>(R.id.app_install_path).setText(app.path)
+        dialogView.findViewById<TextView>(R.id.app_install_path).text = app.path
         dialogView.findViewById<View>(R.id.app_options_open_detail).setOnClickListener {
             dialog.dismiss()
             openDetails()
@@ -105,7 +106,7 @@ class DialogSingleAppOptions(context: Activity, var app: AppInfo, handler: Handl
             dialog.dismiss()
             buildAll()
         }
-        dialogView.findViewById<TextView>(R.id.app_options_title).setText(app.appName)
+        dialogView.findViewById<TextView>(R.id.app_options_title).text = app.appName
 
         dialogView.findViewById<View>(R.id.app_options_app_freeze).setOnClickListener {
             dialog.dismiss()
@@ -142,12 +143,12 @@ class DialogSingleAppOptions(context: Activity, var app: AppInfo, handler: Handl
             dialog.dismiss()
             copyPackageName()
         }
-        dialogView.findViewById<TextView>(R.id.app_package_name).setText(app.packageName)
+        dialogView.findViewById<TextView>(R.id.app_package_name).text = app.packageName
         dialogView.findViewById<View>(R.id.app_options_copay_path).setOnClickListener {
             dialog.dismiss()
             copyInstallPath()
         }
-        dialogView.findViewById<TextView>(R.id.app_install_path).setText(app.path)
+        dialogView.findViewById<TextView>(R.id.app_install_path).text = app.path
         dialogView.findViewById<View>(R.id.app_options_open_detail).setOnClickListener {
             dialog.dismiss()
             openDetails()
@@ -198,7 +199,7 @@ class DialogSingleAppOptions(context: Activity, var app: AppInfo, handler: Handl
             dialogView.findViewById<View>(R.id.app_options_uninstall).visibility = View.GONE
         }
 
-        dialogView.findViewById<TextView>(R.id.app_options_title).setText(app.appName)
+        dialogView.findViewById<TextView>(R.id.app_options_title).text = app.appName
 
         dialogView.findViewById<View>(R.id.app_options_app_freeze).setOnClickListener {
             dialog.dismiss()
@@ -251,7 +252,7 @@ class DialogSingleAppOptions(context: Activity, var app: AppInfo, handler: Handl
         val intent = Intent()
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.action = "android.settings.APPLICATION_DETAILS_SETTINGS"
-        intent.data = Uri.fromParts("package", app.packageName.toString(), null)
+        intent.data = Uri.fromParts("package", app.packageName, null)
         context.startActivity(intent)
     }
 
@@ -268,9 +269,8 @@ class DialogSingleAppOptions(context: Activity, var app: AppInfo, handler: Handl
     }
 
     private fun showInMarket() {
-        val str = "market://details?id=" + app.packageName
         val localIntent = Intent("android.intent.action.VIEW")
-        localIntent.data = Uri.parse(str)
+        localIntent.data = "market://details?id=${app.packageName}".toUri()
         context.startActivity(localIntent)
     }
 
