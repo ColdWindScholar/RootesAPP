@@ -226,7 +226,7 @@ am start -n com.tencent.mm/com.tencent.mm.ui.chatting.ChattingUI --ei Chat_Mode 
 <group>
         <text>
             <title>在寻找其他功能吗？</title>
-            <desc></desc>
+            <desc/>
         </text>        
                 <page title="高级重启" config="file:///android_asset/usr/pages/Advanced_Restart.xml" locked="$LOCKED" />
                 <page title="系统界面" config="file:///android_asset/usr/pages/display/display.xml" />
