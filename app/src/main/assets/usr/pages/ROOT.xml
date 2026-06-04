@@ -280,7 +280,7 @@
 
 
     <group title="系统更新"
-        visible="binary_exist.sh update_engine_client">
+        visible="[ -z $(which update_engine_client) ] &amp;&amp; echo 0 || echo 1">
         <action
             interruptible="false"
             warn="不支持增量包更新。全量更新完之后，ROOT会丢失，需要自行重新获取ROOT权限。由于不正确操作或【意外】导致的损失，需自行承担！！！">
