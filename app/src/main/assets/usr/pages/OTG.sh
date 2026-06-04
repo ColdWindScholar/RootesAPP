@@ -90,7 +90,7 @@ cat <<Han
         <params>
             <param name="CMD" title="输入命令点击确认即可，多行命令用键盘上的回车换行" desc="可通过which 命令、去查找命令是否存在" required="true" value-sh="cat $ShellScript/Shell2.sh" />
         </params>
-        <set>. ./Shell.sh</set>
+        <set>$CMD</set>
     </action>
     <action>
         <title>Shell脚本</title>
