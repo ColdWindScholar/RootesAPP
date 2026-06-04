@@ -277,14 +277,13 @@ class ActivityStartSplash : Activity() {
      */
 
     private fun startToFinish() {
-        binding.startStateText.text = "正在加载文件"
+        binding.startStateText.text = "Loading Files..."
         copyAssetsToFiles()
         KrScriptConfig().init(this)
         gotoHome()
     }
 
     private fun gotoHome() {
-        binding.startStateText.text = "你好，我们又见面了！"
         val intent = Intent(this.applicationContext, ActivityMain::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         startActivity(intent)
