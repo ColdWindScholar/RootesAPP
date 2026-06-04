@@ -485,8 +485,8 @@ GET_TASKS：获取当前运行的任务信息，以便于优化资源分配和�
     <string name="promote_link">https://tinyurl.com/y3j7vszf</string>
 
     <string name="kr_write_external_storage">需要读写外置存储权限</string>
-    <string name="kr_page_before_load">KrScript 正在准备解析配置</string>
-    <string name="kr_page_loading">KrScript 正在加载</string>
+    <string name="kr_page_before_load">正在准备解析配置</string>
+    <string name="kr_page_loading">正在加载</string>
     <string name="kr_page_after_load">完成</string>
     <string name="kr_page_sh_invalid">无效的页面配置输出</string>
     <string name="kr_page_sh_file_permission">指定的配置文件不存在或无读取权限</string>
