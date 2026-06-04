@@ -553,5 +553,5 @@ GET_TASKS：获取当前运行的任务信息，以便于优化资源分配和�
     <string name="recovery_twrp_data_system_users_0_package_restrictions_xml">如果应用无法恢复，可尝试在Recovery(TWRP)模式备份并删除 /data/system/users/0/package-restrictions.xml</string>
     <string name="app_user">用户</string>
     <string name="monitor_laod">1234</string>
-    <string name="booting">正在启动...</string>
+    <string name="booting">正在启动…</string>
 </resources>
