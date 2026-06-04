@@ -35,7 +35,7 @@ Termux_UID() {
 
 INSTALL() {
     case "$2" in
-        setup-storage | DNA | update)
+        setup-storage | update)
         echo "- 开始给Termux $1"
     ;;
     
@@ -68,7 +68,7 @@ Han
     echo "- 查看Termux是否在后台运行"
     error "！温馨提示：如果未跳转到Termux页面，请下拉通知栏点击Termux进入Termux应用里"
     sleep 2
-    pidof com.termux &>/dev/null
+    pidof com.termux
     if [[ $? = 0 ]]; then
         echo "- 已在运行中"
         sleep 3

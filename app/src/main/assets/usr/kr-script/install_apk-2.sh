@@ -4,14 +4,14 @@
 
 d=$1
 b=$2
-[[ $# -eq 2 ]] && rm -rf /data/system/package_cache/*/*$d*
+[[ $# -eq 2 ]] && rm -rf /data/system/package_cache/*/*"$d"*
 
 case $Sound in
     uninstall)
-        pm uninstall $b
+        pm uninstall "$b"
     ;;
 
     install)
-        . ./install_App_Store_File.sh $b
+        . ./install_App_Store_File.sh "$b"
     ;;
 esac
