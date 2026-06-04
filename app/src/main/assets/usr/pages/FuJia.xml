@@ -192,13 +192,6 @@ am start -n com.tencent.mm/com.tencent.mm.ui.chatting.ChattingUI --ei Chat_Mode 
     </action>
 <!-- END -->
 <!-- START -->
-    <action confirm="true">
-        <title>下载Windows解包playload.bin工具</title>
-        <desc>如果你下载的卡刷包里有playload.bin可下载此工具进行解包</desc>
-        <set>. ./Download_payload_dumper.sh</set>
-    </action>
-<!-- END -->
-<!-- START -->
     <action>
         <title>手机双清,三清,四清,五清,六清介绍</title>
         <set>cat $Data_Dir/Flash_Help.log</set>
