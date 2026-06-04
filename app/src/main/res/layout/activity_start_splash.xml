@@ -14,26 +14,16 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="24dp">
-        <!-- 主标题 -->
-        <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginBottom="30dp"
-                android:background="@drawable/process_linux"
-                android:elevation="10dp"
-                android:gravity="right"/>
-
-        <!-- 次要文本 -->
         <TextView
             android:id="@+id/start_state_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="24dp"
-            android:text="正在启动..."
+            android:text="@string/booting"
             android:textAlignment="center"
-            android:textColor="@color/greenDark"
+            android:textColor="@color/window_background_dark"
             android:textSize="24sp"
-            android:alpha="0.7" />
+            android:alpha="0.9" />
     </LinearLayout>
 </FrameLayout>
