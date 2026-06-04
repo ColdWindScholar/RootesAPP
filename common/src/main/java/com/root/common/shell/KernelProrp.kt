@@ -1,5 +1,7 @@
 package com.root.common.shell
 
+import java.io.File
+
 /**
  * 操作内核参数节点
  * Created by Hello on 2017/11/01.
@@ -11,7 +13,12 @@ object KernelProrp {
      * @return
      */
     fun getProp(propName: String): String {
-        return KeepShellPublic.doCmdSync("if [[ -e \"$propName\" ]]; then cat \"$propName\"; fi;")
+        val fileObj = File(propName)
+        return if (fileObj.canRead()){
+            fileObj.readText()
+        } else {
+            KeepShellPublic.doCmdSync("if [[ -e \"$propName\" ]]; then cat \"$propName\"; fi;")
+        }
     }
 
     fun getProp(propName: String, grep: String): String {
