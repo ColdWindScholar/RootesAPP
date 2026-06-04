@@ -55,7 +55,7 @@ class KeepShell(private var rootMode: Boolean = true) {
         shellOutputCache.clear()
         val builder = ProcessBuilder()
         builder.directory(File("/data/user/0/com.root.system/files/usr/kr-script"))
-        builder.environment()["PATH"] =  "/sbin:/system/sbin:/system/bin:/system/xbin:/odm/bin:/vendor/bin:/vendor/xbin"
+        builder.environment()["PATH"] =  "/sbin:/system/sbin:/system/bin:/system/xbin:/odm/bin:/vendor/bin:/vendor/xbin:/system_ext/bin"
 
         envs?.let {
             for ((key, value) in envs){
@@ -73,7 +73,7 @@ class KeepShell(private var rootMode: Boolean = true) {
 
         try {
             if (rootMode && rootBinary != "sh"){
-                builder.command("/sbin/$rootBinary", "-c", execContent)
+                builder.command(rootBinary, "-c", execContent)
             } else {
                 builder.command("sh","-c", execContent)
             }
