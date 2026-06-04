@@ -17,13 +17,11 @@ public class KrScriptConfig {
     private final static String PAGE_LIST_CONFIG = "page_list_config";
     private final static String FAVORITE_CONFIG = "favorite_config";
     private final static String ALLOW_HOME_PAGE = "allow_home_page";
-    private final static String BEFORE_START_SH = "before_start_sh";
     private static HashMap<String, String> configInfo;
     private final String EXECUTOR_CORE_DEFAULT = "file:///android_asset/executor.sh";
     private final String PAGE_LIST_CONFIG_DEFAULT = "";
     private final String FAVORITE_CONFIG_DEFAULT = "";
     private final String ALLOW_HOME_PAGE_DEFAULT = "1";
-    private final String BEFORE_START_SH_DEFAULT = "file:///android_asset/kr-script/Start.sh";
 
     public KrScriptConfig init(Context context) {
         if (configInfo == null) {
@@ -33,7 +31,6 @@ public class KrScriptConfig {
             configInfo.put(FAVORITE_CONFIG, FAVORITE_CONFIG_DEFAULT);
             configInfo.put(ALLOW_HOME_PAGE, ALLOW_HOME_PAGE_DEFAULT);
             configInfo.put(TOOLKIT_DIR, TOOLKIT_DIR_DEFAULT);
-            configInfo.put(BEFORE_START_SH, BEFORE_START_SH_DEFAULT);
 
             try {
                 String fileName = "";
@@ -78,10 +75,5 @@ public class KrScriptConfig {
     }
 
 
-    public String getBeforeStartSh() {
-        if (configInfo != null && configInfo.containsKey(BEFORE_START_SH)) {
-            return configInfo.get(BEFORE_START_SH);
-        }
-        return BEFORE_START_SH_DEFAULT;
-    }
+
 }

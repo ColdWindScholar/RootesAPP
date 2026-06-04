@@ -2,7 +2,6 @@ package com.root.system.activities
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -25,7 +24,6 @@ import com.root.Scene
 import com.root.common.ui.DialogHelper
 import com.root.common.ui.ThemeMode
 import com.root.kr.KrScriptConfig
-import com.root.krscript.executor.ScriptEnvironmen
 import com.root.library.permissions.GeneralPermissions
 import com.root.permissions.CheckRootStatus
 import com.root.permissions.WriteSettings
@@ -38,7 +36,10 @@ import com.root.utils.InfoWidgetService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.io.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -282,11 +283,7 @@ class ActivityStartSplash : Activity() {
         binding.startStateText.text = "正在加载文件"
         copyAssetsToFiles()
         val config = KrScriptConfig().init(this)
-        if (config.beforeStartSh.isNotEmpty()) {
-            BeforeStartThread(this, config, UpdateLogViewHandler(binding.startStateText)
-            { gotoHome()}
-            ).start() }
-        else { gotoHome() }
+        gotoHome()
     }
 
     private fun gotoHome() {
@@ -321,39 +318,11 @@ class ActivityStartSplash : Activity() {
         }
     }
 
-    private class BeforeStartThread(private var context: Context, private val config: KrScriptConfig, private var updateLogViewHandler: UpdateLogViewHandler) : Thread() {
-        val params: HashMap<String?, String?>? = config.variables
 
-        override fun run() {
-            try {
-                val process = ScriptEnvironmen.executeShell(context, config.beforeStartSh, params, null, "pio-splash", CheckRootStatus.lastCheckResult)
-                StreamReadThread(process.inputStream.bufferedReader(), updateLogViewHandler).start()
-                StreamReadThread(process.errorStream.bufferedReader(), updateLogViewHandler).start()
-                process.waitFor()
-                updateLogViewHandler.onExit()
-            } catch (ex: Exception) {
-                updateLogViewHandler.onExit()
-            }
-        }
-    }
 
-    private class StreamReadThread(private var reader: BufferedReader, private var updateLogViewHandler: UpdateLogViewHandler) : Thread() {
-        override fun run() {
-            var line: String?
-            while (true) {
-                line = reader.readLine()
-                if (line == null) {
-                    break
-                } else {
-                    updateLogViewHandler.onLogOutput(line)
-                }
-            }
-        }
-    }
     private fun copyAssetsToFiles() {
     val assetManager = assets
     for (filename in assetManager.list("")!!) {
-        println("Copying $filename")
         // 排除executor.sh文件
         if (filename == "executor.sh") {
             continue
