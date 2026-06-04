@@ -276,19 +276,6 @@ public class MagiskExtend {
         return MAGISK_PATH.substring(0, MAGISK_PATH.length() - 1) + ((systemPath.startsWith("/vendor") || systemPath.startsWith("/product")) ? ("/system" + systemPath) : systemPath);
     }
 
-    public static boolean replaceSystemDir(String orginPath, String newfile) {
-        if (spaceValidation(getTotalSizeOfFilesInDir(new File(newfile)))) {
-            if (RootFile.INSTANCE.itemExists(newfile)) {
-                String output = getMagiskReplaceFilePath(orginPath);
-                String dir = new File(output).getParent();
-                KeepShellPublic.INSTANCE.doCmdSync("mkdir -p \"" + dir + "\"\n" + "cp -a \"" + newfile + "\" \"" + output + "\"\n" +
-                        "chmod -R 777 \"" + output + "\"");
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     public static String getProps() {
         if (moduleInstalled()) {
