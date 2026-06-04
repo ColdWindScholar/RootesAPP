@@ -49,27 +49,7 @@
 <!-- END -->
 </group>
 
-<group title="DNA">
-<!-- START -->
-    <page link="https://gitee.com/sharpeter/DNA/blob/master/README.md">
-        <title>了解DNA</title>
-        <desc>全称：安卓一般固件解包打包助手【 Droid Normal Assistant 】 简称： D.N.A</desc>
-    </page>
-<!-- END -->
-<!-- START -->
-    <action confirm="true">
-        <title>安装DNA</title>
-        <set>. ./Termux/DNA.sh</set>
-    </action>
-<!-- END -->
-<!-- START -->
-    <action confirm="true">
-        <title>运行DNA</title>
-        <desc>也可以打开Termux执行ubuntu启动DNA</desc>
-        <set>. ./Termux/DNA.sh -run</set>
-    </action>
-<!-- END -->
-</group>
+
 
 <group title="其它">
 <!-- START -->

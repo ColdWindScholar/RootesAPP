@@ -177,62 +177,6 @@ apt update
 apt upgrade -y
 '
         ;;
-        
-        DNA)
-        # [[ -f $HOME/ubuntu/root/DNA/run.py ]] && C=1 || echo "- 已安装了DNA"
-        az='安装DNA'
-Content='
-abort() {
-    echo -e "\e[1;31m $@ \e[0m"
-    echo 1 >$TMPDIR/Status.log
-    sleep 3
-    exit 1
-}
-
-
-echo "- 为Termux申请读写内部储存读写权限，已授权请输入y，不做任何操作"
-termux-setup-storage
-echo "- 安装一些依赖软件包"
-pkg install git tar proot wget -y || abort "！安装软件包失败，请先更新一下更新可用软件包列表和已安装的软件包"
-read -re -p "- 是否清理$HOME/ubuntu安装目录防止报错，y为清理：
-" c
-case $c in
-    y|Y)
-        rm -rf ~/ubuntu
-    ;;
-    
-    *)
-        echo "- 未选择清理$HOME/ubuntu安装目录"
-    ;;
-esac
-        cd $TMPDIR
-        echo "- 下载ubuntu.tar.xz及安装脚本"
-        wget https://gitee.com/sharpeter/proot-ubuntu/raw/master/install_ubuntu.sh
-        bash install_ubuntu.sh
-        cd ~
-
-
-cat <<Han >$HOME/ubuntu/tmp/Han.GJZS-ubuntu.sh
-rm -f /tmp/Han.GJZS-ubuntu.sh
-echo "- 更新ubuntu可用软件包列表和已安装的软件包"
-sudo apt update && sudo apt upgrade -y
-echo "- 安装一些依赖软件包"
-sudo apt install git cpio aria2 brotli android-sdk-libsparse-utils openjdk-11-jre p7zip-full -y
-echo "- 下载安装DNA"
-git clone https://gitee.com/sharpeter/DNA.git --depth 1
-cd DNA && python3 run.py
-Han
-
-
-echo "- 启动ubuntu"
-ubuntu bash /tmp/Han.GJZS-ubuntu.sh
-'
-        ;;
-        
-        "DNA -run")
-            Content='ubuntu'
-        ;;
-        
         setup-storage)
             Content='termux-setup-storage'
             az='申请读写内部储存读写权限'
