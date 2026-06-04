@@ -2,7 +2,7 @@
 #应用于玩机百宝箱上
 
 
-if [[ -n `which magisk` ]]; then
+if [[ -n $(which magisk) ]]; then
     s=`find /data/adb/magisk/ -type f 2>/dev/null | wc -l`
     if [[ $s -lt 10 ]]; then
         echo 1
