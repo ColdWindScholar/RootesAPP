@@ -50,6 +50,7 @@ class KeepShell(private var rootMode: Boolean = true) {
             return "BUSY!!!"
         }
         isBusy = true
+        var exitCode = 1
         val shellOutputCache = StringBuilder()
         shellOutputCache.clear()
         val builder = ProcessBuilder()
@@ -81,11 +82,11 @@ class KeepShell(private var rootMode: Boolean = true) {
                 val process = builder.start()
                 val output = process.inputStream.bufferedReader().readLines()
                 val error = process.errorStream.bufferedReader().readLines()
-                val exitCode = process.waitFor()
+                exitCode = process.waitFor()
                 shellOutputCache.append((output + error).joinToString("\n"))}
                 catch (ex: IOException){
                     ex.printStackTrace() }
-            // println("Env:$envs\nExec:$execContent\nR:$shellOutputCache\nExit:$exitCode")
+            println("Env:$envs\nExec:$execContent\nR:$shellOutputCache\nExit:$exitCode")
             return shellOutputCache.toString().trim()
         }
         catch (e: Exception) {
