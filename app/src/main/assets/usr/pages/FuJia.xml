@@ -194,7 +194,7 @@ am start -n com.tencent.mm/com.tencent.mm.ui.chatting.ChattingUI --ei Chat_Mode 
 <!-- START -->
     <action>
         <title>手机双清,三清,四清,五清,六清介绍</title>
-        <set>cat $Data_Dir/Flash_Help.log</set>
+        <summary sh="cat $Data_Dir/Flash_Help.log"/>
     </action>
 <!-- END -->
 <!-- START -->
