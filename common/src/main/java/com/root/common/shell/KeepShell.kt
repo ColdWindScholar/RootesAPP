@@ -47,6 +47,7 @@ class KeepShell(private var rootMode: Boolean = true) {
     //执行脚本
     fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
         while (isBusy){
+            println("W:$cmd:BUSY!!!")
             return "BUSY!!!"
         }
         isBusy = true
