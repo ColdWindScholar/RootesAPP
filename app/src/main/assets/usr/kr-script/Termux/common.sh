@@ -106,7 +106,7 @@ Han
 Check() {
     C=0
     case "$1" in
-        setup-storage | DNA | update)
+        setup-storage | update)
         :
     ;;
     
@@ -120,11 +120,6 @@ Check() {
         python)
             Content="pkg install python -y"
             $PYTHON --version &>/dev/null && C=1
-        ;;
-        
-        brotli)
-            $BROTLI -V &>/dev/null && C=1
-            Content="pkg install brotli -y"
         ;;
         
         binwalk)
