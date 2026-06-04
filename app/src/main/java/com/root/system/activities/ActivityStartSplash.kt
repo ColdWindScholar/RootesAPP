@@ -7,15 +7,12 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.webkit.WebView
 import android.widget.Button
 import android.widget.CompoundButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
@@ -282,7 +279,7 @@ class ActivityStartSplash : Activity() {
     private fun startToFinish() {
         binding.startStateText.text = "正在加载文件"
         copyAssetsToFiles()
-        val config = KrScriptConfig().init(this)
+        KrScriptConfig().init(this)
         gotoHome()
     }
 
@@ -294,31 +291,6 @@ class ActivityStartSplash : Activity() {
         finished = true
         finish()
     }
-
-    private class UpdateLogViewHandler(private var logView: TextView, private val onExit: Runnable) {
-        private val handler = Handler(Looper.getMainLooper())
-        private var notificationMessageRows = ArrayList<String>()
-        private var someIgnored = false
-
-        fun onLogOutput(log: String) {
-            handler.post {
-                synchronized(notificationMessageRows) {
-                    if (notificationMessageRows.size > 6) {
-                        notificationMessageRows.remove(notificationMessageRows.first())
-                        someIgnored = true
-                    }
-                    notificationMessageRows.add(log)
-                    logView.text = notificationMessageRows.joinToString("\n", if (someIgnored) "……\n" else "").trim()
-                }
-            }
-        }
-
-        fun onExit() {
-            handler.post { onExit.run() }
-        }
-    }
-
-
 
     private fun copyAssetsToFiles() {
     val assetManager = assets
