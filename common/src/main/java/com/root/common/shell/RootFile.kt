@@ -2,6 +2,7 @@ package com.root.common.shell
 
 import android.util.Log
 import com.root.common.shared.RootFileInfo
+import java.io.File
 
 /**
  * Created by Hello on 2018/07/06.
@@ -9,11 +10,11 @@ import com.root.common.shared.RootFileInfo
 
 object RootFile {
     fun itemExists(path: String): Boolean {
-        return KeepShellPublic.doCmdSync("if [[ -e \"$path\" ]]; then echo 1; fi;") == "1"
+        return File(path).exists()
     }
 
     fun fileExists(path: String): Boolean {
-        return KeepShellPublic.doCmdSync("if [[ -f \"$path\" ]]; then echo 1; fi;") == "1"
+        return File(path).exists()
     }
 
     fun fileNotEmpty(path: String): Boolean {
