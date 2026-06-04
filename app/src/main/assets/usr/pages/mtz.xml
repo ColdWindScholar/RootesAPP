@@ -25,7 +25,7 @@
 <!-- START -->
     <action>
         <title>创造主题（推荐高级玩家）</title>
-        <desc></desc>
+        <desc/>
         <set>mkdir $GJZS/
         cp /data/user/$ANDROID_UID/$Package_name/files/usr/mtz.zip $GJZS
         cd $GJZS

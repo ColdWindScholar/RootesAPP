@@ -4,7 +4,7 @@ echo "过程中可能会手机过卡，是正常的，或者点右上角后台�
 echo "原作者：酷安 @Rannki"
 echo "二次修改者：酷安 @Quarters"
 echo "三次修改者 玩机百宝箱 嘉明"
-sleep 3
+. $core
 #文件位置初始化
 dir_name="$GJZS/字库备份"
 if [ ! -d "$dir_name" ]; then

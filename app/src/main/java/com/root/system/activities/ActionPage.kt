@@ -453,4 +453,13 @@ class ActionPage : ActivityBase() {
     fun _openPage(pageNode: PageNode) {
         OpenPageHelper(this).openPage(pageNode)
     }
+
+    override fun onDestroy() {
+        // 确保在 Activity 销毁前隐藏并释放任何显示的对话框，避免 WindowLeaked
+        try {
+            progressBarDialog.hideDialog()
+        } catch (ex: Exception) {
+        }
+        super.onDestroy()
+    }
 }
