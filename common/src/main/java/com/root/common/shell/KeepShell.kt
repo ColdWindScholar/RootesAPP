@@ -1,13 +1,8 @@
 package com.root.common.shell
 
-import android.os.Build
 import android.util.Log
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
-import java.lang.Thread.sleep
 import java.util.*
 
 /**
@@ -52,7 +47,7 @@ class KeepShell(private var rootMode: Boolean = true) {
     //执行脚本
     fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
         while (isBusy){
-            sleep(3000)
+            return "BUSY!!!"
         }
         isBusy = true
         val shellOutputCache = StringBuilder()
