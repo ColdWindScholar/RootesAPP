@@ -10,11 +10,11 @@ import java.util.*
  */
 class KeepShell(private var rootMode: Boolean = true) {
     private var currentIsIdle = true // 是否处于闲置状态
+    private var num = 0
     val isIdle: Boolean
         get() {
             return currentIsIdle
         }
-    var isBusy: Boolean = false
 
 
     fun checkRoot(): Boolean {
@@ -24,11 +24,11 @@ class KeepShell(private var rootMode: Boolean = true) {
 
     //执行脚本
     fun doCmdSync(cmd: String, envs: HashMap<String, String>? = null): String {
-        while (isBusy){
+        while (num >= 10){
             println("W:$cmd:BUSY!!!")
             return "BUSY!!!"
         }
-        isBusy = true
+        num += 1
         var exitCode = 1
         val shellOutputCache = StringBuilder()
         shellOutputCache.clear()
@@ -72,8 +72,8 @@ class KeepShell(private var rootMode: Boolean = true) {
             Log.e("KeepShellAsync", "" + e.message)
             return "error"
         } finally {
-            isBusy = false
             currentIsIdle = true
+            num-= 1
         }
     }
 
