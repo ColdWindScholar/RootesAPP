@@ -1,5 +1,6 @@
 package com.root.common.shell
 
+import android.os.Build
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -85,7 +86,7 @@ class KeepShell(private var rootMode: Boolean = true) {
                 shellOutputCache.append((output + error).joinToString("\n"))}
                 catch (ex: IOException){
                     ex.printStackTrace() }
-            println("Env:$envs\nExec:$execContent\nR:$shellOutputCache")
+            // println("Env:$envs\nExec:$execContent\nR:$shellOutputCache\nExit:$exitCode")
             return shellOutputCache.toString().trim()
         }
         catch (e: Exception) {
