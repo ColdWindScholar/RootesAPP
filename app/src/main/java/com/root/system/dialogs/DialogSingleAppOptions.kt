@@ -281,19 +281,19 @@ class DialogSingleAppOptions(context: Activity, var app: AppInfo, handler: Handl
         if (appDir == "/data/app") {
             val parent = File(app.path.toString())
             val outPutPath = "/system/app/${parent.name}"
-            sb.append("busybox cp '${app.path}' '$outPutPath'\n")
+            sb.append("toybox cp '${app.path}' '$outPutPath'\n")
             sb.append("chmod 0755 '$outPutPath'\n")
             sb.append("chown -R system:system '$outPutPath'\n")
-            sb.append("busybox chown -R system:system '$outPutPath'\n")
+            sb.append("toybox chown -R system:system '$outPutPath'\n")
             sb.append("if [[ ! -e '$outPutPath' ]]\n then exit 1\n else rm -f '${app.path}'\n fi\n\n")
         } else {
             val parent = File(appDir)
             val outPutPath = "/system/app/${parent.name}"
-            sb.append("busybox cp -pdrf '$appDir' '/system/app/'\n")
+            sb.append("toybox cp -pdrf '$appDir' '/system/app/'\n")
             // sb.append("busybox cp -a '$appDir' '$outPutPath'\n")
             sb.append("chmod -R 0755 '$outPutPath'\n")
             sb.append("chown -R system:system '$outPutPath'\n")
-            sb.append("busybox chown -R system:system '$outPutPath'\n")
+            sb.append("toybox chown -R system:system '$outPutPath'\n")
             sb.append("if [[ ! -e '$outPutPath' ]]\n then exit 1\n exit 1\n else exit 0\n fi\n\n")
         }
         sb.append("sync\n")
