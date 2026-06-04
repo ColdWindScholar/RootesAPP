@@ -81,7 +81,7 @@
 <!-- START -->
     <action confirm="true">
         <title>监控崩溃与ANR（可查看打开过哪些应用包名）</title>
-        <desc sh="echo -e 监控崩溃与ANR"></desc>
+        <desc>监控崩溃与ANR</desc>
         <set>am monitor</set>
     </action>
 <!-- END -->
@@ -300,34 +300,34 @@ echo 解除完成</set>
         <set>. ./switchs/Doze_Status_Set.sh</set>
     </switch>
     
-    <page activity="am start-activity com.android.settings/com.android.settings.Settings\$MyDeviceInfoActivity">
+    <page activity="com.android.settings/com.android.settings.Settings\$MyDeviceInfoActivity">
             <title>关于手机（AOSP）</title>
             <desc>原生界面</desc>
         </page>
         <!-- END -->
 <!-- START -->
-        <page activity="am start-activity com.android.settings/com.android.settings.Settings\$MyDeviceInfoSettingsActivity">
+        <page activity="com.android.settings/com.android.settings.Settings\$MyDeviceInfoSettingsActivity">
             <title>我的设备</title>
-            <desc>假originos？</desc>
+            <desc>originos</desc>
         </page>
         <!-- END -->
 <!-- START -->
         
-        <page activity="am start-activity com.vivo.daemonService/com.vivo.daemonService.unlock.RequestRecovery">
+        <page activity="com.vivo.daemonService/com.vivo.daemonService.unlock.RequestRecovery">
             <title>vivo下载恢复模式</title>
             <desc></desc>
         </page>
         <!-- END -->
 <!-- START -->
         
-        <page activity="am start-activity com.vivo.fingerprintengineer/com.vivo.fingerprintengineer.ui.engineer.EngineerActivity">
+        <page activity="com.vivo.fingerprintengineer/com.vivo.fingerprintengineer.ui.engineer.EngineerActivity">
             <title>VIVO指纹校准</title>
             <desc>指纹校准</desc>
         </page>
         <!-- END -->
 <!-- START -->
         
-        <page activity="am start-activity com.android.settings/com.android.settings.SubSettings">
+        <page activity="com.android.settings/com.android.settings.SubSettings">
             <title>vivo打开原生设置</title>
             <desc>原生？</desc>
         </page>
