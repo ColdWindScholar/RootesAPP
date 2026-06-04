@@ -604,21 +604,14 @@
 <group>
         <text>
             <title>在寻找其他功能吗？</title>
-            <desc></desc>
+            <desc/>
         </text>        
     
        
     <page title="开机页面专区" config="file:///android_asset/usr/pages/Boot_Animation.xml" locked="$LOCKED">
-                <lock>
-        echo 'unlocked'
-    
-                </lock>
+                <lock>echo 'unlocked'</lock>
             </page>
-            
-                    <page title="附加功能区" config="file:///android_asset/usr/pages/FuJia.xml" />
-                  
+        <page title="附加功能区" config="file:///android_asset/usr/pages/FuJia.xml" />
      <page title="系统界面" config="file:///android_asset/usr/pages/display/display.xml" />
                 
     </group>
-    
-
