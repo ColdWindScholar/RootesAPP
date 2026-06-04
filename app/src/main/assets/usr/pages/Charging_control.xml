@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <group title="方案①">
 <!-- START -->
-    <switch confirm="true" auto-off="true" interruptible="false" id="Charging_control1" id="@Charging_control1">
+    <switch confirm="true" auto-off="true" interruptible="false"  id="@Charging_control1">
         <title>充电控制开关</title>
         <desc>打开此开关为禁止充电</desc>
         <get>. ./switchs/Charging_control1_get.sh</get>

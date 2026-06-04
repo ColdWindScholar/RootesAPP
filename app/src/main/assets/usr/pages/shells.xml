@@ -26,7 +26,7 @@
     
     <action shell="bg-task">
             <title>开始</title>
-            <desc></desc>
+        <desc/>
             <set>sh $GJZS/start.sh</set>
             
         </action>

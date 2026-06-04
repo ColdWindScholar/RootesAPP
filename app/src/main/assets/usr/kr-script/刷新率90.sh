@@ -1,1 +1,0 @@
-service call SurfaceFlinger 1035 i32 2  >/dev/null 2>&1

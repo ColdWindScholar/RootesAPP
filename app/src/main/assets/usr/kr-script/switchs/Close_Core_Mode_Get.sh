@@ -2,7 +2,7 @@
 #应用于玩机百宝箱上
 
 
-. $ShellScript/support/Close_Core_Mode.sh &>/dev/null
+. $ShellScript/support/Close_Core_Mode.sh
 if check_ab_device; then
     File=/data/cache/.disable_magisk
 else
