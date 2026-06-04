@@ -70,13 +70,7 @@ open class ProgressBarDialog(private var context: Activity, private var uniqueId
         }
     }
 
-    fun execShell(sb: StringBuilder, handler: Handler? = null) {
-        execShell(sb.toString(), handler)
-    }
 
-    fun isDialogShow(): Boolean {
-        return this.alert != null
-    }
 
     fun hideDialog() {
         try {
@@ -95,7 +89,6 @@ open class ProgressBarDialog(private var context: Activity, private var uniqueId
         }
     }
 
-    @SuppressLint("InflateParams")
     fun showDialog(text: String = "正在加载，请稍等...",cancelRunnable: Runnable? = null): ProgressBarDialog {
         if (textView != null && alert != null) {
             textView!!.text = text
