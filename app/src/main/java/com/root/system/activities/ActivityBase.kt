@@ -43,9 +43,6 @@ open class ActivityBase : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        if (isTaskRoot){
-            startActivity(Intent(this, ActivityMain::class.java))
-        }
         super.onDestroy()
         Scene.postDelayed({
             System.gc()
