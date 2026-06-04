@@ -22,7 +22,7 @@
             android:layout_marginBottom="24dp"
             android:text="@string/booting"
             android:textAlignment="center"
-            android:textColor="@color/window_background_dark"
+            android:textColor="@color/kr_shell_log_end"
             android:textSize="24sp"
             android:alpha="0.9" />
     </LinearLayout>
