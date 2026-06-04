@@ -66,44 +66,41 @@ public class AdapterRootFileSelector extends BaseAdapter {
     }
 
     private void loadDir(final RootFileInfo dir) {
-        progressBarDialog.showDialog("加载中...");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                RootFileInfo parent = new RootFileInfo(dir.getParent());
-                String parentPath = parent.getAbsolutePath();
-                hasParent = parent.exists() && (leaveRootDir || !(rootDir.startsWith(parentPath) && rootDir.length() > parentPath.length()));
+        progressBarDialog.showDialog("加载中...", null);
+        new Thread(() -> {
+            RootFileInfo parent = new RootFileInfo(dir.getParent());
+            String parentPath = parent.getAbsolutePath();
+            hasParent = parent.exists() && (leaveRootDir || !(rootDir.startsWith(parentPath) && rootDir.length() > parentPath.length()));
 
-                if (dir.exists()) {
-                    ArrayList<RootFileInfo> files = dir.listFiles();
-                    // pathname.exists() && (!pathname.isFile() || extension == null || extension.isEmpty() || pathname.getName().endsWith(extension));
+            if (dir.exists()) {
+                ArrayList<RootFileInfo> files = dir.listFiles();
+                // pathname.exists() && (!pathname.isFile() || extension == null || extension.isEmpty() || pathname.getName().endsWith(extension));
 
-                    // 文件排序
-                    for (int i = 0; i < files.size(); i++) {
-                        for (int j = i + 1; j < files.size(); j++) {
-                            RootFileInfo curr = files.get(j);
-                            if ((curr.isDirectory() && files.get(i).isFile())) {
-                                RootFileInfo t = files.get(i);
-                                files.set(i, files.get(j));
-                                files.set(j, t);
-                            } else if (curr.isDirectory() == files.get(i).isDirectory() && (curr.getName().toLowerCase().compareTo(files.get(i).getName().toLowerCase()) < 0)) {
-                                RootFileInfo t = files.get(i);
-                                files.set(i, curr);
-                                files.set(j, t);
-                            }
+                // 文件排序
+                for (int i = 0; i < files.size(); i++) {
+                    for (int j = i + 1; j < files.size(); j++) {
+                        RootFileInfo curr = files.get(j);
+                        if ((curr.isDirectory() && files.get(i).isFile())) {
+                            RootFileInfo t = files.get(i);
+                            files.set(i, files.get(j));
+                            files.set(j, t);
+                        } else if (curr.isDirectory() == files.get(i).isDirectory() && (curr.getName().toLowerCase().compareTo(files.get(i).getName().toLowerCase()) < 0)) {
+                            RootFileInfo t = files.get(i);
+                            files.set(i, curr);
+                            files.set(j, t);
                         }
                     }
-                    fileArray = files;
                 }
-                currentDir = dir;
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyDataSetChanged();
-                        progressBarDialog.hideDialog();
-                    }
-                });
+                fileArray = files;
             }
+            currentDir = dir;
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    notifyDataSetChanged();
+                    progressBarDialog.hideDialog();
+                }
+            });
         }).start();
     }
 
