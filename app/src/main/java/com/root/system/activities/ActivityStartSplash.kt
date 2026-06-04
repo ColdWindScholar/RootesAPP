@@ -277,7 +277,6 @@ class ActivityStartSplash : Activity() {
      */
 
     private fun startToFinish() {
-        binding.startStateText.text = "Loading Files..."
         copyAssetsToFiles()
         KrScriptConfig().init(this)
         gotoHome()
@@ -294,6 +293,7 @@ class ActivityStartSplash : Activity() {
 
     private fun copyAssetsToFiles() {
     for (filename in assets.list("")!!) {
+        binding.startStateText.text = "Copying $filename..."
         // 排除executor.sh文件
         if (filename == "executor.sh") {
             continue
