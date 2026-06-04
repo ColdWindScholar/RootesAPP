@@ -13,9 +13,9 @@
 <group title="功能专区">
     
         <page title="系统相关查看与调试" config="file:///android_asset/usr/pages/WanJi.xml"/>
-        <page title="系统附加功能" activity="am start com.root.system/com.root.system.activities.ActivityAddin" />
-        <page title="性能记录" activity="am start com.root.system/com.root.system.activities.ActivityFpsChart" />
-        <page title="系统场景" activity="am start com.root.system/com.root.system.activities.ActivitySystemScene" />
+        <page title="系统附加功能" activity="com.root.system/com.root.system.activities.ActivityAddin" />
+        <page title="性能记录" activity="com.root.system/com.root.system.activities.ActivityFpsChart" />
+        <page title="系统场景" activity="com.root.system/com.root.system.activities.ActivitySystemScene" />
         
         <page title="Dynamic System Updates" config="file:///android_asset/usr/pages/dsu.xml" visible="sh ./support/dsu.sh" />
         
