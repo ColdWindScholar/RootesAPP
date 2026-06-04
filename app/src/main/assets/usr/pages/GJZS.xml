@@ -47,13 +47,6 @@
 <!-- END -->
 <!-- START -->
     <action confirm="true" auto-off="true" interruptible="false">
-        <title>刷新玩机百宝箱云端状态</title>
-        <desc>默认每天检查一次，可在此检查更新实时同步</desc>
-        <set>. ./CheckUpdate2.sh</set>
-    </action>
-<!-- END -->
-<!-- START -->
-    <action confirm="true" auto-off="true" interruptible="false">
         <title>点击清除「玩机百宝箱」全部缓存</title>
         <set>rm -rf $TMPDIR ~/downloader $ShellScript/cache $TMPDIR $Data_Dir/.Empty</set>
     </action>
