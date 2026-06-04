@@ -301,7 +301,6 @@ class ActivityStartSplash : Activity() {
         try {
             copyFile(assets.open(filename), FileOutputStream(File(filesDir, filename)))
         } catch (e: IOException) {
-            e.printStackTrace()
         } finally {
         }
     }
