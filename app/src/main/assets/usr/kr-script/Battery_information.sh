@@ -2,7 +2,7 @@
 #应用于玩机百宝箱上
 # 1A=1000000微安μA
 
-
+. $core
 battery=/sys/class/power_supply
 
 view() {
