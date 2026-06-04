@@ -3,7 +3,7 @@
 
 
 if [[ -n $(which magisk) ]]; then
-    s=`find /data/adb/magisk/ -type f 2>/dev/null | wc -l`
+    s=$(find /data/adb/magisk/ -type f 2>/dev/null | wc -l)
     if [[ $s -lt 10 ]]; then
         echo 1
         return 1
