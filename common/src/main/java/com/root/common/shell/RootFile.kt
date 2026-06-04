@@ -22,7 +22,7 @@ object RootFile {
     }
 
     fun dirExists(path: String): Boolean {
-        return KeepShellPublic.doCmdSync("if [[ -d \"$path\" ]]; then echo 1; fi;") == "1"
+        return File(path).exists()
     }
 
     fun deleteDirOrFile(path: String) {
