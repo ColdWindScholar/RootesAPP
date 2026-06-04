@@ -61,9 +61,9 @@ fi
 
 # 关闭swap（如果正在使用，那可不是一般的慢）
 disable_swap() {
-  swapoff $swap_mount >/dev/null 2>&1
+  swapoff $swap_mount
   if [[ $use_loop == "1" ]]; then
-    losetup -d $swap_mount >/dev/null 2>&1
+    losetup -d $swap_mount
   fi
   setprop $loop_save ""
 }
@@ -80,7 +80,7 @@ enable_swap() {
   if [[ "$use_loop" == "1" ]]; then
     # losetup $swap_mount $swapfile # 挂载
     if [[ -e $swap_mount ]]; then
-      losetup -d $swap_mount 2>/dev/null      # 删除loop设备
+      losetup -d $swap_mount   # 删除loop设备
     fi
     losetup $swap_mount $swapfile   # 挂载为loop设备
     setprop $loop_save $next_loop_path

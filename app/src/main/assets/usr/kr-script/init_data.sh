@@ -4,7 +4,7 @@ App_Store_version=2021072100
 Show_Compatibility_Mode=1
 MIUI=0
 
-
+. $core
 case "$1" in
 
 #应用
