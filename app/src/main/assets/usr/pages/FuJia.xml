@@ -218,7 +218,7 @@ am start -n com.tencent.mm/com.tencent.mm.ui.chatting.ChattingUI --ei Chat_Mode 
     </picker>
 <!-- END -->
 <!-- START -->
-        <page title="Mindows（实验功能）" config-sh="cat \$Pages/win.sh" />
+        <page title="Mindows（实验功能）" config-sh="cat $Pages/win.sh" />
         
         <!-- END -->
 </group>
