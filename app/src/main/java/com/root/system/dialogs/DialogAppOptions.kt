@@ -11,7 +11,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.root.common.shared.FileWrite
 import com.root.common.shell.AsynSuShellUnit
-import com.root.common.shell.KeepShell
 import com.root.common.ui.DialogHelper
 import com.root.model.AppInfo
 import com.root.utils.CommonCmds
@@ -139,18 +138,8 @@ open class DialogAppOptions(protected var context: Activity, protected var apps:
 
     }
 
-    protected fun isMagisk(): Boolean {
-        val keepShell = KeepShell(false)
-        val result = keepShell.doCmdSync("su -v").uppercase(Locale.getDefault()).contains("MAGISKSU")
-        return result
-    }
 
-    protected fun isTmpfs(dir: String): Boolean {
-        val keepShell = KeepShell(false)
-        val result =
-            keepShell.doCmdSync("df | grep tmpfs | grep \"$dir\"").uppercase(Locale.getDefault()).trim().isNotEmpty()
-        return result
-    }
+
 
     protected fun execShell(sb: StringBuilder) {
         val layoutInflater = LayoutInflater.from(context)
