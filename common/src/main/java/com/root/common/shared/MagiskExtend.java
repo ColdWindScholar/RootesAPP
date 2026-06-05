@@ -17,7 +17,7 @@ public class MagiskExtend {
 
     private static String MAGISK_MODULE_NAME = "startboot";
     //magisk 19 /data/adb/modules
-    private static int supported = -1;
+    private static boolean supported = false;
     private static int MagiskVersion = 0;
 
     // 递归方式 计算文件的大小
@@ -203,14 +203,14 @@ public class MagiskExtend {
      * @return 是否已安装
      */
     public static boolean magiskSupported() {
-        if (supported == -1 || MagiskVersion < 1) {
+        if (!supported || MagiskVersion < 1) {
             String magiskVersion = KeepShellPublic.INSTANCE.doCmdSync("echo 25.2:MAGISK:R");
             if (!magiskVersion.equals("error")) {
                 try {
                     MagiskVersion = Integer.parseInt(magiskVersion) / 1000;
-                    supported = MagiskVersion >= 17 ? 1 : 0;
+                    supported = MagiskVersion >= 17;
 
-                    if (supported == 1) {
+                    if (supported) {
                         if (MagiskVersion >= 19) {
                             MAGISK_PATH = MAGISK_PATH_19 + "/" + MAGISK_MODULE_NAME + "/";
                         } else if (RootFile.INSTANCE.dirExists(MAGISK_ROOT_PATH1)) {
@@ -222,10 +222,10 @@ public class MagiskExtend {
                 } catch (Exception ignored) {
                 }
             } else {
-                supported = 0;
+                supported = false;
             }
         }
-        return supported == 1;
+        return supported;
     }
 
     /**
