@@ -131,7 +131,7 @@ class BootService : IntentService("vtools-boot") {
         }
 
         // 如果没有单独安装Magisk模块来处理虚拟内存，则在Scene的自启动中控制
-        if (!keepShell.doCmdSync("getprop vtools.swap.controller").equals("magisk")) {
+        if (keepShell.doCmdSync("getprop vtools.swap.controller") != "magisk") {
             if (swapConfig.getBoolean(SpfConfig.SWAP_SPF_SWAP, false)) {
                 enableSwap(keepShell, context)
             }

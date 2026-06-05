@@ -3,7 +3,6 @@ package com.root.kr;
 import android.content.Context;
 
 import com.root.krscript.executor.ScriptEnvironmen;
-import com.root.krscript.model.PageNode;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -17,9 +16,7 @@ public class KrScriptConfig2 {
 
     private final static String EXECUTOR_CORE = "executor_core";
     private final static String PAGE_LIST_CONFIG = "page_list_config";
-    private final static String PAGE_LIST_CONFIG_SH = "page_list_config_sh";
     private final static String FAVORITE_CONFIG = "favorite_config";
-    private final static String FAVORITE_CONFIG_SH = "favorite_config_sh";
     private final static String ALLOW_HOME_PAGE = "allow_home_page";
     private final static String BEFORE_START_SH = "before_start_sh";
     private static HashMap<String, String> configInfo;
@@ -81,46 +78,7 @@ public class KrScriptConfig2 {
         return TOOLKIT_DIR_DEFAULT;
     }
 
-    public PageNode getPageListConfig() {
-        if (configInfo != null) {
-            PageNode pageInfo = new PageNode("");
-            if (configInfo.containsKey(PAGE_LIST_CONFIG_SH)) {
-                pageInfo.setPageConfigSh(configInfo.get(PAGE_LIST_CONFIG_SH));
-            }
-            if (configInfo.containsKey(PAGE_LIST_CONFIG)) {
-                pageInfo.setPageConfigPath(configInfo.get(PAGE_LIST_CONFIG));
-            }
-            return pageInfo;
-        }
-        return null;
-    }
 
-    public PageNode getFavoriteConfig() {
-        if (configInfo != null) {
-            PageNode pageInfo = new PageNode("");
-            if (configInfo.containsKey(FAVORITE_CONFIG_SH)) {
-                pageInfo.setPageConfigSh(configInfo.get(FAVORITE_CONFIG_SH));
-            }
-            if (configInfo.containsKey(FAVORITE_CONFIG)) {
-                pageInfo.setPageConfigPath(configInfo.get(FAVORITE_CONFIG));
-            }
-            return pageInfo;
-        }
-        return null;
-    }
 
-    public boolean getAllowHomePage() {
-        if (configInfo != null && configInfo.containsKey(ALLOW_HOME_PAGE)) {
-            String value = configInfo.get(ALLOW_HOME_PAGE);
-            return value != null && value.equals("1");
-        }
-        return ALLOW_HOME_PAGE_DEFAULT.equals("1");
-    }
 
-    public String getBeforeStartSh() {
-        if (configInfo != null && configInfo.containsKey(BEFORE_START_SH)) {
-            return configInfo.get(BEFORE_START_SH);
-        }
-        return BEFORE_START_SH_DEFAULT;
-    }
 }

@@ -366,7 +366,7 @@
         <activity android:name=".activities.ActivityAddin" android:configChanges="orientation|screenSize" />
         <activity android:name=".activities.ActivityApplistions" android:configChanges="orientation|screenSize" />
         <activity android:name=".activities.ActivitySwap" android:configChanges="orientation|screenSize" />
-        <activity android:name=".activities.ActivityImg" android:configChanges="orientation|screenSize" />
+        <activity android:name=".activities.ActivityImg" android:exported="true" android:configChanges="orientation|screenSize" />
         <activity android:name=".activities.ActivityChargeController" android:configChanges="orientation|screenSize" />
         <activity android:name=".activities.ActivityCharge" android:configChanges="orientation|screenSize" />
         <activity android:name=".activities.ActivityPowerUtilization" android:configChanges="orientation|screenSize" />

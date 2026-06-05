@@ -21,7 +21,6 @@ import com.root.store.SpfConfig
 import com.root.system.R
 import com.root.system.databinding.ActivityOtherSettingsBinding
 import com.root.system.dialogs.DialogCat
-import com.root.system.dialogs.DialogWX
 import com.root.utils.CommonCmds
 import com.root.utils.UpdateBeta
 
@@ -92,10 +91,7 @@ val filePath = "/data/data/com.root.system/.update"
             OpenPageHelper(this).openPage(pageNode)
         }
 
-        binding.navWx.setOnClickListener {
-            val dialogWXPNG = DialogWX(this)
-            dialogWXPNG.showWXMenu()
-        }
+
 
         binding.navCat.setOnClickListener {
             val dialogCat = DialogCat(this)

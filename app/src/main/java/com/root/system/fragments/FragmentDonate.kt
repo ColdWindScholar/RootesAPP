@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.root.system.R
 import com.root.system.databinding.FragmentDonateBinding
-import com.root.system.dialogs.DialogWX
 
 class FragmentDonate : Fragment() {
     private lateinit var binding: FragmentDonateBinding
@@ -24,21 +23,5 @@ class FragmentDonate : Fragment() {
         requireActivity().title = getString(R.string.app_name)
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-
-        // Load user data from SharedPreferences
-
-
-
-        binding.payWxpay2.setOnClickListener {
-          val dialogWX = DialogWX(requireActivity())
-            dialogWX.showWXMenu()
-        }
-
-    }
 
 }

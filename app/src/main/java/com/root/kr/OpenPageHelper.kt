@@ -3,8 +3,6 @@ package com.projectkr.shell
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import android.widget.Toast
 import com.root.common.ui.DialogHelper
 import com.root.common.ui.ProgressBarDialog
@@ -18,28 +16,6 @@ import okhttp3.Response
 import java.io.IOException
 
 class OpenPageHelper(private var activity: Activity) {
-    private var progressBarDialog: ProgressBarDialog? = null
-    private var handler = Handler(Looper.getMainLooper())
-
-    private val dialog: ProgressBarDialog
-        get() {
-            if (progressBarDialog == null) {
-                progressBarDialog = ProgressBarDialog(activity)
-            }
-            return progressBarDialog!!
-        }
-
-    private fun showDialog(msg: String) {
-        handler.post {
-            dialog.showDialog(msg)
-        }
-    }
-
-    private fun hideDialog() {
-        handler.post {
-            dialog.hideDialog()
-        }
-    }
 
     fun openPage(pageNode: PageNode) {
         try {
@@ -96,7 +72,7 @@ class OpenPageHelper(private var activity: Activity) {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
-                context?.runOnUiThread {
+                context.runOnUiThread {
                     // progressBarDialog.dismissDialog()
 
                     progressBarDialog.hideDialog()
@@ -105,9 +81,9 @@ class OpenPageHelper(private var activity: Activity) {
             }
 
             override fun onResponse(call: okhttp3.Call, response: Response) {
-                response.body?.let { responseBody ->
+                response.body.let { responseBody ->
                     val content = responseBody.string()
-                    (context as? Activity)?.runOnUiThread {
+                    context.runOnUiThread {
                         //  progressBarDialog.dismissDialog()
 
                         progressBarDialog.hideDialog()

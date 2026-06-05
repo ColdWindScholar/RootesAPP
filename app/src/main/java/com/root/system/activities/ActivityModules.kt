@@ -195,7 +195,7 @@ class ActivityModules : ActivityBase(), AdapterModules.OnItemClickListener {
             setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             setDestinationInExternalPublicDir("Download", "$moduleName.txt") // 使用 .txt 作为下载的文件名
         }
-        val downloadId = downloadManager.enqueue(request)
+        downloadManager.enqueue(request)
     }
 
     private fun handleDownloadComplete(downloadId: Long) {

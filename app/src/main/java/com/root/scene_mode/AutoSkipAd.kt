@@ -143,7 +143,7 @@ class AutoSkipAd(private val service: AccessibilityService) {
                                         wrapNode.getBoundsInScreen(pp)
                                         if ((splash || pointFilter(pp)) && autoClickBase.clickNode(wrapNode)) {
                                             Log.d("@Scene", "SkipAD √ $packageName $p id: ${wrapNode.viewIdResourceName}, text:" + node.text)
-                                            lastClickedApp = packageName.toString()
+                                            lastClickedApp = packageName
                                             lastClickedNode = node
                                             lastCompletedEventTime = t
                   
@@ -153,7 +153,7 @@ class AutoSkipAd(private val service: AccessibilityService) {
 
                                     // 尝试触摸子节点
                                     if (autoClickBase.tryTouchNodeRect(node, service)) {
-                                        lastClickedApp = packageName.toString()
+                                        lastClickedApp = packageName
                                         lastClickedNode = node
                                         lastCompletedEventTime = t
                   

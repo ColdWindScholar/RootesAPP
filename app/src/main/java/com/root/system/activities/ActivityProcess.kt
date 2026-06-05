@@ -146,7 +146,6 @@ class ActivityProcess : ActivityBase() {
         super.onPause()
     }
 
-    private val regexUser = Regex("u[0-9]+_.*")
     private val regexPackageName = Regex(".*\\..*")
     private fun isAndroidProcess(processInfo: ProcessInfo): Boolean {
         return (processInfo.command.contains("app_process") && processInfo.name.matches(regexPackageName))
