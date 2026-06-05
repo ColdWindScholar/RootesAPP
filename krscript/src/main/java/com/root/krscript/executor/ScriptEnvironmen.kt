@@ -8,7 +8,6 @@ import androidx.core.content.edit
 import com.root.common.shared.FileWrite.getPrivateFileDir
 import com.root.common.shared.FileWrite.getPrivateFilePath
 import com.root.common.shared.FileWrite.writePrivateShellFile
-import com.root.common.shared.MagiskExtend
 import com.root.common.shell.KeepShell
 import com.root.common.shell.KeepShellPublic.checkRoot
 import com.root.common.shell.KeepShellPublic.defaultKeepShell
@@ -206,15 +205,7 @@ object ScriptEnvironmen {
         val params = HashMap<String?, String?>()
 
         params["TOOLKIT"] = TOOKIT_DIR
-        if (MagiskExtend.moduleInstalled()) {
-            val magiskPath = if (MagiskExtend.MAGISK_PATH.endsWith("/")) (MagiskExtend.MAGISK_PATH.substring(
-                0,
-                MagiskExtend.MAGISK_PATH.length - 1
-            )) else MagiskExtend.MAGISK_PATH
-            params["MAGISK_PATH"] = magiskPath
-        } else {
-            params["MAGISK_PATH"] = ""
-        }
+        params["MAGISK_PATH"] = ""
         params["START_DIR"] = getStartPath(context)
         // params.put("EXECUTOR_PATH", environmentPath);
         params["TEMP_DIR"] = context.cacheDir.absolutePath
