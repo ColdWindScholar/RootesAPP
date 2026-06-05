@@ -1,10 +1,8 @@
 package com.root.system.activities
 
-import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,9 +11,10 @@ import android.widget.CompoundButton
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.edit
+import androidx.core.net.toUri
 import com.root.Scene
 import com.root.common.model.SelectItem
-import com.root.common.shared.MagiskExtend
 import com.root.common.shell.KeepShellPublic
 import com.root.common.shell.KernelProrp
 import com.root.common.shell.RootFile
@@ -29,11 +28,9 @@ import com.root.library.shell.SwapModuleUtils
 import com.root.library.shell.SwapUtils
 import com.root.store.SpfConfig
 import com.root.system.R
-import com.root.ui.AdapterSwaplist
 import com.root.system.databinding.ActivitySwapBinding
+import com.root.ui.AdapterSwaplist
 import java.util.*
-import androidx.core.content.edit
-import androidx.core.net.toUri
 
 
 class ActivitySwap : ActivityBase() {
@@ -123,7 +120,7 @@ class ActivitySwap : ActivityBase() {
             binding.swapModuleUninstalled.visibility = View.VISIBLE
         }
 
-        if (MagiskExtend.magiskSupported()) {
+
             val currentVersion = swapModuleUtils.getModuleVersion()
             if (currentVersion < getString(R.string.swap_module_target_version).toInt()) {
                 binding.swapModuleDownloadable.visibility = View.VISIBLE
@@ -133,7 +130,7 @@ class ActivitySwap : ActivityBase() {
             } else {
                 binding.swapModuleDownloadable.visibility = View.GONE
             }
-        }
+
 
         // 关闭swap
         binding.btnSwapClose.setOnClickListener {
@@ -154,7 +151,7 @@ class ActivitySwap : ActivityBase() {
         // 自动lmk调节
         binding.swapAutoLmk.setOnClickListener {
             val checked = (it as CompoundButton).isChecked
-            swapConfig.edit().putBoolean(SpfConfig.SWAP_SPF_AUTO_LMK, checked).apply()
+            swapConfig.edit {putBoolean(SpfConfig.SWAP_SPF_AUTO_LMK, checked) }
             if (checked) {
                 val activityManager = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
                 val info = ActivityManager.MemoryInfo()
@@ -341,18 +338,18 @@ class ActivitySwap : ActivityBase() {
             val watermarkScale = watermarkScaleSeekBar.progress
 
 
-            val config = swapConfig.edit()
-                    .putInt(SpfConfig.SWAP_SPF_SWAPPINESS, swappiness)
-                    .putInt(SpfConfig.SWAP_SPF_EXTRA_FREE_KBYTES, extraFree)
+            swapConfig.edit {
+                this.putInt(SpfConfig.SWAP_SPF_SWAPPINESS, swappiness)
+                this.putInt(SpfConfig.SWAP_SPF_EXTRA_FREE_KBYTES, extraFree)
 
-            KeepShellPublic.doCmdSync("echo $swappiness > /proc/sys/vm/swappiness")
-            KeepShellPublic.doCmdSync("echo $extraFree > /proc/sys/vm/extra_free_kbytes")
-            if (watermarkScaleSeekBar.isEnabled) {
-                KeepShellPublic.doCmdSync("echo $watermarkScale > /proc/sys/vm/watermark_scale_factor")
+                KeepShellPublic.doCmdSync("echo $swappiness > /proc/sys/vm/swappiness")
+                KeepShellPublic.doCmdSync("echo $extraFree > /proc/sys/vm/extra_free_kbytes")
+                if (watermarkScaleSeekBar.isEnabled) {
+                    KeepShellPublic.doCmdSync("echo $watermarkScale > /proc/sys/vm/watermark_scale_factor")
 
-                config.putInt(SpfConfig.SWAP_SPF_WATERMARK_SCALE, watermarkScale)
+                    putInt(SpfConfig.SWAP_SPF_WATERMARK_SCALE, watermarkScale)
+                }
             }
-            config.apply()
 
             myHandler.post {
                 getSwaps()
@@ -877,30 +874,6 @@ class ActivitySwap : ActivityBase() {
     private var showSwapOpened = {
         Toast.makeText(this, getString(R.string.executed), Toast.LENGTH_LONG).show()
         processBarDialog.hideDialog()
-    }
-
-    class OnSeekBarChangeListener(
-            private var onValueChange: Runnable?,
-            private var omCompleted: Runnable?,
-            private var spf: SharedPreferences,
-            private var spfProp: String,
-            private var ratio: Int = 1) : SeekBar.OnSeekBarChangeListener {
-        override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            omCompleted?.run()
-        }
-
-        override fun onStartTrackingTouch(seekBar: SeekBar?) {
-        }
-
-        @SuppressLint("ApplySharedPref")
-        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            val value = progress * ratio
-            if (spf.getInt(spfProp, Int.MIN_VALUE) == value) {
-                return
-            }
-            spf.edit(commit = true) { putInt(spfProp, value) }
-            onValueChange?.run()
-        }
     }
 
     // 离开界面时保存配置
