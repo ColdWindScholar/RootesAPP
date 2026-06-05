@@ -10,7 +10,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.root.common.shared.FileWrite
-import com.root.common.shared.MagiskExtend
 import com.root.common.shell.AsynSuShellUnit
 import com.root.common.shell.KeepShell
 import com.root.common.ui.DialogHelper
@@ -413,23 +412,14 @@ open class DialogAppOptions(protected var context: Activity, protected var apps:
      */
     protected fun deleteAll() {
         confirm("删除应用", "已选择 ${apps.size} 个应用，删除系统应用可能导致功能不正常，甚至无法开机，确定要继续删除？") {
-            if (isMagisk() && !MagiskExtend.moduleInstalled() && (isTmpfs("/system/app") || isTmpfs("/system/priv-app"))) {
-                DialogHelper.confirm(context,
-                        "Magisk 副作用警告",
-                        "检测到你正在使用Magisk作为ROOT权限管理器，并且/system/app和/system/priv-app目录已被某些模块修改，这可能导致这些目录被Magisk劫持并且无法写入！！",
-                        DialogHelper.DialogButton(context.getString(R.string.btn_continue), {
-                            _deleteAll()
-                        }))
-            } else {
-                _deleteAll()
-            }
+            _deleteAll()
+
         }
     }
 
     private fun _deleteAll() {
         val sb = StringBuilder()
         sb.append(CommonCmds.MountSystemRW)
-        var useMagisk = false
         for (item in apps) {
             val packageName = item.packageName
             // 先禁用再删除，避免老弹停止运行
@@ -437,23 +427,17 @@ open class DialogAppOptions(protected var context: Activity, protected var apps:
             sb.append("pm disable $packageName\n")
 
             sb.append("echo '[delete ${item.appName}]'\n")
-            if (MagiskExtend.moduleInstalled()) {
-                MagiskExtend.deleteSystemPath(item.path.toString())
-                useMagisk = true
-            } else {
-                val dir = item.dir.toString()
 
+                val dir = item.dir.toString()
                 sb.append("rm -rf $dir/oat\n")
                 sb.append("rm -rf $dir/lib\n")
                 sb.append("rm -rf '${item.path}'\n")
-            }
+
         }
 
         sb.append("echo '[operation completed]'\n")
         execShell(sb)
-        if (useMagisk) {
-            DialogHelper.helpInfo(context, "已通过Magisk完成操作，请重启手机~", "")
-        }
+
     }
 
     /**

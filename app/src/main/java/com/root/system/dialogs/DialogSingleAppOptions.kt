@@ -14,7 +14,6 @@ import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.root.common.shared.MagiskExtend
 import com.root.common.ui.DialogHelper
 import com.root.model.AppInfo
 import com.root.utils.CommonCmds
@@ -302,31 +301,10 @@ class DialogSingleAppOptions(context: Activity, var app: AppInfo, handler: Handl
         execShell(sb)
     }
 
-    private fun moveToSystemMagisk() {
-        val appDir = File(app.path.toString()).parent
-        val result = if (appDir == "/data/app") { // /data/app/xxx.apk
-            val outPutPath = "/system/app/"
-            MagiskExtend.createFileReplaceModule(outPutPath, app.path.toString(), app.packageName, app.appName)
-        } else { // /data/app/xxx.xxx.xxx/xxx.apk
-            val outPutPath = "/system/app/" + app.packageName
-            MagiskExtend.createFileReplaceModule(outPutPath, appDir, app.packageName, app.appName)
-        }
-        if (result) {
-            DialogHelper.helpInfo(context, "已通过Magisk完成操作，请重启手机~", "")
-        } else {
-            DialogHelper.helpInfo(context, "Magisk镜像空间不足，操作失败！~", "")
-        }
-    }
+
 
     private fun moveToSystem() {
-        val magiskSupported = MagiskExtend.magiskSupported()
-        if (!magiskSupported && isMagisk() && isTmpfs("/system/app")) {
-            DialogHelper.helpInfo(context,
-                    "Magisk 副作用警告",
-                    "检测到你正在使用Magisk，并使用了一些会添加系统应用的模块，这导致/system/app被Magisk劫持并且无法写入！！"
-            )
-            return
-        }
+        val magiskSupported = false
         val view = context.layoutInflater.inflate(R.layout.dialog_app_trans_mode, null)
         view.findViewById<TextView>(R.id.confirm_message).text = "部分应用迁移到系统目录会无法运行。\n\n此外，你需要解锁System分区，或安装Magisk(19.3+)。\n\n转换完成后，请重启手机！"
         val switchCreateModule = view.findViewById<CompoundButton>(R.id.trans_create_module)
@@ -336,12 +314,7 @@ class DialogSingleAppOptions(context: Activity, var app: AppInfo, handler: Handl
         val dialog = DialogHelper.customDialog(context, view)
         view.findViewById<View>(R.id.btn_confirm).setOnClickListener {
             dialog.dismiss()
-
-            if (switchCreateModule.isChecked && magiskSupported) {
-                moveToSystemMagisk()
-            } else {
-                moveToSystemExec()
-            }
+            moveToSystemExec()
         }
         view.findViewById<View>(R.id.btn_cancel).setOnClickListener {
             dialog.dismiss()
