@@ -207,7 +207,7 @@ class DialogAddinModifyDevice(var context: ActivityBase) {
                     override fun onConfirm(selected: List<SelectItem>, status: BooleanArray) {
                         if (selected.isNotEmpty()) {
                             items.indexOf(selected.first()).run {
-                                splitCodeStr(values.get(this))
+                                splitCodeStr(values[this])
                             }
                         }
                     }
