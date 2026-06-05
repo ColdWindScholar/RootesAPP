@@ -1,25 +1,16 @@
 package com.root.system.activities
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.edit
-import com.root.Scene
-import com.root.common.shared.MagiskExtend
-import com.root.common.shell.KeepShellPublic
-import com.root.common.shell.KernelProrp
-import com.root.common.shell.RootFile
-import com.root.common.ui.DialogHelper
 import com.root.permissions.CheckRootStatus
 import com.root.store.SpfConfig
 import com.root.system.R
@@ -40,63 +31,7 @@ class ActivityMain : ActivityBase() {
     private lateinit var globalSPF: SharedPreferences
     private lateinit var tabIconHelper2: TabIconHelper2
 
-    private class ThermalCheckThread(private var context: Activity) : Thread() {
-        private fun deleteThermalCopyWarn(onYes: Runnable) {
-            Scene.post {
-                if (!context.isFinishing) {
-                    val view = LayoutInflater.from(context).inflate(R.layout.dialog_delete_thermal, null)
-                    val dialog = DialogHelper.customDialog(context, view)
-                    view.findViewById<View>(R.id.btn_no).setOnClickListener {
-                        dialog.dismiss()
-                    }
-                    view.findViewById<View>(R.id.btn_yes).setOnClickListener {
-                        dialog.dismiss()
-                        onYes.run()
-                    }
-                    dialog.setCancelable(false)
-                }
-            }
-        }
-
-        override fun run() {
-
-            if (
-                MagiskExtend.magiskSupported() &&
-            KernelProrp.getProp("${MagiskExtend.MAGISK_PATH}system/vendor/etc/thermal.current.ini") != ""
-            ) {
-                when {
-                    RootFile.list("/data/thermal/config").isNotEmpty() -> {
-                        deleteThermalCopyWarn {
-                            KeepShellPublic.doCmdSync(
-                                    "chattr -R -i /data/thermal\n" +
-                                            "rm -rf /data/thermal\n" +
-                                            "sync;svc power reboot || reboot;"
-                            )
-                        }
-                    }
-                    RootFile.list("/data/vendor/thermal/config").isNotEmpty() -> {
-                        if (
-                                RootFile.fileEquals(
-                                        "/data/vendor/thermal/config/thermal-normal.conf",
-                                        MagiskExtend.getMagiskReplaceFilePath("/system/vendor/etc/thermal-normal.conf")
-                                )
-                        ) {
-                            return
-                        } else {
-                            deleteThermalCopyWarn {
-                                KeepShellPublic.doCmdSync(
-                                        "chattr -R -i /data/vendor/thermal\n" +
-                                                "rm -rf /data/vendor/thermal\n" +
-                                                "sync;svc power reboot || reboot;"
-                                )
-                            }
-                        }
-                    }
-                    else -> return
-                }
-            }
-        }
-    }
+    private class ThermalCheckThread : Thread()
 
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -149,24 +84,7 @@ class ActivityMain : ActivityBase() {
     // 检查Magisk支持和模块
     private fun checkMagiskSupport() {
         if (CheckRootStatus.lastCheckResult) {
-            try {
-                if (MagiskExtend.magiskSupported() &&
-                    !(MagiskExtend.moduleInstalled() || globalSPF.getBoolean("magisk_dot_show", false))
-                ) {
-                    DialogHelper.confirm(this,
-                        getString(R.string.magisk_install_title),
-                        getString(R.string.magisk_install_desc),
-                        {
-                            MagiskExtend.magiskModuleInstall(this)
-                        })
-                    globalSPF.edit { putBoolean("magisk_dot_show", true) }
-                }
-            } catch (ex: Exception) {
-                DialogHelper.alert(this, getString(R.string.sorry), "启动应用失败\n${ex.message}") {
-                    recreate()
-                }
-            }
-            ThermalCheckThread(this).start()
+            ThermalCheckThread().start()
         }
     }
 
