@@ -11,7 +11,6 @@ import android.util.DisplayMetrics
 import android.view.Display
 import android.view.LayoutInflater
 import android.widget.*
-import com.root.common.shared.MagiskExtend
 import com.root.common.shell.KeepShellPublic
 import com.root.common.ui.DialogHelper
 import com.root.store.SpfConfig
@@ -57,10 +56,10 @@ class DialogAddinModifyDPI(var context: Activity) {
     fun modifyDPI(display: Display, context: Activity) {
         val layoutInflater = LayoutInflater.from(context)
         val dialog = layoutInflater.inflate(R.layout.dialog_addin_dpi, null)
-        val dpiInput = dialog.findViewById(R.id.dialog_addin_dpi_dpiinput) as EditText
-        val widthInput = dialog.findViewById(R.id.dialog_addin_dpi_width) as EditText
-        val heightInput = dialog.findViewById(R.id.dialog_addin_dpi_height) as EditText
-        val quickChange = dialog.findViewById(R.id.dialog_addin_dpi_quickchange) as CheckBox
+        val dpiInput: EditText = dialog.findViewById(R.id.dialog_addin_dpi_dpiinput)
+        val widthInput: EditText = dialog.findViewById(R.id.dialog_addin_dpi_width)
+        val heightInput: EditText = dialog.findViewById(R.id.dialog_addin_dpi_height)
+        val quickChange: CheckBox = dialog.findViewById(R.id.dialog_addin_dpi_quickchange)
 
         val dm = DisplayMetrics()
         display.getMetrics(dm)
@@ -120,24 +119,17 @@ class DialogAddinModifyDPI(var context: Activity) {
                     cmd.append("wm density $dpi")
                     cmd.append("\n")
                 } else {
-                    if (MagiskExtend.moduleInstalled()) {
-                        KeepShellPublic.doCmdSync("wm density reset")
-                        MagiskExtend.setSystemProp("ro.sf.lcd_density", dpi.toString())
-                        MagiskExtend.setSystemProp("vendor.display.lcd_density", dpi.toString())
-                        Toast.makeText(context, "已通过Magisk更改参数，请重启手机~", Toast.LENGTH_SHORT).show()
-                    } else {
-                        cmd.append(CommonCmds.MountSystemRW)
-                        cmd.append("wm density reset\n")
-                        cmd.append("sed '/ro.sf.lcd_density=/'d /system/build.prop > /data/build.prop\n")
-                        cmd.append("sed '\$aro.sf.lcd_density=$dpi' /data/build.prop > /data/build2.prop\n")
-                        cmd.append("cp /system/build.prop /system/build.prop.dpi_bak\n")
-                        cmd.append("cp /data/build2.prop /system/build.prop\n")
-                        cmd.append("rm /data/build.prop\n")
-                        cmd.append("rm /data/build2.prop\n")
-                        cmd.append("chmod 0755 /system/build.prop\n")
-                        cmd.append("sync\n")
-                        cmd.append("reboot\n")
-                    }
+                    cmd.append(CommonCmds.MountSystemRW)
+                    cmd.append("wm density reset\n")
+                    cmd.append("sed '/ro.sf.lcd_density=/'d /system/build.prop > /data/build.prop\n")
+                    cmd.append("sed '\$aro.sf.lcd_density=$dpi' /data/build.prop > /data/build2.prop\n")
+                    cmd.append("cp /system/build.prop /system/build.prop.dpi_bak\n")
+                    cmd.append("cp /data/build2.prop /system/build.prop\n")
+                    cmd.append("rm /data/build.prop\n")
+                    cmd.append("rm /data/build2.prop\n")
+                    cmd.append("chmod 0755 /system/build.prop\n")
+                    cmd.append("sync\n")
+                    cmd.append("reboot\n")
                 }
             }
             if (cmd.isNotEmpty())
